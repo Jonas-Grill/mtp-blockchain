@@ -4,7 +4,7 @@
   "description": "Blockchain Project for University Mannheim",
   "main": "index.js",
   "scripts": {
-    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,17 @@
   "homepage": "https://github.com/Jonas-Grill/mtp-blockchain#readme",
   "dependencies": {
     "geth": "^0.4.0",
-    "solc": "^0.5.16",
+    "openzeppelin-solidity": "4.6.0",
+    "solc": "^0.8.17",
     "truffle": "^5.5.31",
     "web3": "^1.8.0"
-  }
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "devDependencies": {
+    "mocha": "^9.2.2"
+  },
+  "keywords": []
 }
