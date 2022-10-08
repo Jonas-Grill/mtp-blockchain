@@ -1,0 +1,25 @@
+{
+  "name": "mtp-blockchain",
+  "version": "1.0.0",
+  "description": "Blockchain Project for University Mannheim",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jonas-Grill/mtp-blockchain.git"
+  },
+  "author": "Elias Anderlohr, Gina Weber & Jonas Grill",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jonas-Grill/mtp-blockchain/issues"
+  },
+  "homepage": "https://github.com/Jonas-Grill/mtp-blockchain#readme",
+  "dependencies": {
+    "geth": "^0.4.0",
+    "solc": "^0.5.16",
+    "truffle": "^5.5.31",
+    "web3": "^1.8.0"
+  }
+}
