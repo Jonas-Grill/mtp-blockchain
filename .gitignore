@@ -1,4 +1,4 @@
-node_modules
+*/node_modules
 .idea/*
 
 # VSCode
@@ -14,3 +14,4 @@ node_modules
 
 # Built Visual Studio Code Extensions
 *.vsix
+.vscode/launch.json

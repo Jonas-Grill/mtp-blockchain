@@ -1,5 +1,5 @@
-# MTP - Blockchain based submission system
+# Smart-contracts
 
-This repository contains the "Blockchain based submission system" Master Project of the University of Mannheim.
+## Get free Ether/Wei
+Get free ether to deploy contracts.
 
-This project is still in development!

@@ -1,5 +1,5 @@
 {
-  "name": "mtp-blockchain",
+  "name": "mtp-blockchain-smart-contracts",
   "version": "1.0.0",
   "description": "Blockchain Project for University Mannheim",
   "main": "index.js",
@@ -17,11 +17,10 @@
   },
   "homepage": "https://github.com/Jonas-Grill/mtp-blockchain#readme",
   "dependencies": {
-    "geth": "^0.4.0",
+    "@openzeppelin/contracts": "^4.7.3",
     "openzeppelin-solidity": "4.6.0",
     "solc": "^0.8.17",
-    "truffle": "^5.5.31",
-    "web3": "^1.8.0"
+    "truffle": "^5.5.31"
   },
   "directories": {
     "doc": "docs",
