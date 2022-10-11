@@ -18,6 +18,8 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+      - name: Upgrade NPM
+        run: npm install -g npm
       - uses: actions/checkout@v3
       - name: Run ganache-cli - using Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
