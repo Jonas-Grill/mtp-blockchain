@@ -4,7 +4,7 @@
   "description": "Blockchain Project for University Mannheim",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,15 @@
   "homepage": "https://github.com/Jonas-Grill/mtp-blockchain#readme",
   "keywords": [],
   "dependencies": {
+    "async": "^3.2.4",
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
     "web3": "^1.8.0"
+  },
+  "devDependencies": {
+    "mocha-suppress-logs": "^0.3.1"
+  },
+  "mocha": {
+    "require": "mocha-suppress-logs"
   }
 }
