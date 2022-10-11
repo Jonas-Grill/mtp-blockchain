@@ -1,12 +1,13 @@
 class Config {
     constructor(path) {
+
         const fs = require('fs');
         let json = fs.readFileSync(path);
         let config = JSON.parse(json);
 
         this.rpcURL = config["rpcURL"];
         this.coinbaseAdress = config["coinbaseAdress"];
-        this.gasAmount = config["gasAmount"];
+        this.initialGasAmount = config["initialGasAmount"];
     }
 
     get getRpcUrl() {
@@ -17,8 +18,8 @@ class Config {
         return this.coinbaseAdress;
     }
 
-    get getGasAmount() {
-        return parseFloat(this.gasAmount);
+    get getInitialGasAmount() {
+        return parseFloat(this.initialGasAmount);
     }
 }
 
