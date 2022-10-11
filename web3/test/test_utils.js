@@ -18,7 +18,7 @@ var chaiAssert = chai.assert
 
 describe("test", function () {
     describe("send", function () {
-        describe.skip("gas", function () {
+        describe("gas", function () {
             it("send gas", async function () {
                 utils = new utilsHandler.Utils(__dirname + "/config/test-config.json")
 
