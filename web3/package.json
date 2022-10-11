@@ -2,9 +2,9 @@
   "name": "mtp-blockchain-web3",
   "version": "1.0.0",
   "description": "Blockchain Project for University Mannheim",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha.js"
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,8 @@
   "dependencies": {
     "async": "^3.2.4",
     "chai": "^4.3.6",
+    "express": "^4.18.2",
+    "ganache": "^7.4.4",
     "mocha": "^10.0.0",
     "web3": "^1.8.0"
   },
