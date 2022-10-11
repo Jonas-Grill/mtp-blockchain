@@ -23,7 +23,7 @@ describe("test", function () {
                 utils = new utilsHandler.Utils(__dirname + "/config/test-config.json")
 
                 var from = "0xF5F07Df523774d6d4a7dBBb3C41e35de93d3B0C0"
-                var to = "0x027EC434652921e35B5119A28768740A7B72DE5e"
+                var to = "0xE0873d921bF8CBD20d19e8024823A2031c989D7E"
 
                 var oldWeiFrom = await web3.eth.getBalance(from);
                 var oldWeiTo = await web3.eth.getBalance(to);
