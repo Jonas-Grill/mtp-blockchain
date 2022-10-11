@@ -30,5 +30,8 @@
   },
   "mocha": {
     "require": "mocha-suppress-logs"
+  },
+  "optionalDependencies": {
+    "fsevents": "^1.0.0"
   }
 }
