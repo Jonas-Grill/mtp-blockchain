@@ -35,7 +35,7 @@ jobs:
             --unlock="0x4e1904f05788517969a3c4c9a9ceee40722c0640878dd70dc315b43381c118c2" \
             --unlock="0xc895724bedf8d54edc40093b39918fd4168658b8fe7b2f56171af5d33047d4cb" \
             --unlock="0xc14bbd720bad4e2843417e8b8d1a7a9faa18dbe7816b5a99586cc222eeba9658" &
-          npm test
+            sleep 5
 
       - name: Run node.js tests - using Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
