@@ -1,0 +1,5 @@
+version: '3'
+services:
+  web3:
+    # will build ./docker/db/Dockerfile
+    build: ./web3
