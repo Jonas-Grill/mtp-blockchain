@@ -19,7 +19,7 @@ jobs:
           --env miner.coinbase="0xF5F07Df523774d6d4a7dBBb3C41e35de93d3B0C0"
           --env account="0x4e1904f05788517969a3c4c9a9ceee40722c0640878dd70dc315b43381c118c2,1000000000000000000000"
           --env unlock="0x4e1904f05788517969a3c4c9a9ceee40722c0640878dd70dc315b43381c118c2"
-          --env --chain.chainId=1998
+          --env chain.chainId=1998
 
     strategy:
       matrix:
