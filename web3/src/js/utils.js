@@ -10,10 +10,10 @@ class Utils {
 
         // Create config class with config path
         if (process.env.ENV == "test") {
-            path = "config/test-config.json"
+            path = __dirname + "/config/test-config.json"
         }
         else if (process.env.ENV == "dev") {
-            path = "config/dev-config.json"
+            path = __dirname + "/config/dev-config.json"
         }
         this.config = new configHandler.Config(path)
 

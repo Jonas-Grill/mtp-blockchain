@@ -20,7 +20,7 @@ describe("test", function () {
     describe("send", function () {
         describe("gas", function () {
             it("send gas", async function () {
-                utils = new utilsHandler.Utils(__dirname + "/config/test-config.json")
+                utils = new utilsHandler.Utils()
 
                 var from = "0xF5F07Df523774d6d4a7dBBb3C41e35de93d3B0C0"
                 var to = "0xE0873d921bF8CBD20d19e8024823A2031c989D7E"
