@@ -5,7 +5,7 @@ const Web3 = require('web3')
 const utilsHandler = require('../src/js/utils')
 
 // Parse and set rpc url
-const rpcURL = "http://127.0.0.1:7545";
+const rpcURL = "http://postgres:postgres@localhost:8545";
 const web3 = new Web3(rpcURL);
 
 // Mocha
