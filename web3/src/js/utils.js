@@ -16,7 +16,7 @@ class Utils {
 
         // Parse and set rpc url
         this.web3 = new this.Web3()
-        this.web3.setProvider(new web3.providers.HttpProvider(this.config.getRpcUrl));
+        this.web3.setProvider(new this.web3.providers.HttpProvider(this.config.getRpcUrl));
     }
 
     // Send gas from adress to adress
