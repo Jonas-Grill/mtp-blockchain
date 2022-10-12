@@ -1,5 +1,5 @@
 {
-    "rpcURL": "http://postgres:postgres@localhost:8545",
+    "rpcURL": "http://localhost:8545",
     "coinbaseAdress": "0xF5F07Df523774d6d4a7dBBb3C41e35de93d3B0C0",
     "initialGasAmount": "10"
 }
