@@ -40,12 +40,10 @@ class Utils {
                     value: initialGasAmountInWei
                 })
                     .then(function (err, receipt) {
-                        Promise.resolve(`Successfully send ${gas} ether to '${to}' from '${from}'.`)
                         console.log(`Successfully send ${gas} ether to '${to}' from '${from}'.`)
                     });
             }
             else {
-                Primise.resolve(`Coinbase adress do not has enough gas to send.`)
                 console.log(`Coinbase adress do not has enough gas to send.`)
             }
         }
