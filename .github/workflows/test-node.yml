@@ -15,6 +15,11 @@ jobs:
         # Port
         ports:
           - 8545:8545
+        env:
+          defaultBalanceEther: 1000
+          deterministic: True
+          networkId: 1998
+          mnemonic: since wine day square undo distance taste actual course world jump dog
         options: >-
           --env defaultBalanceEther=1000
           --env deterministic
