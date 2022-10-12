@@ -9,6 +9,12 @@ class Utils {
         const configHandler = require('./config')
 
         // Create config class with config path
+        if (process.env.ENV == "test") {
+            path = "config/test-config.json"
+        }
+        else if (process.env.ENV == "dev") {
+            path = "config/dev-config.json"
+        }
         this.config = new configHandler.Config(path)
 
         // Require web3 for talking to api
