@@ -18,7 +18,6 @@ jobs:
         env:
           CHAIN.CHAINID: 1997
           CHAINID: 1996
-          chau
         options: >-
           --chain.chainId 1998
           --env chain.chainId=1995
