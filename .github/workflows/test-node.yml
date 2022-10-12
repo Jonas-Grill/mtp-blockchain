@@ -15,6 +15,14 @@ jobs:
         # Port
         ports:
           - 8545:8545
+        env:
+          CHAIN.CHAINID: 1997
+          CHAINID: 1996
+          chau
+        options: >-
+          --chain.chainId 1998
+          --env chain.chainId=1995
+          --env chainId=1994
 
     strategy:
       matrix:
