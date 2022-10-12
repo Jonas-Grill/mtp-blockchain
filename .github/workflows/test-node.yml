@@ -19,7 +19,6 @@ jobs:
           CHAIN.CHAINID: 1997
           CHAINID: 1996
         options: >-
-          --chain.chainId 1998
           --env chain.chainId=1995
           --env chainId=1994
 
