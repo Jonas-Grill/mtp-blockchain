@@ -11,16 +11,15 @@ jobs:
       # Label used to access the service container
       ganache:
         # Docker Hub image
-        image: trufflesuite/ganache:latest
+        image: trufflesuite/ganache-cli:latest
         # Port
         ports:
           - 8545:8545
-        env:
-          CHAIN.CHAINID: 1997
-          CHAINID: 1996
         options: >-
-          --env chain.chainId=1995
-          --env chainId=1994
+          --env defaultBalanceEther=1000
+          --env deterministic
+          --env networkId=1998
+          --env mnemonic="since wine day square undo distance taste actual course world jump dog"
 
     strategy:
       matrix:
