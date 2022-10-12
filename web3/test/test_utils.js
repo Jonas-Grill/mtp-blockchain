@@ -15,12 +15,19 @@ var assert = require('assert');
 var chai = require('chai');
 var chaiAssert = chai.assert
 
+var path = ""
+if (process.env.ENV == "test") {
+    path = __dirname + "/config/test-config.json"
+}
+else if (process.env.ENV == "dev") {
+    path = __dirname + "/config/dev-config.json"
+}
 
 describe("test", function () {
     describe("send", function () {
         describe("gas", function () {
             it("send gas", async function () {
-                utils = new utilsHandler.Utils()
+                utils = new utilsHandler.Utils(path)
 
                 var from = "0xF5F07Df523774d6d4a7dBBb3C41e35de93d3B0C0"
                 var to = "0xE0873d921bF8CBD20d19e8024823A2031c989D7E"
