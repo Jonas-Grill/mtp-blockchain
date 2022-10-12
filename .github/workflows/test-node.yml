@@ -8,13 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     # Docker Hub image that `container-job` executes in
     container: trufflesuite/ganache:latest
-
     # Service containers to run with `container-job`
     services:
       # Label used to access the service container
       ganache:
         # Docker Hub image
-        image: ganache
+        image: trufflesuite/ganache:latest
         # Set config for ganache
         options: >-
           --miner.coinbase "0xF5F07Df523774d6d4a7dBBb3C41e35de93d3B0C0" 
