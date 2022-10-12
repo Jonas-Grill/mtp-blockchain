@@ -20,17 +20,24 @@ jobs:
           account: "0x4e1904f05788517969a3c4c9a9ceee40722c0640878dd70dc315b43381c118c2,1000000000000000000000"
           unlock: "0x4e1904f05788517969a3c4c9a9ceee40722c0640878dd70dc315b43381c118c2"
 
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
-      # Downloads a copy of the code in your repository before running CI tests
-      - name: Check out repository code
-        uses: actions/checkout@v3
-
-      # Performs a clean installation of all dependencies in the `package.json` file
-      # For more information, see https://docs.npmjs.com/cli/ci.html
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        # Runs a script that creates a PostgreSQL table, populates
-        # the table with data, and then retrieves the data.
-        run: npm test
+      - name: Upgrade NPM
+        run: npm install -g npm
+      - uses: actions/checkout@v3
+      - name: Run ganache-cli - using Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: "./web3/package-lock.json"
+      - run: npm ci
+        working-directory: web3
+      - run: npm run build --if-present
+        working-directory: web3
+      - run: npm test
+        working-directory: web3
