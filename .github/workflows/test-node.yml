@@ -34,11 +34,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
           cache-dependency-path: "./web3/package-lock.json"
-      - uses: addnab/docker-run-action@v3
+      - uses: mosteo-actions/docker-run@v1
         with:
-          registry: docker.io
           image: trufflesuite/ganache:latest
-          options: -v ${{ github.workspace }}:/work -e chain.chainId=1998
+          params: --chain.chainId 1998
       - run: npm ci
         working-directory: web3
       - run: npm run build --if-present
