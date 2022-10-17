@@ -37,7 +37,7 @@ jobs:
       - uses: mosteo-actions/docker-run@v1
         with:
           image: trufflesuite/ganache:latest
-          params: --chain.chainId 1998
+          command: --chain.chainId 1998
       - run: npm ci
         working-directory: web3
       - run: npm run build --if-present
