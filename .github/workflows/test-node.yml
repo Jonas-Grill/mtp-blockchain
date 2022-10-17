@@ -25,7 +25,7 @@ jobs:
       ENV: test
 
     steps:
-      - uses: trufflesuite/ganache@latest
+      - uses: trufflesuite/ganache:latest
         with:
           image: trufflesuite/ganache
           command: --chain.chainId 1998
