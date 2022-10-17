@@ -38,6 +38,7 @@ jobs:
         with:
           image: trufflesuite/ganache:latest
           command: --chain.chainId 1998
+          params: --detach
       - run: npm ci
         working-directory: web3
       - run: npm run build --if-present
