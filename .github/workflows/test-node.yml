@@ -7,14 +7,14 @@ jobs:
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
     # Service containers to run with `container-job`
-    services:
-      # Label used to access the service container
-      ganache:
-        # Docker Hub image
-        image: elianderlohr/ganache-docker:ganache-docker
-        # Port
-        ports:
-          - 8545:8545
+    #services:
+    # Label used to access the service container
+    #  ganache:
+    # Docker Hub image
+    #    image: elianderlohr/ganache-docker:ganache-docker
+    # Port
+    #    ports:
+    #      - 8545:8545
 
     strategy:
       matrix:
@@ -28,7 +28,7 @@ jobs:
       - uses: mosteo-actions/docker-run@v1
         with:
           image: trufflesuite/ganache
-          command: --detach --chain.chainId 1998
+          command: --chain.chainId 1998
       - name: Upgrade NPM
         run: npm install -g npm
       - uses: actions/checkout@v3
