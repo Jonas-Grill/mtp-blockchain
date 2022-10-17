@@ -4,7 +4,7 @@ site:
 content:
   sources:
   - url: https://github.com/Jonas-Grill/mtp-blockchain/tree/feature/setup-docu/docs/docs-content
-    branches: HEAD
+    branches: feature/setup-docu
   - url: https://gitlab.com/antora/demo/demo-component-b.git
     branches: [v2.0, v1.0]
     start_path: docs
