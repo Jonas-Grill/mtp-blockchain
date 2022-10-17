@@ -1,4 +1,4 @@
-= Welcome to Component B!
+= Welcome to Component B, oder nicht!
 :navtitle: Welcome
 
 This is the automatic start page for version *{page-component-display-version}* of Component B.
