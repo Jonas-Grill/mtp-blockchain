@@ -25,6 +25,10 @@ jobs:
       ENV: test
 
     steps:
+      - uses: trufflesuite/ganache
+        with:
+          image: trufflesuite/ganache
+          command: --chain.chainId 1998
       - name: Upgrade NPM
         run: npm install -g npm
       - uses: actions/checkout@v3
