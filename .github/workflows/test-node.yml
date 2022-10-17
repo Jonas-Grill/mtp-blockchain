@@ -28,7 +28,7 @@ jobs:
       - uses: docker://trufflesuite/ganache:latest
         with:
           image: trufflesuite/ganache
-          command: --chain.chainId 1998
+          command: --detach --chain.chainId 1998
       - name: Upgrade NPM
         run: npm install -g npm
       - uses: actions/checkout@v3
