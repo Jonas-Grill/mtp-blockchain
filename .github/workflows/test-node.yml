@@ -25,7 +25,7 @@ jobs:
       ENV: test
 
     steps:
-      - uses: docker://trufflesuite/ganache:latest
+      - uses: mosteo-actions/docker-run@v1
         with:
           image: trufflesuite/ganache
           command: --detach --chain.chainId 1998
