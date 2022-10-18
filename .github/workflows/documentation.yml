@@ -15,7 +15,7 @@ jobs:
       - name: Install Antora
         run: npm i antora
       - name: Generate Site
-        run: npx antora antora-playbook.yml
+        run: npx antora ./docs/docs-generator/antora-playbook.yml
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

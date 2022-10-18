@@ -1,4 +1,4 @@
-= Welcome to the blockchain exercise TEST
+= Welcome to the blockchain exercise TESTTEST
 :navtitle: Welcome
 
 You are here to learn a lot about blockchain by using blockchain!
