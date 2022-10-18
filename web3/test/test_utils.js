@@ -17,6 +17,7 @@ var prepare = require('../test/ganache/setup_ganache')
 
 // Chai
 var chai = require('chai');
+const { expect } = require('chai');
 var chaiAssert = chai.assert
 
 var path = ""
@@ -65,6 +66,53 @@ describe("test", function () {
                     // Because the from adress has to pay a fee we just check that their balance is lower than (old balance - 1 eth)
                     chaiAssert.isAtMost(Number(expectedNewWeiFrom), Number(oldWeiTo), "New wei ist at most the old wei - 1 eth")
                 });
+            });
+            it("not enough gas", async function () {
+
+                accounts = await ganache.get_account()
+
+                utils = new utilsHandler.Utils(path)
+
+                var from = accounts[0]
+                var to = accounts[1]
+
+                // Set gas really high so that the from account doesn't have enough eth/gas
+                try {
+                    await utils.send_gas(from, to, 999)
+                }
+                catch (err) {
+                    assert.equal(err, "Error: Coinbase adress do not has enough gas to send.")
+                }
+            });
+            it("from adress is not valid", async function () {
+
+                utils = new utilsHandler.Utils(path)
+
+                var from = "wrong_adress"
+                var to = accounts[1]
+
+                // Set gas really high so that the from account doesn't have enough eth/gas
+                try {
+                    await utils.send_gas(from, to, 999)
+                }
+                catch (err) {
+                    assert.equal(err, "Error: Either the from or the to adress is not a valid adress.")
+                }
+            });
+            it("to adress is not valid", async function () {
+
+                utils = new utilsHandler.Utils(path)
+
+                var from = accounts[0]
+                var to = "wrong_adress"
+
+                // Set gas really high so that the from account doesn't have enough eth/gas
+                try {
+                    await utils.send_gas(from, to, 999)
+                }
+                catch (err) {
+                    assert.equal(err, "Error: Either the from or the to adress is not a valid adress.")
+                }
             });
         });
     });

@@ -46,7 +46,12 @@ class Utils {
             }
             else {
                 console.log(`Coinbase adress do not has enough gas to send.`)
+                throw new Error("Coinbase adress do not has enough gas to send.")
             }
+        }
+        else {
+            console.log(`Either the from or the to adress is not a valid adress.`)
+            throw new Error("Either the from or the to adress is not a valid adress.")
         }
     }
 
