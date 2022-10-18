@@ -35,7 +35,6 @@ describe("test", function () {
     describe("send", function () {
         describe("gas", function () {
             it("send gas", async function () {
-
                 accounts = await ganache.get_account()
 
                 utils = new utilsHandler.Utils(path)
