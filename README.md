@@ -18,7 +18,14 @@
   <a href="#web3">Web3</a>
 </p>
 
+## Chain
+tba
 
+## Documentation
+tba
+
+## Smart-Contracts
+tba
 
 ## Web3
 
