@@ -7,14 +7,14 @@ jobs:
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
     # Service containers to run with `container-job`
-    #services:
-    # Label used to access the service container
-    #  ganache:
-    # Docker Hub image
-    #    image: elianderlohr/ganache-docker:ganache-docker
-    # Port
-    #    ports:
-    #      - 8545:8545
+    services:
+      # Label used to access the service container
+      ganache:
+        # Docker Hub image
+        image: trufflesuite/ganache:latest # elianderlohr/ganache-docker:ganache-docker
+        # Port
+        ports:
+          - 8545:8545
 
     strategy:
       matrix:
@@ -34,14 +34,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
           cache-dependency-path: "./web3/package-lock.json"
-      - uses: mosteo-actions/docker-run@v1
-        with:
-          image: trufflesuite/ganache:latest
-          command: --chain.chainId 1998
-          params: --detach
+      #- uses: mosteo-actions/docker-run@v1
+      #  with:
+      #    image: trufflesuite/ganache:latest
+      #    command: --chain.chainId 1998
+      #    params: --detach
       - run: npm ci
         working-directory: web3
       - run: npm run build --if-present
         working-directory: web3
+      - run: node ./web3/test/ganache/setup_ganache.js
       - run: npm test
         working-directory: web3
