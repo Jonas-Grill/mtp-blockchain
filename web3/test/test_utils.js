@@ -12,6 +12,9 @@ web3.setProvider(new web3.providers.HttpProvider(rpcURL));
 // Mocha
 var assert = require('assert');
 
+// ganache prepare
+var prepare = require('../test/ganache/setup_ganache')
+
 // Chai
 var chai = require('chai');
 var chaiAssert = chai.assert
@@ -20,18 +23,24 @@ var path = ""
 if (process.env.ENV == "test") {
     path = __dirname + "/config/test-config.json"
 }
-else if (process.env.ENV == "dev") {
+else {
     path = __dirname + "/config/dev-config.json"
 }
+
+ganache = new prepare.Ganache_Helper()
+
 
 describe("test", function () {
     describe("send", function () {
         describe("gas", function () {
             it("send gas", async function () {
+
+                accounts = await ganache.get_account()
+
                 utils = new utilsHandler.Utils(path)
 
-                var from = "0xF5F07Df523774d6d4a7dBBb3C41e35de93d3B0C0"
-                var to = "0xE0873d921bF8CBD20d19e8024823A2031c989D7E"
+                var from = accounts[0]
+                var to = accounts[1]
 
                 var oldWeiFrom = await web3.eth.getBalance(from);
                 var oldWeiTo = await web3.eth.getBalance(to);

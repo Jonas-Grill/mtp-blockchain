@@ -2,7 +2,7 @@ const configHandler = require('../src/js/config')
 
 var assert = require('assert');
 
-const rpcUrl = "http://127.0.0.1:7545"
+const rpcUrl = "http://localhost:8545"
 const coinbaseAdress = "0xF5F07Df523774d6d4a7dBBb3C41e35de93d3B0C0"
 const initialGasAmount = "10"
 
