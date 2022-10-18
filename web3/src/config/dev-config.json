@@ -1,5 +1,5 @@
 {
-    "rpcURL": "http://127.0.0.1:7545",
-    "coinbaseAdress": "0xF5F07Df523774d6d4a7dBBb3C41e35de93d3B0C0",
+    "rpcURL": "http://localhost:8545",
+    "coinbaseAdress": "0x917441412223Ac1104617Ca07ca9853504BEA5d0",
     "initialGasAmount": "10"
 }
