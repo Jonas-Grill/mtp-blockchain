@@ -20,7 +20,7 @@ class Utils {
     }
 
     // Send gas from adress to adress
-    async send_gas(from, to, gas) {
+    async send_gas(from, to, gas = this.config.getInitialGasAmount) {
         // Make sure the coinbase adress and the recipient adress are both valid
         if (this.web3.utils.isAddress(from) && this.web3.utils.isAddress(to)) {
 
