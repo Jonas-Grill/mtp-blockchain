@@ -1,6 +1,6 @@
 site:
   title: Antora Docs
-  start_page: documentation-mtp-blockchain::index.adoc
+  start_page: documentation.yml-mtp-blockchain::index.adoc
 content:
   sources:
   - url: ./../../
