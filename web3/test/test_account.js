@@ -5,7 +5,7 @@ const Web3 = require('web3')
 const accountHandler = require('../src/web3/account')
 
 // Parse and set rpc url
-const rpcURL = "http://postgres:postgres@localhost:8545";
+const rpcURL = "http://localhost:8545";
 const web3 = new Web3(rpcURL);
 web3.setProvider(new web3.providers.HttpProvider(rpcURL));
 
@@ -13,7 +13,7 @@ web3.setProvider(new web3.providers.HttpProvider(rpcURL));
 var assert = require('assert');
 
 // ganache prepare
-var prepare = require('../test/ganache/setup_ganache')
+var prepare = require('./ganache/setup_ganache')
 
 // Chai
 var chai = require('chai');
