@@ -1,8 +1,8 @@
 /*
-Store some utils functions
+Store some account related functions
 */
 
-class Utils {
+class UniMaAccount {
 
     constructor(path = "config/dev-config.json") {
         // Require config
@@ -78,4 +78,4 @@ class Utils {
 }
 
 // export config class
-module.exports = { Utils };
+module.exports = { UniMaAccount };

@@ -2,7 +2,7 @@
 const Web3 = require('web3')
 
 // Require get_gas
-const utilsHandler = require('../src/js/utils')
+const accountHandler = require('../src/web3/account')
 
 // Parse and set rpc url
 const rpcURL = "http://postgres:postgres@localhost:8545";
@@ -37,7 +37,7 @@ describe("test", function () {
             it("send gas", async function () {
                 accounts = await ganache.get_account()
 
-                utils = new utilsHandler.Utils(path)
+                account = new accountHandler.UniMaAccount(path)
 
                 var from = accounts[0]
                 var to = accounts[1]
@@ -45,7 +45,7 @@ describe("test", function () {
                 var oldWeiFrom = await web3.eth.getBalance(from);
                 var oldWeiTo = await web3.eth.getBalance(to);
 
-                await utils.send_gas(from, to, 1).then(async function () {
+                await account.send_gas(from, to, 1).then(async function () {
                     var newWeiFrom = await web3.eth.getBalance(from);
                     var newWeiTo = await web3.eth.getBalance(to);
 
@@ -70,14 +70,14 @@ describe("test", function () {
 
                 accounts = await ganache.get_account()
 
-                utils = new utilsHandler.Utils(path)
+                account = new accountHandler.UniMaAccount(path)
 
                 var from = accounts[0]
                 var to = accounts[1]
 
                 // Set gas really high so that the from account doesn't have enough eth/gas
                 try {
-                    await utils.send_gas(from, to, 999)
+                    await account.send_gas(from, to, 999)
                 }
                 catch (err) {
                     assert.equal(err, "Error: Coinbase adress do not has enough gas to send.")
@@ -85,14 +85,14 @@ describe("test", function () {
             });
             it("from adress is not valid", async function () {
 
-                utils = new utilsHandler.Utils(path)
+                account = new accountHandler.UniMaAccount(path)
 
                 var from = "wrong_adress"
                 var to = accounts[1]
 
                 // Set gas really high so that the from account doesn't have enough eth/gas
                 try {
-                    await utils.send_gas(from, to, 999)
+                    await account.send_gas(from, to, 999)
                 }
                 catch (err) {
                     assert.equal(err, "Error: Either the from or the to adress is not a valid adress.")
@@ -100,14 +100,14 @@ describe("test", function () {
             });
             it("to adress is not valid", async function () {
 
-                utils = new utilsHandler.Utils(path)
+                account = new accountHandler.UniMaAccount(path)
 
                 var from = accounts[0]
                 var to = "wrong_adress"
 
                 // Set gas really high so that the from account doesn't have enough eth/gas
                 try {
-                    await utils.send_gas(from, to, 999)
+                    await account.send_gas(from, to, 999)
                 }
                 catch (err) {
                     assert.equal(err, "Error: Either the from or the to adress is not a valid adress.")

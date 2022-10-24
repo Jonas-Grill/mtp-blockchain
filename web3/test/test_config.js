@@ -1,4 +1,4 @@
-const configHandler = require('../src/js/config')
+const configHandler = require('../src/web3/config')
 
 var assert = require('assert');
 

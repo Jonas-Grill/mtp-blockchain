@@ -4,11 +4,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-// Get utils Handler
-const utilsHandler = require(__dirname + '/src/js/utils')
+// Get account Handler
+const accountHandler = require(__dirname + '/src/web3/account')
 
-// Utils
-const configHandler = require(__dirname + '/src/js/config')
+// account
+const configHandler = require(__dirname + '/src/web3/config')
 
 // Prepare config path
 var configPath = ""
@@ -35,12 +35,12 @@ app.get('/', (req, res) => {
 });
 
 app.post('/send_gas', async (req, res) => {
-  var utils = new utilsHandler.Utils(configPath)
+  var account = new accountHandler.UniMaAccount(configPath)
 
   var to = req.body["adress"]
 
   try {
-    await utils.send_gas(config.getCoinbaseAdress, to)
+    await account.send_gas(config.getCoinbaseAdress, to)
     res.send('Success!');
   }
   catch (err) {
