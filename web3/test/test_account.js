@@ -36,7 +36,7 @@ describe("test", function () {
         describe("gas", function () {
             it("send gas", async function () {
                 accounts = await ganache.get_account()
-
+                console.log("test")
                 account = new accountHandler.UniMaAccount(path)
 
                 var from = accounts[0]
@@ -63,7 +63,7 @@ describe("test", function () {
                     assert.equal(Number(newWeiTo), expectedNewWeiTo)
 
                     // Because the from adress has to pay a fee we just check that their balance is lower than (old balance - 1 eth)
-                    chaiAssert.isAtMost(Number(expectedNewWeiFrom), Number(oldWeiTo), "New wei ist at most the old wei - 1 eth")
+                    chaiAssert.isAtMost(Number(expectedNewWeiFrom), Number(oldWeiFrom), "New wei ist at most the old wei - 1 eth")
                 });
             });
             it("not enough gas", async function () {
@@ -112,6 +112,37 @@ describe("test", function () {
                 catch (err) {
                     assert.equal(err, "Error: Either the from or the to adress is not a valid adress.")
                 }
+            });
+        });
+    });
+
+    describe("get", function () {
+        describe("first transaction", function () {
+            // Get first trx from account with trxs
+            it("account with transactions", async function () {
+                accounts = await ganache.get_account()
+
+                account = new accountHandler.UniMaAccount(path)
+
+                var from = accounts[0]
+                var to = accounts[1]
+
+                await account.send_gas(from, to, 1).then(async function () {
+                    trx = await account.get_first_transaction(from)
+                    chaiAssert.isAbove(Number(trx.blockNumber), Number(0), "Block number of first block has to be higher than 1")
+                });
+            });
+
+            // Get first trx from account without trxs -> expect error
+            it("account without transactions", async function () {
+                // Generate fresh account
+                adress = await web3.eth.personal.newAccount('test')
+                console.log(adress)
+
+                trx = await account.get_first_transaction(adress)
+
+                // make sure that the trx is empty, therefore no transactions for this account
+                assert.equal(Object.keys(trx).length === 0, true)
             });
         });
     });
