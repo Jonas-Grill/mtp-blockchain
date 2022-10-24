@@ -3,3 +3,5 @@ services:
   web3:
     # will build ./docker/db/Dockerfile
     build: ./web3
+    ports:
+      - 8080:8080
