@@ -25,25 +25,6 @@ class UniMaAccount {
     }
 
     /**
-     * Returns the eth amount from wei
-     * 
-     * @param {int} wei
-     * @returns eth
-     */
-    wei_to_eth(wei) {
-        return Number(wei) / Number(1000000000000000000);
-    }
-
-    /**
-     * Returns the wei amount from eth
-     * 
-     * @param {float} eth 
-     */
-    eth_to_wei(eth) {
-        return parseFloat(eth) * Number(1000000000000000000);
-    }
-
-    /**
      * Send gas from adress to adress
      * 
      * @param {string} from coinbase adress which holds the eth/gas 
@@ -88,11 +69,18 @@ class UniMaAccount {
     /**
      * Get first transaction or error
      * 
-     * See: get_first_event_transaction for a faster approach.
+     * See: _get_first_event_transaction_ for a faster approach.
      * 
-     * https://ethereum.stackexchange.com/questions/8900/how-to-get-transactions-by-account-using-web3-js
+     * Source: https://ethereum.stackexchange.com/questions/8900/how-to-get-transactions-by-account-using-web3-js
+     * 
+     * > Explanation: 
+     *  The approach is a heuristic approach looping over all blocks and their transactions and 
+     *  removing or adding the send/received balance to the most current balance from the adress. 
+     *  If the balance is 0 the process can be stopped. Because no further transactions are 
+     *  possible. Balance **cannot** be lower than 0. 
      * 
      * @param {adress} adress eth adress from where to get first transaction
+     * @returns transaction object or empty dict if no first transaction
      */
     async get_first_transaction(adress) {
         var currentBlock = await this.web3.eth.getBlockNumber();
@@ -101,21 +89,28 @@ class UniMaAccount {
 
         var trx_object = {}
 
-        console.log(currentBlock)
+        // Loop over all blocks in a desc order IFF blocknumer is > 0 and balance from adress > 0
         for (var i = currentBlock; i >= 0 && (n > 0 || bal > 0); --i) {
             try {
+                // get current block i
                 var block = await this.web3.eth.getBlock(i, true);
+                // make sure that the block has content and has a transaction
                 if (block && block.transactions) {
+                    // loop over all the transactions from this block
                     block.transactions.forEach(function (e) {
+                        // if adress is the sender --> a transaction with this adress occured
                         if (adress == e.from) {
                             if (e.from != e.to)
+                                // add balance to adress
                                 bal = bal + Number(e.value);
 
                             trx_object = e;
                             --n;
                         }
+                        // if the adress is the receiver --> a transaction with this adress occured
                         if (adress == e.to) {
                             if (e.from != e.to)
+                                // remove balance from adress
                                 bal = bal - Number(e.value);
 
                             trx_object = e;
@@ -132,12 +127,12 @@ class UniMaAccount {
     }
 
     /**
-     * Get first event transaction (occures when deployed a contract)
+     * Get first **event** transaction (occures when a contract is deployed)
      * 
-     * https://ethereum.stackexchange.com/questions/8900/how-to-get-transactions-by-account-using-web3-js
+     * Source: https://ethereum.stackexchange.com/questions/8900/how-to-get-transactions-by-account-using-web3-js
      * 
      * @param {string} adress adress to check for first event transaction
-     * @returns 
+     * @returns transaction object or empty dict if no first transaction
      */
     async get_first_event_transaction(adress) {
         var trx_object = {}
@@ -155,7 +150,18 @@ class UniMaAccount {
         return trx_object;
     }
 
+    /**
+     * Return amount of UniMa Coins from adress
+     * 
+     * @param {string} adress adress to check for first event transaction
+     * @returns amount of UniMa Coins
+     */
+    async get_unima_coins(adress) {
+        // Placeholder function to return amount of UniMa Coins
+        return 0;
+    }
+
 }
 
-// export config class
+// export account class
 module.exports = { UniMaAccount };
