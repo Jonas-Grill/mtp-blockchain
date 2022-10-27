@@ -5,7 +5,7 @@
 
 To use the web3 applications locally, the Ganache application is required. 
 
-### Configure
+### Ganache configuration
 
 - IP: `http://localhost:8545`
 - Chain Id: `1337`
