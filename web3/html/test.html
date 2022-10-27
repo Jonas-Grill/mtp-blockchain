@@ -16,7 +16,7 @@
     $('#btn-test').click(function () {
         adressStr = document.querySelector('#to_adress').value
 
-        $.post('/send_gas', { adress: adressStr }, function (data) {
+        $.post('/api/v1/account/send_gas', { adress: adressStr }, function (data) {
             alert(data)
         });
     });

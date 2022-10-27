@@ -34,7 +34,12 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'html/test.html'));
 });
 
-app.post('/send_gas', async (req, res) => {
+/**
+ * API v1
+ */
+var api_prefix = "/api/v1"
+
+app.post(api_prefix + '/account/send_gas', async (req, res) => {
   var account = new accountHandler.UniMaAccount(configPath)
 
   var to = req.body["adress"]
