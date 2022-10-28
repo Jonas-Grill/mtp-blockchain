@@ -1,6 +1,9 @@
 # Web 3 App
 [![Test Web3](https://github.com/Jonas-Grill/mtp-blockchain/actions/workflows/test-web3.yml/badge.svg)](https://github.com/Jonas-Grill/mtp-blockchain/actions/workflows/test-web3.yml)
 
+## TODO:
+- [x] Use JWT for authentication
+
 ## Development Environment
 
 To use the web3 applications locally, the Ganache application is required. 
