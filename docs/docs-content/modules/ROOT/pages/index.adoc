@@ -1,0 +1,20 @@
+= Welcome to the blockchain exercise
+:navtitle: Welcome
+
+You are here to learn a lot about blockchain by using blockchain!
+
+== Idea behind this exercise
+
+Learning blockchain with blockchain
+
+== How this exercise will work
+
+Getting tokens through producing good Smart Contracts
+
+== How to get qualified for the exam
+
+Get enough tokens
+
+== What this documentation provides
+
+A lot of explanations

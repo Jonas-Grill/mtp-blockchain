@@ -1,0 +1,14 @@
+site:
+  title: Antora Docs
+  start_page: documentation.yml-mtp-blockchain::index.adoc
+content:
+  sources:
+  - url: ./../../
+    branches: feature/setup-docu
+    start_path: ./docs/docs-content
+
+ui:
+  bundle:
+    url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
+    snapshot: true
+  supplemental_files: ./../supplemental-ui
