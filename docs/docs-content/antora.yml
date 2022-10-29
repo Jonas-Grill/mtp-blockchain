@@ -5,3 +5,4 @@ prerelease: -beta.1
 nav:
   - modules/ROOT/nav.adoc
   - modules/module-one/nav.adoc
+  - modules/web3/nav.adoc
