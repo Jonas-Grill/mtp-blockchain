@@ -1,1 +1,5 @@
 = API
+
+To access the UniMa-Blockchain the API can be used.
+
+The current version of the API is **v1** and can be accessed via the following URL ``/api/v1``.
