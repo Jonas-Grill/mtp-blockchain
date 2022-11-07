@@ -24,4 +24,4 @@ const recipient_adress = "0x027EC434652921e35B5119A28768740A7B72DE5e"
 
 account = new accountHandler.UniMaAccount()
 
-account.get_first_transaction("0x917441412223Ac1104617Ca07ca9853504BEA5d0")
+account.send_gas("0x917441412223Ac1104617Ca07ca9853504BEA5d0", "0x9f8fD6722f8f74c9942d0751374a542F5847BfD1")

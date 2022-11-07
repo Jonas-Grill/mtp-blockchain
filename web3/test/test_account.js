@@ -34,9 +34,9 @@ ganache = new prepare.Ganache_Helper()
 describe("test", function () {
     describe("send", function () {
         describe("gas", function () {
-            it("send gas", async function () {
+            it("should send gas from address to another address", async function () {
                 accounts = await ganache.get_account()
-                console.log("test")
+
                 account = new accountHandler.UniMaAccount(path)
 
                 var from = accounts[0]
@@ -45,7 +45,7 @@ describe("test", function () {
                 var oldWeiFrom = await web3.eth.getBalance(from);
                 var oldWeiTo = await web3.eth.getBalance(to);
 
-                await account.send_gas(from, to, 1).then(async function () {
+                await account.send_gas(from, to, 1, 0).then(async function () {
                     var newWeiFrom = await web3.eth.getBalance(from);
                     var newWeiTo = await web3.eth.getBalance(to);
 
@@ -66,7 +66,7 @@ describe("test", function () {
                     chaiAssert.isAtMost(Number(expectedNewWeiFrom), Number(oldWeiFrom), "New wei ist at most the old wei - 1 eth")
                 });
             });
-            it("not enough gas", async function () {
+            it("should not send gas, because coinbase has not enough gas", async function () {
 
                 accounts = await ganache.get_account()
 
@@ -75,43 +75,75 @@ describe("test", function () {
                 var from = accounts[0]
                 var to = accounts[1]
 
+                error_occured = false
                 // Set gas really high so that the from account doesn't have enough eth/gas
                 try {
-                    await account.send_gas(from, to, 999)
+                    await account.send_gas(from, to, 999, 0)
                 }
                 catch (err) {
+                    error_occured = true
                     assert.equal(err, "Error: Coinbase adress do not has enough gas to send.")
                 }
+                assert.equal(error_occured, true)
             });
-            it("from adress is not valid", async function () {
+            it("should not send gas, because _from adress is not valid", async function () {
 
                 account = new accountHandler.UniMaAccount(path)
 
                 var from = "wrong_adress"
                 var to = accounts[1]
 
+                error_occured = false
                 // Set gas really high so that the from account doesn't have enough eth/gas
                 try {
-                    await account.send_gas(from, to, 999)
+                    await account.send_gas(from, to, 999, 0)
                 }
                 catch (err) {
+                    error_occured = true
                     assert.equal(err, "Error: Either the from or the to adress is not a valid adress.")
                 }
+                assert.equal(error_occured, true)
             });
-            it("to adress is not valid", async function () {
+            it("should not send gas, because _to adress is not valid", async function () {
 
                 account = new accountHandler.UniMaAccount(path)
 
                 var from = accounts[0]
                 var to = "wrong_adress"
 
+                error_occured = false
                 // Set gas really high so that the from account doesn't have enough eth/gas
                 try {
-                    await account.send_gas(from, to, 999)
+                    await account.send_gas(from, to, 999, 0)
                 }
                 catch (err) {
+                    error_occured = true
                     assert.equal(err, "Error: Either the from or the to adress is not a valid adress.")
                 }
+
+                assert.equal(error_occured, true)
+            });
+            it("should not send gas, because faucet used to recent", async function () {
+
+                account = new accountHandler.UniMaAccount(path)
+
+                var from = accounts[0]
+                var to = accounts[1]
+
+                error_occured = false
+                // Set gas really high so that the from account doesn't have enough eth/gas
+                try {
+                    // Set blockNo difference to 10 to make sure error occures
+                    await account.send_gas(from, to, blockNumberDifference = 10)
+                    await account.send_gas(from, to, blockNumberDifference = 10)
+                    await account.send_gas(from, to, blockNumberDifference = 10)
+                }
+                catch (err) {
+                    error_occured = true
+                    assert.equal(err, "Error: Faucet used to recent.")
+                }
+
+                assert.equal(error_occured, true)
             });
         });
     });
@@ -119,7 +151,7 @@ describe("test", function () {
     describe("get", function () {
         describe("first transaction", function () {
             // Get first trx from account with trxs
-            it("account with transactions", async function () {
+            it("should get first transaction from account with transactions", async function () {
                 accounts = await ganache.get_account()
 
                 account = new accountHandler.UniMaAccount(path)
@@ -127,14 +159,14 @@ describe("test", function () {
                 var from = accounts[0]
                 var to = accounts[1]
 
-                await account.send_gas(from, to, 1).then(async function () {
+                await account.send_gas(from, to, 1, 0).then(async function () {
                     trx = await account.get_first_transaction(from)
                     chaiAssert.isAbove(Number(trx.blockNumber), Number(0), "Block number of first block has to be higher than 1")
                 });
             });
 
             // Get first trx from account without trxs -> expect error
-            it("account without transactions", async function () {
+            it("should get no first transaction from account without transactions", async function () {
                 // Generate fresh account
                 adress = await web3.eth.personal.newAccount('test')
                 console.log(adress)

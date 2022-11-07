@@ -16,6 +16,11 @@ class UniMaAccount {
         // Create config class with config path
         this.config = new configHandler.Config(path)
 
+        // Require utils
+        const utilsHandler = require('./utils')
+
+        this.utils = new utilsHandler.UniMaUtils()
+
         // Require web3 for talking to api
         this.Web3 = require('web3')
 
@@ -31,33 +36,69 @@ class UniMaAccount {
      * @param {string} to receiver adress which needs the eth/gas
      * @param {int} gas amount of eth/gas to send to receiver adress (default: config.getInitialGasAmount)
      */
-    async send_gas(from, to, gas = this.config.getInitialGasAmount) {
+    async send_gas(from, to, gas = this.config.getInitialGasAmount, blockNumberDifference = this.config.getFaucetBlocknumberDifference) {
         // Make sure the coinbase adress and the recipient adress are both valid
         if (this.web3.utils.isAddress(from) && this.web3.utils.isAddress(to)) {
 
-            // get balance from coinbase adress
-            var wei = await this.web3.eth.getBalance(from)
-            // Transform wei to ether (1 ether = 1000000000000000000 wei)
-            const ether = parseFloat(this.web3.utils.fromWei(new this.web3.utils.BN(wei), 'ether'));
+            // faucet storage abi
+            const abi = this.utils.get_contract_abi("FaucetStorage")
 
-            // If coinbase account has more gas than need send ether
-            if (ether >= gas) {
-                // Transfer gas to send into wei
-                const initialGasAmountInWei = this.Web3.utils.toWei(new this.web3.utils.BN(gas))
+            // address from FaucetStorage contract
+            const faucet_storage_address = "0x0BCeb15a0a92aacCE948dE1fC22522ab52aD824E"
 
-                // Send ether
-                await this.web3.eth.sendTransaction({
-                    from: from,
-                    to: to,
-                    value: initialGasAmountInWei
-                })
-                    .then(function (err, receipt) {
-                        console.log(`Successfully send ${gas} ether to '${to}' from '${from}'.`)
+            // Get faucetStorageContract using coinbase address
+            var faucetStorageContract = new this.web3.eth.Contract(abi, faucet_storage_address, {
+                from: this.config.getCoinbaseAdress,
+            });
+
+            // Get faucet object (blockNo, timestamp) given address 
+            var faucetObject = await faucetStorageContract.methods.getFaucetUsage(to).call({
+                from: this.config.getCoinbaseAdress,
+            });
+
+            // Get current block number
+            let block = await this.web3.eth.getBlock("latest");
+            const block_id_1 = Number(block.number)
+
+            // Send eth if:
+            // - 1. Faucet never used
+            // - 2. Current block number is higher/equal to old block number plus offset
+            if (faucetObject.blockNo == 0 || (Number(faucetObject.blockNo) + Number(blockNumberDifference)) <= block_id_1) {
+                // get balance from coinbase adress
+                var wei = await this.web3.eth.getBalance(from)
+
+                // Transform wei to ether (1 ether = 1000000000000000000 wei)
+                const ether = parseFloat(this.web3.utils.fromWei(new this.web3.utils.BN(wei), 'ether'));
+
+                // If coinbase account has more gas than need send ether
+                if (ether >= gas) {
+                    // Transfer gas to send into wei
+                    const initialGasAmountInWei = this.Web3.utils.toWei(new this.web3.utils.BN(gas))
+
+                    // Send ether
+                    await this.web3.eth.sendTransaction({
+                        from: from,
+                        to: to,
+                        value: initialGasAmountInWei
                     });
+
+                    // Get current block number
+                    let block2 = await this.web3.eth.getBlock("latest")
+
+                    await faucetStorageContract.methods.addFaucetUsage(to, Number(block2.number)).send({
+                        from: this.config.getCoinbaseAdress,
+                    });
+
+                    console.log(`Successfully send ${gas} ether to '${to}' from '${from}'.`)
+                }
+                else {
+                    console.log(`Coinbase adress do not has enough gas to send.`)
+                    throw new Error("Coinbase adress do not has enough gas to send.")
+                }
             }
             else {
-                console.log(`Coinbase adress do not has enough gas to send.`)
-                throw new Error("Coinbase adress do not has enough gas to send.")
+                console.log(`Faucet used to recent.`)
+                throw new Error("Faucet used to recent.")
             }
         }
         else {
@@ -160,7 +201,6 @@ class UniMaAccount {
         // Placeholder function to return amount of UniMa Coins
         return 0;
     }
-
 }
 
 // export account class

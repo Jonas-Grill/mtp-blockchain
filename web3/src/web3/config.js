@@ -8,6 +8,7 @@ class Config {
         this.rpcURL = config["rpcURL"];
         this.coinbaseAdress = config["coinbaseAdress"];
         this.initialGasAmount = config["initialGasAmount"];
+        this.faucetBlocknumberDifference = config["faucetBlocknumberDifference"]
     }
 
     get getRpcUrl() {
@@ -20,6 +21,10 @@ class Config {
 
     get getInitialGasAmount() {
         return parseFloat(this.initialGasAmount);
+    }
+
+    get getFaucetBlocknumberDifference() {
+        return this.faucetBlocknumberDifference;
     }
 }
 
