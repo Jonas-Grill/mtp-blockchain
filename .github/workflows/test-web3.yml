@@ -39,6 +39,6 @@ jobs:
           cache-dependency-path: "./web3/package-lock.json"
       - run: cd web3 && npm ci
       - run: cd web3 && npm run build --if-present
-      - run: cd smart-contracts && truffle compile
-      - run: cd smart-contracts && truffle deploy
+      - run: cd smart-contracts && npx truffle compile
+      - run: cd smart-contracts && npx truffle deploy
       - run: cd web3 && npm test
