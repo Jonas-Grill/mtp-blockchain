@@ -9,7 +9,7 @@ class UniMaAccount {
      * 
      * @param {string} path path to the config file (default: "config/dev-config.json")
      */
-    constructor(path = "config/dev-config.json") {
+    constructor(coinbaseAddress = "", path = "config/dev-config.json") {
         // Require config
         const configHandler = require('./config')
 
@@ -27,6 +27,10 @@ class UniMaAccount {
         // Parse and set rpc url
         this.web3 = new this.Web3()
         this.web3.setProvider(new this.web3.providers.HttpProvider(this.config.getRpcUrl));
+
+        if (coinbaseAddress.length > 0) {
+            this.config.setCoinbaseAddress = coinbaseAddress;
+        }
     }
 
     /**

@@ -19,6 +19,10 @@ class Config {
         return this.coinbaseAdress;
     }
 
+    set setCoinbaseAddress(coinbase_adress) {
+        this.coinbaseAdress = coinbase_adress;
+    }
+
     get getInitialGasAmount() {
         return parseFloat(this.initialGasAmount);
     }
@@ -26,6 +30,8 @@ class Config {
     get getFaucetBlocknumberDifference() {
         return this.faucetBlocknumberDifference;
     }
+
+
 }
 
 // export config class

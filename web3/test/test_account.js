@@ -37,7 +37,7 @@ describe("test", function () {
             it("should send gas from address to another address", async function () {
                 accounts = await ganache.get_account()
 
-                account = new accountHandler.UniMaAccount(path)
+                account = new accountHandler.UniMaAccount(coinbaseAddress = accounts[0], path = path)
 
                 var from = accounts[0]
                 var to = accounts[1]
@@ -70,7 +70,7 @@ describe("test", function () {
 
                 accounts = await ganache.get_account()
 
-                account = new accountHandler.UniMaAccount(path)
+                account = new accountHandler.UniMaAccount(coinbaseAddress = accounts[0], path = path)
 
                 var from = accounts[0]
                 var to = accounts[1]
@@ -88,7 +88,7 @@ describe("test", function () {
             });
             it("should not send gas, because _from adress is not valid", async function () {
 
-                account = new accountHandler.UniMaAccount(path)
+                account = new accountHandler.UniMaAccount(coinbaseAddress = accounts[0], path = path)
 
                 var from = "wrong_adress"
                 var to = accounts[1]
@@ -106,7 +106,7 @@ describe("test", function () {
             });
             it("should not send gas, because _to adress is not valid", async function () {
 
-                account = new accountHandler.UniMaAccount(path)
+                account = new accountHandler.UniMaAccount(coinbaseAddress = accounts[0], path = path)
 
                 var from = accounts[0]
                 var to = "wrong_adress"
@@ -125,7 +125,7 @@ describe("test", function () {
             });
             it("should not send gas, because faucet used to recent", async function () {
 
-                account = new accountHandler.UniMaAccount(path)
+                account = new accountHandler.UniMaAccount(coinbaseAddress = accounts[0], path = path)
 
                 var from = accounts[0]
                 var to = accounts[1]
@@ -154,7 +154,7 @@ describe("test", function () {
             it("should get first transaction from account with transactions", async function () {
                 accounts = await ganache.get_account()
 
-                account = new accountHandler.UniMaAccount(path)
+                account = new accountHandler.UniMaAccount(coinbaseAddress = accounts[0], path = path)
 
                 var from = accounts[0]
                 var to = accounts[1]
