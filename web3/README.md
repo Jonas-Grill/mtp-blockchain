@@ -2,7 +2,7 @@
 [![Test Web3](https://github.com/Jonas-Grill/mtp-blockchain/actions/workflows/test-web3.yml/badge.svg)](https://github.com/Jonas-Grill/mtp-blockchain/actions/workflows/test-web3.yml)
 
 ## TODO:
-- [x] Use JWT for authentication
+- [ ] Use JWT for authentication
 
 ## Development Environment
 

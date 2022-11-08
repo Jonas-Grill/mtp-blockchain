@@ -1,6 +1,4 @@
 {
     "rpcURL": "http://localhost:8545",
     "coinbaseAdress": "0x917441412223Ac1104617Ca07ca9853504BEA5d0",
-    "initialGasAmount": "10",
-    "faucetBlocknumberDifference": 10
 }

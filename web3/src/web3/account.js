@@ -35,12 +35,19 @@ class UniMaAccount {
 
     /**
      * Send gas from adress to adress
+     *  > Set default for _gas_ and _blockNumberDifference_ to -1. -1 will be replaced with the default value
+     *  which is saved in the smart contract.  
      * 
      * @param {string} from coinbase adress which holds the eth/gas 
      * @param {string} to receiver adress which needs the eth/gas
-     * @param {int} gas amount of eth/gas to send to receiver adress (default: config.getInitialGasAmount)
+     * @param {int} gas amount of eth/gas to send to receiver adress (default: -1)
+     * @param {int} blockNumberDifference block no differen between current block and last faucet usage (default: -1)
      */
-    async send_gas(from, to, gas = this.config.getInitialGasAmount, blockNumberDifference = this.config.getFaucetBlocknumberDifference) {
+    async send_gas(from, to, gas = -1, blockNumberDifference = -1) {
+
+        gas = await this.config.getFreshFaucetGas(gas)
+        blockNumberDifference = await this.config.getFreshFaucetGas(blockNumberDifference)
+
         // Make sure the coinbase adress and the recipient adress are both valid
         if (this.web3.utils.isAddress(from) && this.web3.utils.isAddress(to)) {
 

@@ -21,6 +21,7 @@ else {
 
 // Create config class with config path
 const config = new configHandler.Config(configPath)
+await config.parseConfig()
 
 // Constants
 const PORT = 8080;
