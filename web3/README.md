@@ -22,4 +22,4 @@ The API can be accessed and tested using the software postman. The configuration
 
 - File: `assets/postman/MTP Blockchain.postman_collection.json` > [link](assets/postman)
 
-Just import the json file into postman to access the API.
+Just import the json file into postman to access the API. 
