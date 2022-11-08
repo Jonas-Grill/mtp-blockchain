@@ -44,7 +44,8 @@ class UniMaAccount {
             const abi = this.utils.get_contract_abi("FaucetStorage")
 
             // address from FaucetStorage contract
-            const faucet_storage_address = "0x0BCeb15a0a92aacCE948dE1fC22522ab52aD824E"
+            const network_id = await this.web3.eth.net.getId();
+            const faucet_storage_address = this.utils.get_contract_address("FaucetStorage", network_id)
 
             // Get faucetStorageContract using coinbase address
             var faucetStorageContract = new this.web3.eth.Contract(abi, faucet_storage_address, {
