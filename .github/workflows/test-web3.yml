@@ -1,4 +1,4 @@
-name: Run Web3 Tests
+name: Run web3 tests
 on:
   push:
     paths:

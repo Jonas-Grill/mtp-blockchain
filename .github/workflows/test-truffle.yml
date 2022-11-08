@@ -1,4 +1,4 @@
-name: Run Web3 Tests
+name: Run truffle tests
 on:
   push:
     paths:
