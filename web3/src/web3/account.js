@@ -7,14 +7,15 @@ class UniMaAccount {
     /**
      * Create Account class
      * 
-     * @param {string} path path to the config file (default: "config/dev-config.json")
+     * @param {string} coinbaseAddress other coinbase address (default: "")
+     * @param {string} config_path path to the config file (default: "config/dev-config.json")
      */
-    constructor(coinbaseAddress = "", path = "config/dev-config.json") {
+    constructor(config_path = "config/dev-config.json") {
         // Require config
         const configHandler = require('./config')
 
         // Create config class with config path
-        this.config = new configHandler.Config(path)
+        this.config = new configHandler.Config(config_path)
 
         // Require utils
         const utilsHandler = require('./utils')
@@ -27,10 +28,6 @@ class UniMaAccount {
         // Parse and set rpc url
         this.web3 = new this.Web3()
         this.web3.setProvider(new this.web3.providers.HttpProvider(this.config.getRpcUrl));
-
-        if (coinbaseAddress.length > 0) {
-            this.config.setCoinbaseAddress = coinbaseAddress;
-        }
     }
 
     /**
@@ -44,9 +41,16 @@ class UniMaAccount {
      * @param {int} blockNumberDifference block no differen between current block and last faucet usage (default: -1)
      */
     async send_gas(from, to, gas = -1, blockNumberDifference = -1) {
-
+        /**  
+         * Because node js doesn't allow await/async for default values in the function header, we need to do the
+         * following solution. We set the default to -1. If the _config.getFreshFaucetGas_ function receives the
+         * default value -1 (a value which is not possible in the normal usage), the function will return the current
+         * value from the smart contract. If the value is e.g. 10 it will return 10 and ignores what is written in the
+         * smart contract/config. 
+         * We do this for gas and blockNumberDifference
+        */
         gas = await this.config.getFreshFaucetGas(gas)
-        blockNumberDifference = await this.config.getFreshFaucetGas(blockNumberDifference)
+        blockNumberDifference = await this.config.getFreshFaucetBlockNoDifference(blockNumberDifference)
 
         // Make sure the coinbase adress and the recipient adress are both valid
         if (this.web3.utils.isAddress(from) && this.web3.utils.isAddress(to)) {

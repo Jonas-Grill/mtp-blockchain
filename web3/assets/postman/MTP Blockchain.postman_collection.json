@@ -52,6 +52,181 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "config",
+					"item": [
+						{
+							"name": "faucet_gas",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "address",
+											"value": "0x917441412223Ac1104617Ca07ca9853504BEA5d0",
+											"description": "Address of logged in person",
+											"type": "text"
+										},
+										{
+											"key": "faucet_gas",
+											"value": "5",
+											"description": "New faucet gas value",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}{{api_prefix}}/config/faucet_gas",
+									"host": [
+										"{{url}}{{api_prefix}}"
+									],
+									"path": [
+										"config",
+										"faucet_gas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "faucet_gas",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "adress",
+											"value": "0x9f8fD6722f8f74c9942d0751374a542F5847BfD1",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}{{api_prefix}}/config/faucet_gas",
+									"host": [
+										"{{url}}{{api_prefix}}"
+									],
+									"path": [
+										"config",
+										"faucet_gas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "faucet_blockno_difference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "adress",
+											"value": "0x9f8fD6722f8f74c9942d0751374a542F5847BfD1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}{{api_prefix}}/account/send_gas",
+									"host": [
+										"{{url}}{{api_prefix}}"
+									],
+									"path": [
+										"account",
+										"send_gas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "faucet_blockno_difference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "adress",
+											"value": "0x9f8fD6722f8f74c9942d0751374a542F5847BfD1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}{{api_prefix}}/config/faucet_blockno_difference",
+									"host": [
+										"{{url}}{{api_prefix}}"
+									],
+									"path": [
+										"config",
+										"faucet_blockno_difference"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}

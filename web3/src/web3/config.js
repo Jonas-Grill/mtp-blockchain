@@ -90,6 +90,17 @@ class Config {
     }
 
     /**
+     * Set a new faucet gas value 
+     *
+     * @param {string} _address Address of the person who runs the function
+     * @param {int} _faucetGas New faucet gas value
+     */
+    async setFaucetGas(_address, _faucetGas) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setIntValue("faucetGas", _faucetGas).send({ from: _address });
+    }
+
+    /**
      * Refresh faucet block difference variable and return fresh value or return default
      * 
      * @param {int} val default value for faucet block differen
@@ -114,6 +125,17 @@ class Config {
     */
     get getFaucetBlockNoDifference() {
         return this.faucetBlockNoDifference;
+    }
+
+    /**
+    * Set a new faucet block no difference value 
+    *
+    * @param {string} _address Address of the person who runs the function
+    * @param {int} _faucetBlockNoDifference Newfaucet block no difference value
+    */
+    async setFreshFaucetBlockNoDifference(_address, _faucetBlockNoDifference) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setIntValue("faucetBlockNoDifference", _faucetBlockNoDifference).send({ from: _address });
     }
 }
 
