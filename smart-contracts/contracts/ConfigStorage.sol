@@ -31,6 +31,11 @@ contract ConfigStorage {
     }
 
     function setIntValue(string memory key, int128 value) public {
+        require(
+            msg.sender == owner,
+            "Address that deploys this smart contract is not the coinbase address!"
+        );
+        
         if (compareStrings(key, "faucetGas") == true) {
             faucetGas = value;
         } else if (compareStrings(key, "faucetBlockNoDifference") == true) {
