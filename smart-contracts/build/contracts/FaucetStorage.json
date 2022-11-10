@@ -67,8 +67,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_blockNo\",\"type\":\"uint256\"}],\"name\":\"faucetUsed\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_blockNo\",\"type\":\"uint256\"}],\"name\":\"addFaucetUsage\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"getFaucetUsage\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"blockNo\",\"type\":\"uint256\"}],\"internalType\":\"struct FaucetStorage.faucetUser\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"addFaucetUsage(address,uint256)\":{\"notice\":\"Add usage of faucet todo: restrict so that only the coinbase holder can call this function\"},\"constructor\":{\"notice\":\"constructor method setting an initial value\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/FaucetStorage.sol\":\"FaucetStorage\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/FaucetStorage.sol\":{\"keccak256\":\"0xb793baf0fa497fe852c0f7096d5c454b081101e9dba5f00639ef417ee8d04970\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b6347479e829258ef0754c93516402e396dc4d4882c703d75711ad4770c063f4\",\"dweb:/ipfs/QmdeNfCDEmp7uCSab4gEHTvwk6rZv4NkP5HxV2hu1BwiNM\"]}},\"version\":1}",
@@ -3224,8 +3223,7 @@
     }
   },
   "schemaVersion": "3.4.10",
-  "updatedAt": "2022-11-08T20:48:37.510Z",
-  "networkType": "ethereum",
+  "updatedAt": "2022-11-10T13:47:40.455Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

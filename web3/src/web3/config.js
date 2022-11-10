@@ -65,15 +65,17 @@ class Config {
     /**
      * Refresh faucet gas variable and return fresh value or return default
      * 
-     * @param {int} val default value for faucet gas
-     * @returns 
+     * @param {int} val default value for faucet gas (default: -1)
+     * @param {int} _default default value (default: -1)
+     * @returns faucet gas
      */
-    async getFreshFaucetGas(val = -1) {
+    async getFreshFaucetGas(val = -1, _default = -1) {
         const configStorageContract = await this.getConfigStorage()
 
         this.faucetGas = await configStorageContract.methods.getIntValue("faucetGas").call({ from: this.coinbaseAdress });
 
-        const _default = -1
+        console.log("GAS: " + this.faucetGas)
+
         if (val == _default) {
             return this.faucetGas;
         }
@@ -103,15 +105,15 @@ class Config {
     /**
      * Refresh faucet block difference variable and return fresh value or return default
      * 
-     * @param {int} val default value for faucet block differen
-     * @returns 
+     * @param {int} val default value for faucet block different (default: -1)
+     * @param {int} _default default value (default: -1)
+     * @returns faucet gas
      */
-    async getFreshFaucetBlockNoDifference(val = -1) {
+    async getFreshFaucetBlockNoDifference(val = -1, _default = -1) {
         const configStorageContract = await this.getConfigStorage()
 
         this.faucetBlockNoDifference = await configStorageContract.methods.getIntValue("faucetBlockNoDifference").call({ from: this.coinbaseAdress });
 
-        const _default = -1
         if (val == _default) {
             return this.faucetBlockNoDifference;
         }
@@ -133,7 +135,7 @@ class Config {
     * @param {string} _address Address of the person who runs the function
     * @param {int} _faucetBlockNoDifference Newfaucet block no difference value
     */
-    async setFreshFaucetBlockNoDifference(_address, _faucetBlockNoDifference) {
+    async setFaucetBlockNoDifference(_address, _faucetBlockNoDifference) {
         const configStorageContract = await this.getConfigStorage()
         await configStorageContract.methods.setIntValue("faucetBlockNoDifference", _faucetBlockNoDifference).send({ from: _address });
     }

@@ -91,7 +91,7 @@ app.post(api_prefix + '/config/faucet_blockno_difference', async (req, res) => {
   var faucet_blockno_difference = req.body["faucet_blockno_difference"]
 
   try {
-    await config.setFreshFaucetBlockNoDifference(address, faucet_blockno_difference)
+    await config.setFaucetBlockNoDifference(address, faucet_blockno_difference)
     res.status(200)
     res.send('Successfully set faucet block number difference value!');
   }
