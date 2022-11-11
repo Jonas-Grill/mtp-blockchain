@@ -3,7 +3,6 @@ Store some utility functions
 */
 
 class UniMaUtils {
-
     /**
      * Returns the eth amount from wei
      * 
