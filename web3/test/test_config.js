@@ -92,6 +92,137 @@ describe("test", async function () {
                 assert.equal(await config.getFreshFaucetBlockNoDifference(), 30)
             })
         })
+
+        describe("semester", async function () {
+            it("should correctly append semester", async function () {
+                // Create config class with config path
+                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+
+                // Create new semester
+                var id = await config.appendSemester("test", 0, 1);
+
+                // Get semester from blockchain
+                const obj = await config.getSemester(id);
+
+                // Compare set values with saved values
+                assert.equal(obj[0], "test")
+                assert.equal(obj[1], 0)
+                assert.equal(obj[2], 1)
+            });
+
+            it("should correctly delete semester", async function () {
+                // Create config class with config path
+                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+
+                // Create new semester
+                var id = await config.appendSemester("test", 0, 1);
+
+                // Get semester from blockchain
+                const obj = await config.getSemester(id);
+
+                // Compare set values with saved values
+                assert.equal(obj[0], "test")
+                assert.equal(obj[1], 0)
+                assert.equal(obj[2], 1)
+
+                // Delete Semester
+                await config.deleteSemester(id);
+
+                // Get deleted semester (values should be default)
+                const deleted_obj = await config.getSemester(id);
+
+                // Check if values are set back to placeholder
+                assert.equal(deleted_obj[0], "")
+                assert.equal(deleted_obj[1], 0)
+                assert.equal(deleted_obj[2], 0)
+
+            });
+
+            it("should correctly change semester paramaters", async function () {
+                // Create config class with config path
+                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+
+                // Create new semester
+                var id = await config.appendSemester("test", 0, 1);
+
+                // Get semester from blockchain
+                const obj = await config.getSemester(id);
+
+                // Compare set values with saved values
+                assert.equal(obj[0], "test")
+                assert.equal(obj[1], 0)
+                assert.equal(obj[2], 1)
+
+
+            });
+        })
+        describe("assignment", async function () {
+            it("should correctly append assignment", async function () {
+                // Create config class with config path
+                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+
+                // Create new semester
+                var id = await config.appendSemester("test", 0, 1);
+
+                // Get semester from blockchain
+                const obj = await config.getSemester(id);
+
+                // Compare set values with saved values
+                assert.equal(obj[0], "test")
+                assert.equal(obj[1], 0)
+                assert.equal(obj[2], 1)
+
+                // Create new assignment
+                var assignment_id = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F");
+
+                // Get new assignment
+                const assignment_obj = await config.getAssignment(id, assignment_id);
+
+                // Compare saved values with set values
+                assert.equal(assignment_obj[0], "test")
+                assert.equal(assignment_obj[1], "test_link")
+                assert.equal(assignment_obj[2], "0x720888250810885B45E5C6407EB5A9fBD5CdD38F")
+            });
+
+            it("should correctly delete assignment", async function () {
+                // Create config class with config path
+                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+
+                // Create new semester
+                var id = await config.appendSemester("test", 0, 1);
+
+                // Get semester from blockchain
+                const obj = await config.getSemester(id);
+
+                // Compare set values with saved values
+                assert.equal(obj[0], "test")
+                assert.equal(obj[1], 0)
+                assert.equal(obj[2], 1)
+
+                // Create new assignment
+                var assignment_id = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F");
+
+                // Get new assignment
+                const assignment_obj = await config.getAssignment(id, assignment_id);
+
+                // Compare saved values with set values
+                assert.equal(assignment_obj[0], "test")
+                assert.equal(assignment_obj[1], "test_link")
+                assert.equal(assignment_obj[2], "0x720888250810885B45E5C6407EB5A9fBD5CdD38F")
+
+                // Delete created assignment
+                await config.deleteAssignment(id, assignment_id);
+
+                // Get new assignment
+                const deleted_obj = await config.getAssignment(id, assignment_id);
+
+                // Compare saved values with set values
+                assert.equal(deleted_obj[0], "")
+                assert.equal(deleted_obj[1], "")
+                assert.equal(deleted_obj[2], "0x0000000000000000000000000000000000000000")
+            });
+        })
+
         it("load non existing file", async function () {
             try {
                 // Create config class with config path using non existing PATH

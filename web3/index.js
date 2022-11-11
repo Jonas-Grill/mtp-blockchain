@@ -55,11 +55,11 @@ app.post(api_prefix + '/account/send_gas', async (req, res) => {
   try {
     await account.send_gas(config.getCoinbaseAddress, to)
     res.status(200)
-    res.send('Successfully send ether!');
+    res.send({ "success": true })
   }
   catch (err) {
     res.status(500)
-    res.send(err.message);
+    res.send(res.send({ "success": false, "error": err.message }));
   }
 });
 
@@ -71,11 +71,11 @@ app.post(api_prefix + '/config/faucet_gas', async (req, res) => {
   try {
     await config.setFaucetGas(address, faucet_gas)
     res.status(200)
-    res.send('Successfully set faucet gas value!');
+    res.send({ "success": true })
   }
   catch (err) {
     res.status(500)
-    res.send(err.message);
+    res.send(res.send({ "success": false, "error": err.message }));
   }
 });
 
@@ -84,11 +84,11 @@ app.get(api_prefix + '/config/faucet_gas', async (req, res) => {
   try {
     const faucet_gas = await config.getFreshFaucetGas()
     res.status(200)
-    res.send({ 'faucet_gas': faucet_gas });
+    res.send({ "success": true, "faucet_gas": faucet_gas })
   }
   catch (err) {
     res.status(500)
-    res.send(err.message);
+    res.send(res.send({ "success": false, "error": err.message }));
   }
 });
 
@@ -100,11 +100,11 @@ app.post(api_prefix + '/config/faucet_blockno_difference', async (req, res) => {
   try {
     await config.setFaucetBlockNoDifference(address, faucet_blockno_difference)
     res.status(200)
-    res.send('Successfully set faucet block number difference value!');
+    res.send({ "success": true })
   }
   catch (err) {
     res.status(500)
-    res.send(err.message);
+    res.send(res.send({ "success": false, "error": err.message }));
   }
 });
 
@@ -113,17 +113,244 @@ app.get(api_prefix + '/config/faucet_blockno_difference', async (req, res) => {
   try {
     const faucet_blockno_difference = await config.getFreshFaucetBlockNoDifference()
     res.status(200)
-    res.send({ 'faucet_blockno_difference': faucet_blockno_difference });
+    res.send({ "success": true, "faucet_blockno_difference": faucet_blockno_difference })
   }
   catch (err) {
     res.status(500)
-    res.send(err.message);
+    res.send(res.send({ "success": false, "error": err.message }));
   }
 });
 
-// ---------------------------------------------------------------------------------
-// - Assignments
-// ---------------------------------------------------------------------------------
+
+/*=============================================
+=               Semester Config               =
+=============================================*/
+
+// Append new semester
+app.post(api_prefix + '/config/semester', async (req, res) => {
+  var name = req.body["name"]
+  var start_block = req.body["start_block"]
+  var end_block = req.body["end_block"]
+
+  try {
+    var id = await config.appendSemester(name, start_block, end_block)
+    res.status(200)
+    res.send({ "success": true, "id": id })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+// Get semester
+app.get(api_prefix + '/config/semester', async (req, res) => {
+  var id = req.body["id"]
+
+  try {
+    var semester = await config.getSemester(id)
+    res.status(200)
+    res.send({ "success": true, "semester": { "name": semester[0], "start_block": semester[1], "end_block": semester[2] } })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+// Delete semester
+app.delete(api_prefix + '/config/semester', async (req, res) => {
+  var id = req.body["id"]
+
+  try {
+    var semester = await config.deleteSemester(id)
+    res.status(200)
+    res.send({ "success": true })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+
+/*----------  Setter  ----------*/
+
+// Set semester name
+app.post(api_prefix + '/config/semester/name', async (req, res) => {
+  var id = req.body["id"]
+
+  var name = req.body["name"]
+
+  try {
+    await config.set_semester_name(id, name)
+    res.status(200)
+    res.send({ "success": true })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+// Set semester start block
+app.post(api_prefix + '/config/semester/start_block', async (req, res) => {
+  var id = req.body["id"]
+
+  var start_block = req.body["start_block"]
+
+  try {
+    await config.set_semester_start_block(id, start_block)
+    res.status(200)
+    res.send({ "success": true })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+// Set semester end block
+app.post(api_prefix + '/config/semester/end_block', async (req, res) => {
+  var id = req.body["id"]
+
+  var end_block = req.body["end_block"]
+
+  try {
+    await config.set_semester_end_block(id, end_block)
+    res.status(200)
+    res.send({ "success": true })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+/*=====     End of Semester Config     ======*/
+
+
+
+
+/*=============================================
+=            Assignment Config                =
+=============================================*/
+
+// Append new assignment
+app.post(api_prefix + '/config/assignment', async (req, res) => {
+  var semester_id = req.body["semester_id"]
+  var name = req.body["name"]
+  var link = req.body["link"]
+  var validation_contract_address = req.body["validation_contract_address"]
+
+  try {
+    var id = await config.appendAssignment(semester_id, name, link, validation_contract_address)
+    res.status(200)
+    res.send({ "success": true, "id": id })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+// Get assignment
+app.get(api_prefix + '/config/assignment', async (req, res) => {
+  var semester_id = req.body["semester_id"]
+  var assignment_id = req.body["assignment_id"]
+
+  try {
+    var assignment = await config.getAssignment(semester_id, assignment_id)
+    res.status(200)
+    res.send({ "success": true, "semester": { "name": assignment[0], "link": assignment[1], "validation_contract_address": assignment[2] } })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+// Delete assignment
+app.delete(api_prefix + '/config/assignment', async (req, res) => {
+  var semester_id = req.body["semester_id"]
+  var assignment_id = req.body["assignment_id"]
+
+  try {
+    await config.deleteAssignment(semester_id, assignment_id)
+    res.status(200)
+    res.send({ "success": true })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+
+/*----------  Setter  ----------*/
+
+// Set assignment name
+app.post(api_prefix + '/config/assignment/name', async (req, res) => {
+  var semester_id = req.body["semester_id"]
+  var assignment_id = req.body["assignment_id"]
+
+  var name = req.body["name"]
+
+  try {
+    await config.set_assignment_name(semester_id, assignment_id, name)
+    res.status(200)
+    res.send({ "success": true })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+// Set assignment link
+app.post(api_prefix + '/config/assignment/link', async (req, res) => {
+  var semester_id = req.body["semester_id"]
+  var assignment_id = req.body["assignment_id"]
+
+  var link = req.body["link"]
+
+  try {
+    await config.set_assignment_link(semester_id, assignment_id, link)
+    res.status(200)
+    res.send({ "success": true })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+// Set assignment address
+app.post(api_prefix + '/config/assignment/address', async (req, res) => {
+  var semester_id = req.body["semester_id"]
+  var assignment_id = req.body["assignment_id"]
+
+  var address = req.body["address"]
+
+  try {
+    await config.set_assignment_address(semester_id, assignment_id, address)
+    res.status(200)
+    res.send({ "success": true })
+  }
+  catch (err) {
+    res.status(500)
+    res.send(res.send({ "success": false, "error": err.message }));
+  }
+});
+
+/*=====  End of Assignment Config      ======*/
+
+
+
+
+/*=============================================
+=            Assignments            =
+=============================================*/
 
 // Run validator for test assignment
 app.post(api_prefix + '/assignments/assignment_test', async (req, res) => {
@@ -133,13 +360,19 @@ app.post(api_prefix + '/assignments/assignment_test', async (req, res) => {
 
     const result = await assignments.run_test_assignment(student_address, contract_address)
     res.status(200)
-    res.send({ 'test_results': result });
+    res.send({ "success": true, "result": result })
   }
   catch (err) {
     res.status(500)
-    res.send(err.message);
+    res.send(res.send({ "success": false, "error": err.message }));
   }
 });
+
+/*=====  End of Assignments  ======*/
+
+
+
+
 
 app.listen(PORT, HOST, () => {
   console.log(`Running on http://${HOST}:${PORT}`);

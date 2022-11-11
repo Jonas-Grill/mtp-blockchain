@@ -41,6 +41,8 @@ class Config {
             from: this.coinbaseAddress,
         });
 
+        configStorageContract.options.gas = 5000000
+
         return configStorageContract;
     }
 
@@ -126,6 +128,11 @@ class Config {
         }
     }
 
+
+    /*=============================================
+    =            Faucet Block Difference            =
+    =============================================*/
+
     /**
     * Getter for faucet block no difference
     */
@@ -143,6 +150,178 @@ class Config {
         const configStorageContract = await this.getConfigStorage()
         await configStorageContract.methods.setIntValue("faucetBlockNoDifference", _faucetBlockNoDifference).send({ from: _address });
     }
+
+    /*=====  End of Faucet Block Difference  ======*/
+
+
+    /*=======================================================
+    =                     Semester Config                   =
+    =========================================================*/
+
+    /**
+     * Append new semester
+     * 
+     * @param {string} _name Name of the semester (e.g. SS22)
+     * @param {int} _start_block Start block of semester
+     * @param {int} _end_block End block of semester
+     * @returns Returns id of the semester
+     */
+    async appendSemester(_name, _start_block, _end_block) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.appendSemester(_name, _start_block, _end_block).send({ from: this.coinbaseAddress });
+
+        return await configStorageContract.methods.getSemesterCounter().call();
+    }
+
+    /**
+     * Return semester config by id 
+     *
+     * @param {int} _id Id of the semester
+     * @returns Returns semester
+     */
+    async getSemester(_id) {
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.getSemester(_id).call({ from: this.coinbaseAddress });
+    }
+
+    /**
+     * Delete semester config by id 
+     *
+     * @param {int} _id Id of the semester
+     */
+    async deleteSemester(_id) {
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.deleteSemester(_id).send({ from: this.coinbaseAddress });
+    }
+
+
+    /*----------  Setter  ----------*/
+
+    /**
+     * Set semester name to new value 
+     *
+     * @param {int} id Id of semester
+     * @param {string} name New name of semester
+     */
+    async set_semester_name(id, name) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setSemesterName(id, name).send({ from: this.coinbaseAddress });
+    }
+
+    /**
+     * Set semester start block to new value 
+     * 
+     * @param {int} id Id of semester
+     * @param {int} start_block New start block of semester
+     */
+    async set_semester_start_block(id, start_block) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setSemesterStartBlock(id, start_block).send({ from: this.coinbaseAddress });
+    }
+
+    /**
+     * Set semester end block to new value
+     * 
+     * @param {int} id Id of semester
+     * @param {int} end_block New end block of semester
+     */
+    async set_semester_end_block(id, end_block) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setSemesterEndBlock(id, end_block).send({ from: this.coinbaseAddress });
+    }
+
+    /*============  End of Semester Config  =============*/
+
+
+
+    /*=============================================
+    =              Assignment Config              =
+    =============================================*/
+
+    /**
+     * Append new assignment to semester 
+     *
+     * @param {int} _semester_id Id of the semester the assignment should be appeneded
+     * @param {string} _name Name of the semester
+     * @param {string} _link Link to the assignment
+     * @param {string} _validationContractAddress Address of the validation contract
+     * @returns Returns id of the assignment
+     */
+    async appendAssignment(_semester_id, _name, _link, _validationContractAddress) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.appendAssignment(_semester_id, _name, _link, _validationContractAddress).send({ from: this.coinbaseAddress });
+
+        return await configStorageContract.methods.getAssignmentCounter(_semester_id).call();
+    }
+
+    /**
+     * Returns assignment config by id
+     * 
+     * @param {int} _semester_id Id of the semester
+     * @param {int} _assignment_id Id of the assignment
+     * @returns Returns assignment
+     */
+    async getAssignment(_semester_id, _assignment_id) {
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.getAssignment(_semester_id, _assignment_id).call({ from: this.coinbaseAddress });
+    }
+
+    /**
+     * Delete assignment config by id
+     * 
+     * @param {int} _semester_id Id of the semester
+     * @param {int} _assignment_id Id of the assignment
+     */
+    async deleteAssignment(_semester_id, _assignment_id) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.deleteAssignment(_semester_id, _assignment_id).send({ from: this.coinbaseAddress });
+    }
+
+
+    /*----------  Setter  ----------*/
+
+    /**
+     * Set assignment name to new value 
+     *
+     * @param {int} _semester_id Id of the semester
+     * @param {int} _assignment_id Id of the assignment
+     * @param {string} name New name of assignment
+     */
+    async set_assignment_name(_semester_id, _assignment_id, name) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setAssignmentName(_semester_id, _assignment_id, name).send({ from: this.coinbaseAddress });
+    }
+
+    /**
+     * Set assignment link to new value 
+     * 
+     * @param {int} _semester_id Id of the semester
+     * @param {int} _assignment_id Id of the assignment
+     * @param {int} link New link of assignment
+     */
+    async set_assignment_link(_semester_id, _assignment_id, link) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setAssignmentLink(_semester_id, _assignment_id, link).send({ from: this.coinbaseAddress });
+    }
+
+    /**
+     * Set assignment address to new value
+     * 
+     * @param {int} _semester_id Id of the semester
+     * @param {int} _assignment_id Id of the assignment
+     * @param {int} address New address of validation assignment smart contract
+     */
+    async set_assignment_address(_semester_id, _assignment_id, address) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setAssignmentAddress(_semester_id, _assignment_id, address).send({ from: this.coinbaseAddress });
+    }
+
+
+    /*=====  End of Assignment Config  ======*/
+
+
+
+
 }
 
 // export config class

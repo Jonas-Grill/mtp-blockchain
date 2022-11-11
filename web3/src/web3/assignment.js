@@ -33,8 +33,6 @@ class UniMaAssignments {
             from: deploy_address,
         });
 
-        console.log(bool_array);
-
         return bool_array;
     }
 }
