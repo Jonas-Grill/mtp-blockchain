@@ -47,7 +47,7 @@ class Config {
     /**
      * Enforce refresh of the smart contracts variables
      */
-    async parseSmartContractConfig() {
+    async refreshSmartContractConfig() {
         await this.getFreshFaucetGas()
         await this.getFreshFaucetBlockNoDifference()
     }
@@ -79,8 +79,6 @@ class Config {
         const configStorageContract = await this.getConfigStorage()
 
         this.faucetGas = await configStorageContract.methods.getIntValue("faucetGas").call({ from: this.coinbaseAddress });
-
-        console.log("GAS: " + this.faucetGas)
 
         if (val == _default) {
             return this.faucetGas;

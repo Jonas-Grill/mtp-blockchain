@@ -48,7 +48,8 @@ class UniMaUtils {
     /**
      * Returns the address of the smart contract
      * 
-     * @param {string} contract_name name of the json contract file without the json suffix 
+     * @param {string} contract_name name of the json contract file without the json suffix     
+     * @param {int} network_id Id of the network the blockchain is running on
      * @returns contract address
      */
     get_contract_address(contract_name, network_id) {
@@ -63,6 +64,7 @@ class UniMaUtils {
      * @param {web3} web3 web3 instance to connect to blockchain
      * @param {string} contract_name Name of the contract to return
      * @param {string} from_address Address the contract should be executed from
+     * @param {int} network_id Id of the network the blockchain is running on
      * @returns 
      */
     get_contract(web3, contract_name, from_address, network_id) {
