@@ -15,3 +15,6 @@
 # Built Visual Studio Code Extensions
 *.vsix
 .vscode/launch.json
+
+# Ignore truffle compiled
+smart-contracts/build/contracts
