@@ -7,7 +7,8 @@ class Config {
 
         // Parse json config
         this.rpcURL = config["rpcURL"];
-        this.coinbaseAdress = config["coinbaseAdress"];
+        this.coinbaseAddress = config["coinbaseAddress"];
+        this.networkId = config["networkId"];
 
         // Connect to web3
 
@@ -37,15 +38,16 @@ class Config {
 
         // Get configStorageContract using coinbase address
         var configStorageContract = new this.web3.eth.Contract(abi, config_storage_address, {
-            from: this.coinbaseAdress,
+            from: this.coinbaseAddress,
         });
 
         return configStorageContract;
     }
 
+    /**
+     * Enforce refresh of the smart contracts variables
+     */
     async parseSmartContractConfig() {
-        const configStorageContract = await this.getConfigStorage()
-
         await this.getFreshFaucetGas()
         await this.getFreshFaucetBlockNoDifference()
     }
@@ -54,12 +56,16 @@ class Config {
         return this.rpcURL;
     }
 
-    get getCoinbaseAdress() {
-        return this.coinbaseAdress;
+    get getCoinbaseAddress() {
+        return this.coinbaseAddress;
     }
 
-    set setCoinbaseAddress(coinbase_adress) {
-        this.coinbaseAdress = coinbase_adress;
+    get getNetworkId() {
+        return this.networkId;
+    }
+
+    set setCoinbaseAddress(coinbase_address) {
+        this.coinbaseAddress = coinbase_address;
     }
 
     /**
@@ -72,7 +78,7 @@ class Config {
     async getFreshFaucetGas(val = -1, _default = -1) {
         const configStorageContract = await this.getConfigStorage()
 
-        this.faucetGas = await configStorageContract.methods.getIntValue("faucetGas").call({ from: this.coinbaseAdress });
+        this.faucetGas = await configStorageContract.methods.getIntValue("faucetGas").call({ from: this.coinbaseAddress });
 
         console.log("GAS: " + this.faucetGas)
 
@@ -112,7 +118,7 @@ class Config {
     async getFreshFaucetBlockNoDifference(val = -1, _default = -1) {
         const configStorageContract = await this.getConfigStorage()
 
-        this.faucetBlockNoDifference = await configStorageContract.methods.getIntValue("faucetBlockNoDifference").call({ from: this.coinbaseAdress });
+        this.faucetBlockNoDifference = await configStorageContract.methods.getIntValue("faucetBlockNoDifference").call({ from: this.coinbaseAddress });
 
         if (val == _default) {
             return this.faucetBlockNoDifference;
