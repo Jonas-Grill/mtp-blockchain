@@ -54,6 +54,8 @@ class UniMaUtils {
     get_contract_address(contract_name, network_id) {
         const deployedNetwork = this.get_contract_json(contract_name).networks[network_id];
 
+        console.log("deployedNetwork: " + deployedNetwork)
+
         return deployedNetwork.address;
     }
 
@@ -64,7 +66,7 @@ class UniMaUtils {
      * @param {string} contract_name Name of the contract to return
      * @param {string} from_address Address the contract should be executed from
      * @param {int} network_id Id of the network the blockchain is running on
-     * @returns 
+     * @returns Interface from the smart contract 
      */
     get_contract(web3, contract_name, from_address, network_id) {
         // faucet storage abi
@@ -80,5 +82,5 @@ class UniMaUtils {
     }
 }
 
-// export utils class
+// export unima class
 module.exports = { UniMaUtils };
