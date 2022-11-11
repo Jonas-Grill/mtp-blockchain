@@ -3,7 +3,8 @@ const configHandler = require('../src/web3/config')
 var assert = require('assert');
 
 const rpcUrl = "http://localhost:8545"
-const coinbaseAdress = "0x917441412223Ac1104617Ca07ca9853504BEA5d0"
+const coinbaseAddress = "0x917441412223Ac1104617Ca07ca9853504BEA5d0"
+const networkId = "1337"
 const faucetGas = "10"
 const faucetBlockNoDifference = "10"
 
@@ -21,11 +22,17 @@ describe("test", async function () {
             assert.equal(config.getRpcUrl, rpcUrl)
         })
 
-        it("should get correct coinbase adress", async function () {
+        it("should get correct coinbase address", async function () {
             // Create config class with config path
             const config = new configHandler.Config(__dirname + "/config/test-config.json")
 
-            assert.equal(config.getCoinbaseAdress, coinbaseAdress)
+            assert.equal(config.getCoinbaseAddress, coinbaseAddress)
+        })
+        it("should get correct network id", async function () {
+            // Create config class with config path
+            const config = new configHandler.Config(__dirname + "/config/test-config.json")
+
+            assert.equal(config.networkId, networkId)
         })
 
         it("should get fresh faucet gas amount", async function () {

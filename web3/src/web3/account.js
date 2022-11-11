@@ -31,13 +31,13 @@ class UniMaAccount {
     }
 
     /**
-     * Send gas from adress to adress
+     * Send gas from address to address
      *  > Set default for _gas_ and _blockNumberDifference_ to -1. -1 will be replaced with the default value
      *  which is saved in the smart contract.  
      * 
-     * @param {string} from coinbase adress which holds the eth/gas 
-     * @param {string} to receiver adress which needs the eth/gas
-     * @param {int} gas amount of eth/gas to send to receiver adress (default: -1)
+     * @param {string} from coinbase address which holds the eth/gas 
+     * @param {string} to receiver address which needs the eth/gas
+     * @param {int} gas amount of eth/gas to send to receiver address (default: -1)
      * @param {int} blockNumberDifference block no differen between current block and last faucet usage (default: -1)
      */
     async send_gas(from, to, gas = -1, blockNumberDifference = -1) {
@@ -52,24 +52,15 @@ class UniMaAccount {
         gas = await this.config.getFreshFaucetGas(gas)
         blockNumberDifference = await this.config.getFreshFaucetBlockNoDifference(blockNumberDifference)
 
-        // Make sure the coinbase adress and the recipient adress are both valid
+        // Make sure the coinbase address and the recipient address are both valid
         if (this.web3.utils.isAddress(from) && this.web3.utils.isAddress(to)) {
 
-            // faucet storage abi
-            const abi = this.utils.get_contract_abi("FaucetStorage")
-
-            // address from FaucetStorage contract
-            const network_id = await this.web3.eth.net.getId();
-            const faucet_storage_address = this.utils.get_contract_address("FaucetStorage", network_id)
-
-            // Get faucetStorageContract using coinbase address
-            var faucetStorageContract = new this.web3.eth.Contract(abi, faucet_storage_address, {
-                from: this.config.getCoinbaseAdress,
-            });
+            // Get FaucetStorage smart-contract using coinbase address
+            var faucetStorageContract = this.utils.get_contract(this.web3, "FaucetStorage", this.config.getCoinbaseAddress, this.config.getNetworkId)
 
             // Get faucet object (blockNo, timestamp) given address 
             var faucetObject = await faucetStorageContract.methods.getFaucetUsage(to).call({
-                from: this.config.getCoinbaseAdress,
+                from: this.config.getCoinbaseAddress,
             });
 
             // Get current block number
@@ -80,7 +71,7 @@ class UniMaAccount {
             // - 1. Faucet never used
             // - 2. Current block number is higher/equal to old block number plus offset
             if (faucetObject.blockNo == 0 || (Number(faucetObject.blockNo) + Number(blockNumberDifference)) <= block_id_1) {
-                // get balance from coinbase adress
+                // get balance from coinbase address
                 var wei = await this.web3.eth.getBalance(from)
 
                 // Transform wei to ether (1 ether = 1000000000000000000 wei)
@@ -102,14 +93,14 @@ class UniMaAccount {
                     let block2 = await this.web3.eth.getBlock("latest")
 
                     await faucetStorageContract.methods.addFaucetUsage(to, Number(block2.number)).send({
-                        from: this.config.getCoinbaseAdress,
+                        from: this.config.getCoinbaseAddress,
                     });
 
                     console.log(`Successfully send ${gas} ether to '${to}' from '${from}'.`)
                 }
                 else {
-                    console.log(`Coinbase adress do not has enough gas to send.`)
-                    throw new Error("Coinbase adress do not has enough gas to send.")
+                    console.log(`Coinbase address do not has enough gas to send.`)
+                    throw new Error("Coinbase address do not has enough gas to send.")
                 }
             }
             else {
@@ -118,8 +109,8 @@ class UniMaAccount {
             }
         }
         else {
-            console.log(`Either the from or the to adress is not a valid adress.`)
-            throw new Error("Either the from or the to adress is not a valid adress.")
+            console.log(`Either the from or the to address is not a valid address.`)
+            throw new Error("Either the from or the to address is not a valid address.")
         }
     }
 
@@ -132,21 +123,21 @@ class UniMaAccount {
      * 
      * > Explanation: 
      *  The approach is a heuristic approach looping over all blocks and their transactions and 
-     *  removing or adding the send/received balance to the most current balance from the adress. 
+     *  removing or adding the send/received balance to the most current balance from the address. 
      *  If the balance is 0 the process can be stopped. Because no further transactions are 
      *  possible. Balance **cannot** be lower than 0. 
      * 
-     * @param {adress} adress eth adress from where to get first transaction
+     * @param {address} address eth address from where to get first transaction
      * @returns transaction object or empty dict if no first transaction
      */
-    async get_first_transaction(adress) {
+    async get_first_transaction(address) {
         var currentBlock = await this.web3.eth.getBlockNumber();
-        var n = await this.web3.eth.getTransactionCount(adress, currentBlock);
-        var bal = await this.web3.eth.getBalance(adress, currentBlock);
+        var n = await this.web3.eth.getTransactionCount(address, currentBlock);
+        var bal = await this.web3.eth.getBalance(address, currentBlock);
 
         var trx_object = {}
 
-        // Loop over all blocks in a desc order IFF blocknumer is > 0 and balance from adress > 0
+        // Loop over all blocks in a desc order IFF blocknumer is > 0 and balance from address > 0
         for (var i = currentBlock; i >= 0 && (n > 0 || bal > 0); --i) {
             try {
                 // get current block i
@@ -155,19 +146,19 @@ class UniMaAccount {
                 if (block && block.transactions) {
                     // loop over all the transactions from this block
                     block.transactions.forEach(function (e) {
-                        // if adress is the sender --> a transaction with this adress occured
-                        if (adress == e.from) {
+                        // if address is the sender --> a transaction with this address occured
+                        if (address == e.from) {
                             if (e.from != e.to)
-                                // add balance to adress
+                                // add balance to address
                                 bal = bal + Number(e.value);
 
                             trx_object = e;
                             --n;
                         }
-                        // if the adress is the receiver --> a transaction with this adress occured
-                        if (adress == e.to) {
+                        // if the address is the receiver --> a transaction with this address occured
+                        if (address == e.to) {
                             if (e.from != e.to)
-                                // remove balance from adress
+                                // remove balance from address
                                 bal = bal - Number(e.value);
 
                             trx_object = e;
@@ -188,13 +179,13 @@ class UniMaAccount {
      * 
      * Source: https://ethereum.stackexchange.com/questions/8900/how-to-get-transactions-by-account-using-web3-js
      * 
-     * @param {string} adress adress to check for first event transaction
+     * @param {string} address address to check for first event transaction
      * @returns transaction object or empty dict if no first transaction
      */
-    async get_first_event_transaction(adress) {
+    async get_first_event_transaction(address) {
         var trx_object = {}
 
-        web3.eth.getPastLogs({ fromBlock: '0x0', address: adress })
+        web3.eth.getPastLogs({ fromBlock: '0x0', address: address })
             .then(res => {
                 res.forEach(rec => {
                     trx_object = rec
@@ -208,12 +199,12 @@ class UniMaAccount {
     }
 
     /**
-     * Return amount of UniMa Coins from adress
+     * Return amount of UniMa Coins from address
      * 
-     * @param {string} adress adress to check for first event transaction
+     * @param {string} address address to check for first event transaction
      * @returns amount of UniMa Coins
      */
-    async get_unima_coins(adress) {
+    async get_unima_coins(address) {
         // Placeholder function to return amount of UniMa Coins
         return 0;
     }

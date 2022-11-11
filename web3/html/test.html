@@ -5,8 +5,8 @@
 
 <div class="container">
     <h1>Send Gas</h1>
-    <label for="to_adress" class="col-lg-2 control-label">Public Adress:</label>
-    <input id="to_adress" type="text" value="0x9f8fD6722f8f74c9942d0751374a542F5847BfD1" />
+    <label for="to_address" class="col-lg-2 control-label">Public address:</label>
+    <input id="to_address" type="text" value="0x9f8fD6722f8f74c9942d0751374a542F5847BfD1" />
     <br />
 
     <button id="btn-test" class="btn btn-default .btn-create" type="button">Send gas</button>
@@ -14,9 +14,9 @@
 
 <script>
     $('#btn-test').click(function () {
-        adressStr = document.querySelector('#to_adress').value
+        addressStr = document.querySelector('#to_address').value
 
-        $.post('/api/v1/account/send_gas', { adress: adressStr }, function (data) {
+        $.post('/api/v1/account/send_gas', { address: addressStr }, function (data) {
             alert(data)
         });
     });

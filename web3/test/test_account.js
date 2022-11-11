@@ -60,10 +60,10 @@ describe("test", function () {
                     assert.notEqual(Number(newWeiFrom), Number(oldWeiFrom))
                     assert.notEqual(Number(newWeiTo), Number(oldWeiTo))
 
-                    // Make sure that the to adress has 1 eth more
+                    // Make sure that the to address has 1 eth more
                     assert.equal(Number(newWeiTo), expectedNewWeiTo)
 
-                    // Because the from adress has to pay a fee we just check that their balance is lower than (old balance - 1 eth)
+                    // Because the from address has to pay a fee we just check that their balance is lower than (old balance - 1 eth)
                     chaiAssert.isAtMost(Number(expectedNewWeiFrom), Number(oldWeiFrom), "New wei ist at most the old wei - 1 eth")
                 });
             });
@@ -84,15 +84,15 @@ describe("test", function () {
                 }
                 catch (err) {
                     error_occured = true
-                    assert.equal(err, "Error: Coinbase adress do not has enough gas to send.")
+                    assert.equal(err, "Error: Coinbase address do not has enough gas to send.")
                 }
                 assert.equal(error_occured, true)
             });
-            it("should not send gas, because _from adress is not valid", async function () {
+            it("should not send gas, because _from address is not valid", async function () {
 
                 account = new accountHandler.UniMaAccount(config_path = path)
 
-                var from = "wrong_adress"
+                var from = "wrong_address"
                 var to = accounts[1]
 
                 error_occured = false
@@ -102,17 +102,17 @@ describe("test", function () {
                 }
                 catch (err) {
                     error_occured = true
-                    assert.equal(err, "Error: Either the from or the to adress is not a valid adress.")
+                    assert.equal(err, "Error: Either the from or the to address is not a valid address.")
                 }
                 assert.equal(error_occured, true)
             });
-            it("should not send gas, because _to adress is not valid", async function () {
+            it("should not send gas, because _to address is not valid", async function () {
 
                 account = new accountHandler.UniMaAccount(config_path = path)
                 account.config.setCoinbaseAddress = accounts[0];
 
                 var from = accounts[0]
-                var to = "wrong_adress"
+                var to = "wrong_address"
 
                 error_occured = false
                 // Set gas really high so that the from account doesn't have enough eth/gas
@@ -121,7 +121,7 @@ describe("test", function () {
                 }
                 catch (err) {
                     error_occured = true
-                    assert.equal(err, "Error: Either the from or the to adress is not a valid adress.")
+                    assert.equal(err, "Error: Either the from or the to address is not a valid address.")
                 }
 
                 assert.equal(error_occured, true)
@@ -173,10 +173,10 @@ describe("test", function () {
             // Get first trx from account without trxs -> expect error
             it("should get no first transaction from account without transactions", async function () {
                 // Generate fresh account
-                adress = await web3.eth.personal.newAccount('test')
-                console.log(adress)
+                address = await web3.eth.personal.newAccount('test')
+                console.log(address)
 
-                trx = await account.get_first_transaction(adress)
+                trx = await account.get_first_transaction(address)
 
                 // make sure that the trx is empty, therefore no transactions for this account
                 assert.equal(Object.keys(trx).length === 0, true)

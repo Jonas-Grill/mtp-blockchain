@@ -10,6 +10,10 @@ const accountHandler = require(__dirname + '/src/web3/account')
 // account
 const configHandler = require(__dirname + '/src/web3/config')
 
+// assignments
+const assignmentsHandler = require(__dirname + '/src/web3/assignment')
+
+
 // Prepare config path
 var configPath = ""
 if (process.env.ENV == "test") {
@@ -21,6 +25,9 @@ else {
 
 // Create config class with config path
 const config = new configHandler.Config(configPath)
+
+// Create assignments
+const assignments = new assignmentsHandler.UniMaAssignments(configPath);
 
 // Constants
 const PORT = 8080;
@@ -46,7 +53,7 @@ app.post(api_prefix + '/account/send_gas', async (req, res) => {
   var to = req.body["address"]
 
   try {
-    await account.send_gas(config.getCoinbaseAdress, to)
+    await account.send_gas(config.getCoinbaseAddress, to)
     res.status(200)
     res.send('Successfully send ether!');
   }
@@ -107,6 +114,26 @@ app.get(api_prefix + '/config/faucet_blockno_difference', async (req, res) => {
     const faucet_blockno_difference = await config.getFreshFaucetBlockNoDifference()
     res.status(200)
     res.send({ 'faucet_blockno_difference': faucet_blockno_difference });
+  }
+  catch (err) {
+    res.status(500)
+    res.send(err.message);
+  }
+});
+
+// ---------------------------------------------------------------------------------
+// - Assignments
+// ---------------------------------------------------------------------------------
+
+// Run validator for test assignment
+app.post(api_prefix + '/assignments/assignment_test', async (req, res) => {
+  try {
+    var student_address = req.body["student_address"]
+    var contract_address = req.body["contract_address"]
+
+    const result = await assignments.run_test_assignment(student_address, contract_address)
+    res.status(200)
+    res.send({ 'test_results': result });
   }
   catch (err) {
     res.status(500)
