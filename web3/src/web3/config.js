@@ -306,7 +306,7 @@ class Config {
 
     /**
      * Set assignment address to new value
-     * 
+     *  
      * @param {int} _semester_id Id of the semester
      * @param {int} _assignment_id Id of the assignment
      * @param {int} address New address of validation assignment smart contract
