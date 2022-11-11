@@ -316,12 +316,7 @@ class Config {
         await configStorageContract.methods.setAssignmentAddress(_semester_id, _assignment_id, address).send({ from: this.coinbaseAddress });
     }
 
-
     /*=====  End of Assignment Config  ======*/
-
-
-
-
 }
 
 // export config class

@@ -98,6 +98,10 @@ describe("test", async function () {
                 // Create config class with config path
                 const config = new configHandler.Config(__dirname + "/config/test-config.json")
 
+                // Set coinbase address
+                accounts = await ganache.get_account()
+                config.setCoinbaseAddress = accounts[0]
+
                 // Create new semester
                 var id = await config.appendSemester("test", 0, 1);
 
@@ -113,6 +117,10 @@ describe("test", async function () {
             it("should correctly delete semester", async function () {
                 // Create config class with config path
                 const config = new configHandler.Config(__dirname + "/config/test-config.json")
+
+                // Set coinbase address
+                accounts = await ganache.get_account()
+                config.setCoinbaseAddress = accounts[0]
 
                 // Create new semester
                 var id = await config.appendSemester("test", 0, 1);
@@ -142,24 +150,37 @@ describe("test", async function () {
                 // Create config class with config path
                 const config = new configHandler.Config(__dirname + "/config/test-config.json")
 
+                // Set coinbase address
+                accounts = await ganache.get_account()
+                config.setCoinbaseAddress = accounts[0]
+
                 // Create new semester
                 var id = await config.appendSemester("test", 0, 1);
 
-                // Get semester from blockchain
-                const obj = await config.getSemester(id);
+                // Set name to test2
+                await config.set_semester_name(id, "test2")
+                const obj1 = await config.getSemester(id)
+                assert.equal(obj1[0], "test2")
 
-                // Compare set values with saved values
-                assert.equal(obj[0], "test")
-                assert.equal(obj[1], 0)
-                assert.equal(obj[2], 1)
+                // Set start_block to test2
+                await config.set_semester_start_block(id, 999)
+                const obj2 = await config.getSemester(id)
+                assert.equal(obj2[1], 999)
 
-
+                // Set end_block to test2
+                await config.set_semester_end_block(id, 777)
+                const obj3 = await config.getSemester(id)
+                assert.equal(obj3[2], 777)
             });
         })
         describe("assignment", async function () {
             it("should correctly append assignment", async function () {
                 // Create config class with config path
                 const config = new configHandler.Config(__dirname + "/config/test-config.json")
+
+                // Set coinbase address
+                accounts = await ganache.get_account()
+                config.setCoinbaseAddress = accounts[0]
 
                 // Create new semester
                 var id = await config.appendSemester("test", 0, 1);
@@ -187,6 +208,10 @@ describe("test", async function () {
             it("should correctly delete assignment", async function () {
                 // Create config class with config path
                 const config = new configHandler.Config(__dirname + "/config/test-config.json")
+
+                // Set coinbase address
+                accounts = await ganache.get_account()
+                config.setCoinbaseAddress = accounts[0]
 
                 // Create new semester
                 var id = await config.appendSemester("test", 0, 1);
@@ -220,6 +245,37 @@ describe("test", async function () {
                 assert.equal(deleted_obj[0], "")
                 assert.equal(deleted_obj[1], "")
                 assert.equal(deleted_obj[2], "0x0000000000000000000000000000000000000000")
+            });
+
+            it("should correctly change assignment paramaters", async function () {
+                // Create config class with config path
+                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+
+                // Set coinbase address
+                accounts = await ganache.get_account()
+                config.setCoinbaseAddress = accounts[0]
+
+                // Create new semester
+                var id = await config.appendSemester("test", 0, 1);
+
+                // Create new assignment
+                var assignment_id = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F");
+
+                // Set name to test2
+                await config.set_assignment_name(id, assignment_id, "test2")
+                const obj1 = await config.getAssignment(id, assignment_id)
+                console.log(obj1)
+                assert.equal(obj1[0], "test2")
+
+                // Set start_block to test2
+                await config.set_assignment_link(id, assignment_id, "testlink")
+                const obj2 = await config.getAssignment(id, assignment_id)
+                assert.equal(obj2[1], "testlink")
+
+                // Set end_block to test2
+                await config.set_assignment_address(id, assignment_id, "0xb0a484f3e70b3cdF2CBa764808A9E147D4bCC1f2")
+                const obj3 = await config.getAssignment(id, assignment_id)
+                assert.equal(obj3[2], "0xb0a484f3e70b3cdF2CBa764808A9E147D4bCC1f2")
             });
         })
 

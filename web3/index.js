@@ -343,13 +343,10 @@ app.post(api_prefix + '/config/assignment/address', async (req, res) => {
   }
 });
 
-/*=====  End of Assignment Config      ======*/
-
-
-
+/*=====    End of Assignment Config    ======*/
 
 /*=============================================
-=            Assignments            =
+=                Assignments                  =
 =============================================*/
 
 // Run validator for test assignment
