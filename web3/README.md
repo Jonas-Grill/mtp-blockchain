@@ -3,6 +3,7 @@
 
 ## TODO:
 - [ ] Use JWT for authentication
+- [ ] Naming convention besser durchziehen manchmal camelcase manchmal mit underscore ... bad style
 
 ## Development Environment
 
