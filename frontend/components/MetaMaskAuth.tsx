@@ -51,8 +51,11 @@ export default function MetaMaskAuth({ onAddressChanged }) {
     }, [userAddress]);
 
     return userAddress ? (
-        <div>
-            Connected with <Address userAddress={userAddress} />
+        <div className="flex text-sm font-medium text-uni">
+            <div className="pr-2">
+                Connected with:
+            </div>
+             <Address userAddress={userAddress} />
         </div>
     ) : (
         <Connect setUserAddress={setUserAddress}/>
@@ -92,6 +95,6 @@ function Connect({ setUserAddress }) {
 
 function Address({ userAddress }) {
     return (
-        <span className="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-300 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2">{userAddress.substring(0, 5)}…{userAddress.substring(userAddress.length - 4)}</span>
+        <span className="">{userAddress.substring(0, 5)}…{userAddress.substring(userAddress.length - 4)}</span>
     );
 }
