@@ -1,3 +1,13 @@
 = First steps
 
-Get Metamask wallet
+== Get a Metamask wallet
+
+=== Why Metamask?
+
+Metamask is a crypto wallet, which is used to interact with the Ethereum Blockchain.
+With Metamask users can easily access their Ethereum wallet through a browser extension or a mobile app. Those can be used to interact with decentralized apps.
+
+=== Metamask Setup
+
+First you need to head to the Metamask website: https://metamask.io/.
+Now you need to navigate to the download options by clicking on the Download button in the top right corner.
