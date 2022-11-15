@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {FireIcon} from "@heroicons/react/20/solid";
 import Image from "next/image";
 
 function isMobileDevice() {
@@ -37,12 +36,10 @@ async function checkIfWalletIsConnected(onConnected) {
     }
 }
 
-
 export default function MetaMaskAuth({ onAddressChanged }) {
     const [userAddress, setUserAddress] = useState("");
 
     useEffect(() => {
-        console.log(window);
         checkIfWalletIsConnected(setUserAddress);
     }, []);
 
@@ -61,7 +58,6 @@ export default function MetaMaskAuth({ onAddressChanged }) {
         <Connect setUserAddress={setUserAddress}/>
     );
 }
-
 
 function Connect({ setUserAddress }) {
     if (typeof window !== "undefined") {
