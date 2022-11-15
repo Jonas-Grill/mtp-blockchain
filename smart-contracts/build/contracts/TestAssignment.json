@@ -17,8 +17,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -44,8 +43,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"getTestValue\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"int256\",\"name\":\"_value\",\"type\":\"int256\"}],\"name\":\"setTestValue\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"Example assignment for testing\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/TestAssignment.sol\":\"TestAssignment\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/TestAssignment.sol\":{\"keccak256\":\"0xcda49dbe8854d693439e00ff5fb206ed2ac5aa879e645d47863d7dca9fe0c979\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://34177f5b7c796cee1bc7ec562c8222d4957b2b3d06d4dce6447657c3bbbaa865\",\"dweb:/ipfs/QmQRNdxNLS38nhKwSVWpzCrC3hA3qt5rtDPWV8aJnWTDFK\"]}},\"version\":1}",
@@ -1492,8 +1490,7 @@
     }
   },
   "schemaVersion": "3.4.10",
-  "updatedAt": "2022-11-15T19:22:19.956Z",
-  "networkType": "ethereum",
+  "updatedAt": "2022-11-15T21:20:39.434Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
