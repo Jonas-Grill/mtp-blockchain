@@ -1,6 +1,10 @@
 # Web 3 App
 [![Test Web3](https://github.com/Jonas-Grill/mtp-blockchain/actions/workflows/test-web3.yml/badge.svg)](https://github.com/Jonas-Grill/mtp-blockchain/actions/workflows/test-web3.yml)
 
+## TODO:
+- [ ] Use JWT for authentication
+- [ ] Naming convention besser durchziehen manchmal camelcase manchmal mit underscore ... bad style
+
 ## Development Environment
 
 To use the web3 applications locally, the Ganache application is required. 
@@ -19,4 +23,4 @@ The API can be accessed and tested using the software postman. The configuration
 
 - File: `assets/postman/MTP Blockchain.postman_collection.json` > [link](assets/postman)
 
-Just import the json file into postman to access the API.
+Just import the json file into postman to access the API. 

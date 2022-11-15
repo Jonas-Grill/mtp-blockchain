@@ -14,14 +14,14 @@ const config = new configHandler.Config("../config/dev-config.json")
 const rpcURL = config.getRpcUrl
 const web3 = new Web3(rpcURL)
 
-// set coinbase adress
-const coinbase_adress = config.getCoinbaseAdress
+// set coinbase address
+const coinbase_address = config.getCoinbaseAddress
 
-// adress to which we want to send the ether
-const recipient_adress = "0x027EC434652921e35B5119A28768740A7B72DE5e"
+// address to which we want to send the ether
+const recipient_address = "0x027EC434652921e35B5119A28768740A7B72DE5e"
 
-//account.send_gas(coinbase_adress, recipient_adress, config.getInitialGasAmount)
+//account.send_gas(coinbase_address, recipient_address, config.getInitialGasAmount)
 
 account = new accountHandler.UniMaAccount()
 
-account.get_first_transaction("0x917441412223Ac1104617Ca07ca9853504BEA5d0")
+account.send_gas("0x917441412223Ac1104617Ca07ca9853504BEA5d0", "0x9f8fD6722f8f74c9942d0751374a542F5847BfD1")

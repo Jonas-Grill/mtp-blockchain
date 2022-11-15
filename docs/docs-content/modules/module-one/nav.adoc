@@ -1,2 +1,0 @@
-* xref:first.adoc[]
-* xref:applications.adoc[]

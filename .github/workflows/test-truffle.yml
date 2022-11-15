@@ -1,8 +1,8 @@
-name: Run web3 tests
+name: Run truffle tests
 on:
   push:
     paths:
-      - web3/**
+      - smart-contracts/**
 
 jobs:
   # Label of the container job
@@ -36,9 +36,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-          cache-dependency-path: "./web3/package-lock.json"
-      - run: cd web3 && npm ci
-      - run: cd web3 && npm run build --if-present
-      - run: cd smart-contracts && npx truffle compile
-      - run: cd smart-contracts && npx truffle migrate --reset --network development
-      - run: cd web3 && npm test
+          cache-dependency-path: "./smart-contracts/package-lock.json"
+      - run: npm ci
+        working-directory: smart-contracts
+      - run: npm run build --if-present
+        working-directory: smart-contracts
+      - run: npm test
+        working-directory: smart-contracts

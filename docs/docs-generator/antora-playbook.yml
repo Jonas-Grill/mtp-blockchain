@@ -3,9 +3,9 @@ site:
   start_page: documentation.yml-mtp-blockchain::index.adoc
 content:
   sources:
-  - url: ./../../
-    branches: feature/setup-docu
-    start_path: ./docs/docs-content
+    - url: ./../../
+      # branches: feature/setup-docu
+      start_path: ./docs/docs-content
 
 ui:
   bundle:
