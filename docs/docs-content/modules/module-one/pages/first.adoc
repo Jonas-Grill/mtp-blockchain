@@ -1,7 +1,3 @@
-ifdef::env-github[]
-:imagesdir: https://github.com/Jonas-Grill/mtp-blockchain/tree/metamask-setup-docu/docs/docs-content/modules/ROOT/images
-endif::[]
-
 = First steps
 
 == Get a Metamask wallet
