@@ -21,7 +21,7 @@ const { expect } = require('chai');
 var chaiAssert = chai.assert
 
 var path = ""
-if (process.env.ENV == "test") {
+if (process.env.NODE_ENV == "test") {
     path = __dirname + "/config/test-config.json"
 }
 else {

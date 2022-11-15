@@ -4,7 +4,8 @@
   "description": "Blockchain Project for University Mannheim",
   "main": "app.js",
   "scripts": {
-    "test": "mocha test --timeout 10000"
+    "test": "mocha test --timeout 10000",
+    "dev": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -20,8 +21,10 @@
   "dependencies": {
     "async": "^3.2.4",
     "chai": "^4.3.6",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "ganache": "^7.4.4",
+    "jsonwebtoken": "^8.5.1",
     "mocha": "^10.0.0",
     "truffle": "^5.6.4",
     "web3": "^1.8.0"

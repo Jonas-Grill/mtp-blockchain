@@ -13,6 +13,65 @@
 					"name": "account",
 					"item": [
 						{
+							"name": "jwt",
+							"item": [
+								{
+									"name": "validate_token",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/account/jwt/validate_token",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"account",
+												"jwt",
+												"validate_token"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "generate_token",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "address",
+													"value": "0x917441412223Ac1104617Ca07ca9853504BEA5d0",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/account/jwt/generate_token",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"account",
+												"jwt",
+												"generate_token"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "send_gas",
 							"event": [
 								{
@@ -27,7 +86,13 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "jwt_token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "urlencoded",
 									"urlencoded": [
@@ -74,7 +139,13 @@
 									],
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -123,7 +194,13 @@
 									},
 									"request": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -168,7 +245,13 @@
 									],
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -215,7 +298,13 @@
 									},
 									"request": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -248,7 +337,13 @@
 									"name": "append semester",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -289,7 +384,13 @@
 									},
 									"request": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -317,7 +418,13 @@
 									"name": "delete semester",
 									"request": {
 										"method": "DELETE",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -345,7 +452,13 @@
 									"name": "set name",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -379,7 +492,13 @@
 									"name": "set start_block",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -413,7 +532,13 @@
 									"name": "set end_block",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -452,7 +577,13 @@
 									"name": "append assignment",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -498,7 +629,13 @@
 									},
 									"request": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -531,7 +668,13 @@
 									"name": "delete assignment",
 									"request": {
 										"method": "DELETE",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -564,7 +707,13 @@
 									"name": "set name",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -603,7 +752,13 @@
 									"name": "set link",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -642,7 +797,13 @@
 									"name": "set address",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -688,7 +849,13 @@
 							"name": "assignment_test",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "jwt_token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "urlencoded",
 									"urlencoded": [
