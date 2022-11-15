@@ -4,6 +4,7 @@
   "description": "Blockchain Project for University Mannheim",
   "main": "app.js",
   "scripts": {
+    "start": "node index.js",
     "test": "mocha test --timeout 10000"
   },
   "repository": {

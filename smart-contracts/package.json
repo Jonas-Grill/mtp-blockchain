@@ -4,7 +4,8 @@
   "description": "Blockchain Project for University Mannheim",
   "main": "index.js",
   "scripts": {
-    "test": "truffle test"
+    "test": "truffle test",
+    "migrate": "truffle migrate"
   },
   "repository": {
     "type": "git",
