@@ -1,0 +1,735 @@
+{
+	"info": {
+		"_postman_id": "2660e0c6-af50-4b4e-93cc-486deb97af80",
+		"name": "MTP Blockchain",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6168343"
+	},
+	"item": [
+		{
+			"name": "api/v1",
+			"item": [
+				{
+					"name": "account",
+					"item": [
+						{
+							"name": "send_gas",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "address",
+											"value": "0x9625bF393F827954E8d9a78C756008B0D961Ace1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}{{api_prefix}}/account/send_gas",
+									"host": [
+										"{{url}}{{api_prefix}}"
+									],
+									"path": [
+										"account",
+										"send_gas"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "config",
+					"item": [
+						{
+							"name": "faucet_gas",
+							"item": [
+								{
+									"name": "post faucet_gas",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "address",
+													"value": "0x917441412223Ac1104617Ca07ca9853504BEA5d0",
+													"description": "Address of logged in person",
+													"type": "text"
+												},
+												{
+													"key": "faucet_gas",
+													"value": "1",
+													"description": "New faucet gas value",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/faucet_gas",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"faucet_gas"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get faucet_gas",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "adress",
+													"value": "0x9f8fD6722f8f74c9942d0751374a542F5847BfD1",
+													"type": "text",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/faucet_gas",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"faucet_gas"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "faucet_blockno_difference",
+							"item": [
+								{
+									"name": "post faucet_blockno_difference",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "address",
+													"value": "0x9f8fD6722f8f74c9942d0751374a542F5847BfD1",
+													"type": "text"
+												},
+												{
+													"key": "faucet_blockno_difference",
+													"value": "10",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/faucet_blockno_difference",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"faucet_blockno_difference"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get faucet_blockno_difference",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "adress",
+													"value": "0x9f8fD6722f8f74c9942d0751374a542F5847BfD1",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/faucet_blockno_difference",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"faucet_blockno_difference"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "semester",
+							"item": [
+								{
+									"name": "append semester",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "name",
+													"value": "test3",
+													"type": "text"
+												},
+												{
+													"key": "start_block",
+													"value": "10",
+													"type": "text"
+												},
+												{
+													"key": "end_block",
+													"value": "200",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/semester",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"semester"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get semester",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "id",
+													"value": "1",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/semester",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"semester"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete semester",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "id",
+													"value": "1",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/semester",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"semester"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "set name",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "name",
+													"value": "test2",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/semester/name",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"semester",
+												"name"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "set start_block",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "start_block",
+													"value": "100",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/semester/start_block",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"semester",
+												"start_block"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "set end_block",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "end_block",
+													"value": "100",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/semester/end_block",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"semester",
+												"end_block"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "assignment",
+							"item": [
+								{
+									"name": "append assignment",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "semester_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "name",
+													"value": "test10",
+													"type": "text"
+												},
+												{
+													"key": "link",
+													"value": "http://google.de",
+													"type": "text"
+												},
+												{
+													"key": "validation_contract_address",
+													"value": "0xb2d1633a67A36fFAbC7C98e7Ab2eCFb1d55F5fC8",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/assignment",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"assignment"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get assignment",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "semester_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "assignment_id",
+													"value": "1",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/assignment",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"assignment"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete assignment",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "semester_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "assignment_id",
+													"value": "1",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/assignment",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"assignment"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "set name",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "semester_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "assignment_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "name",
+													"value": "test2",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/assignment/name",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"assignment",
+												"name"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "set link",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "semester_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "assignment_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "link",
+													"value": "test2",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/assignment/link",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"assignment",
+												"link"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "set address",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "semester_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "assignment_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "address",
+													"value": "0x720888250810885B45E5C6407EB5A9fBD5CdD38F",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/assignment/address",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"assignment",
+												"address"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "assignments",
+					"item": [
+						{
+							"name": "assignment_test",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "student_address",
+											"value": "0x917441412223Ac1104617Ca07ca9853504BEA5d0",
+											"type": "text"
+										},
+										{
+											"key": "contract_address",
+											"value": "0x0044ab4dBe94f295a2a9B45e0d045736B5bBDe00",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}{{api_prefix}}/assignments/assignment_test",
+									"host": [
+										"{{url}}{{api_prefix}}"
+									],
+									"path": [
+										"assignments",
+										"assignment_test"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "api_prefix",
+			"value": "/api/v1"
+		}
+	]
+}
