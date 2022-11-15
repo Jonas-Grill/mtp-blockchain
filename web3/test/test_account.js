@@ -30,7 +30,6 @@ else {
 
 ganache = new prepare.Ganache_Helper()
 
-
 describe("test", function () {
     describe("send", function () {
         describe("gas", function () {

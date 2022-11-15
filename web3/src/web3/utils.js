@@ -83,7 +83,7 @@ class UniMaUtils {
      * Validate if token is valid or not valid 
      *
      * @param {jwt} jwt JWT instance
-     * @param {header} header header object
+     * @param {object} req header object
      * @returns returns if token is valide or not
      */
     verify_jwt_token(jwt, req) {
