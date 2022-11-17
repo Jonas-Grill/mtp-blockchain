@@ -103,8 +103,8 @@ class UniMaAccount {
                 }
             }
             else {
-                console.log(`Faucet used to recent.`)
-                throw new Error("Faucet used to recent.")
+                console.log(`Faucet used too recent.`)
+                throw new Error("Faucet used too recent.")
             }
         }
         else {

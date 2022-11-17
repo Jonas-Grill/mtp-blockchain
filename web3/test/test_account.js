@@ -129,7 +129,7 @@ describe("test", function () {
 
                 assert.equal(error_occured, true)
             });
-            it("should not send gas, because faucet used to recent", async function () {
+            it("should not send gas, because faucet used too recent", async function () {
 
                 account = new accountHandler.UniMaAccount(config_path = path)
                 account.config.setCoinbaseAddress = accounts[0];
@@ -148,7 +148,7 @@ describe("test", function () {
                 }
                 catch (err) {
                     error_occured = true
-                    assert.equal(err, "Error: Faucet used to recent.")
+                    assert.equal(err, "Error: Faucet used too recent.")
                 }
 
                 assert.equal(error_occured, true)
