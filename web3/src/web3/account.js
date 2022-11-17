@@ -54,12 +54,8 @@ class UniMaAccount {
 
         // Make sure the coinbase address and the recipient address are both valid
         if (this.web3.utils.isAddress(from) && this.web3.utils.isAddress(to)) {
-
-            // Update network id
-            this.config.setNetworkId = await this.web3.eth.net.getId()
-
             // Get FaucetStorage smart-contract using coinbase address
-            var faucetStorageContract = this.utils.get_contract(this.web3, "FaucetStorage", this.config.getCoinbaseAddress, this.config.getNetworkId)
+            var faucetStorageContract = this.utils.get_contract(this.web3, "FaucetStorage", this.config.getCoinbaseAddress, await this.web3.eth.net.getId())
 
             // Get faucet object (blockNo, timestamp) given address 
             var faucetObject = await faucetStorageContract.methods.getFaucetUsage(to).call({
