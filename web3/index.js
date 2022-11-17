@@ -245,9 +245,10 @@ app.post(api_prefix + '/config/semester', async (req, res) => {
     var name = req.body["name"]
     var start_block = req.body["start_block"]
     var end_block = req.body["end_block"]
+    var min_knowledge_coin_amount = req.body["min_knowledge_coin_amount"]
 
     try {
-      var id = await config.appendSemester(name, start_block, end_block)
+      var id = await config.appendSemester(name, start_block, end_block, min_knowledge_coin_amount)
       res.status(200)
       res.send({ "success": true, "id": id })
     }
@@ -271,7 +272,7 @@ app.get(api_prefix + '/config/semester', async (req, res) => {
     try {
       var semester = await config.getSemester(id)
       res.status(200)
-      res.send({ "success": true, "semester": { "name": semester[0], "start_block": semester[1], "end_block": semester[2] } })
+      res.send({ "success": true, "semester": { "name": semester[0], "start_block": semester[1], "end_block": semester[2], "min_knowledge_coin_amount": semester[3] } })
     }
     catch (err) {
       res.status(500)
@@ -381,6 +382,30 @@ app.post(api_prefix + '/config/semester/end_block', async (req, res) => {
   }
 });
 
+// Set semester min_knowledge_coin_amount
+app.post(api_prefix + '/config/semester/min_knowledge_coin_amount', async (req, res) => {
+  // Validate token from header
+  if (utils.verify_jwt_token(jwt, req)) {
+    var id = req.body["id"]
+
+    var min_knowledge_coin_amount = req.body["min_knowledge_coin_amount"]
+
+    try {
+      await config.set_semester_amount_knowledge_coins(id, min_knowledge_coin_amount)
+      res.status(200)
+      res.send({ "success": true })
+    }
+    catch (err) {
+      res.status(500)
+      res.send({ "success": false, "error": err.message });
+    }
+  }
+  else {
+    res.status(401)
+    res.send({ "success": false, "error": "Authentication failed!" });
+  }
+});
+
 /*=====     End of Semester Config     ======*/
 
 
@@ -398,9 +423,11 @@ app.post(api_prefix + '/config/assignment', async (req, res) => {
     var name = req.body["name"]
     var link = req.body["link"]
     var validation_contract_address = req.body["validation_contract_address"]
+    var start_block = req.body["start_block"]
+    var end_block = req.body["end_block"]
 
     try {
-      var id = await config.appendAssignment(semester_id, name, link, validation_contract_address)
+      var id = await config.appendAssignment(semester_id, name, link, validation_contract_address, start_block, end_block)
       res.status(200)
       res.send({ "success": true, "id": id })
     }
@@ -425,7 +452,7 @@ app.get(api_prefix + '/config/assignment', async (req, res) => {
     try {
       var assignment = await config.getAssignment(semester_id, assignment_id)
       res.status(200)
-      res.send({ "success": true, "semester": { "name": assignment[0], "link": assignment[1], "validation_contract_address": assignment[2] } })
+      res.send({ "success": true, "semester": { "name": assignment[0], "link": assignment[1], "validation_contract_address": assignment[2], "start_block": assignment[3], "end_block": assignment[4] } })
     }
     catch (err) {
       res.status(500)
@@ -525,6 +552,55 @@ app.post(api_prefix + '/config/assignment/address', async (req, res) => {
 
     try {
       await config.set_assignment_address(semester_id, assignment_id, address)
+      res.status(200)
+      res.send({ "success": true })
+    }
+    catch (err) {
+      res.status(500)
+      res.send({ "success": false, "error": err.message });
+    }
+  }
+  else {
+    res.status(401)
+    res.send({ "success": false, "error": "Authentication failed!" });
+  }
+});
+
+// Set assignment start_block
+app.post(api_prefix + '/config/assignment/start_block', async (req, res) => {
+  // Validate token from header
+  if (utils.verify_jwt_token(jwt, req)) {
+    var semester_id = req.body["semester_id"]
+    var assignment_id = req.body["assignment_id"]
+
+    var start_block = req.body["start_block"]
+
+    try {
+      await config.set_assignment_start_block(semester_id, assignment_id, start_block)
+      res.status(200)
+      res.send({ "success": true })
+    }
+    catch (err) {
+      res.status(500)
+      res.send({ "success": false, "error": err.message });
+    }
+  }
+  else {
+    res.status(401)
+    res.send({ "success": false, "error": "Authentication failed!" });
+  }
+});
+// Set assignment address
+app.post(api_prefix + '/config/assignment/end_block', async (req, res) => {
+  // Validate token from header
+  if (utils.verify_jwt_token(jwt, req)) {
+    var semester_id = req.body["semester_id"]
+    var assignment_id = req.body["assignment_id"]
+
+    var end_block = req.body["end_block"]
+
+    try {
+      await config.set_assignment_end_block(semester_id, assignment_id, end_block)
       res.status(200)
       res.send({ "success": true })
     }

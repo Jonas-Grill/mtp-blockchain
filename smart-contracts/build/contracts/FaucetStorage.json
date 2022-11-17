@@ -67,7 +67,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_blockNo\",\"type\":\"uint256\"}],\"name\":\"faucetUsed\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_blockNo\",\"type\":\"uint256\"}],\"name\":\"addFaucetUsage\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"getFaucetUsage\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"blockNo\",\"type\":\"uint256\"}],\"internalType\":\"struct FaucetStorage.faucetUser\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"addFaucetUsage(address,uint256)\":{\"notice\":\"Add usage of faucet todo: restrict so that only the coinbase holder can call this function\"},\"constructor\":{\"notice\":\"constructor method setting an initial value\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/FaucetStorage.sol\":\"FaucetStorage\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/FaucetStorage.sol\":{\"keccak256\":\"0xb793baf0fa497fe852c0f7096d5c454b081101e9dba5f00639ef417ee8d04970\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b6347479e829258ef0754c93516402e396dc4d4882c703d75711ad4770c063f4\",\"dweb:/ipfs/QmdeNfCDEmp7uCSab4gEHTvwk6rZv4NkP5HxV2hu1BwiNM\"]}},\"version\":1}",
@@ -1344,7 +1345,7 @@
                 }
               ]
             },
-            "name": "abi_encode_t_struct$_faucetUser_$493_memory_ptr_to_t_struct$_faucetUser_$493_memory_ptr_fromStack",
+            "name": "abi_encode_t_struct$_faucetUser_$681_memory_ptr_to_t_struct$_faucetUser_$681_memory_ptr_fromStack",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -1434,7 +1435,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "abi_encode_t_struct$_faucetUser_$493_memory_ptr_to_t_struct$_faucetUser_$493_memory_ptr_fromStack",
+                      "name": "abi_encode_t_struct$_faucetUser_$681_memory_ptr_to_t_struct$_faucetUser_$681_memory_ptr_fromStack",
                       "nodeType": "YulIdentifier",
                       "src": "2744:97:4"
                     },
@@ -1446,7 +1447,7 @@
                 }
               ]
             },
-            "name": "abi_encode_tuple_t_struct$_faucetUser_$493_memory_ptr__to_t_struct$_faucetUser_$493_memory_ptr__fromStack_reversed",
+            "name": "abi_encode_tuple_t_struct$_faucetUser_$681_memory_ptr__to_t_struct$_faucetUser_$681_memory_ptr__fromStack_reversed",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -2266,7 +2267,7 @@
           }
         ]
       },
-      "contents": "{\n\n    function allocate_unbounded() -> memPtr {\n        memPtr := mload(64)\n    }\n\n    function revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() {\n        revert(0, 0)\n    }\n\n    function revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() {\n        revert(0, 0)\n    }\n\n    function cleanup_t_uint160(value) -> cleaned {\n        cleaned := and(value, 0xffffffffffffffffffffffffffffffffffffffff)\n    }\n\n    function cleanup_t_address(value) -> cleaned {\n        cleaned := cleanup_t_uint160(value)\n    }\n\n    function validator_revert_t_address(value) {\n        if iszero(eq(value, cleanup_t_address(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_address(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_address(value)\n    }\n\n    function cleanup_t_uint256(value) -> cleaned {\n        cleaned := value\n    }\n\n    function validator_revert_t_uint256(value) {\n        if iszero(eq(value, cleanup_t_uint256(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_uint256(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_uint256(value)\n    }\n\n    function abi_decode_tuple_t_addresst_uint256(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 32\n\n            value1 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_tuple_t_address(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_t_uint256_to_t_uint256(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    // struct FaucetStorage.faucetUser -> struct FaucetStorage.faucetUser\n    function abi_encode_t_struct$_faucetUser_$493_memory_ptr_to_t_struct$_faucetUser_$493_memory_ptr_fromStack(value, pos)  {\n        let tail := add(pos, 0x20)\n\n        {\n            // blockNo\n\n            let memberValue0 := mload(add(value, 0x00))\n            abi_encode_t_uint256_to_t_uint256(memberValue0, add(pos, 0x00))\n        }\n\n    }\n\n    function abi_encode_tuple_t_struct$_faucetUser_$493_memory_ptr__to_t_struct$_faucetUser_$493_memory_ptr__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_struct$_faucetUser_$493_memory_ptr_to_t_struct$_faucetUser_$493_memory_ptr_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length) -> updated_pos {\n        mstore(pos, length)\n        updated_pos := add(pos, 0x20)\n    }\n\n    function store_literal_in_memory_d0a5de08752f686ddf18f9833d2855cbe91bd7ee07d2f22578ac5c65e69ba181(memPtr) {\n\n        mstore(add(memPtr, 0), \"Address that deploys this smart \")\n\n        mstore(add(memPtr, 32), \"contract is not the coinbase add\")\n\n        mstore(add(memPtr, 64), \"ress!\")\n\n    }\n\n    function abi_encode_t_stringliteral_d0a5de08752f686ddf18f9833d2855cbe91bd7ee07d2f22578ac5c65e69ba181_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 69)\n        store_literal_in_memory_d0a5de08752f686ddf18f9833d2855cbe91bd7ee07d2f22578ac5c65e69ba181(pos)\n        end := add(pos, 96)\n    }\n\n    function abi_encode_tuple_t_stringliteral_d0a5de08752f686ddf18f9833d2855cbe91bd7ee07d2f22578ac5c65e69ba181__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_d0a5de08752f686ddf18f9833d2855cbe91bd7ee07d2f22578ac5c65e69ba181_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_t_address_to_t_address_fromStack(value, pos) {\n        mstore(pos, cleanup_t_address(value))\n    }\n\n    function abi_encode_t_uint256_to_t_uint256_fromStack(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    function abi_encode_tuple_t_address_t_uint256__to_t_address_t_uint256__fromStack_reversed(headStart , value1, value0) -> tail {\n        tail := add(headStart, 64)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n        abi_encode_t_uint256_to_t_uint256_fromStack(value1,  add(headStart, 32))\n\n    }\n\n}\n",
+      "contents": "{\n\n    function allocate_unbounded() -> memPtr {\n        memPtr := mload(64)\n    }\n\n    function revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() {\n        revert(0, 0)\n    }\n\n    function revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() {\n        revert(0, 0)\n    }\n\n    function cleanup_t_uint160(value) -> cleaned {\n        cleaned := and(value, 0xffffffffffffffffffffffffffffffffffffffff)\n    }\n\n    function cleanup_t_address(value) -> cleaned {\n        cleaned := cleanup_t_uint160(value)\n    }\n\n    function validator_revert_t_address(value) {\n        if iszero(eq(value, cleanup_t_address(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_address(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_address(value)\n    }\n\n    function cleanup_t_uint256(value) -> cleaned {\n        cleaned := value\n    }\n\n    function validator_revert_t_uint256(value) {\n        if iszero(eq(value, cleanup_t_uint256(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_uint256(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_uint256(value)\n    }\n\n    function abi_decode_tuple_t_addresst_uint256(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 32\n\n            value1 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_tuple_t_address(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_t_uint256_to_t_uint256(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    // struct FaucetStorage.faucetUser -> struct FaucetStorage.faucetUser\n    function abi_encode_t_struct$_faucetUser_$681_memory_ptr_to_t_struct$_faucetUser_$681_memory_ptr_fromStack(value, pos)  {\n        let tail := add(pos, 0x20)\n\n        {\n            // blockNo\n\n            let memberValue0 := mload(add(value, 0x00))\n            abi_encode_t_uint256_to_t_uint256(memberValue0, add(pos, 0x00))\n        }\n\n    }\n\n    function abi_encode_tuple_t_struct$_faucetUser_$681_memory_ptr__to_t_struct$_faucetUser_$681_memory_ptr__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_struct$_faucetUser_$681_memory_ptr_to_t_struct$_faucetUser_$681_memory_ptr_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length) -> updated_pos {\n        mstore(pos, length)\n        updated_pos := add(pos, 0x20)\n    }\n\n    function store_literal_in_memory_d0a5de08752f686ddf18f9833d2855cbe91bd7ee07d2f22578ac5c65e69ba181(memPtr) {\n\n        mstore(add(memPtr, 0), \"Address that deploys this smart \")\n\n        mstore(add(memPtr, 32), \"contract is not the coinbase add\")\n\n        mstore(add(memPtr, 64), \"ress!\")\n\n    }\n\n    function abi_encode_t_stringliteral_d0a5de08752f686ddf18f9833d2855cbe91bd7ee07d2f22578ac5c65e69ba181_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 69)\n        store_literal_in_memory_d0a5de08752f686ddf18f9833d2855cbe91bd7ee07d2f22578ac5c65e69ba181(pos)\n        end := add(pos, 96)\n    }\n\n    function abi_encode_tuple_t_stringliteral_d0a5de08752f686ddf18f9833d2855cbe91bd7ee07d2f22578ac5c65e69ba181__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_d0a5de08752f686ddf18f9833d2855cbe91bd7ee07d2f22578ac5c65e69ba181_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_t_address_to_t_address_fromStack(value, pos) {\n        mstore(pos, cleanup_t_address(value))\n    }\n\n    function abi_encode_t_uint256_to_t_uint256_fromStack(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    function abi_encode_tuple_t_address_t_uint256__to_t_address_t_uint256__fromStack_reversed(headStart , value1, value0) -> tail {\n        tail := add(headStart, 64)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n        abi_encode_t_uint256_to_t_uint256_fromStack(value1,  add(headStart, 32))\n\n    }\n\n}\n",
       "id": 4,
       "language": "Yul",
       "name": "#utility.yul"
@@ -2280,15 +2281,15 @@
     "absolutePath": "project:/contracts/FaucetStorage.sol",
     "exportedSymbols": {
       "FaucetStorage": [
-        565
+        753
       ]
     },
-    "id": 566,
+    "id": 754,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 490,
+        "id": 678,
         "literals": [
           "solidity",
           "^",
@@ -2305,9 +2306,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 565,
+        "id": 753,
         "linearizedBaseContracts": [
-          565
+          753
         ],
         "name": "FaucetStorage",
         "nameLocation": "70:13:1",
@@ -2315,16 +2316,16 @@
         "nodes": [
           {
             "canonicalName": "FaucetStorage.faucetUser",
-            "id": 493,
+            "id": 681,
             "members": [
               {
                 "constant": false,
-                "id": 492,
+                "id": 680,
                 "mutability": "mutable",
                 "name": "blockNo",
                 "nameLocation": "237:7:1",
                 "nodeType": "VariableDeclaration",
-                "scope": 493,
+                "scope": 681,
                 "src": "229:15:1",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -2333,7 +2334,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 491,
+                  "id": 679,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "229:7:1",
@@ -2348,29 +2349,29 @@
             "name": "faucetUser",
             "nameLocation": "160:10:1",
             "nodeType": "StructDefinition",
-            "scope": 565,
+            "scope": 753,
             "src": "153:99:1",
             "visibility": "public"
           },
           {
             "constant": false,
-            "id": 498,
+            "id": 686,
             "mutability": "mutable",
             "name": "Users",
             "nameLocation": "291:5:1",
             "nodeType": "VariableDeclaration",
-            "scope": 565,
+            "scope": 753,
             "src": "260:36:1",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$493_storage_$",
+              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$681_storage_$",
               "typeString": "mapping(address => struct FaucetStorage.faucetUser)"
             },
             "typeName": {
-              "id": 497,
+              "id": 685,
               "keyType": {
-                "id": 494,
+                "id": 682,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "268:7:1",
@@ -2382,26 +2383,26 @@
               "nodeType": "Mapping",
               "src": "260:30:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$493_storage_$",
+                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$681_storage_$",
                 "typeString": "mapping(address => struct FaucetStorage.faucetUser)"
               },
               "valueType": {
-                "id": 496,
+                "id": 684,
                 "nodeType": "UserDefinedTypeName",
                 "pathNode": {
-                  "id": 495,
+                  "id": 683,
                   "name": "faucetUser",
                   "nameLocations": [
                     "279:10:1"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 493,
+                  "referencedDeclaration": 681,
                   "src": "279:10:1"
                 },
-                "referencedDeclaration": 493,
+                "referencedDeclaration": 681,
                 "src": "279:10:1",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_faucetUser_$493_storage_ptr",
+                  "typeIdentifier": "t_struct$_faucetUser_$681_storage_ptr",
                   "typeString": "struct FaucetStorage.faucetUser"
                 }
               }
@@ -2410,12 +2411,12 @@
           },
           {
             "constant": false,
-            "id": 500,
+            "id": 688,
             "mutability": "mutable",
             "name": "owner",
             "nameLocation": "313:5:1",
             "nodeType": "VariableDeclaration",
-            "scope": 565,
+            "scope": 753,
             "src": "305:13:1",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2424,7 +2425,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 499,
+              "id": 687,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "305:7:1",
@@ -2439,23 +2440,23 @@
           {
             "anonymous": false,
             "eventSelector": "c58b2544858971e180cfd7fa79f6862f44a71f22a3a84d1172e238ba81d163d8",
-            "id": 506,
+            "id": 694,
             "name": "faucetUsed",
             "nameLocation": "333:10:1",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 505,
+              "id": 693,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 502,
+                  "id": 690,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "_address",
                   "nameLocation": "352:8:1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 506,
+                  "scope": 694,
                   "src": "344:16:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2464,7 +2465,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 501,
+                    "id": 689,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "344:7:1",
@@ -2478,13 +2479,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 504,
+                  "id": 692,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "_blockNo",
                   "nameLocation": "370:8:1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 506,
+                  "scope": 694,
                   "src": "362:16:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2493,7 +2494,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 503,
+                    "id": 691,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "362:7:1",
@@ -2511,23 +2512,23 @@
           },
           {
             "body": {
-              "id": 515,
+              "id": 703,
               "nodeType": "Block",
               "src": "472:37:1",
               "statements": [
                 {
                   "expression": {
-                    "id": 513,
+                    "id": 701,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 510,
+                      "id": 698,
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 500,
+                      "referencedDeclaration": 688,
                       "src": "483:5:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -2538,7 +2539,7 @@
                     "operator": "=",
                     "rightHandSide": {
                       "expression": {
-                        "id": 511,
+                        "id": 699,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
@@ -2549,7 +2550,7 @@
                           "typeString": "msg"
                         }
                       },
-                      "id": 512,
+                      "id": 700,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2569,19 +2570,19 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 514,
+                  "id": 702,
                   "nodeType": "ExpressionStatement",
                   "src": "483:18:1"
                 }
               ]
             },
             "documentation": {
-              "id": 507,
+              "id": 695,
               "nodeType": "StructuredDocumentation",
               "src": "388:64:1",
               "text": " constructor method setting an initial value"
             },
-            "id": 516,
+            "id": 704,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
@@ -2589,18 +2590,18 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 508,
+              "id": 696,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "469:2:1"
             },
             "returnParameters": {
-              "id": 509,
+              "id": 697,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "472:0:1"
             },
-            "scope": 565,
+            "scope": 753,
             "src": "458:51:1",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -2608,7 +2609,7 @@
           },
           {
             "body": {
-              "id": 550,
+              "id": 738,
               "nodeType": "Block",
               "src": "711:296:1",
               "statements": [
@@ -2620,14 +2621,14 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 528,
+                        "id": 716,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "expression": {
-                            "id": 525,
+                            "id": 713,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
@@ -2638,7 +2639,7 @@
                               "typeString": "msg"
                             }
                           },
-                          "id": 526,
+                          "id": 714,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -2655,11 +2656,11 @@
                         "nodeType": "BinaryOperation",
                         "operator": "==",
                         "rightExpression": {
-                          "id": 527,
+                          "id": 715,
                           "name": "owner",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 500,
+                          "referencedDeclaration": 688,
                           "src": "758:5:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -2674,7 +2675,7 @@
                       },
                       {
                         "hexValue": "416464726573732074686174206465706c6f7973207468697320736d61727420636f6e7472616374206973206e6f742074686520636f696e62617365206164647265737321",
-                        "id": 529,
+                        "id": 717,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -2700,7 +2701,7 @@
                           "typeString": "literal_string \"Address that deploys this smart contract is not the coinbase address!\""
                         }
                       ],
-                      "id": 524,
+                      "id": 712,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -2714,7 +2715,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 530,
+                    "id": 718,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2730,62 +2731,62 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 531,
+                  "id": 719,
                   "nodeType": "ExpressionStatement",
                   "src": "722:138:1"
                 },
                 {
                   "assignments": [
-                    534
+                    722
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 534,
+                      "id": 722,
                       "mutability": "mutable",
                       "name": "obj",
                       "nameLocation": "891:3:1",
                       "nodeType": "VariableDeclaration",
-                      "scope": 550,
+                      "scope": 738,
                       "src": "873:21:1",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_faucetUser_$493_memory_ptr",
+                        "typeIdentifier": "t_struct$_faucetUser_$681_memory_ptr",
                         "typeString": "struct FaucetStorage.faucetUser"
                       },
                       "typeName": {
-                        "id": 533,
+                        "id": 721,
                         "nodeType": "UserDefinedTypeName",
                         "pathNode": {
-                          "id": 532,
+                          "id": 720,
                           "name": "faucetUser",
                           "nameLocations": [
                             "873:10:1"
                           ],
                           "nodeType": "IdentifierPath",
-                          "referencedDeclaration": 493,
+                          "referencedDeclaration": 681,
                           "src": "873:10:1"
                         },
-                        "referencedDeclaration": 493,
+                        "referencedDeclaration": 681,
                         "src": "873:10:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_faucetUser_$493_storage_ptr",
+                          "typeIdentifier": "t_struct$_faucetUser_$681_storage_ptr",
                           "typeString": "struct FaucetStorage.faucetUser"
                         }
                       },
                       "visibility": "internal"
                     }
                   ],
-                  "id": 538,
+                  "id": 726,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 536,
+                        "id": 724,
                         "name": "_blockNo",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 521,
+                        "referencedDeclaration": 709,
                         "src": "908:8:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -2800,18 +2801,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 535,
+                      "id": 723,
                       "name": "faucetUser",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 493,
+                      "referencedDeclaration": 681,
                       "src": "897:10:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_struct$_faucetUser_$493_storage_ptr_$",
+                        "typeIdentifier": "t_type$_t_struct$_faucetUser_$681_storage_ptr_$",
                         "typeString": "type(struct FaucetStorage.faucetUser storage pointer)"
                       }
                     },
-                    "id": 537,
+                    "id": 725,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2823,7 +2824,7 @@
                     "src": "897:20:1",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_faucetUser_$493_memory_ptr",
+                      "typeIdentifier": "t_struct$_faucetUser_$681_memory_ptr",
                       "typeString": "struct FaucetStorage.faucetUser memory"
                     }
                   },
@@ -2832,31 +2833,31 @@
                 },
                 {
                   "expression": {
-                    "id": 543,
+                    "id": 731,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "baseExpression": {
-                        "id": 539,
+                        "id": 727,
                         "name": "Users",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 498,
+                        "referencedDeclaration": 686,
                         "src": "930:5:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$493_storage_$",
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$681_storage_$",
                           "typeString": "mapping(address => struct FaucetStorage.faucetUser storage ref)"
                         }
                       },
-                      "id": 541,
+                      "id": 729,
                       "indexExpression": {
-                        "id": 540,
+                        "id": 728,
                         "name": "_address",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 519,
+                        "referencedDeclaration": 707,
                         "src": "936:8:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -2870,31 +2871,31 @@
                       "nodeType": "IndexAccess",
                       "src": "930:15:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_faucetUser_$493_storage",
+                        "typeIdentifier": "t_struct$_faucetUser_$681_storage",
                         "typeString": "struct FaucetStorage.faucetUser storage ref"
                       }
                     },
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 542,
+                      "id": 730,
                       "name": "obj",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 534,
+                      "referencedDeclaration": 722,
                       "src": "948:3:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_faucetUser_$493_memory_ptr",
+                        "typeIdentifier": "t_struct$_faucetUser_$681_memory_ptr",
                         "typeString": "struct FaucetStorage.faucetUser memory"
                       }
                     },
                     "src": "930:21:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_faucetUser_$493_storage",
+                      "typeIdentifier": "t_struct$_faucetUser_$681_storage",
                       "typeString": "struct FaucetStorage.faucetUser storage ref"
                     }
                   },
-                  "id": 544,
+                  "id": 732,
                   "nodeType": "ExpressionStatement",
                   "src": "930:21:1"
                 },
@@ -2902,11 +2903,11 @@
                   "eventCall": {
                     "arguments": [
                       {
-                        "id": 546,
+                        "id": 734,
                         "name": "_address",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 519,
+                        "referencedDeclaration": 707,
                         "src": "980:8:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -2914,11 +2915,11 @@
                         }
                       },
                       {
-                        "id": 547,
+                        "id": 735,
                         "name": "_blockNo",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 521,
+                        "referencedDeclaration": 709,
                         "src": "990:8:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -2937,18 +2938,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 545,
+                      "id": 733,
                       "name": "faucetUsed",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 506,
+                      "referencedDeclaration": 694,
                       "src": "969:10:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_uint256_$returns$__$",
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 548,
+                    "id": 736,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2964,20 +2965,20 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 549,
+                  "id": 737,
                   "nodeType": "EmitStatement",
                   "src": "964:35:1"
                 }
               ]
             },
             "documentation": {
-              "id": 517,
+              "id": 705,
               "nodeType": "StructuredDocumentation",
               "src": "517:121:1",
               "text": "Add usage of faucet\ntodo: restrict so that only the coinbase holder can call this function"
             },
             "functionSelector": "1743f515",
-            "id": 551,
+            "id": 739,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -2985,17 +2986,17 @@
             "nameLocation": "653:14:1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 522,
+              "id": 710,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 519,
+                  "id": 707,
                   "mutability": "mutable",
                   "name": "_address",
                   "nameLocation": "676:8:1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 551,
+                  "scope": 739,
                   "src": "668:16:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3004,7 +3005,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 518,
+                    "id": 706,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "668:7:1",
@@ -3018,12 +3019,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 521,
+                  "id": 709,
                   "mutability": "mutable",
                   "name": "_blockNo",
                   "nameLocation": "694:8:1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 551,
+                  "scope": 739,
                   "src": "686:16:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3032,7 +3033,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 520,
+                    "id": 708,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "686:7:1",
@@ -3047,12 +3048,12 @@
               "src": "667:36:1"
             },
             "returnParameters": {
-              "id": 523,
+              "id": 711,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "711:0:1"
             },
-            "scope": 565,
+            "scope": 753,
             "src": "644:363:1",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -3060,31 +3061,31 @@
           },
           {
             "body": {
-              "id": 563,
+              "id": 751,
               "nodeType": "Block",
               "src": "1129:41:1",
               "statements": [
                 {
                   "expression": {
                     "baseExpression": {
-                      "id": 559,
+                      "id": 747,
                       "name": "Users",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 498,
+                      "referencedDeclaration": 686,
                       "src": "1147:5:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$493_storage_$",
+                        "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$681_storage_$",
                         "typeString": "mapping(address => struct FaucetStorage.faucetUser storage ref)"
                       }
                     },
-                    "id": 561,
+                    "id": 749,
                     "indexExpression": {
-                      "id": 560,
+                      "id": 748,
                       "name": "_address",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 553,
+                      "referencedDeclaration": 741,
                       "src": "1153:8:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -3098,19 +3099,19 @@
                     "nodeType": "IndexAccess",
                     "src": "1147:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_faucetUser_$493_storage",
+                      "typeIdentifier": "t_struct$_faucetUser_$681_storage",
                       "typeString": "struct FaucetStorage.faucetUser storage ref"
                     }
                   },
-                  "functionReturnParameters": 558,
-                  "id": 562,
+                  "functionReturnParameters": 746,
+                  "id": 750,
                   "nodeType": "Return",
                   "src": "1140:22:1"
                 }
               ]
             },
             "functionSelector": "aecf9866",
-            "id": 564,
+            "id": 752,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -3118,17 +3119,17 @@
             "nameLocation": "1024:14:1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 554,
+              "id": 742,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 553,
+                  "id": 741,
                   "mutability": "mutable",
                   "name": "_address",
                   "nameLocation": "1047:8:1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 564,
+                  "scope": 752,
                   "src": "1039:16:1",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3137,7 +3138,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 552,
+                    "id": 740,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1039:7:1",
@@ -3153,41 +3154,41 @@
               "src": "1038:18:1"
             },
             "returnParameters": {
-              "id": 558,
+              "id": 746,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 557,
+                  "id": 745,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 564,
+                  "scope": 752,
                   "src": "1105:17:1",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_faucetUser_$493_memory_ptr",
+                    "typeIdentifier": "t_struct$_faucetUser_$681_memory_ptr",
                     "typeString": "struct FaucetStorage.faucetUser"
                   },
                   "typeName": {
-                    "id": 556,
+                    "id": 744,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 555,
+                      "id": 743,
                       "name": "faucetUser",
                       "nameLocations": [
                         "1105:10:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 493,
+                      "referencedDeclaration": 681,
                       "src": "1105:10:1"
                     },
-                    "referencedDeclaration": 493,
+                    "referencedDeclaration": 681,
                     "src": "1105:10:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_faucetUser_$493_storage_ptr",
+                      "typeIdentifier": "t_struct$_faucetUser_$681_storage_ptr",
                       "typeString": "struct FaucetStorage.faucetUser"
                     }
                   },
@@ -3196,14 +3197,14 @@
               ],
               "src": "1104:19:1"
             },
-            "scope": 565,
+            "scope": 753,
             "src": "1015:155:1",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 566,
+        "scope": 754,
         "src": "61:1112:1",
         "usedErrors": []
       }
@@ -3218,12 +3219,13 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x5259E0b93dD3707032D8F4BEfFE4be846852aa51",
-      "transactionHash": "0x852cf3634c43cf489aeb4bd052a7de84bb54ea8c14e2900ee1f378d3b51819ad"
+      "address": "0xAd55290B4CE1E87579F731EB080F2Dc7Fadf6d45",
+      "transactionHash": "0x25dbf2deb2cca3fb27229feae1f32b9d58d843f49530fac0ffb1ebf5a1e759cd"
     }
   },
   "schemaVersion": "3.4.10",
-  "updatedAt": "2022-11-15T21:20:39.431Z",
+  "updatedAt": "2022-11-17T16:46:23.941Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},
