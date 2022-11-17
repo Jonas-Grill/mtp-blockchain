@@ -56,7 +56,7 @@ class UniMaAccount {
         if (this.web3.utils.isAddress(from) && this.web3.utils.isAddress(to)) {
 
             // Update network id
-            this.config.setNetworkId = await web3.eth.net.getId()
+            this.config.setNetworkId = await this.web3.eth.net.getId()
 
             // Get FaucetStorage smart-contract using coinbase address
             var faucetStorageContract = this.utils.get_contract(this.web3, "FaucetStorage", this.config.getCoinbaseAddress, this.config.getNetworkId)
