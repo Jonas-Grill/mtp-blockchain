@@ -195,7 +195,6 @@ class Config {
         return await configStorageContract.methods.deleteSemester(_id).send({ from: this.coinbaseAddress });
     }
 
-
     /*----------  Setter  ----------*/
 
     /**
