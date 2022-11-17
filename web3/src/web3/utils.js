@@ -62,8 +62,6 @@ class UniMaUtils {
     get_contract_address(contract_name, network_id) {
         const deployedNetwork = this.get_contract_json(contract_name).networks[network_id];
 
-        console.log(contract_name + " - " + network_id + " - DEPLOYED NETWORKS: " + JSON.stringify(deployedNetwork))
-        console.log(contract_name + " - " + network_id + " - ADDRESS: " + JSON.stringify(deployedNetwork["address"]))
         return deployedNetwork.address;
     }
 
