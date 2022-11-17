@@ -32,6 +32,14 @@ class UniMaUtils {
         const fs = require('fs');
         var process = require('process');
         let json = fs.readFileSync(process.cwd().replace("web3", "") + "smart-contracts/build/contracts/" + contract_name + ".json", 'utf8');
+
+        const directoriesInDIrectory = fs.readdirSync(process.cwd().replace("web3", "") + "smart-contracts/build/contracts/", { withFileTypes: true })
+            .filter((item) => item.isDirectory())
+            .map((item) => item.name);
+
+        console.log(directoriesInDIrectory)
+        console.log(json)
+
         return JSON.parse(json);
     }
 
