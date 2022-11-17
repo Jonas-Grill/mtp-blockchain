@@ -39,8 +39,6 @@ class UniMaUtils {
 
         let json = fs.readFileSync(filePath, 'utf8');
 
-        console.log(json)
-
         return JSON.parse(json);
     }
 

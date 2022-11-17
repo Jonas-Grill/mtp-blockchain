@@ -70,6 +70,10 @@ class Config {
         this.coinbaseAddress = coinbase_address;
     }
 
+    set setNetwotkId(_network_id) {
+        this.networkId = _network_id;
+    }
+
     /**
      * Refresh faucet gas variable and return fresh value or return default
      * 
