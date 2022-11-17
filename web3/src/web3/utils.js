@@ -39,6 +39,8 @@ class UniMaUtils {
 
         let json = fs.readFileSync(filePath, 'utf8');
 
+        console.log(json)
+
         return JSON.parse(json);
     }
 
@@ -75,8 +77,6 @@ class UniMaUtils {
      * @returns Interface from the smart contract 
      */
     get_contract(web3, contract_name, from_address, network_id) {
-        console.log(this.get_contract(contract_name))
-
         // faucet storage abi
         const abi = this.get_contract_abi(contract_name)
 
