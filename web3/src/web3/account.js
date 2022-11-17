@@ -154,6 +154,7 @@ class UniMaAccount {
                             trx_object = e;
                             --n;
                         }
+
                         // if the address is the receiver --> a transaction with this address occured
                         if (address == e.to) {
                             if (e.from != e.to)
