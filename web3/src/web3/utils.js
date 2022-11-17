@@ -29,16 +29,30 @@ class UniMaUtils {
      * @return json object 
      */
     get_contract_json(contract_name) {
+        const path = require('path');
         const fs = require('fs');
         var process = require('process');
-        let json = fs.readFileSync(process.cwd().replace("web3", "") + "smart-contracts/build/contracts/" + contract_name + ".json", 'utf8');
 
-        const directoriesInDIrectory = fs.readdirSync(process.cwd().replace("web3", "") + "smart-contracts/build/contracts/", { withFileTypes: true })
-            .filter((item) => item.isDirectory())
-            .map((item) => item.name);
+        const directoryPath = path.join(process.cwd().replace("web3", ""), 'smart-contracts', 'build', 'contracts');
 
-        console.log(directoriesInDIrectory)
-        console.log(json)
+        const filePath = path.join(directoryPath, contract_name + ".json")
+
+        let json = fs.readFileSync(filePath, 'utf8');
+
+        console.log("Path: " + directoryPath)
+
+        //passsing directoryPath and callback function
+        fs.readdir(directoryPath, function (err, files) {
+            //handling error
+            if (err) {
+                return console.log('Unable to scan directory: ' + err);
+            }
+            //listing all files using forEach
+            files.forEach(function (file) {
+                // Do whatever you want to do with the file
+                console.log(file);
+            });
+        });
 
         return JSON.parse(json);
     }
