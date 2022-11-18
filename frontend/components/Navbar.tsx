@@ -3,9 +3,9 @@ import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
 import MetaMaskAuth from "./MetaMaskAuth";
 
 const navigation = [
-    {name: 'Faucet', href: '#', current: true},
-    {name: 'Placeholder2', href: '#', current: false},
-    {name: 'Placeholder3', href: '#', current: false},
+    {name: 'Faucet', href: '/faucet', current: false},
+    {name: 'Semester', href: '/semester', current: true},
+    {name: 'Assignments', href: '/assignments', current: false},
     {name: 'Placeholder4', href: '#', current: false},
 ]
 

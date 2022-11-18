@@ -1,7 +1,4 @@
-import Navbar from "../../components/Navbar";
-
-import {LockClosedIcon, FireIcon} from '@heroicons/react/20/solid'
-import MetaMaskAuth from "../../components/MetaMaskAuth";
+import {FireIcon} from '@heroicons/react/20/solid'
 
 export default function Faucet({userAddress}) {
     return (
