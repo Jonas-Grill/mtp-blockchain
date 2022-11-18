@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-contract FaucetStorage {
+import "../contracts/AdminHelper.sol";
+
+contract FaucetStorage is AdminHelper {
     // Keep struct to allow extending to more than one value
     struct faucetUser {
         // Block number when faucet last used
@@ -11,46 +13,19 @@ contract FaucetStorage {
     // Mapping to store when user last used faucet
     mapping(address => faucetUser) Users;
 
-    // Address of admin
-    address admin;
-
     // Create event when faucet is used
     event faucetUsed(address _address, uint256 _blockNo);
 
     constructor() {
-        admin = msg.sender;
+        addAdmin(msg.sender);
     }
-
-    /*=============================================
-    =                     Admin                   =
-    =============================================*/
-
-    // Change Admin account
-    function setAdmin(address _newAdmin) public {
-        require(
-            msg.sender == admin,
-            "Permission denied! The address is not allowed to executes this smart contract function!"
-        );
-
-        admin = _newAdmin;
-    }
-
-    // Get Admin address
-    function getAdmin() public view returns (address) {
-        return admin;
-    }
-
-    /*=====            End of Admin        ======*/
 
     /*=============================================
     =               Faucet Methods                =
     =============================================*/
 
     function addFaucetUsage(address _address, uint256 _blockNo) public {
-        require(
-            msg.sender == admin,
-            "Address that deploys this smart contract is not the coinbase address!"
-        );
+        requireAdmin(msg.sender);
 
         faucetUser memory obj = faucetUser(_blockNo);
 

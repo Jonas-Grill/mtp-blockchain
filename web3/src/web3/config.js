@@ -142,14 +142,29 @@ class Config {
     *
     * @param {string} _newAdmin Address of the new admin
     */
-    async set_admin(_oldAdmin, _newAdmin) {
+    async add_admin(_newAdmin) {
         // Change Admin for ConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.setAdmin(_newAdmin).send({ from: _oldAdmin });
+        await configStorageContract.methods.addAdmin(_newAdmin).send({ from: _newAdmin });
 
         // Change Admin for FaucetStorage Contract
-        const faucetStorageContract = await this.utils.get_contract(this.web3, "FaucetStorage", _oldAdmin, await this.web3.eth.net.getId())
-        await faucetStorageContract.methods.setAdmin(_newAdmin).send({ from: _oldAdmin });
+        const faucetStorageContract = await this.utils.get_contract(this.web3, "FaucetStorage", _newAdmin, await this.web3.eth.net.getId())
+        await faucetStorageContract.methods.addAdmin(_newAdmin).send({ from: _newAdmin });
+    }
+
+    /**
+    * Remove admin address for all contracts
+    *
+    * @param {string} _admin Address of the admin to remove
+    */
+    async remove_admin(_admin) {
+        // Change Admin for ConfigStorage Contract
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.removeAdmin(_admin).send({ from: _admin });
+
+        // Change Admin for FaucetStorage Contract
+        const faucetStorageContract = await this.utils.get_contract(this.web3, "FaucetStorage", _admin, await this.web3.eth.net.getId())
+        await faucetStorageContract.methods.removeAdmin(_admin).send({ from: _admin });
     }
 
     /**
@@ -157,10 +172,21 @@ class Config {
      * 
      * @returns current admin address
      */
-    async get_admin() {
+    async get_admins() {
         // Change Admin for ConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        return await configStorageContract.methods.getAdmin().call();
+        return await configStorageContract.methods.getAdmins().call();
+    }
+
+    /**
+     * Return if address is admin
+     * 
+     * @returns if address is admin
+     */
+    async is_admin(_address) {
+        // Change Admin for ConfigStorage Contract
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.isAdmin(_address).call();
     }
 
     /*=====      End of Admin Config       ======*/
