@@ -121,6 +121,62 @@ app.post(api_prefix + '/account/jwt/validate_token', (req, res) => {
 /*=====            End of JWT          ======*/
 
 
+/*=============================================
+=                 Admin Config                =
+=============================================*/
+
+// Get faucet gas value endpoint
+app.get(api_prefix + '/config/admin', async (req, res) => {
+  // Validate token from header
+  if (utils.verify_jwt_token(jwt, req)) {
+    try {
+      const admin_address = await config.get_admin()
+      res.status(200)
+      res.send({ "success": true, "admin_address": admin_address })
+    }
+    catch (err) {
+      res.status(500)
+      res.send({ "success": false, "error": err.message });
+    }
+  }
+  else {
+    res.status(401)
+    res.send({ "success": false, "error": "Authentication failed!" });
+  }
+});
+
+// Set faucet gas value endpoint
+app.post(api_prefix + '/config/admin', async (req, res) => {
+  // Validate token from header
+  if (utils.verify_jwt_token(jwt, req)) {
+    const new_admin_address = req.body["new_admin_address"]
+
+    try {
+      const old_admin_address = await config.get_admin()
+
+      await config.set_admin(old_admin_address, new_admin_address)
+      res.status(200)
+      res.send({ "success": true })
+    }
+    catch (err) {
+      res.status(500)
+      res.send({ "success": false, "error": err.message });
+    }
+  }
+  else {
+    res.status(401)
+    res.send({ "success": false, "error": "Authentication failed!" });
+  }
+});
+
+/*=====      End of Admin Config       ======*/
+
+
+/*=============================================
+=                Faucet Usage                 =
+=============================================*/
+
+
 // Send gas endpoint
 app.post(api_prefix + '/account/send_gas', async (req, res) => {
 
@@ -232,6 +288,8 @@ app.get(api_prefix + '/config/faucet_blockno_difference', async (req, res) => {
     res.send({ "success": false, "error": "Authentication failed!" });
   }
 });
+
+/*=====     End of Faucet Usage       ======*/
 
 
 /*=============================================

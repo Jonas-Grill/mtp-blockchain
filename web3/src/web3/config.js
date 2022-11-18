@@ -134,6 +134,38 @@ class Config {
 
 
     /*=============================================
+    =                 Admin Config                =
+    =============================================*/
+
+    /**
+    * Set a new admin address for all contracts
+    *
+    * @param {string} _newAdmin Address of the new admin
+    */
+    async set_admin(_oldAdmin, _newAdmin) {
+        // Change Admin for ConfigStorage Contract
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setAdmin(_newAdmin).send({ from: _oldAdmin });
+
+        // Change Admin for FaucetStorage Contract
+        const faucetStorageContract = await this.utils.get_contract(this.web3, "FaucetStorage", _oldAdmin, await this.web3.eth.net.getId())
+        await faucetStorageContract.methods.setAdmin(_newAdmin).send({ from: _oldAdmin });
+    }
+
+    /**
+     * Return admin address
+     * 
+     * @returns current admin address
+     */
+    async get_admin() {
+        // Change Admin for ConfigStorage Contract
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.getAdmin().call();
+    }
+
+    /*=====      End of Admin Config       ======*/
+
+    /*=============================================
     =            Faucet Block Difference            =
     =============================================*/
 

@@ -8,8 +8,8 @@ contract ConfigStorage {
     // Amount of blocks difference between last faucet usage
     int128 faucetBlockNoDifference;
 
-    // Address of owner
-    address owner;
+    // Address of admin
+    address admin;
 
     // Struct Seminar
     struct uniMaSemester {
@@ -60,7 +60,7 @@ contract ConfigStorage {
      * Constructor to set default config values
      */
     constructor() {
-        owner = msg.sender;
+        admin = msg.sender;
 
         faucetGas = 10;
         faucetBlockNoDifference = 10;
@@ -70,7 +70,28 @@ contract ConfigStorage {
     }
 
     /*=============================================
-    =            Semester function            =
+    =                     Admin                   =
+    =============================================*/
+
+    // Change Admin account
+    function setAdmin(address _newAdmin) public {
+        require(
+            msg.sender == admin,
+            "Permission denied! The address is not allowed to executes this smart contract function!"
+        );
+
+        admin = _newAdmin;
+    }
+
+    // Get Admin address
+    function getAdmin() public view returns (address) {
+        return admin;
+    }
+
+    /*=====            End of Admin        ======*/
+
+    /*=============================================
+    =              Semester function              =
     =============================================*/
 
     function appendSemester(
@@ -80,7 +101,7 @@ contract ConfigStorage {
         uint256 _minKnowledgeCoinAmount
     ) public returns (uint256) {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
 
@@ -113,7 +134,7 @@ contract ConfigStorage {
 
     function deleteSemester(uint256 _id) public {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
 
@@ -128,7 +149,7 @@ contract ConfigStorage {
 
     function setSemesterName(uint256 _id, string memory name) public {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
         semesters[_id].name = name;
@@ -136,7 +157,7 @@ contract ConfigStorage {
 
     function setSemesterStartBlock(uint256 _id, uint256 _startBlock) public {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
         semesters[_id].startBlock = _startBlock;
@@ -144,7 +165,7 @@ contract ConfigStorage {
 
     function setSemesterEndBlock(uint256 _id, uint256 _endBlock) public {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
         semesters[_id].endBlock = _endBlock;
@@ -155,7 +176,7 @@ contract ConfigStorage {
         uint256 _minKnowledgeCoinAmount
     ) public {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
         semesters[_id].minKnowledgeCoinAmount = _minKnowledgeCoinAmount;
@@ -176,7 +197,7 @@ contract ConfigStorage {
         uint256 _endBlock
     ) public returns (uint256) {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
 
@@ -207,7 +228,7 @@ contract ConfigStorage {
         public
     {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
         delete semesters[_semesterId].assignments[_assignmentId];
@@ -229,7 +250,7 @@ contract ConfigStorage {
         string memory name
     ) public {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
         semesters[_semesterId].assignments[_assignmentId].name = name;
@@ -241,7 +262,7 @@ contract ConfigStorage {
         string memory link
     ) public {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
         semesters[_semesterId].assignments[_assignmentId].link = link;
@@ -253,7 +274,7 @@ contract ConfigStorage {
         address _address
     ) public {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
         semesters[_semesterId]
@@ -267,7 +288,7 @@ contract ConfigStorage {
         uint256 _startBlock
     ) public {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
         semesters[_semesterId]
@@ -281,7 +302,7 @@ contract ConfigStorage {
         uint256 _endBlock
     ) public {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
         semesters[_semesterId].assignments[_assignmentId].endBlock = _endBlock;
@@ -304,7 +325,7 @@ contract ConfigStorage {
 
     function setIntValue(string memory key, int128 value) public {
         require(
-            msg.sender == owner,
+            msg.sender == admin,
             "Permission denied! The address is not allowed to executes this smart contract function!"
         );
 

@@ -44,7 +44,7 @@ contract TestAssignmentValidator {
     {
         TestAssignment assignment_contract = TestAssignment(_contract_address);
 
-        if (assignment_contract.owner() == _student_address) {
+        if (assignment_contract.admin() == _student_address) {
             return true;
         } else {
             return false;

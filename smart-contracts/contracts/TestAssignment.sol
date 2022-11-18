@@ -7,10 +7,10 @@ pragma solidity ^0.8.17;
 contract TestAssignment {
     int256 testValue;
 
-    address public owner;
+    address public admin;
 
     constructor() {
-        owner = msg.sender;
+        admin = msg.sender;
 
         testValue = 1998;
     }
