@@ -41,9 +41,8 @@ const utils = new utilsHelper.UniMaUtils()
 exports.post = async (req, res) => {
     // Validate token from header
     if (utils.verify_jwt_token(jwt, req)) {
-        var id = req.body["id"]
-
-        var name = req.body["name"]
+        var id = req.body.id
+        var name = req.body.name
 
         try {
             await config.set_semester_name(id, name)

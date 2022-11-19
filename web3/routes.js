@@ -33,10 +33,13 @@ router.route(api_prefix + '/account/jwt/validate_token')
 =                   Assignments               =
 =============================================*/
 
-// assignment_test
-const assignment_test_controller = require('./src/controllers/assignments/assignment_test');
-router.route(api_prefix + '/assignments/assignment_test')
-    .post(assignment_test_controller.post);
+const assignments_controller = require('./src/controllers/assignments/assignments');
+router.route(api_prefix + '/assignments/')
+    .get(assignments_controller.get);
+
+const assignments_validate_controller = require('./src/controllers/assignments/validate');
+router.route(api_prefix + '/assignments/validate')
+    .post(assignments_validate_controller.post);
 
 /*=====       End of Assignments       ======*/
 

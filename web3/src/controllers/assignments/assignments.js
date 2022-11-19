@@ -20,20 +20,6 @@ else {
 // Set up Global configuration access
 dotenv.config();
 
-
-/*----------  Account Helper ----------*/
-// Get account Handler
-const accountHandler = require(root_path + '/src/web3/account')
-
-
-/*----------  Config Helper  ----------*/
-// config
-const configHandler = require(root_path + '/src/web3/config')
-// Create config class with config path
-const config = new configHandler.Config(configPath)
-
-
-
 /*----------  Utils Helper  ----------*/
 // utils
 const utilsHelper = require(root_path + '/src/web3/utils')
@@ -41,18 +27,23 @@ const utilsHelper = require(root_path + '/src/web3/utils')
 const utils = new utilsHelper.UniMaUtils()
 
 
-// Send gas endpoint
-exports.post = async (req, res) => {
+/*----------  Assignment Helper  ----------*/
+// assignments
+const assignmentsHandler = require(root_path + '/src/web3/assignment')
+// Create assignments
+const assignments = new assignmentsHandler.UniMaAssignments(configPath);
+
+// Run validator for test assignment
+exports.get = async (req, res) => {
     // Validate token from header
     if (utils.verify_jwt_token(jwt, req)) {
-        var account = new accountHandler.UniMaAccount(configPath)
-
-        var to = req.body.address;
-
         try {
-            await account.send_gas(config.getCoinbaseAddress, to)
+            var contract_name = req.body.contract_name
+            var id = req.body.id
+
+            const result = await assignments.get_test_results(contract_name, id)
             res.status(StatusCodes.OK)
-            res.send({ "success": true })
+            res.send({ "success": true, "result": result })
         }
         catch (err) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR)

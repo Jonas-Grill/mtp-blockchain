@@ -38,12 +38,13 @@ exports.post = async (req, res) => {
     // Validate token from header
     if (utils.verify_jwt_token(jwt, req)) {
         try {
-            var student_address = req.body["student_address"]
-            var contract_address = req.body["contract_address"]
+            var student_address = req.body.student_address
+            var contract_address = req.body.contract_address
+            var contract_name = req.body.contract_name
 
-            const result = await assignments.run_test_assignment(student_address, contract_address)
+            const result = await assignments.validate_assignment(student_address, contract_address, contract_name)
             res.status(StatusCodes.OK)
-            res.send({ "success": true, "result": result })
+            res.send({ "success": true, "id": result })
         }
         catch (err) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR)
