@@ -13,7 +13,7 @@ contract AdminHelper {
         addAdmin(msg.sender);
     }
 
-    // Require if admin
+    // Require if admin with error handling
     function requireAdmin(address possibleAdmin) public view returns (bool) {
         uint256 i;
 
@@ -43,7 +43,8 @@ contract AdminHelper {
 
     // Add new admin to list
     function addAdmin(address admin) public {
-        admins.push(admin);
+        // Only add admin if not already in list
+        if (isAdmin(admin) == false) admins.push(admin);
     }
 
     // Remove admin from list
