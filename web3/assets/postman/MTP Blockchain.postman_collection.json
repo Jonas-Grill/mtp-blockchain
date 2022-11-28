@@ -13,6 +13,65 @@
 					"name": "account",
 					"item": [
 						{
+							"name": "jwt",
+							"item": [
+								{
+									"name": "validate_token",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/account/jwt/validate_token",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"account",
+												"jwt",
+												"validate_token"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "generate_token",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "address",
+													"value": "0x917441412223Ac1104617Ca07ca9853504BEA5d0",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/account/jwt/generate_token",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"account",
+												"jwt",
+												"generate_token"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "send_gas",
 							"event": [
 								{
@@ -27,7 +86,13 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "jwt_token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "urlencoded",
 									"urlencoded": [
@@ -74,7 +139,13 @@
 									],
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -123,7 +194,13 @@
 									},
 									"request": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -168,18 +245,24 @@
 									],
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
 												{
 													"key": "address",
-													"value": "0x9f8fD6722f8f74c9942d0751374a542F5847BfD1",
+													"value": "0x917441412223Ac1104617Ca07ca9853504BEA5d0",
 													"type": "text"
 												},
 												{
 													"key": "faucet_blockno_difference",
-													"value": "10",
+													"value": "100",
 													"type": "text"
 												}
 											]
@@ -215,7 +298,13 @@
 									},
 									"request": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -248,13 +337,19 @@
 									"name": "append semester",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
 												{
 													"key": "name",
-													"value": "test3",
+													"value": "test",
 													"type": "text"
 												},
 												{
@@ -265,6 +360,11 @@
 												{
 													"key": "end_block",
 													"value": "200",
+													"type": "text"
+												},
+												{
+													"key": "min_knowledge_coin_amount",
+													"value": "10",
 													"type": "text"
 												}
 											]
@@ -289,7 +389,13 @@
 									},
 									"request": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -317,7 +423,13 @@
 									"name": "delete semester",
 									"request": {
 										"method": "DELETE",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -345,7 +457,13 @@
 									"name": "set name",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -379,7 +497,13 @@
 									"name": "set start_block",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -390,7 +514,7 @@
 												},
 												{
 													"key": "start_block",
-													"value": "100",
+													"value": "10",
 													"type": "text"
 												}
 											]
@@ -413,7 +537,13 @@
 									"name": "set end_block",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -424,7 +554,7 @@
 												},
 												{
 													"key": "end_block",
-													"value": "100",
+													"value": "99",
 													"type": "text"
 												}
 											]
@@ -442,6 +572,46 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "min_knowledge_coin_amount",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "min_knowledge_coin_amount",
+													"value": "999",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/semester/min_knowledge_coin_amount",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"semester",
+												"min_knowledge_coin_amount"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						},
@@ -452,7 +622,13 @@
 									"name": "append assignment",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -474,6 +650,16 @@
 												{
 													"key": "validation_contract_address",
 													"value": "0xb2d1633a67A36fFAbC7C98e7Ab2eCFb1d55F5fC8",
+													"type": "text"
+												},
+												{
+													"key": "start_block",
+													"value": "100",
+													"type": "text"
+												},
+												{
+													"key": "end_block",
+													"value": "101",
 													"type": "text"
 												}
 											]
@@ -498,7 +684,13 @@
 									},
 									"request": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -531,7 +723,13 @@
 									"name": "delete assignment",
 									"request": {
 										"method": "DELETE",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -564,7 +762,13 @@
 									"name": "set name",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -603,7 +807,13 @@
 									"name": "set link",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -642,7 +852,13 @@
 									"name": "set address",
 									"request": {
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -676,6 +892,166 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "start_block",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "semester_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "assignment_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "start_block",
+													"value": "1000",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/assignment/start_block",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"assignment",
+												"start_block"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "end_block",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "semester_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "assignment_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "end_block",
+													"value": "200",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/assignment/end_block",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"assignment",
+												"end_block"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "admin",
+							"item": [
+								{
+									"name": "get admin",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": []
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/admin",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"admin"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "set admin",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "jwt_token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "new_admin_address",
+													"value": "0x9f8fD6722f8f74c9942d0751374a542F5847BfD1",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}{{api_prefix}}/config/admin",
+											"host": [
+												"{{url}}{{api_prefix}}"
+											],
+											"path": [
+												"config",
+												"admin"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						}
@@ -688,7 +1064,13 @@
 							"name": "assignment_test",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "jwt_token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVHVlIE5vdiAxNSAyMDIyIDIxOjM0OjU4IEdNVCswMTAwIChNaXR0ZWxldXJvcMOkaXNjaGUgTm9ybWFsemVpdCkiLCJhZGRyZXNzIjoiMHg5MTc0NDE0MTIyMjNBYzExMDQ2MTdDYTA3Y2E5ODUzNTA0QkVBNWQwIiwiaWF0IjoxNjY4NTQ0NDk4fQ.u4u-poigpIpjVLis7idFF3Ga4u-yngwXSqxYIJT7oC0",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "urlencoded",
 									"urlencoded": [
@@ -699,7 +1081,7 @@
 										},
 										{
 											"key": "contract_address",
-											"value": "0x0044ab4dBe94f295a2a9B45e0d045736B5bBDe00",
+											"value": "0x2AEc6970019c4A64A74eFb270989D5F829E13930",
 											"type": "text"
 										}
 									]

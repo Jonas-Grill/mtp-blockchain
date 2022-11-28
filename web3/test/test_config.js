@@ -103,7 +103,7 @@ describe("test", async function () {
                 config.setCoinbaseAddress = accounts[0]
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1);
+                var id = await config.appendSemester("test", 0, 1, 5);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
@@ -112,6 +112,7 @@ describe("test", async function () {
                 assert.equal(obj[0], "test")
                 assert.equal(obj[1], 0)
                 assert.equal(obj[2], 1)
+                assert.equal(obj[3], 5)
             });
 
             it("should correctly delete semester", async function () {
@@ -123,7 +124,7 @@ describe("test", async function () {
                 config.setCoinbaseAddress = accounts[0]
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1);
+                var id = await config.appendSemester("test", 0, 1, 5);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
@@ -132,6 +133,7 @@ describe("test", async function () {
                 assert.equal(obj[0], "test")
                 assert.equal(obj[1], 0)
                 assert.equal(obj[2], 1)
+                assert.equal(obj[3], 5)
 
                 // Delete Semester
                 await config.deleteSemester(id);
@@ -143,6 +145,7 @@ describe("test", async function () {
                 assert.equal(deleted_obj[0], "")
                 assert.equal(deleted_obj[1], 0)
                 assert.equal(deleted_obj[2], 0)
+                assert.equal(deleted_obj[3], 0)
 
             });
 
@@ -155,7 +158,7 @@ describe("test", async function () {
                 config.setCoinbaseAddress = accounts[0]
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1);
+                var id = await config.appendSemester("test", 0, 1, 55);
 
                 // Set name to test2
                 await config.set_semester_name(id, "test2")
@@ -171,6 +174,11 @@ describe("test", async function () {
                 await config.set_semester_end_block(id, 777)
                 const obj3 = await config.getSemester(id)
                 assert.equal(obj3[2], 777)
+
+                // Set minKnowledgeCoinAmount to 99
+                await config.set_semester_amount_knowledge_coins(id, 99)
+                const obj4 = await config.getSemester(id)
+                assert.equal(obj4[3], 99)
             });
         })
         describe("assignment", async function () {
@@ -183,7 +191,7 @@ describe("test", async function () {
                 config.setCoinbaseAddress = accounts[0]
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1);
+                var id = await config.appendSemester("test", 0, 1, 55);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
@@ -192,9 +200,10 @@ describe("test", async function () {
                 assert.equal(obj[0], "test")
                 assert.equal(obj[1], 0)
                 assert.equal(obj[2], 1)
+                assert.equal(obj[3], 55)
 
                 // Create new assignment
-                var assignment_id = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F");
+                var assignment_id = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F", 101, 102);
 
                 // Get new assignment
                 const assignment_obj = await config.getAssignment(id, assignment_id);
@@ -203,6 +212,8 @@ describe("test", async function () {
                 assert.equal(assignment_obj[0], "test")
                 assert.equal(assignment_obj[1], "test_link")
                 assert.equal(assignment_obj[2], "0x720888250810885B45E5C6407EB5A9fBD5CdD38F")
+                assert.equal(assignment_obj[3], 101)
+                assert.equal(assignment_obj[4], 102)
             });
 
             it("should correctly delete assignment", async function () {
@@ -214,7 +225,7 @@ describe("test", async function () {
                 config.setCoinbaseAddress = accounts[0]
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1);
+                var id = await config.appendSemester("test", 0, 1, 55);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
@@ -223,9 +234,10 @@ describe("test", async function () {
                 assert.equal(obj[0], "test")
                 assert.equal(obj[1], 0)
                 assert.equal(obj[2], 1)
+                assert.equal(obj[3], 55)
 
                 // Create new assignment
-                var assignment_id = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F");
+                var assignment_id = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F", 101, 102);
 
                 // Get new assignment
                 const assignment_obj = await config.getAssignment(id, assignment_id);
@@ -234,6 +246,8 @@ describe("test", async function () {
                 assert.equal(assignment_obj[0], "test")
                 assert.equal(assignment_obj[1], "test_link")
                 assert.equal(assignment_obj[2], "0x720888250810885B45E5C6407EB5A9fBD5CdD38F")
+                assert.equal(assignment_obj[3], 101)
+                assert.equal(assignment_obj[4], 102)
 
                 // Delete created assignment
                 await config.deleteAssignment(id, assignment_id);
@@ -245,6 +259,8 @@ describe("test", async function () {
                 assert.equal(deleted_obj[0], "")
                 assert.equal(deleted_obj[1], "")
                 assert.equal(deleted_obj[2], "0x0000000000000000000000000000000000000000")
+                assert.equal(deleted_obj[3], 0)
+                assert.equal(deleted_obj[4], 0)
             });
 
             it("should correctly change assignment paramaters", async function () {
@@ -256,10 +272,10 @@ describe("test", async function () {
                 config.setCoinbaseAddress = accounts[0]
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1);
+                var id = await config.appendSemester("test", 0, 1, 55);
 
                 // Create new assignment
-                var assignment_id = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F");
+                var assignment_id = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F", 44, 33);
 
                 // Set name to test2
                 await config.set_assignment_name(id, assignment_id, "test2")
@@ -276,6 +292,16 @@ describe("test", async function () {
                 await config.set_assignment_address(id, assignment_id, "0xb0a484f3e70b3cdF2CBa764808A9E147D4bCC1f2")
                 const obj3 = await config.getAssignment(id, assignment_id)
                 assert.equal(obj3[2], "0xb0a484f3e70b3cdF2CBa764808A9E147D4bCC1f2")
+
+                // Set end_block to test2
+                await config.set_assignment_start_block(id, assignment_id, 5555)
+                const obj4 = await config.getAssignment(id, assignment_id)
+                assert.equal(obj4[3], 5555)
+
+                // Set end_block to test2
+                await config.set_assignment_end_block(id, assignment_id, 6666)
+                const obj5 = await config.getAssignment(id, assignment_id)
+                assert.equal(obj5[4], 6666)
             });
         })
 

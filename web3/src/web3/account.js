@@ -54,9 +54,8 @@ class UniMaAccount {
 
         // Make sure the coinbase address and the recipient address are both valid
         if (this.web3.utils.isAddress(from) && this.web3.utils.isAddress(to)) {
-
             // Get FaucetStorage smart-contract using coinbase address
-            var faucetStorageContract = this.utils.get_contract(this.web3, "FaucetStorage", this.config.getCoinbaseAddress, this.config.getNetworkId)
+            var faucetStorageContract = this.utils.get_contract(this.web3, "FaucetStorage", this.config.getCoinbaseAddress, await this.web3.eth.net.getId())
 
             // Get faucet object (blockNo, timestamp) given address 
             var faucetObject = await faucetStorageContract.methods.getFaucetUsage(to).call({
@@ -104,8 +103,8 @@ class UniMaAccount {
                 }
             }
             else {
-                console.log(`Faucet used to recent.`)
-                throw new Error("Faucet used to recent.")
+                console.log(`Faucet used too recent.`)
+                throw new Error("Faucet used too recent.")
             }
         }
         else {
@@ -155,6 +154,7 @@ class UniMaAccount {
                             trx_object = e;
                             --n;
                         }
+
                         // if the address is the receiver --> a transaction with this address occured
                         if (address == e.to) {
                             if (e.from != e.to)

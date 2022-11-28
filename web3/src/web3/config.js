@@ -70,6 +70,10 @@ class Config {
         this.coinbaseAddress = coinbase_address;
     }
 
+    set setNetwotkId(_network_id) {
+        this.networkId = _network_id;
+    }
+
     /**
      * Refresh faucet gas variable and return fresh value or return default
      * 
@@ -130,6 +134,64 @@ class Config {
 
 
     /*=============================================
+    =                 Admin Config                =
+    =============================================*/
+
+    /**
+    * Set a new admin address for all contracts
+    *
+    * @param {string} _newAdmin Address of the new admin
+    */
+    async add_admin(_newAdmin) {
+        // Change Admin for ConfigStorage Contract
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.addAdmin(_newAdmin).send({ from: _newAdmin });
+
+        // Change Admin for FaucetStorage Contract
+        const faucetStorageContract = await this.utils.get_contract(this.web3, "FaucetStorage", _newAdmin, await this.web3.eth.net.getId())
+        await faucetStorageContract.methods.addAdmin(_newAdmin).send({ from: _newAdmin });
+    }
+
+    /**
+    * Remove admin address for all contracts
+    *
+    * @param {string} _admin Address of the admin to remove
+    */
+    async remove_admin(_admin) {
+        // Change Admin for ConfigStorage Contract
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.removeAdmin(_admin).send({ from: _admin });
+
+        // Change Admin for FaucetStorage Contract
+        const faucetStorageContract = await this.utils.get_contract(this.web3, "FaucetStorage", _admin, await this.web3.eth.net.getId())
+        await faucetStorageContract.methods.removeAdmin(_admin).send({ from: _admin });
+    }
+
+    /**
+     * Return admin address
+     * 
+     * @returns current admin address
+     */
+    async get_admins() {
+        // Change Admin for ConfigStorage Contract
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.getAdmins().call();
+    }
+
+    /**
+     * Return if address is admin
+     * 
+     * @returns if address is admin
+     */
+    async is_admin(_address) {
+        // Change Admin for ConfigStorage Contract
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.isAdmin(_address).call();
+    }
+
+    /*=====      End of Admin Config       ======*/
+
+    /*=============================================
     =            Faucet Block Difference            =
     =============================================*/
 
@@ -164,11 +226,12 @@ class Config {
      * @param {string} _name Name of the semester (e.g. SS22)
      * @param {int} _start_block Start block of semester
      * @param {int} _end_block End block of semester
+     * @param {int} _min_knowledge_coin_amount New amount of minimum knowledge coin amount for semester
      * @returns Returns id of the semester
      */
-    async appendSemester(_name, _start_block, _end_block) {
+    async appendSemester(_name, _start_block, _end_block, _min_knowledge_coin_amount) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.appendSemester(_name, _start_block, _end_block).send({ from: this.coinbaseAddress });
+        await configStorageContract.methods.appendSemester(_name, _start_block, _end_block, _min_knowledge_coin_amount).send({ from: this.coinbaseAddress });
 
         return await configStorageContract.methods.getSemesterCounter().call();
     }
@@ -193,7 +256,6 @@ class Config {
         const configStorageContract = await this.getConfigStorage()
         return await configStorageContract.methods.deleteSemester(_id).send({ from: this.coinbaseAddress });
     }
-
 
     /*----------  Setter  ----------*/
 
@@ -230,6 +292,17 @@ class Config {
         await configStorageContract.methods.setSemesterEndBlock(id, end_block).send({ from: this.coinbaseAddress });
     }
 
+    /**
+     * Set semester min amount of knowledge coin needed to take exam to new value
+     * 
+     * @param {int} id Id of semester
+     * @param {int} _min_knowledge_coin_amount New amount of minimum knowledge coin amount for semester
+     */
+    async set_semester_amount_knowledge_coins(id, _min_knowledge_coin_amount) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setMinKnowledgeCoinAmount(id, _min_knowledge_coin_amount).send({ from: this.coinbaseAddress });
+    }
+
     /*============  End of Semester Config  =============*/
 
 
@@ -245,11 +318,13 @@ class Config {
      * @param {string} _name Name of the semester
      * @param {string} _link Link to the assignment
      * @param {string} _validationContractAddress Address of the validation contract
+     * @param {int} _start_block Start block of assignment
+     * @param {int} _end_block End block of assignment
      * @returns Returns id of the assignment
      */
-    async appendAssignment(_semester_id, _name, _link, _validationContractAddress) {
+    async appendAssignment(_semester_id, _name, _link, _validationContractAddress, _start_block, _end_block) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.appendAssignment(_semester_id, _name, _link, _validationContractAddress).send({ from: this.coinbaseAddress });
+        await configStorageContract.methods.appendAssignment(_semester_id, _name, _link, _validationContractAddress, _start_block, _end_block).send({ from: this.coinbaseAddress });
 
         return await configStorageContract.methods.getAssignmentCounter(_semester_id).call();
     }
@@ -297,7 +372,7 @@ class Config {
      * 
      * @param {int} _semester_id Id of the semester
      * @param {int} _assignment_id Id of the assignment
-     * @param {int} link New link of assignment
+     * @param {string} link New link of assignment
      */
     async set_assignment_link(_semester_id, _assignment_id, link) {
         const configStorageContract = await this.getConfigStorage()
@@ -309,11 +384,35 @@ class Config {
      *  
      * @param {int} _semester_id Id of the semester
      * @param {int} _assignment_id Id of the assignment
-     * @param {int} address New address of validation assignment smart contract
+     * @param {string} address New address of validation assignment smart contract
      */
     async set_assignment_address(_semester_id, _assignment_id, address) {
         const configStorageContract = await this.getConfigStorage()
         await configStorageContract.methods.setAssignmentAddress(_semester_id, _assignment_id, address).send({ from: this.coinbaseAddress });
+    }
+
+    /**
+     * Set assignment start block to new value
+     *  
+     * @param {int} _semester_id Id of the semester
+     * @param {int} _assignment_id Id of the assignment
+     * @param {int} _start_block New start block of assignment
+     */
+    async set_assignment_start_block(_semester_id, _assignment_id, _start_block) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setAssignmentStartBlock(_semester_id, _assignment_id, _start_block).send({ from: this.coinbaseAddress });
+    }
+
+    /**
+     * Set assignment end block to new value
+     *  
+     * @param {int} _semester_id Id of the semester
+     * @param {int} _assignment_id Id of the assignment
+     * @param {int} _end_block New end block of assignment
+     */
+    async set_assignment_end_block(_semester_id, _assignment_id, _end_block) {
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.setAssignmentEndBlock(_semester_id, _assignment_id, _end_block).send({ from: this.coinbaseAddress });
     }
 
     /*=====  End of Assignment Config  ======*/

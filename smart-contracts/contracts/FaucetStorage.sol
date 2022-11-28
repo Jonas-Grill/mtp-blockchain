@@ -1,35 +1,31 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-contract FaucetStorage {
+import "../contracts/AdminHelper.sol";
+
+contract FaucetStorage is AdminHelper {
     // Keep struct to allow extending to more than one value
     struct faucetUser {
         // Block number when faucet last used
         uint256 blockNo;
     }
 
+    // Mapping to store when user last used faucet
     mapping(address => faucetUser) Users;
 
-    address owner;
-
+    // Create event when faucet is used
     event faucetUsed(address _address, uint256 _blockNo);
 
-    /**
-     * constructor method setting an initial value
-     */
     constructor() {
-        owner = msg.sender;
+        addAdmin(msg.sender);
     }
 
-    /**
-        Add usage of faucet
-        todo: restrict so that only the coinbase holder can call this function
-     */
+    /*=============================================
+    =               Faucet Methods                =
+    =============================================*/
+
     function addFaucetUsage(address _address, uint256 _blockNo) public {
-        require(
-            msg.sender == owner,
-            "Address that deploys this smart contract is not the coinbase address!"
-        );
+        requireAdmin(msg.sender);
 
         faucetUser memory obj = faucetUser(_blockNo);
 
@@ -45,4 +41,6 @@ contract FaucetStorage {
     {
         return Users[_address];
     }
+
+    /*=====     End of Faucet Methods      ======*/
 }

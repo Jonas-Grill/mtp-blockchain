@@ -17,4 +17,7 @@
 .vscode/launch.json
 
 # Ignore truffle compiled
-smart-contracts/build/contracts
+smart-contracts/build/contracts/*
+
+# Ignore .env file
+.env
