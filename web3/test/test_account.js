@@ -21,7 +21,7 @@ const { expect } = require('chai');
 var chaiAssert = chai.assert
 
 var path = ""
-if (process.env.ENV == "test") {
+if (process.env.NODE_ENV == "test") {
     path = __dirname + "/config/test-config.json"
 }
 else {
@@ -29,7 +29,6 @@ else {
 }
 
 ganache = new prepare.Ganache_Helper()
-
 
 describe("test", function () {
     describe("send", function () {
@@ -39,6 +38,7 @@ describe("test", function () {
 
                 account = new accountHandler.UniMaAccount(config_path = path)
                 account.config.setCoinbaseAddress = accounts[0];
+                account.config.setNetworkId = await web3.eth.net.getId()
 
                 var from = accounts[0]
                 var to = accounts[1]
@@ -73,6 +73,7 @@ describe("test", function () {
 
                 account = new accountHandler.UniMaAccount(config_path = path)
                 account.config.setCoinbaseAddress = accounts[0];
+                account.config.setNetworkId = await web3.eth.net.getId()
 
                 var from = accounts[0]
                 var to = accounts[1]
@@ -91,6 +92,7 @@ describe("test", function () {
             it("should not send gas, because _from address is not valid", async function () {
 
                 account = new accountHandler.UniMaAccount(config_path = path)
+                account.config.setNetworkId = await web3.eth.net.getId()
 
                 var from = "wrong_address"
                 var to = accounts[1]
@@ -110,6 +112,7 @@ describe("test", function () {
 
                 account = new accountHandler.UniMaAccount(config_path = path)
                 account.config.setCoinbaseAddress = accounts[0];
+                account.config.setNetworkId = await web3.eth.net.getId()
 
                 var from = accounts[0]
                 var to = "wrong_address"
@@ -126,10 +129,11 @@ describe("test", function () {
 
                 assert.equal(error_occured, true)
             });
-            it("should not send gas, because faucet used to recent", async function () {
+            it("should not send gas, because faucet used too recent", async function () {
 
                 account = new accountHandler.UniMaAccount(config_path = path)
                 account.config.setCoinbaseAddress = accounts[0];
+                account.config.setNetworkId = await web3.eth.net.getId()
 
                 var from = accounts[0]
                 var to = accounts[1]
@@ -144,7 +148,7 @@ describe("test", function () {
                 }
                 catch (err) {
                     error_occured = true
-                    assert.equal(err, "Error: Faucet used to recent.")
+                    assert.equal(err, "Error: Faucet used too recent.")
                 }
 
                 assert.equal(error_occured, true)

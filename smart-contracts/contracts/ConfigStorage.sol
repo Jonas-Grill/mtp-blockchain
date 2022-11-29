@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-contract ConfigStorage {
+import "../contracts/AdminHelper.sol";
+
+contract ConfigStorage is AdminHelper {
     // Amount of gas the user can get using the faucet
     int128 faucetGas;
 
     // Amount of blocks difference between last faucet usage
     int128 faucetBlockNoDifference;
-
-    // Address of owner
-    address owner;
 
     // Struct Seminar
     struct uniMaSemester {
@@ -19,6 +18,8 @@ contract ConfigStorage {
         uint256 startBlock;
         // Last block which counts towards this semester
         uint256 endBlock;
+        // Amount of knowledge Coins needed to take exam
+        uint256 minKnowledgeCoinAmount;
         // Assignment counter
         uint256 assignmentCounter;
         // Assigned assignments
@@ -33,6 +34,8 @@ contract ConfigStorage {
         uint256 startBlock;
         // Last block which counts towards this semester
         uint256 endBlock;
+        // Amount of knowledge Coins needed to take exam
+        uint256 minKnowledgeCoinAmount;
     }
 
     // Assignments
@@ -43,6 +46,10 @@ contract ConfigStorage {
         string link;
         // Address to the validation contrac
         address validationContractAddress;
+        // First block which counts towards this assignment
+        uint256 startBlock;
+        // Last block which counts towards this assignment
+        uint256 endBlock;
     }
 
     uint256 semesterCounter = 0;
@@ -52,7 +59,7 @@ contract ConfigStorage {
      * Constructor to set default config values
      */
     constructor() {
-        owner = msg.sender;
+        addAdmin(msg.sender);
 
         faucetGas = 10;
         faucetBlockNoDifference = 10;
@@ -62,24 +69,23 @@ contract ConfigStorage {
     }
 
     /*=============================================
-    =            Semester function            =
+    =              Semester function              =
     =============================================*/
 
     function appendSemester(
         string memory _name,
         uint256 _startBlock,
-        uint256 _endBlock
+        uint256 _endBlock,
+        uint256 _minKnowledgeCoinAmount
     ) public returns (uint256) {
-        require(
-            msg.sender == owner,
-            "Address that deploys this smart contract is not the coinbase address!"
-        );
+        requireAdmin(msg.sender);
 
         uint256 index = semesterCounter + 1;
 
         semesters[index].name = _name;
         semesters[index].startBlock = _startBlock;
         semesters[index].endBlock = _endBlock;
+        semesters[index].minKnowledgeCoinAmount = _minKnowledgeCoinAmount;
         semesters[index].assignmentCounter = 0;
 
         semesterCounter = index;
@@ -96,11 +102,14 @@ contract ConfigStorage {
             uniMaSemesterReturn(
                 semesters[_id].name,
                 semesters[_id].startBlock,
-                semesters[_id].endBlock
+                semesters[_id].endBlock,
+                semesters[_id].minKnowledgeCoinAmount
             );
     }
 
     function deleteSemester(uint256 _id) public {
+        requireAdmin(msg.sender);
+
         delete semesters[_id];
     }
 
@@ -111,15 +120,26 @@ contract ConfigStorage {
     /*----------  Setter  ----------*/
 
     function setSemesterName(uint256 _id, string memory name) public {
+        requireAdmin(msg.sender);
         semesters[_id].name = name;
     }
 
-    function setSemesterStartBlock(uint256 _id, uint256 startBlock) public {
-        semesters[_id].startBlock = startBlock;
+    function setSemesterStartBlock(uint256 _id, uint256 _startBlock) public {
+        requireAdmin(msg.sender);
+        semesters[_id].startBlock = _startBlock;
     }
 
-    function setSemesterEndBlock(uint256 _id, uint256 endBlock) public {
-        semesters[_id].endBlock = endBlock;
+    function setSemesterEndBlock(uint256 _id, uint256 _endBlock) public {
+        requireAdmin(msg.sender);
+        semesters[_id].endBlock = _endBlock;
+    }
+
+    function setMinKnowledgeCoinAmount(
+        uint256 _id,
+        uint256 _minKnowledgeCoinAmount
+    ) public {
+        requireAdmin(msg.sender);
+        semesters[_id].minKnowledgeCoinAmount = _minKnowledgeCoinAmount;
     }
 
     /*=====  End of Semester function  ======*/
@@ -132,12 +152,11 @@ contract ConfigStorage {
         uint256 _semesterId,
         string memory _name,
         string memory _link,
-        address _validationContractAddress
+        address _validationContractAddress,
+        uint256 _startBlock,
+        uint256 _endBlock
     ) public returns (uint256) {
-        require(
-            msg.sender == owner,
-            "Address that deploys this smart contract is not the coinbase address!"
-        );
+        requireAdmin(msg.sender);
 
         uint256 index = semesters[_semesterId].assignmentCounter + 1;
 
@@ -146,6 +165,8 @@ contract ConfigStorage {
         semesters[_semesterId]
             .assignments[index]
             .validationContractAddress = _validationContractAddress;
+        semesters[_semesterId].assignments[index].startBlock = _startBlock;
+        semesters[_semesterId].assignments[index].endBlock = _endBlock;
 
         semesters[_semesterId].assignmentCounter = index;
 
@@ -163,6 +184,7 @@ contract ConfigStorage {
     function deleteAssignment(uint256 _semesterId, uint256 _assignmentId)
         public
     {
+        requireAdmin(msg.sender);
         delete semesters[_semesterId].assignments[_assignmentId];
     }
 
@@ -181,6 +203,7 @@ contract ConfigStorage {
         uint256 _assignmentId,
         string memory name
     ) public {
+        requireAdmin(msg.sender);
         semesters[_semesterId].assignments[_assignmentId].name = name;
     }
 
@@ -189,6 +212,7 @@ contract ConfigStorage {
         uint256 _assignmentId,
         string memory link
     ) public {
+        requireAdmin(msg.sender);
         semesters[_semesterId].assignments[_assignmentId].link = link;
     }
 
@@ -197,9 +221,30 @@ contract ConfigStorage {
         uint256 _assignmentId,
         address _address
     ) public {
+        requireAdmin(msg.sender);
         semesters[_semesterId]
             .assignments[_assignmentId]
             .validationContractAddress = _address;
+    }
+
+    function setAssignmentStartBlock(
+        uint256 _semesterId,
+        uint256 _assignmentId,
+        uint256 _startBlock
+    ) public {
+        requireAdmin(msg.sender);
+        semesters[_semesterId]
+            .assignments[_assignmentId]
+            .startBlock = _startBlock;
+    }
+
+    function setAssignmentEndBlock(
+        uint256 _semesterId,
+        uint256 _assignmentId,
+        uint256 _endBlock
+    ) public {
+        requireAdmin(msg.sender);
+        semesters[_semesterId].assignments[_assignmentId].endBlock = _endBlock;
     }
 
     /*=====  End of Assignment functions  ======*/
@@ -218,10 +263,7 @@ contract ConfigStorage {
     }
 
     function setIntValue(string memory key, int128 value) public {
-        require(
-            msg.sender == owner,
-            "Address that deploys this smart contract is not the coinbase address!"
-        );
+        requireAdmin(msg.sender);
 
         if (compareStrings(key, "faucetGas") == true) {
             faucetGas = value;
@@ -237,7 +279,7 @@ contract ConfigStorage {
     =============================================*/
 
     function compareStrings(string memory a, string memory b)
-        public
+        internal
         view
         returns (bool)
     {

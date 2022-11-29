@@ -24,16 +24,42 @@ class UniMaAssignments {
         this.web3.setProvider(new this.web3.providers.HttpProvider(this.config.getRpcUrl));
     }
 
-    async run_test_assignment(student_address, contract_address) {
+
+    /**
+     * Validate assignment
+     * 
+     * @param {string} student_address Student address
+     * @param {string} contract_address Contract address
+     * @param {string} contract_name Name of contract
+     * @returns Id of assignment check
+     */
+    async validate_assignment(student_address, contract_address, contract_name) {
         const deploy_address = this.config.getCoinbaseAddress;
 
-        const test_assignment_validator = this.utils.get_contract(this.web3, "TestAssignmentValidator", deploy_address, this.config.getNetworkId);
+        const test_assignment_validator = this.utils.get_contract(this.web3, contract_name, deploy_address, this.config.getNetworkId);
+        test_assignment_validator.options.gas = 5000000
 
-        var bool_array = await test_assignment_validator.methods.validateTestAssignment(student_address, contract_address).call({
+        await test_assignment_validator.methods.validateTestAssignment(student_address, contract_address).send({
             from: deploy_address,
         });
 
-        return bool_array;
+        var id = await test_assignment_validator.methods.getHistoryCounter().call({
+            from: deploy_address,
+        });
+
+        return id;
+    }
+
+    async get_test_results(contract_name, id) {
+        const deploy_address = this.config.getCoinbaseAddress;
+
+        const test_assignment_validator = this.utils.get_contract(this.web3, contract_name, deploy_address, this.config.getNetworkId);
+
+        var results = await test_assignment_validator.methods.getTestResults(id).call({
+            from: deploy_address,
+        });
+
+        return results;
     }
 }
 

@@ -4,14 +4,13 @@ pragma solidity ^0.8.17;
 /**
  * Example assignment for testing
  */
-contract TestAssignment {
+
+import "../contracts/BaseAssignment.sol";
+
+contract TestAssignment is BaseAssignment {
     int256 testValue;
 
-    address public owner;
-
     constructor() {
-        owner = msg.sender;
-
         testValue = 1998;
     }
 

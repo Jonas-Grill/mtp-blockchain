@@ -2,52 +2,54 @@
 pragma solidity ^0.8.17;
 
 import "../contracts/TestAssignment.sol";
+import "../contracts/AssignmentHelper.sol";
 
 /**
  * Example assignment validator for testing
  */
-contract TestAssignmentValidator {
+contract TestAssignmentValidator is AssignmentHelper {
     function validateTestAssignment(
-        address _student_address,
-        address _contract_address
-    ) public returns (bool[] memory) {
-        TestAssignment assignment_contract = TestAssignment(_contract_address);
+        address _studentAddress,
+        address _contractAddress
+    ) public override(AssignmentHelper) returns (uint256) {
+        uint256 historyIndex = createTestHistory(
+            _studentAddress,
+            _contractAddress
+        );
 
-        bool[] memory tests = new bool[](3);
+        TestAssignment assignment_contract = TestAssignment(_contractAddress);
 
-        // Validate Owner
-        tests[0] = validateOwner(_student_address, _contract_address);
+        // "Is contract from the student"
+        appendTestResult(
+            historyIndex,
+            "Is contract from the student",
+            checkAssignmentOwner(_studentAddress, _contractAddress)
+        );
 
         // Test 1 - test if default value is 1998
         if (int256(assignment_contract.getTestValue()) == int256(1998)) {
-            tests[1] = true;
+            appendTestResult(
+                historyIndex,
+                "test if default value is 1998",
+                true
+            );
         } else {
-            tests[1] = false;
+            appendTestResult(
+                historyIndex,
+                "test if default value is 1998",
+                false
+            );
         }
 
         // Test 2 - test if setTestValue works
         assignment_contract.setTestValue(int256(2022));
 
         if (int256(assignment_contract.getTestValue()) == int256(2022)) {
-            tests[2] = true;
+            appendTestResult(historyIndex, "test if setTestValue works", true);
         } else {
-            tests[2] = false;
+            appendTestResult(historyIndex, "test if setTestValue works", false);
         }
 
-        return tests;
-    }
-
-    function validateOwner(address _student_address, address _contract_address)
-        public
-        view
-        returns (bool)
-    {
-        TestAssignment assignment_contract = TestAssignment(_contract_address);
-
-        if (assignment_contract.owner() == _student_address) {
-            return true;
-        } else {
-            return false;
-        }
+        return historyIndex;
     }
 }
