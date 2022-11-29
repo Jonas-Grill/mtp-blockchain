@@ -3,7 +3,7 @@ pragma solidity >=0.8.0;
 
     error SoulBoundRestriction();
 
-abstract contract ERC20SB {
+contract SBCoin {
 
     //EVENTS
     event Transfer(address indexed from, address indexed to, uint256 amount);
@@ -29,12 +29,15 @@ abstract contract ERC20SB {
     mapping(address => mapping(uint => uint256)) private _timeStamps;
 
     //CONSTRUCTOR
-    constructor(string name, string symbol) {
+    constructor(string memory name_, string memory symbol_) {
         admin = msg.sender;
+        _balances[msg.sender] = 10000;
+        _totalSupply = 10000;
 
-        _name = name; //KnowledgeCoin
-        _symbol = symbol; //NOW
+        _name = name_; //KnowledgeCoin
+        _symbol = symbol_; //NOW
         _decimals = 18;
+        _totalSupply = 0;
     }
 
     //ERC20SB LOGIC
@@ -70,9 +73,9 @@ abstract contract ERC20SB {
 
         if (currentAllowance != type(uint256).max) {
             require(currentAllowance >= amount, "ERC20: insufficient allowance");
-        unchecked {
-            _approve(from, spender, currentAllowance - amount);
-        }
+            unchecked {
+                _approve(from, spender, currentAllowance - amount);
+            }
         }
 
         _transfer(from, to, amount);
@@ -121,9 +124,7 @@ abstract contract ERC20SB {
 
     //UTILITY
     function _transfer(address from, address to, uint256 amount) internal virtual {
-        if (msg.sender != admin) {
-            revert SoulBoundRestriction();
-        }
+        require(msg.sender == admin, "SoulBound Restriction: only admin can transfer");
 
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
@@ -134,10 +135,10 @@ abstract contract ERC20SB {
 
         // Cannot overflow or underflow because a user's balance
         // will never be larger than the total supply.
-    unchecked {
-        _balances[from] = fromBalance - amount;
-        _balances[to] += amount;
-    }
+        unchecked {
+            _balances[from] = fromBalance - amount;
+            _balances[to] += amount;
+        }
 
         uint256 counter = amount;
         for (uint256 i = 0; i <= block.number; i++) {
@@ -165,9 +166,7 @@ abstract contract ERC20SB {
     }
 
     function _approve(address owner, address spender, uint256 amount) internal virtual {
-        if (msg.sender != admin) {
-            revert SoulBoundRestriction();
-        }
+        require(msg.sender == admin, "SoulBound Restriction: only admin can approve");
 
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");

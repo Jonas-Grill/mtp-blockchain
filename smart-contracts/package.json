@@ -4,7 +4,9 @@
   "description": "Blockchain Project for University Mannheim",
   "main": "index.js",
   "scripts": {
-    "test": "truffle test"
+    "test": "truffle test ./test/sb_coin.js",
+    "compile": "truffle compile",
+    "deploy": "truffle deploy"
   },
   "repository": {
     "type": "git",
