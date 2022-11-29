@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity >=0.8.0;
 
-error SoulBoundRestriction();
+    error SoulBoundRestriction();
 
 abstract contract ERC20SB {
 
@@ -10,10 +10,10 @@ abstract contract ERC20SB {
     event Approval(address indexed owner, address indexed spender, uint256 amount);
 
     //METADATA STORAGE
-    string private _name = "SoulBound Coin";
-    string private _symbol = "SBC";
+    string private _name;
+    string private _symbol;
 
-    uint8 private immutable _decimals = 18;
+    uint8 private immutable _decimals;
 
     //METADATA ACCESSORS
     address private immutable admin;
@@ -25,9 +25,16 @@ abstract contract ERC20SB {
 
     mapping(address => mapping(address => uint256)) private _allowances;
 
+    //TIME VALIDATION STORAGE
+    mapping(address => mapping(uint => uint256)) private _timeStamps;
+
     //CONSTRUCTOR
-    constructor() {
+    constructor(string name, string symbol) {
         admin = msg.sender;
+
+        _name = name; //KnowledgeCoin
+        _symbol = symbol; //NOW
+        _decimals = 18;
     }
 
     //ERC20SB LOGIC
@@ -63,9 +70,9 @@ abstract contract ERC20SB {
 
         if (currentAllowance != type(uint256).max) {
             require(currentAllowance >= amount, "ERC20: insufficient allowance");
-            unchecked {
-                _approve(from, spender, currentAllowance - amount);
-            }
+        unchecked {
+            _approve(from, spender, currentAllowance - amount);
+        }
         }
 
         _transfer(from, to, amount);
@@ -81,8 +88,8 @@ abstract contract ERC20SB {
         return _allowances[owner][spender];
     }
 
-    //INTERNAL MINT / BURN LOGIC
-    function _mint(address to, uint256 amount) internal virtual {
+    //MINT LOGIC
+    function mint(address to, uint256 amount) public returns (bool) {
         require(to != address(0), "ERC20: mint to the zero address");
         require(msg.sender == admin, "ERC20: only admin can mint");
 
@@ -94,20 +101,23 @@ abstract contract ERC20SB {
             _balances[to] += amount;
         }
 
+        _timeStamps[to][block.number] = amount;
+
         emit Transfer(address(0), to, amount);
+
+        return true;
     }
 
-    function _burn(address from, uint256 amount) internal virtual {
-        _balances[from] -= amount;
-
-        // Cannot underflow because a user's balance
-        // will never be larger than the total supply.
-        unchecked {
-            _totalSupply -= amount;
+    //TIME VALIDATION LOGIC
+    function coinsInBlockNumberRange(address account, uint startBlock, uint endBlock) public view returns (uint256) {
+        uint256 amount = 0;
+        for (uint i = startBlock; i <= endBlock; i++) {
+            amount += _timeStamps[account][i];
         }
-
-        emit Transfer(from, address(0), amount);
+        return amount;
     }
+
+    //INTERNAL LOGIC
 
     //UTILITY
     function _transfer(address from, address to, uint256 amount) internal virtual {
@@ -124,10 +134,32 @@ abstract contract ERC20SB {
 
         // Cannot overflow or underflow because a user's balance
         // will never be larger than the total supply.
-        unchecked {
-            _balances[from] = fromBalance - amount;
-            _balances[to] += amount;
+    unchecked {
+        _balances[from] = fromBalance - amount;
+        _balances[to] += amount;
+    }
+
+        uint256 counter = amount;
+        for (uint256 i = 0; i <= block.number; i++) {
+            if (_timeStamps[from][i] > 0) {
+                if (counter > _timeStamps[from][i]) {
+                    counter -= _timeStamps[from][i];
+                    delete _timeStamps[from][i];
+
+                    if (counter == 0) {
+                        break;
+                    }
+                } else {
+                    _timeStamps[from][i] -= counter;
+                    counter = 0;
+                    break;
+                }
+            } else {
+                delete _timeStamps[from][i];
+            }
         }
+
+        _timeStamps[to][block.number] = amount;
 
         emit Transfer(from, to, amount);
     }
