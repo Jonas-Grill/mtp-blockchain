@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "../contracts/AdminHelper.sol";
+import "../contracts/BaseAdmin.sol";
 
-contract ConfigStorage is AdminHelper {
+contract ConfigStorage is BaseAdmin {
     // Amount of gas the user can get using the faucet
     int128 faucetGas;
 

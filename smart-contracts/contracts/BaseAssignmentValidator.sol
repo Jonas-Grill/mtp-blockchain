@@ -5,10 +5,10 @@ pragma solidity ^0.8.17;
 =                Assignment Helper            =
 =============================================*/
 
-import "../contracts/AdminHelper.sol";
+import "../contracts/BaseAdmin.sol";
 import "../contracts/BaseAssignment.sol";
 
-contract AssignmentHelper is AdminHelper {
+contract BaseAssignmentValidator is BaseAdmin {
     struct Test {
         // Name of test
         string testName;

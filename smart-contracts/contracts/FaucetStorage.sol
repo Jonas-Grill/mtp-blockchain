@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "../contracts/AdminHelper.sol";
+import "../contracts/BaseAdmin.sol";
 
-contract FaucetStorage is AdminHelper {
+contract FaucetStorage is BaseAdmin {
     // Keep struct to allow extending to more than one value
     struct faucetUser {
         // Block number when faucet last used
