@@ -12,18 +12,20 @@ const routes = require('./routes');
 
 // Constants
 const PORT = 9090;
-const HOST = '0.0.0.0';
+const HOST = 'localhost';
 
 const app = express();
 app.use(express.json());
 app.use('/', routes)
+
+env = require('minimist')(process.argv.slice(2))["env"];
 
 /*=============================================
 =                Express - API                =
 =============================================*/
 
 app.listen(PORT, HOST, () => {
-  console.log(`Running on http://${HOST}:${PORT} in ${process.env.NODE_ENV} environment`);
+  console.log(`Running on http://${HOST}:${PORT} in ${env} environment`);
 });
 
 
