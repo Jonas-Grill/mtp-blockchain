@@ -17,27 +17,27 @@ describe("test", async function () {
 
         it("should get correct rpc url", async function () {
             // Create config class with config path
-            const config = new configHandler.Config(__dirname + "/config/test-config.json")
+            const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
             assert.equal(config.getRpcUrl, rpcUrl)
         })
 
         it("should get correct coinbase address", async function () {
             // Create config class with config path
-            const config = new configHandler.Config(__dirname + "/config/test-config.json")
+            const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
             assert.equal(config.getCoinbaseAddress, coinbaseAddress)
         })
         it("should get correct network id", async function () {
             // Create config class with config path
-            const config = new configHandler.Config(__dirname + "/config/test-config.json")
+            const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
             assert.equal(config.networkId, networkId)
         })
 
         it("should get fresh faucet gas amount", async function () {
             // Create config class with config path
-            const config = new configHandler.Config(__dirname + "/config/test-config.json")
+            const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
             // Set value to default
             accounts = await ganache.get_account()
@@ -47,13 +47,13 @@ describe("test", async function () {
         })
         it("should overrite correct faucet gas amount", async function () {
             // Create config class with config path
-            const config = new configHandler.Config(__dirname + "/config/test-config.json")
+            const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
             assert.equal(await config.getFreshFaucetGas(99), 99)
         })
         it("should get fresh faucet blockNo difference amount", async function () {
             // Create config class with config path
-            const config = new configHandler.Config(__dirname + "/config/test-config.json")
+            const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
             // Set value to default
             accounts = await ganache.get_account()
@@ -64,7 +64,7 @@ describe("test", async function () {
         describe("set", async function () {
             it("should set fresh gas amount", async function () {
                 // Create config class with config path
-                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+                const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
                 // Check initial value
                 assert.equal(await config.getFreshFaucetGas(), 10)
@@ -79,7 +79,7 @@ describe("test", async function () {
 
             it("should set faucet blockNo difference amount", async function () {
                 // Create config class with config path
-                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+                const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
                 // Check initial value
                 assert.equal(await config.getFreshFaucetBlockNoDifference(), 10)
@@ -96,7 +96,7 @@ describe("test", async function () {
         describe("semester", async function () {
             it("should correctly append semester", async function () {
                 // Create config class with config path
-                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+                const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
                 // Set coinbase address
                 accounts = await ganache.get_account()
@@ -117,7 +117,7 @@ describe("test", async function () {
 
             it("should correctly delete semester", async function () {
                 // Create config class with config path
-                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+                const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
                 // Set coinbase address
                 accounts = await ganache.get_account()
@@ -151,7 +151,7 @@ describe("test", async function () {
 
             it("should correctly change semester paramaters", async function () {
                 // Create config class with config path
-                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+                const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
                 // Set coinbase address
                 accounts = await ganache.get_account()
@@ -184,7 +184,7 @@ describe("test", async function () {
         describe("assignment", async function () {
             it("should correctly append assignment", async function () {
                 // Create config class with config path
-                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+                const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
                 // Set coinbase address
                 accounts = await ganache.get_account()
@@ -218,7 +218,7 @@ describe("test", async function () {
 
             it("should correctly delete assignment", async function () {
                 // Create config class with config path
-                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+                const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
                 // Set coinbase address
                 accounts = await ganache.get_account()
@@ -265,7 +265,7 @@ describe("test", async function () {
 
             it("should correctly change assignment paramaters", async function () {
                 // Create config class with config path
-                const config = new configHandler.Config(__dirname + "/config/test-config.json")
+                const config = new configHandler.Config(__dirname + "/config/tst-config.json")
 
                 // Set coinbase address
                 accounts = await ganache.get_account()

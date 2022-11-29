@@ -2,16 +2,16 @@
 pragma solidity ^0.8.17;
 
 import "../contracts/TestAssignment.sol";
-import "../contracts/AssignmentHelper.sol";
+import "../contracts/BaseAssignmentValidator.sol";
 
 /**
  * Example assignment validator for testing
  */
-contract TestAssignmentValidator is AssignmentHelper {
+contract TestAssignmentValidator is BaseAssignmentValidator {
     function validateTestAssignment(
         address _studentAddress,
         address _contractAddress
-    ) public override(AssignmentHelper) returns (uint256) {
+    ) public override(BaseAssignmentValidator) returns (uint256) {
         uint256 historyIndex = createTestHistory(
             _studentAddress,
             _contractAddress

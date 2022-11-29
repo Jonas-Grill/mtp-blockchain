@@ -8,8 +8,12 @@ const root_path = require('path').resolve('./')
 /*----------  Config  ----------*/
 // Prepare config path
 var configPath = ""
-if (process.env.NODE_ENV == "test") {
-    configPath = root_path + "/src/config/test-config.json"
+env = require('minimist')(process.argv.slice(2))["env"];
+if (env == "prd") {
+    configPath = root_path + "/src/config/prd-config.json"
+}
+else if (env == "tst") {
+    configPath = root_path + "/src/config/tst-config.json"
 }
 else {
     configPath = root_path + "/src/config/dev-config.json"

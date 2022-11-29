@@ -22,7 +22,7 @@ var chaiAssert = chai.assert
 
 var path = ""
 if (process.env.NODE_ENV == "test") {
-    path = __dirname + "/config/test-config.json"
+    path = __dirname + "/config/tst-config.json"
 }
 else {
     path = __dirname + "/config/dev-config.json"

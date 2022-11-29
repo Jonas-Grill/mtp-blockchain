@@ -5,7 +5,7 @@ pragma solidity ^0.8.17;
 =                     Admin                   =
 =============================================*/
 
-contract AdminHelper {
+contract BaseAdmin {
     // Address of admin
     address[] private admins;
 
