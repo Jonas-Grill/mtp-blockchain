@@ -5,7 +5,7 @@ function isMobileDevice() {
     return 'ontouchstart' in window || 'onmsgesturechange' in window;
 }
 
-async function connect(onConnected) {
+async function connect(onConnected: (address: string) => void) {
     if (!window.ethereum) {
         alert("Get MetaMask!");
         return;
@@ -18,7 +18,7 @@ async function connect(onConnected) {
     onConnected(accounts[0]);
 }
 
-async function checkIfWalletIsConnected(onConnected) {
+async function checkIfWalletIsConnected(onConnected: (address: string) => void) {
     if (window.ethereum) {
         const accounts = await window.ethereum.request({
             method: "eth_accounts",
@@ -36,7 +36,7 @@ async function checkIfWalletIsConnected(onConnected) {
     }
 }
 
-export default function MetaMaskAuth({ onAddressChanged }) {
+export default function MetaMaskAuth({ onAddressChanged }: { onAddressChanged: (address: string) => void }) {
     const [userAddress, setUserAddress] = useState("");
 
     useEffect(() => {
@@ -59,7 +59,7 @@ export default function MetaMaskAuth({ onAddressChanged }) {
     );
 }
 
-function Connect({ setUserAddress }) {
+function Connect({ setUserAddress }: { setUserAddress: (address: string) => void }) {
     if (typeof window !== "undefined") {
         if (isMobileDevice()) {
             const dappUrl = "metamask-auth.ilamanov.repl.co"; // TODO enter your dapp URL. For example: https://uniswap.exchange. (don't enter the "https://")
@@ -88,8 +88,7 @@ function Connect({ setUserAddress }) {
     );
 }
 
-
-function Address({ userAddress }) {
+function Address({ userAddress }: { userAddress: string }) {
     return (
         <span className="">{userAddress.substring(0, 5)}…{userAddress.substring(userAddress.length - 4)}</span>
     );
