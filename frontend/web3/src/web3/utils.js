@@ -33,7 +33,7 @@ class UniMaUtils {
         const fs = require('fs');
         var process = require('process');
 
-        const directoryPath = path.join(process.cwd().replace("web3", ""), 'smart-contracts', 'build', 'contracts');
+        const directoryPath = path.join(process.cwd().replace("web3", "").replace("frontend", ""), 'smart-contracts', 'build', 'contracts');
 
         const filePath = path.join(directoryPath, contract_name + ".json")
 

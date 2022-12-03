@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "testweb3": "mocha test"
+    "testweb3": "mocha 'web3/test/*.js'"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.3",
