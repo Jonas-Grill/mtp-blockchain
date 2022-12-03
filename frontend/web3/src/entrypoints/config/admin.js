@@ -14,11 +14,9 @@ else {
     configPath = root_path + "/config/dev-config.json"
 }
 
-
 /*----------  Account Helper ----------*/
 // Get account Handler
 const accountHandler = require(root_path + '/src/web3/account');
-
 
 /*----------  Config Helper  ----------*/
 // config
@@ -26,14 +24,11 @@ const configHandler = require(root_path + '/src/web3/config');
 // Create config class with config path
 const config = new configHandler.Config(configPath);
 
-
-
 /*----------  Utils Helper  ----------*/
 // utils
 const utilsHelper = require(root_path + '/src/web3/utils')
 // Create utils class
 const utils = new utilsHelper.UniMaUtils();
-
 
 // Add admin endpoint
 exports.append_admin = async (address, new_address) => {

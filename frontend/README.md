@@ -46,4 +46,4 @@ npm run dev
 ```
 
 ### 5. Usage
-The frontend is accessible over the `3000` Port on `localhost`. 
+The frontend is accessible over the `3000` Port on `localhost`.
