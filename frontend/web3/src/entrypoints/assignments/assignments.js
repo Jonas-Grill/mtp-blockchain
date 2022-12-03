@@ -19,7 +19,6 @@ else {
     configPath = root_path + "/config/dev-config.json"
 }
 
-
 /*----------  Dot ENV  ----------*/
 // Set up Global configuration access
 dotenv.config();
