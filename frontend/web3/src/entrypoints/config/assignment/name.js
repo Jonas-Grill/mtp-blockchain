@@ -5,13 +5,13 @@ const root_path = require('path').resolve('./')
 var configPath = ""
 env = require('minimist')(process.argv.slice(2))["env"];
 if (env == "prd") {
-    configPath = root_path + "/src/config/prd-config.json"
+    configPath = root_path + "/config/prd-config.json"
 }
 else if (env == "tst") {
-    configPath = root_path + "/src/config/tst-config.json"
+    configPath = root_path + "/config/tst-config.json"
 }
 else {
-    configPath = root_path + "/src/config/dev-config.json"
+    configPath = root_path + "/config/dev-config.json"
 }
 
 
