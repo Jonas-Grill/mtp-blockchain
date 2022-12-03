@@ -2,7 +2,7 @@ name: Run web3 tests
 on:
   push:
     paths:
-      - web3/**
+      - frontend/web3/**
 
 jobs:
   # Label of the container job
@@ -36,9 +36,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-          cache-dependency-path: "./web3/package-lock.json"
-      - run: cd web3 && npm ci
-      - run: cd web3 && npm run build --if-present
+          cache-dependency-path: "./frontend/package-lock.json"
+      - run: cd frontend/web3 && npm ci
+      - run: cd frontend/web3 && npm run build --if-present
       - run: cd smart-contracts && npx truffle compile
       - run: cd smart-contracts && npx truffle deploy
-      - run: cd web3 && npm test
+      - run: cd frontend/web3 && npm test

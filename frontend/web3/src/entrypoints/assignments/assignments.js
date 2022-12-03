@@ -38,25 +38,23 @@ const assignmentsHandler = require(root_path + '/src/web3/assignment')
 const assignments = new assignmentsHandler.UniMaAssignments(configPath);
 
 // Run validator for test assignment
-exports.post = async (req, res) => {
-    // Validate token from header
-    if (utils.verify_jwt_token(jwt, req)) {
-        try {
-            var student_address = req.body.student_address
-            var contract_address = req.body.contract_address
-            var contract_name = req.body.contract_name
-
-            const result = await assignments.validate_assignment(student_address, contract_address, contract_name)
-            res.status(StatusCodes.OK)
-            res.send({ "success": true, "id": result })
-        }
-        catch (err) {
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-            res.send({ "success": false, "error": err.message });
-        }
+exports.get_test_results = async (address, contract_name, test_id) => {
+    try {
+        const result = await assignments.get_test_results(contract_name, test_id)
+        return { "success": true, "result": result };
     }
-    else {
-        res.status(StatusCodes.UNAUTHORIZED)
-        res.send({ "success": false, "error": "Authentication failed!" });
+    catch (err) {
+        return { "success": false, "error": err.message };
+    }
+};
+
+// Run validate assignment
+exports.validate_assignment = async (address, student_address, contract_address, contract_name) => {
+    try {
+        const result = await assignments.validate_assignment(student_address, contract_address, contract_name)
+        return { "success": true, "id": result };
+    }
+    catch (err) {
+        return { "success": false, "error": err.message };
     }
 };

@@ -1,8 +1,3 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-
-const StatusCodes = require('http-status-codes').StatusCodes;
-
 const root_path = require('path').resolve('./')
 
 /*----------  Config  ----------*/
@@ -19,10 +14,12 @@ else {
     configPath = root_path + "/src/config/dev-config.json"
 }
 
+/*----------  Config Helper  ----------*/
+// config
+const configHandler = require(root_path + '/src/web3/config')
+// Create config class with config path
+const config = new configHandler.Config(configPath)
 
-/*----------  Dot ENV  ----------*/
-// Set up Global configuration access
-dotenv.config();
 
 
 /*----------  Utils Helper  ----------*/
@@ -31,14 +28,13 @@ const utilsHelper = require(root_path + '/src/web3/utils')
 // Create utils class
 const utils = new utilsHelper.UniMaUtils()
 
-// Send gas endpoint
-exports.post = async (req, res) => {
-    if (utils.verify_jwt_token(jwt, req)) {
-        res.status(StatusCodes.OK)
-        res.send({ "success": true, "message": "Token valid!" })
+// Set assignment link
+exports.set_assignment_link = async (address, semester_id, assignment, link) => {
+    try {
+        await config.set_assignment_link(semester_id, assignment_id, link)
+        return { "success": true };
     }
-    else {
-        res.status(StatusCodes.UNAUTHORIZED)
-        res.send({ "success": false, "error": "Authentication failed! Token not valid!" });
+    catch (err) {
+        return { "success": false, "error": err.message };
     }
 };

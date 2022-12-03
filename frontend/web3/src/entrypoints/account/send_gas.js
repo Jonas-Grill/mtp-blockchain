@@ -25,6 +25,11 @@ else {
 dotenv.config();
 
 
+/*----------  Account Helper ----------*/
+// Get account Handler
+const accountHandler = require(root_path + '/src/web3/account')
+
+
 /*----------  Config Helper  ----------*/
 // config
 const configHandler = require(root_path + '/src/web3/config')
@@ -39,19 +44,21 @@ const utilsHelper = require(root_path + '/src/web3/utils')
 // Create utils class
 const utils = new utilsHelper.UniMaUtils()
 
-// Set assignment link
+
+// todo
+
+// Send gas endpoint
 exports.post = async (req, res) => {
     // Validate token from header
     if (utils.verify_jwt_token(jwt, req)) {
-        var semester_id = req.body.semester_id
-        var assignment_id = req.body.assignment_id
+        var account = new accountHandler.UniMaAccount(configPath)
 
-        var link = req.body.link
+        var to = req.body.address;
 
         try {
-            await config.set_assignment_link(semester_id, assignment_id, link)
+            await account.send_gas(config.getCoinbaseAddress, to)
             res.status(StatusCodes.OK)
-            res.send({ "success": true })
+            return { "success": true };
         }
         catch (err) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR)

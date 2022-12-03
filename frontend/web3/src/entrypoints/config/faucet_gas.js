@@ -1,8 +1,3 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-
-const StatusCodes = require('http-status-codes').StatusCodes;
-
 const root_path = require('path').resolve('./')
 
 /*----------  Config  ----------*/
@@ -20,10 +15,6 @@ else {
 }
 
 
-/*----------  Dot ENV  ----------*/
-// Set up Global configuration access
-dotenv.config();
-
 /*----------  Config Helper  ----------*/
 // config
 const configHandler = require(root_path + '/src/web3/config')
@@ -38,26 +29,25 @@ const utilsHelper = require(root_path + '/src/web3/utils')
 // Create utils class
 const utils = new utilsHelper.UniMaUtils()
 
+
 // Set faucet gas value endpoint
-exports.post = async (req, res) => {
-    // Validate token from header
-    if (utils.verify_jwt_token(jwt, req)) {
-        var id = req.body.id
-
-        var name = req.body.name
-
-        try {
-            await config.set_semester_name(id, name)
-            res.status(StatusCodes.OK)
-            res.send({ "success": true })
-        }
-        catch (err) {
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-            res.send({ "success": false, "error": err.message });
-        }
+exports.set_faucet_gas = async (address, faucet_gas) => {
+    try {
+        await config.setFaucetGas(address, faucet_gas)
+        return { "success": true };
     }
-    else {
-        res.status(StatusCodes.UNAUTHORIZED)
-        res.send({ "success": false, "error": "Authentication failed!" });
+    catch (err) {
+        return { "success": false, "error": err.message };
+    }
+};
+
+// Get faucet gas value endpoint
+exports.get_faucet_gas = async (address) => {
+    try {
+        const faucet_gas = await config.getFreshFaucetGas()
+        return { "success": true, "faucet_gas": faucet_gas };
+    }
+    catch (err) {
+        return { "success": false, "error": err.message };
     }
 };
