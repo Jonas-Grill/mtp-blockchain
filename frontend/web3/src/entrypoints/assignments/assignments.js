@@ -29,7 +29,6 @@ const utilsHelper = require(root_path + '/src/web3/utils')
 // Create utils class
 const utils = new utilsHelper.UniMaUtils()
 
-
 /*----------  Assignment Helper  ----------*/
 // assignments
 const assignmentsHandler = require(root_path + '/src/web3/assignment')
