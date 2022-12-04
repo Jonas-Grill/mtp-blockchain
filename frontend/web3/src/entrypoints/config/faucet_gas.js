@@ -14,9 +14,13 @@ const utils = new utilsHelper.UniMaUtils()
 
 
 // Set faucet gas value endpoint
-exports.set_faucet_gas = async (address, faucet_gas) => {
+exports.set_faucet_gas = async (web3, faucet_gas) => {
     try {
-        await config.setFaucetGas(address, faucet_gas)
+        const config = new configHandler.Config(web3)
+
+        const accounts = await web3.eth.requestAccounts()
+
+        await config.setFaucetGas(accounts[0], faucet_gas)
         return { "success": true };
     }
     catch (err) {
@@ -25,8 +29,10 @@ exports.set_faucet_gas = async (address, faucet_gas) => {
 };
 
 // Get faucet gas value endpoint
-exports.get_faucet_gas = async (address) => {
+exports.get_faucet_gas = async (web3) => {
     try {
+        const config = new configHandler.Config(web3)
+
         const faucet_gas = await config.getFreshFaucetGas()
         return { "success": true, "faucet_gas": faucet_gas };
     }

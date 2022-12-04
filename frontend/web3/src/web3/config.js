@@ -1,5 +1,5 @@
 class Config {
-    constructor() {
+    constructor(web3) {
         // Parse json config
         this.rpcURL = process.env.RPC_URL;
         this.coinbaseAddress = process.env.COINBASE_ADDRESS;
@@ -8,11 +8,7 @@ class Config {
         // Connect to web3
 
         // Require web3 for talking to api
-        this.Web3 = require('web3')
-
-        // Parse and set rpc url
-        this.web3 = new this.Web3()
-        this.web3.setProvider(new this.web3.providers.HttpProvider(process.env.RPC_URL));
+        this.web3 = web3
 
         // Require utils
         const utilsHandler = require('./utils')

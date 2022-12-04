@@ -1,12 +1,38 @@
 import { FireIcon } from '@heroicons/react/20/solid'
 import { send_gas } from '../../web3/src/entrypoints/account/send_gas'
+import { useEffect } from "react";
+
 
 export default function Faucet({ userAddress }: { userAddress: string }) {
+    const Web3 = require("web3");
+
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        const result = await send_gas("0x917441412223Ac1104617Ca07ca9853504BEA5d0", event.target.address.value);
+        const result = await send_gas(new Web3(window.ethereum), event.target.address.value);
+
         alert(JSON.stringify(result))
     }
+
+    useEffect(() => {
+        window.addEventListener('load', async () => {
+            // Wait for loading completion to avoid race conditions with web3 injection timing.
+            if (window.ethereum) {
+                const web3 = new Web3(window.ethereum);
+                try {
+                    // Request account access if needed
+                    await window.ethereum.enable();
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+            // Fallback to localhost; use dev console port by default...
+            else {
+                const provider = new Web3.providers.HttpProvider(process.env.RPC_URL);
+                const web3 = new Web3(provider);
+                console.log('No web3 instance injected, using Local web3.');
+            }
+        });
+    }, []);
 
     return (
         <>

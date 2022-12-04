@@ -1,12 +1,6 @@
-
-
-
 /*----------  Config Helper  ----------*/
 // config
 const configHandler = require("../../web3/config")
-// Create config class with config path
-const config = new configHandler.Config(configPath)
-
 
 
 /*----------  Utils Helper  ----------*/
@@ -15,11 +9,14 @@ const utilsHelper = require("../../web3/utils")
 // Create utils class
 const utils = new utilsHelper.UniMaUtils()
 
-
 // Set faucet block number difference value endpoint
-exports.set_faucet_block_no_difference = async (address, faucet_blockno_difference) => {
+exports.set_faucet_block_no_difference = async (web3, faucet_blockno_difference) => {
     try {
-        await config.setFaucetBlockNoDifference(address, faucet_blockno_difference)
+        const config = new configHandler.Config(web3)
+
+        const accounts = await web3.eth.requestAccounts()
+
+        await config.setFaucetBlockNoDifference(accounts[0], faucet_blockno_difference)
         return { "success": true };
     }
     catch (err) {
@@ -28,8 +25,10 @@ exports.set_faucet_block_no_difference = async (address, faucet_blockno_differen
 };
 
 // Get faucet block number difference value endpoint
-exports.get_faucet_block_no_difference = async (address) => {
+exports.get_faucet_block_no_difference = async (web3) => {
     try {
+        const config = new configHandler.Config(web3)
+
         const faucet_blockno_difference = await config.getFreshFaucetBlockNoDifference()
         return { "success": true, "faucet_blockno_difference": faucet_blockno_difference };
     }

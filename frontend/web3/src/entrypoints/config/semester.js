@@ -2,10 +2,6 @@
 /*----------  Config Helper  ----------*/
 // config#
 const configHandler = require("../../web3/config")
-// Create config class with config path
-const config = new configHandler.Config(configPath)
-
-
 
 /*----------  Utils Helper  ----------*/
 // utils
@@ -14,8 +10,10 @@ const utilsHelper = require("../../web3/utils")
 const utils = new utilsHelper.UniMaUtils()
 
 // Append new semester
-exports.append_semester = async (address, name, start_block, end_block, min_knowledge_coin_amount) => {
+exports.append_semester = async (web3, name, start_block, end_block, min_knowledge_coin_amount) => {
     try {
+        const config = new configHandler.Config(web3)
+
         var id = await config.appendSemester(name, start_block, end_block, min_knowledge_coin_amount)
         return { "success": true, "id": id };
     }
@@ -25,8 +23,10 @@ exports.append_semester = async (address, name, start_block, end_block, min_know
 };
 
 // Get semester
-exports.get_semester = async (address, semester_id) => {
+exports.get_semester = async (web3, semester_id) => {
     try {
+        const config = new configHandler.Config(web3)
+
         var semester = await config.getSemester(semester_id)
 
         return { "success": true, "semester": { "name": semester[0], "start_block": semester[1], "end_block": semester[2], "min_knowledge_coin_amount": semester[3] } };
@@ -37,8 +37,10 @@ exports.get_semester = async (address, semester_id) => {
 };
 
 // Delete semester
-exports.delete_semester = async (address, semester_id) => {
+exports.delete_semester = async (web3, semester_id) => {
     try {
+        const config = new configHandler.Config(web3)
+
         await config.deleteSemester(semester_id)
         return { "success": true };
     }

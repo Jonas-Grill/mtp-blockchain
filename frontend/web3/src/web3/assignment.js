@@ -4,24 +4,19 @@ Store some utility functions
 
 class UniMaAssignments {
 
-    constructor() {
+    constructor(web3) {
         // Require config
         const configHandler = require('./back.config')
 
         // Create config class with config path
-        this.config = new configHandler.Config()
+        this.config = new configHandler.Config(web3)
 
         // Require utils
         const utilsHandler = require('./utils')
 
         this.utils = new utilsHandler.UniMaUtils()
 
-        // Require web3 for talking to api
-        this.Web3 = require('web3')
-
-        // Parse and set rpc url
-        this.web3 = new this.Web3()
-        this.web3.setProvider(new this.web3.providers.HttpProvider(this.config.getRpcUrl));
+        this.web3 = web3
     }
 
 

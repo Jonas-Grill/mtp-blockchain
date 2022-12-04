@@ -2,7 +2,6 @@
 // config
 const configHandler = require("../../web3/config")
 // Create config class with config path
-const config = new configHandler.Config(configPath)
 
 
 
@@ -14,8 +13,10 @@ const utils = new utilsHelper.UniMaUtils()
 
 
 // Append new assignment to semester
-exports.append_assignment = async (address, semester_id, name, link, validation_contract_address, start_block, end_block) => {
+exports.append_assignment = async (web3, semester_id, name, link, validation_contract_address, start_block, end_block) => {
     try {
+        const config = new configHandler.Config(web3)
+
         var id = await config.appendAssignment(semester_id, name, link, validation_contract_address, start_block, end_block)
         return { "success": true, "id": id };
     }
@@ -25,8 +26,10 @@ exports.append_assignment = async (address, semester_id, name, link, validation_
 };
 
 // Get assignment
-exports.get_assignment = async (addres, semester_id, assignment_id) => {
+exports.get_assignment = async (web3, semester_id, assignment_id) => {
     try {
+        const config = new configHandler.Config(web3)
+
         var assignment = await config.getAssignment(semester_id, assignment_id)
         return { "success": true, "semester": { "name": assignment[0], "link": assignment[1], "validation_contract_address": assignment[2], "start_block": assignment[3], "end_block": assignment[4] } })
     }
@@ -36,8 +39,10 @@ exports.get_assignment = async (addres, semester_id, assignment_id) => {
 };
 
 // Delete assignment
-exports.delete_assignment = async (addres, semester_id, assignment_id) => {
+exports.delete_assignment = async (web3, semester_id, assignment_id) => {
     try {
+        const config = new configHandler.Config(web3)
+
         await config.deleteAssignment(semester_id, assignment_id)
         return { "success": true };
     }

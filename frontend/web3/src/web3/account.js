@@ -9,24 +9,19 @@ class UniMaAccount {
      * 
      * @param {string} coinbaseAddress other coinbase address (default: "")
      */
-    constructor() {
+    constructor(web3) {
         // Require config
         const configHandler = require('./config')
 
         // Create config class with config path
-        this.config = new configHandler.Config()
+        this.config = new configHandler.Config(web3)
 
         // Require utils
         const utilsHandler = require('./utils')
 
         this.utils = new utilsHandler.UniMaUtils()
 
-        // Require web3 for talking to api
-        this.Web3 = require('web3')
-
-        // Parse and set rpc url
-        this.web3 = new this.Web3()
-        this.web3.setProvider(new this.web3.providers.HttpProvider(this.config.getRpcUrl));
+        this.web3 = web3;
     }
 
     /**
@@ -78,7 +73,7 @@ class UniMaAccount {
                 // If coinbase account has more gas than need send ether
                 if (ether >= gas) {
                     // Transfer gas to send into wei
-                    const initialGasAmountInWei = this.Web3.utils.toWei(new this.web3.utils.BN(gas))
+                    const initialGasAmountInWei = this.web3.utils.toWei(new this.web3.utils.BN(gas))
 
                     // Send ether
                     await this.web3.eth.sendTransaction({

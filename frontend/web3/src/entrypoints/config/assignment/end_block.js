@@ -1,11 +1,6 @@
-
-
 /*----------  Config Helper  ----------*/
 // config
 const configHandler = require("../../web3/config")
-// Create config class with config path
-const config = new configHandler.Config(configPath)
-
 
 
 /*----------  Utils Helper  ----------*/
@@ -15,8 +10,10 @@ const utilsHelper = require("../../web3/utils")
 const utils = new utilsHelper.UniMaUtils()
 
 // Set assignment end_block
-exports.set_assignment_end_block = async (address, semester_id, assignment_id, end_block) => {
+exports.set_assignment_end_block = async (web3, semester_id, assignment_id, end_block) => {
     try {
+        const config = new configHandler.Config(web3)
+
         await config.set_assignment_end_block(semester_id, assignment_id, end_block)
         return { "success": true };
     }

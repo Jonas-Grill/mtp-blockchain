@@ -1,6 +1,13 @@
 /*
 Store some utility functions
 */
+
+import * as ConfigStorage from '../../../../smart-contracts/build/contracts/ConfigStorage.json'
+import * as FaucetStorage from '../../../../smart-contracts/build/contracts/FaucetStorage.json'
+import * as TestAssignmentValidator from '../../../../smart-contracts/build/contracts/TestAssignmentValidator.json'
+
+//import path from 'path'
+
 class UniMaUtils {
     /**
      * Returns the eth amount from wei
@@ -28,17 +35,18 @@ class UniMaUtils {
      * @return json object 
      */
     get_contract_json(contract_name) {
-        var process = require('process');
-        const fs = require('fs');
-        const path = require('path');
+        let json = null;
+        if (contract_name === "ConfigStorage") {
+            json = ConfigStorage;
+        }
+        if (contract_name === "FaucetStorage") {
+            json = FaucetStorage;
+        }
+        if (contract_name === "TestAssignmentValidator") {
+            json = TestAssignmentValidator;
+        }
 
-        const directoryPath = path.join(process.cwd().replace("web3", "").replace("frontend", ""), 'smart-contracts', 'build', 'contracts');
-
-        const filePath = path.join(directoryPath, contract_name + ".json")
-
-        const json = fs.readFileSync(filePath, 'utf8');
-
-        return JSON.parse(json);
+        return JSON.parse(JSON.stringify(json))
     }
 
     /**
