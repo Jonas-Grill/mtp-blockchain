@@ -1,37 +1,12 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-
-const StatusCodes = require('http-status-codes').StatusCodes;
-
-const root_path = require('path').resolve('./')
-
-/*----------  Config  ----------*/
-// Prepare config path
-var configPath = ""
-env = require('minimist')(process.argv.slice(2))["env"];
-if (env == "prd") {
-    configPath = root_path + "/config/prd-config.json"
-}
-else if (env == "tst") {
-    configPath = root_path + "/config/tst-config.json"
-}
-else {
-    configPath = root_path + "/config/dev-config.json"
-}
-
-/*----------  Dot ENV  ----------*/
-// Set up Global configuration access
-dotenv.config();
-
 /*----------  Utils Helper  ----------*/
 // utils
-const utilsHelper = require(root_path + '/src/web3/utils')
+const utilsHelper = require("../../web3/utils")
 // Create utils class
 const utils = new utilsHelper.UniMaUtils()
 
 /*----------  Assignment Helper  ----------*/
 // assignments
-const assignmentsHandler = require(root_path + '/src/web3/assignment')
+const assignmentsHandler = require("../../web3/assignment")
 // Create assignments
 const assignments = new assignmentsHandler.UniMaAssignments(configPath);
 

@@ -29,15 +29,13 @@ class UniMaUtils {
      * @return json object 
      */
     get_contract_json(contract_name) {
-        const path = require('path');
-        const fs = require('fs');
         var process = require('process');
 
         const directoryPath = path.join(process.cwd().replace("web3", "").replace("frontend", ""), 'smart-contracts', 'build', 'contracts');
 
         const filePath = path.join(directoryPath, contract_name + ".json")
 
-        let json = fs.readFileSync(filePath, 'utf8');
+        const json = require(filePath);
 
         return JSON.parse(json);
     }

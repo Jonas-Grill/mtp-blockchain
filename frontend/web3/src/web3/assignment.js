@@ -4,12 +4,12 @@ Store some utility functions
 
 class UniMaAssignments {
 
-    constructor(config_path = "config/dev-config.json") {
+    constructor() {
         // Require config
         const configHandler = require('./config')
 
         // Create config class with config path
-        this.config = new configHandler.Config(config_path)
+        this.config = new configHandler.Config()
 
         // Require utils
         const utilsHandler = require('./utils')

@@ -1,14 +1,11 @@
 class Config {
-    constructor(path) {
-        // Read config file from json
-        const fs = require('fs');
-        let json = fs.readFileSync(path);
-        let config = JSON.parse(json);
-
+    constructor() {
         // Parse json config
-        this.rpcURL = config["rpcURL"];
-        this.coinbaseAddress = config["coinbaseAddress"];
-        this.networkId = config["networkId"];
+        this.rpcURL = process.env.RPC_URL;
+        this.coinbaseAddress = process.env.COINBASE_ADDRESS;
+        this.networkId = process.env.NETWORK_ID;
+
+        console.log("Config: ", this.rpcURL, this.coinbaseAddress, this.networkId)
 
         // Connect to web3
 
@@ -17,7 +14,7 @@ class Config {
 
         // Parse and set rpc url
         this.web3 = new this.Web3()
-        this.web3.setProvider(new this.web3.providers.HttpProvider(this.getRpcUrl));
+        this.web3.setProvider(new this.web3.providers.HttpProvider(process.env.RPC_URL));
 
         // Require utils
         const utilsHandler = require('./utils')

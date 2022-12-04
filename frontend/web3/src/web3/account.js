@@ -8,14 +8,13 @@ class UniMaAccount {
      * Create Account class
      * 
      * @param {string} coinbaseAddress other coinbase address (default: "")
-     * @param {string} config_path path to the config file (default: "config/dev-config.json")
      */
-    constructor(config_path = "config/dev-config.json") {
+    constructor() {
         // Require config
         const configHandler = require('./config')
 
         // Create config class with config path
-        this.config = new configHandler.Config(config_path)
+        this.config = new configHandler.Config()
 
         // Require utils
         const utilsHandler = require('./utils')

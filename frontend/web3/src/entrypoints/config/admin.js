@@ -1,32 +1,16 @@
-const root_path = require('path').resolve('./')
-
-/*----------  Config  ----------*/
-// Prepare config path
-const configPath = ""
-env = require('minimist')(process.argv.slice(2))["env"];
-if (env == "prd") {
-    configPath = root_path + "/config/prd-config.json"
-}
-else if (env == "tst") {
-    configPath = root_path + "/config/tst-config.json"
-}
-else {
-    configPath = root_path + "/config/dev-config.json"
-}
-
 /*----------  Account Helper ----------*/
 // Get account Handler
-const accountHandler = require(root_path + '/src/web3/account');
+const accountHandler = require(root_path + '/web3/src/web3/account');
 
 /*----------  Config Helper  ----------*/
 // config
-const configHandler = require(root_path + '/src/web3/config');
+const configHandler = require("../../web3/config");
 // Create config class with config path
 const config = new configHandler.Config(configPath);
 
 /*----------  Utils Helper  ----------*/
 // utils
-const utilsHelper = require(root_path + '/src/web3/utils')
+const utilsHelper = require("../../web3/utils")
 // Create utils class
 const utils = new utilsHelper.UniMaUtils();
 
