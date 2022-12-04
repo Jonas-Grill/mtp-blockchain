@@ -5,8 +5,6 @@ class Config {
         this.coinbaseAddress = process.env.COINBASE_ADDRESS;
         this.networkId = process.env.NETWORK_ID;
 
-        console.log("Config: ", this.rpcURL, this.coinbaseAddress, this.networkId)
-
         // Connect to web3
 
         // Require web3 for talking to api

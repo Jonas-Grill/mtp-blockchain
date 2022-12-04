@@ -6,7 +6,7 @@ class UniMaAssignments {
 
     constructor() {
         // Require config
-        const configHandler = require('./config')
+        const configHandler = require('./back.config')
 
         // Create config class with config path
         this.config = new configHandler.Config()

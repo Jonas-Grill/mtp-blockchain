@@ -1,7 +1,6 @@
 /*
 Store some utility functions
 */
-
 class UniMaUtils {
     /**
      * Returns the eth amount from wei
@@ -30,12 +29,14 @@ class UniMaUtils {
      */
     get_contract_json(contract_name) {
         var process = require('process');
+        const fs = require('fs');
+        const path = require('path');
 
         const directoryPath = path.join(process.cwd().replace("web3", "").replace("frontend", ""), 'smart-contracts', 'build', 'contracts');
 
         const filePath = path.join(directoryPath, contract_name + ".json")
 
-        const json = require(filePath);
+        const json = fs.readFileSync(filePath, 'utf8');
 
         return JSON.parse(json);
     }
@@ -83,31 +84,6 @@ class UniMaUtils {
         return new web3.eth.Contract(abi, faucet_storage_address, {
             from: from_address
         });
-    }
-
-    /**
-     * Validate if token is valid or not valid 
-     *
-     * @param {jwt} jwt JWT instance
-     * @param {object} req header object
-     * @returns returns if token is valide or not
-     */
-    verify_jwt_token(jwt, req) {
-        const token = req.header("jwt_token");
-
-        try {
-            const verified = jwt.verify(token, process.env.JWT_SECRET_KEY);
-            if (verified) {
-                // Access Allowed
-                return true;
-            } else {
-                // Access Denied
-                return false;
-            }
-        } catch (error) {
-            // Access Denied
-            return false;
-        }
     }
 }
 
