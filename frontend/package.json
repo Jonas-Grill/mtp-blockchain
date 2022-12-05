@@ -1,13 +1,13 @@
 {
   "name": "frontend",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "testweb3": "mocha 'web3/test/*.js'"
+    "testweb3": "mocha 'web3/test/*.js' --timeout 10000"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.3",

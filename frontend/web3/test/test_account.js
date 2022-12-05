@@ -20,14 +20,6 @@ var chai = require('chai');
 const { expect } = require('chai');
 var chaiAssert = chai.assert
 
-var path = ""
-if (process.env.NODE_ENV == "test") {
-    path = __dirname + "/config/tst-config.json"
-}
-else {
-    path = __dirname + "/config/dev-config.json"
-}
-
 ganache = new prepare.Ganache_Helper()
 
 describe("test", function () {
@@ -36,7 +28,7 @@ describe("test", function () {
             it("should send gas from address to another address", async function () {
                 accounts = await ganache.get_account()
 
-                account = new accountHandler.UniMaAccount(config_path = path)
+                account = new accountHandler.UniMaAccount(web3)
                 account.config.setCoinbaseAddress = accounts[0];
                 account.config.setNetworkId = await web3.eth.net.getId()
 
@@ -71,7 +63,7 @@ describe("test", function () {
 
                 accounts = await ganache.get_account()
 
-                account = new accountHandler.UniMaAccount(config_path = path)
+                account = new accountHandler.UniMaAccount(web3)
                 account.config.setCoinbaseAddress = accounts[0];
                 account.config.setNetworkId = await web3.eth.net.getId()
 
@@ -91,7 +83,7 @@ describe("test", function () {
             });
             it("should not send gas, because _from address is not valid", async function () {
 
-                account = new accountHandler.UniMaAccount(config_path = path)
+                account = new accountHandler.UniMaAccount(web3)
                 account.config.setNetworkId = await web3.eth.net.getId()
 
                 var from = "wrong_address"
@@ -110,7 +102,7 @@ describe("test", function () {
             });
             it("should not send gas, because _to address is not valid", async function () {
 
-                account = new accountHandler.UniMaAccount(config_path = path)
+                account = new accountHandler.UniMaAccount(web3)
                 account.config.setCoinbaseAddress = accounts[0];
                 account.config.setNetworkId = await web3.eth.net.getId()
 
@@ -131,7 +123,7 @@ describe("test", function () {
             });
             it("should not send gas, because faucet used too recent", async function () {
 
-                account = new accountHandler.UniMaAccount(config_path = path)
+                account = new accountHandler.UniMaAccount(web3)
                 account.config.setCoinbaseAddress = accounts[0];
                 account.config.setNetworkId = await web3.eth.net.getId()
 
@@ -162,7 +154,7 @@ describe("test", function () {
             it("should get first transaction from account with transactions", async function () {
                 accounts = await ganache.get_account()
 
-                account = new accountHandler.UniMaAccount(config_path = path)
+                account = new accountHandler.UniMaAccount(web3)
                 account.config.setCoinbaseAddress = accounts[0];
 
                 var from = accounts[0]

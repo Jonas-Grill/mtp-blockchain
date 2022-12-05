@@ -2,11 +2,15 @@ const configHandler = require('../src/web3/config')
 
 var assert = require('assert');
 
-const rpcUrl = "http://localhost:8545"
+const rpcUrl = "http://127.0.0.1:8545"
 const coinbaseAddress = "0x917441412223Ac1104617Ca07ca9853504BEA5d0"
 const networkId = "1337"
 const faucetGas = "10"
 const faucetBlockNoDifference = "10"
+
+process.env.RPC_URL = rpcUrl
+process.env.COINBASE_ADDRESS = coinbaseAddress
+process.env.NETWORK_ID = networkId
 
 // ganache prepare
 var prepare = require('./ganache/setup_ganache')
@@ -16,8 +20,8 @@ ganache = new prepare.Ganache_Helper()
 Web3 = require('web3')
 
 // Parse and set rpc url
-web3 = new this.Web3()
-web3.setProvider(new this.web3.providers.HttpProvider(this.config.getRpcUrl));
+web3 = new Web3()
+web3.setProvider(new web3.providers.HttpProvider(process.env.RPC_URL));
 
 describe("test", async function () {
     describe("config", async function () {

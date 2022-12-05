@@ -2,12 +2,6 @@
 Store some utility functions
 */
 
-import * as ConfigStorage from '../../../../smart-contracts/build/contracts/ConfigStorage.json'
-import * as FaucetStorage from '../../../../smart-contracts/build/contracts/FaucetStorage.json'
-import * as TestAssignmentValidator from '../../../../smart-contracts/build/contracts/TestAssignmentValidator.json'
-
-//import path from 'path'
-
 class UniMaUtils {
     /**
      * Returns the eth amount from wei
@@ -35,6 +29,11 @@ class UniMaUtils {
      * @return json object 
      */
     get_contract_json(contract_name) {
+
+        const ConfigStorage = require('../../../../smart-contracts/build/contracts/ConfigStorage.json')
+        const FaucetStorage = require('../../../../smart-contracts/build/contracts/FaucetStorage.json')
+        const TestAssignmentValidator = require('../../../../smart-contracts/build/contracts/TestAssignmentValidator.json')
+
         let json = null;
         if (contract_name === "ConfigStorage") {
             json = ConfigStorage;
