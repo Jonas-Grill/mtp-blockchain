@@ -45,5 +45,5 @@ To use the frontend run:
 npm run dev
 ```
 
-### 5. Usage
+### 4. Usage
 The frontend is accessible over the `3000` Port on `localhost`.
