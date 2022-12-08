@@ -33,6 +33,7 @@ class UniMaUtils {
         const ConfigStorage = require('../../../../smart-contracts/build/contracts/ConfigStorage.json')
         const FaucetStorage = require('../../../../smart-contracts/build/contracts/FaucetStorage.json')
         const TestAssignmentValidator = require('../../../../smart-contracts/build/contracts/TestAssignmentValidator.json')
+        const BaseAssignmentValidator = require('../../../../smart-contracts/build/contracts/BaseAssignmentValidator.json')
 
         let json = null;
         if (contract_name === "ConfigStorage") {
@@ -44,7 +45,9 @@ class UniMaUtils {
         if (contract_name === "TestAssignmentValidator") {
             json = TestAssignmentValidator;
         }
-
+        if (contract_name === "BaseAssignmentValidator") {
+            json = BaseAssignmentValidator;
+        }
         return JSON.parse(JSON.stringify(json))
     }
 
@@ -89,6 +92,24 @@ class UniMaUtils {
 
         // Get faucetStorageContract using coinbase address
         return new web3.eth.Contract(abi, faucet_storage_address, {
+            from: from_address
+        });
+    }
+
+    /**
+     * Return the assignment validator contract from the smart contract 
+     *
+     * @param {web3} web3 
+     * @param {string} from_address 
+     * @param {string} assignment_validator_address 
+     * @returns 
+     */
+    get_assignment_validator_contract(web3, from_address, assignment_validator_address) {
+        // faucet storage abi
+        const abi = this.get_contract_abi("BaseAssignmentValidator")
+
+        // Get faucetStorageContract using coinbase address
+        return new web3.eth.Contract(abi, assignment_validator_address, {
             from: from_address
         });
     }
