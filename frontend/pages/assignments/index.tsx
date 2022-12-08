@@ -37,7 +37,6 @@ export default function AssignmentOverview() {
         <div className="flex-col">
             <div className="bg-white">
                 <div className="mx-auto mt-10 max-w-2xl py-16 px-4 sm:py-0 sm:px-6 lg:max-w-7xl lg:px-8">
-
                     <div className="mb-10">
                         <Link href={"/assignments/createAssignment"}
                             className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-uni py-3 px-8 text-base font-medium text-white hover:bg-sustail-dark focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

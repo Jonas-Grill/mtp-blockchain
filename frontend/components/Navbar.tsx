@@ -13,6 +13,7 @@ export default function Navbar({setUserAddress}) {
         {name: 'Faucet', href: '/faucet', current: false},
         {name: 'Semester', href: '/semester', current: true},
         {name: 'Assignments', href: '/assignments', current: false},
+        {name: 'Coin overview', href: '/coinOverview', current: false},
     ]);
 
     return (

@@ -27,17 +27,6 @@ export default function CreateAssignment() {
                             className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Assignment name"
                         />
-                        <label htmlFor="description" className="sr-only">
-                            Description
-                        </label>
-                        <input
-                            id="description"
-                            name="description"
-                            type="text"
-                            required
-                            className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
-                            placeholder="Description"
-                        />
                         <label htmlFor="link" className="sr-only">
                             Link to assignment task
                         </label>
@@ -59,6 +48,28 @@ export default function CreateAssignment() {
                             required
                             className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Contract address"
+                        />
+                        <label htmlFor="startBlock" className="sr-only">
+                            Starting block
+                        </label>
+                        <input
+                            id="startBlock"
+                            name="startBlock"
+                            type="text"
+                            required
+                            className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            placeholder="Starting block"
+                        />
+                        <label htmlFor="endBlock" className="sr-only">
+                            End block
+                        </label>
+                        <input
+                            id="endBlock"
+                            name="endBlock"
+                            type="text"
+                            required
+                            className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            placeholder="End block"
                         />
                         <button
                             type="submit"

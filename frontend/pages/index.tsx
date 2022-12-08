@@ -6,7 +6,6 @@ export default function Home() {
             <Head>
                 <title>Create Next App</title>
             </Head>
-            <h2 className="italic text-slate-300">Hi</h2>
         </div>
     )
 }
