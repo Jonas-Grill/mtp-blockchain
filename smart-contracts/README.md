@@ -91,7 +91,7 @@ To develop custom assignment validators two parts a necessary.
 
 First of all the instructor needs to write a smart contract which own all the necessary functions to test the smart contract as `virtual` functions. This file can than be inherit by the student and by the validator contract. 
 
-An example interface file can be viewed here [`TestAssignmentInterface.sol](/smart-contracts/contracts/TestAssignmentInterface.sol). As you may see, each function has no content and uses the `virtual` keyword. Therefore, the students do not get help to solve the asignment but get a sceleton to implement the necessary functions/methods.
+An example interface file can be viewed here [`TestAssignmentInterface.sol`](/smart-contracts/contracts/TestAssignmentInterface.sol). As you may see, each function has no content and uses the `virtual` keyword. Therefore, the students do not get help to solve the asignment but get a sceleton to implement the necessary functions/methods.
 
 #### Part 2 - Assignment Validator contract
 
