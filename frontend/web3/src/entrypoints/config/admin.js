@@ -5,8 +5,7 @@ const accountHandler = require(root_path + '/web3/src/web3/account');
 /*----------  Config Helper  ----------*/
 // config
 const configHandler = require("../../web3/config");
-// Create config class with config path
-const config = new configHandler.Config(configPath);
+
 
 /*----------  Utils Helper  ----------*/
 // utils
@@ -26,8 +25,10 @@ exports.append_admin = async (address, new_address) => {
 };
 
 // Delete admin endpoint
-exports.delete_admin = async (address, new_address) => {
+exports.delete_admin = async (web3, new_address) => {
     try {
+        const config = new configHandler.Config(web3);
+
         await config.remove_admin(new_address);
         return { "success": true };
     }
@@ -37,8 +38,10 @@ exports.delete_admin = async (address, new_address) => {
 };
 
 // Get admin endpoint
-exports.get_admin = async (address, new_address) => {
+exports.get_admin = async (web3, new_address) => {
     try {
+        const config = new configHandler.Config(web3);
+
         const admins = await config.get_admins(new_address);
         return { "success": true, "admins": admins };
     }
@@ -48,8 +51,10 @@ exports.get_admin = async (address, new_address) => {
 };
 
 // Is admin endpoint
-exports.is_admin = async (address, new_address) => {
+exports.is_admin = async (web3, new_address) => {
     try {
+        const config = new configHandler.Config(web3);
+
         const is_admin = await config.is_admin(new_address)
         return { "success": true, "is_admin": is_admin };
     }

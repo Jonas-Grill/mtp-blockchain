@@ -1,10 +1,6 @@
 /*----------  Config Helper  ----------*/
 // config
 const configHandler = require("../../web3/config")
-// Create config class with config path
-const config = new configHandler.Config(configPath)
-
-
 
 /*----------  Utils Helper  ----------*/
 // utils

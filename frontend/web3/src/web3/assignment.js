@@ -6,7 +6,7 @@ class UniMaAssignments {
 
     constructor(web3) {
         // Require config
-        const configHandler = require('./back.config')
+        const configHandler = require('./config')
 
         // Create config class with config path
         this.config = new configHandler.Config(web3)
@@ -28,10 +28,10 @@ class UniMaAssignments {
      * @param {string} contract_name Name of contract
      * @returns Id of assignment check
      */
-    async validate_assignment(student_address, contract_address, contract_name) {
+    async validate_assignment(student_address, contract_address, validation_contract_address) {
         const deploy_address = this.config.getCoinbaseAddress;
 
-        const test_assignment_validator = this.utils.get_contract(this.web3, contract_name, deploy_address, this.config.getNetworkId);
+        const test_assignment_validator = this.utils.get_assignment_validator_contract(this.web3, deploy_address, validation_contract_address);
         test_assignment_validator.options.gas = 5000000
 
         await test_assignment_validator.methods.validateTestAssignment(student_address, contract_address).send({
@@ -45,10 +45,10 @@ class UniMaAssignments {
         return id;
     }
 
-    async get_test_results(contract_name, id) {
+    async get_test_results(id, validation_contract_address) {
         const deploy_address = this.config.getCoinbaseAddress;
 
-        const test_assignment_validator = this.utils.get_contract(this.web3, contract_name, deploy_address, this.config.getNetworkId);
+        const test_assignment_validator = this.utils.get_assignment_validator_contract(this.web3, deploy_address, validation_contract_address);
 
         var results = await test_assignment_validator.methods.getTestResults(id).call({
             from: deploy_address,
