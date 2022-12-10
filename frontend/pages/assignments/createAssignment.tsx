@@ -1,6 +1,64 @@
 import {DocumentTextIcon} from '@heroicons/react/20/solid'
+import React, {useEffect, useState} from "react";
+import Web3 from "web3";
+import {append_assignment} from "../../web3/src/entrypoints/config/assignment";
+import {loadSemesters} from "../semester";
+import {useRouter} from "next/router";
 
 export default function CreateAssignment() {
+    const router = useRouter();
+
+    let web3;
+
+    const [semesters, setSemesters] = useState<{ id: string, name: any }[]>([]);
+    const [selectedSemester, setSelectedSemester] = useState<string>("");
+
+    useEffect(() => {
+        loadSemesters().then((semesters) => {
+            if (semesters) {
+                setSemesters(semesters);
+                setSelectedSemester(semesters[0].id);
+            }
+
+        });
+
+        if (window.ethereum) {
+            web3 = new Web3(window.ethereum);
+            window.ethereum.enable();
+        }
+    }, []);
+
+    const createAssignment = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (!web3) {
+             web3 = new Web3(window.ethereum);
+        }
+
+        const data = new FormData(event.currentTarget);
+        const name = data.get('name') as string;
+        const link = data.get('link') as string;
+        const contractAddress = data.get('contractAddress') as string;
+        const startBlock = data.get('startBlock') as string;
+        const endBlock = data.get('endBlock') as string;
+
+        append_assignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock).then((result) => {
+            const data = sessionStorage.getItem('assignmentList');
+            let assignmentList = [];
+
+            if (data) {
+                assignmentList = JSON.parse(data);
+                assignmentList.push({semester: selectedSemester, id: result.id});
+            } else {
+                assignmentList.push({semester: selectedSemester, id: result.id});
+            }
+
+            sessionStorage.setItem('assignmentList', JSON.stringify(assignmentList));
+
+            router.push('/assignments');
+        });
+    }
+
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -15,7 +73,27 @@ export default function CreateAssignment() {
                             Create a new assignment
                         </h2>
                     </div>
-                    <form className="mt-8" action="http://localhost:8080/api/v1/account/send_gas" method="post">
+                    <form className="mt-8" onSubmit={createAssignment}>
+                        <fieldset>
+                            <div className="mt-4 space-y-4">
+                                {semesters.map((semester) => (
+                                    <div className="flex items-center">
+                                        <input
+                                            id={semester.id}
+                                            name="semester"
+                                            type="radio"
+                                            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                            checked={semester.id === selectedSemester}
+                                            onChange={() => setSelectedSemester(semester.id)}
+                                        />
+                                        <label htmlFor="semester"
+                                               className="ml-3 block text-sm font-medium text-gray-700">
+                                            {semester.name}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </fieldset>
                         <label htmlFor="name" className="sr-only">
                             Name
                         </label>
@@ -78,7 +156,7 @@ export default function CreateAssignment() {
                         >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                     <DocumentTextIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
-                                                     aria-hidden="true"/>
+                                                      aria-hidden="true"/>
                                 </span>
                             Create assignment
                         </button>

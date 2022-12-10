@@ -10,11 +10,11 @@ const assignmentsHandler = require("../../web3/assignment")
 
 
 // Run validator for test assignment
-exports.get_test_results = async (web3, contract_name, test_id) => {
+exports.get_test_results = async (web3, contract_address, test_id) => {
     try {
         const assignments = new assignmentsHandler.UniMaAssignments(web3);
 
-        const result = await assignments.get_test_results(contract_name, test_id)
+        const result = await assignments.get_test_results(contract_address, test_id)
         return { "success": true, "result": result };
     }
     catch (err) {

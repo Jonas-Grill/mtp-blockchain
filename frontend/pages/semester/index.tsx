@@ -1,33 +1,45 @@
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import {get_semester} from "../../web3/src/entrypoints/config/semester"
+import Web3 from "web3";
+
+export const loadSemesters = async () => {
+    const data = sessionStorage.getItem('semesterList');
+
+    if (data) {
+        const web3 = new Web3(window.ethereum);
+
+        const ids: string[] = JSON.parse(data);
+        const semesters: { id: string, name: any, startBlock: any, endBlock: any, minKnowledgeCoinAmount: any }[] = [];
+
+        for (let id of ids) {
+            const result = await get_semester(web3, id);
+
+            if (result.semester) {
+                semesters.push({
+                    id: id,
+                    name: result.semester.name,
+                    startBlock: result.semester.start_block,
+                    endBlock: result.semester.end_block,
+                    minKnowledgeCoinAmount: result.semester.min_knowledge_coin_amount
+                });
+            }
+        }
+
+        return semesters;
+    }
+}
 
 export default function SemesterOverview() {
     const [semesters, setSemesters] = useState<{ id: string, name: any, startBlock: any, endBlock: any, minKnowledgeCoinAmount: any }[]>([]);
 
     useEffect(() => {
-        const data = sessionStorage.getItem('semesterList');
-
-        if (data) {
-            const ids: string[] = JSON.parse(data);
-
-            ids.forEach((id) => {
-                get_semester(id).then((result) => {
-                    if (result.semester) {
-                        const semester = {
-                            id: id,
-                            name: result.semester.name,
-                            startBlock: result.semester.start_block,
-                            endBlock: result.semester.end_block,
-                            minKnowledgeCoinAmount: result.semester.min_knowledge_coin_amount
-                        }
-
-                        setSemesters([...semesters, semester]);
-                    }
-                });
-            });
-        }
-    }, [])
+        loadSemesters().then((semesters) => {
+            if (semesters) {
+                setSemesters(semesters);
+            }
+        });
+    }, []);
 
     return (
         <div className="flex-col">

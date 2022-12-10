@@ -2,8 +2,11 @@ import {AcademicCapIcon} from '@heroicons/react/20/solid'
 import {append_semester} from "../../web3/src/entrypoints/config/semester"
 import React, {useEffect} from "react";
 import Web3 from "web3";
+import {router} from "next/client";
+import {useRouter} from "next/router";
 
 export default function CreateSemester() {
+    const router = useRouter();
     let web3;
 
     const createSemester = (event: React.FormEvent<HTMLFormElement>) => {
@@ -16,24 +19,24 @@ export default function CreateSemester() {
         const data = new FormData(event.currentTarget);
 
         const name = data.get('name');
-        const startingBlock = data.get('startingBlock');
+        const startingBlock = data.get('startBlock');
         const endBlock = data.get('endBlock');
         const coinAmountForExam = data.get('coinAmountForExam');
 
         append_semester(web3, name, startingBlock, endBlock, coinAmountForExam).then((result) => {
-            // Append id to semester list in session storage
-
             const data = sessionStorage.getItem('semesterList');
             let semesterList = [];
 
             if (data) {
                 semesterList = JSON.parse(data);
-                semesterList.push(result);
+                semesterList.push(result.id);
             } else {
-                semesterList.push(result);
+                semesterList.push(result.id);
             }
 
             sessionStorage.setItem('semesterList', JSON.stringify(semesterList));
+
+            router.push('/semester');
         });
     }
 

@@ -222,9 +222,7 @@ class Config {
      */
     async appendSemester(_name, _start_block, _end_block, _min_knowledge_coin_amount) {
         const configStorageContract = await this.getConfigStorage()
-        const id = await configStorageContract.methods.appendSemester(_name, _start_block, _end_block, _min_knowledge_coin_amount).send({ from: this.coinbaseAddress });
-
-        console.log("Semester ID: " + id);
+        await configStorageContract.methods.appendSemester(_name, _start_block, _end_block, _min_knowledge_coin_amount).send({ from: this.coinbaseAddress });
 
         return await configStorageContract.methods.getSemesterCounter().call();
     }
