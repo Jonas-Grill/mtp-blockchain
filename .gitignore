@@ -1,3 +1,4 @@
+
 */node_modules
 .idea/*
 
@@ -15,3 +16,9 @@
 # Built Visual Studio Code Extensions
 *.vsix
 .vscode/launch.json
+
+# Ignore truffle compiled
+smart-contracts/build/contracts/*
+
+# Ignore .env file
+.env
