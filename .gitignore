@@ -22,6 +22,3 @@ smart-contracts/build/contracts/*
 
 # Ignore .env file
 .env
-
-# Antora
-docs/docs-generator/build/
