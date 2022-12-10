@@ -1,7 +1,7 @@
 name: documentation.yml-mtp-blockchain
 title: MTP-Blockchain
-version: 2.5
+version: 0.1
 prerelease: -beta.1
 nav:
   - modules/ROOT/nav.adoc
-  - modules/module-one/nav.adoc
+  - modules/web3/nav.adoc

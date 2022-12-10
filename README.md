@@ -25,10 +25,12 @@ tba
 tba
 
 ## Smart-Contracts
-tba
+[![Test truffle](https://github.com/Jonas-Grill/mtp-blockchain/actions/workflows/test-truffle.yml/badge.svg)](https://github.com/Jonas-Grill/mtp-blockchain/actions/workflows/test-truffle.yml)
 
-## Web3
+[Readme - Smart Contracts](/smart-contracts/README.md)
+
+## Frontend
 
 [![Test Web3](https://github.com/Jonas-Grill/mtp-blockchain/actions/workflows/test-web3.yml/badge.svg)](https://github.com/Jonas-Grill/mtp-blockchain/actions/workflows/test-web3.yml)
 
-[Readme - Web3](/web3/README.md)
+[Readme - Frontend](/frontend/README.md)
