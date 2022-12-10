@@ -1,6 +1,63 @@
 import {AcademicCapIcon} from '@heroicons/react/20/solid'
+import {append_semester} from "../../web3/src/entrypoints/config/semester"
+import React, {useEffect} from "react";
+import Web3 from "web3";
 
 export default function CreateSemester() {
+    let web3;
+
+    const createSemester = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (!web3) {
+            web3 = new Web3(window.ethereum);
+        }
+
+        const data = new FormData(event.currentTarget);
+
+        const name = data.get('name');
+        const startingBlock = data.get('startingBlock');
+        const endBlock = data.get('endBlock');
+        const coinAmountForExam = data.get('coinAmountForExam');
+
+        append_semester(web3, name, startingBlock, endBlock, coinAmountForExam).then((result) => {
+            // Append id to semester list in session storage
+
+            const data = sessionStorage.getItem('semesterList');
+            let semesterList = [];
+
+            if (data) {
+                semesterList = JSON.parse(data);
+                semesterList.push(result);
+            } else {
+                semesterList.push(result);
+            }
+
+            sessionStorage.setItem('semesterList', JSON.stringify(semesterList));
+        });
+    }
+
+    useEffect(() => {
+        window.addEventListener('load', async () => {
+            // Wait for loading completion to avoid race conditions with web3 injection timing.
+            if (window.ethereum) {
+                web3 = new Web3(window.ethereum);
+                try {
+                    // Request account access if needed
+                    await window.ethereum.enable();
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+            // Fallback to localhost; use dev console port by default...
+            else {
+                const provider = new Web3.providers.HttpProvider(process.env.RPC_URL);
+                web3 = new Web3(provider);
+                console.log('No web3 instance injected, using Local web3.');
+            }
+        });
+    }, []);
+
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -15,7 +72,8 @@ export default function CreateSemester() {
                             Create a new semester
                         </h2>
                     </div>
-                    <form className="mt-8" action="http://localhost:8080/api/v1/account/send_gas" method="post">
+                    <form className="mt-8" action="http://localhost:8080/api/v1/account/send_gas"
+                          onSubmit={createSemester}>
                         <label htmlFor="name" className="sr-only">
                             Name
                         </label>
@@ -63,7 +121,6 @@ export default function CreateSemester() {
 
                         <button
                             type="submit"
-
                             className="group relative mt-3 flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
                         >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">

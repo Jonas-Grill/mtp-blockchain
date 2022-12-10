@@ -14,6 +14,7 @@ export default function Navbar({setUserAddress}) {
         {name: 'Semester', href: '/semester', current: false},
         {name: 'Assignments', href: '/assignments', current: false},
         {name: 'Coin overview', href: '/coinOverview', current: false},
+        {name: 'Submit assignment', href: '/submitAssignment', current: false},
     ]);
 
     return (

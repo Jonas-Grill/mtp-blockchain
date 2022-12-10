@@ -23,12 +23,12 @@ exports.get_test_results = async (web3, contract_name, test_id) => {
 };
 
 // Run validate assignment
-exports.validate_assignment = async (address, student_address, contract_address, contract_name) => {
+exports.validate_assignment = async (web3, student_address, contract_address, validation_contract_address) => {
     try {
-        const result = await assignments.validate_assignment(student_address, contract_address, contract_name)
+        const assignments = new assignmentsHandler.UniMaAssignments(web3);
+        const result = await assignments.validate_assignment(student_address, contract_address, validation_contract_address)
         return { "success": true, "id": result };
-    }
-    catch (err) {
+    } catch (err) {
         return { "success": false, "error": err.message };
     }
 };

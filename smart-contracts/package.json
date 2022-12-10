@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "truffle test",
-    "migrate": "truffle migrate"
+    "migrate": "truffle migrate",
+    "compile": "truffle compile",
+    "deploy": "truffle deploy"
   },
   "repository": {
     "type": "git",

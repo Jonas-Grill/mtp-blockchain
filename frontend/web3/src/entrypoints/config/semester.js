@@ -18,6 +18,7 @@ exports.append_semester = async (web3, name, start_block, end_block, min_knowled
         return { "success": true, "id": id };
     }
     catch (err) {
+        console.trace(err)
         return { "success": false, "error": err.message };
     }
 };

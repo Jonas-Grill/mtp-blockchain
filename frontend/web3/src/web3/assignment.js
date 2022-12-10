@@ -22,10 +22,10 @@ class UniMaAssignments {
 
     /**
      * Validate assignment
-     * 
+     *
      * @param {string} student_address Student address
      * @param {string} contract_address Contract address
-     * @param {string} contract_name Name of contract
+     * @param {string} validation_contract_address Address of contract
      * @returns Id of assignment check
      */
     async validate_assignment(student_address, contract_address, validation_contract_address) {

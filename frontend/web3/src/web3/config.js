@@ -16,7 +16,7 @@ class Config {
     }
 
     /**
-     * Returns ConfigStorage obj 
+     * Returns ConfigStorage obj
      *
      * @returns ConfigStorage obj
      */
@@ -67,7 +67,7 @@ class Config {
 
     /**
      * Refresh faucet gas variable and return fresh value or return default
-     * 
+     *
      * @param {int} val default value for faucet gas (default: -1)
      * @param {int} _default default value (default: -1)
      * @returns faucet gas
@@ -93,7 +93,7 @@ class Config {
     }
 
     /**
-     * Set a new faucet gas value 
+     * Set a new faucet gas value
      *
      * @param {string} _address Address of the person who runs the function
      * @param {int} _faucetGas New faucet gas value
@@ -105,7 +105,7 @@ class Config {
 
     /**
      * Refresh faucet block difference variable and return fresh value or return default
-     * 
+     *
      * @param {int} val default value for faucet block different (default: -1)
      * @param {int} _default default value (default: -1)
      * @returns faucet gas
@@ -160,7 +160,7 @@ class Config {
 
     /**
      * Return admin address
-     * 
+     *
      * @returns current admin address
      */
     async get_admins() {
@@ -171,7 +171,7 @@ class Config {
 
     /**
      * Return if address is admin
-     * 
+     *
      * @returns if address is admin
      */
     async is_admin(_address) {
@@ -194,7 +194,7 @@ class Config {
     }
 
     /**
-    * Set a new faucet block no difference value 
+    * Set a new faucet block no difference value
     *
     * @param {string} _address Address of the person who runs the function
     * @param {int} _faucetBlockNoDifference Newfaucet block no difference value
@@ -213,7 +213,7 @@ class Config {
 
     /**
      * Append new semester
-     * 
+     *
      * @param {string} _name Name of the semester (e.g. SS22)
      * @param {int} _start_block Start block of semester
      * @param {int} _end_block End block of semester
@@ -222,13 +222,15 @@ class Config {
      */
     async appendSemester(_name, _start_block, _end_block, _min_knowledge_coin_amount) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.appendSemester(_name, _start_block, _end_block, _min_knowledge_coin_amount).send({ from: this.coinbaseAddress });
+        const id = await configStorageContract.methods.appendSemester(_name, _start_block, _end_block, _min_knowledge_coin_amount).send({ from: this.coinbaseAddress });
+
+        console.log("Semester ID: " + id);
 
         return await configStorageContract.methods.getSemesterCounter().call();
     }
 
     /**
-     * Return semester config by id 
+     * Return semester config by id
      *
      * @param {int} _id Id of the semester
      * @returns Returns semester
@@ -239,7 +241,7 @@ class Config {
     }
 
     /**
-     * Delete semester config by id 
+     * Delete semester config by id
      *
      * @param {int} _id Id of the semester
      */
@@ -251,7 +253,7 @@ class Config {
     /*----------  Setter  ----------*/
 
     /**
-     * Set semester name to new value 
+     * Set semester name to new value
      *
      * @param {int} id Id of semester
      * @param {string} name New name of semester
@@ -262,8 +264,8 @@ class Config {
     }
 
     /**
-     * Set semester start block to new value 
-     * 
+     * Set semester start block to new value
+     *
      * @param {int} id Id of semester
      * @param {int} start_block New start block of semester
      */
@@ -274,7 +276,7 @@ class Config {
 
     /**
      * Set semester end block to new value
-     * 
+     *
      * @param {int} id Id of semester
      * @param {int} end_block New end block of semester
      */
@@ -285,7 +287,7 @@ class Config {
 
     /**
      * Set semester min amount of knowledge coin needed to take exam to new value
-     * 
+     *
      * @param {int} id Id of semester
      * @param {int} _min_knowledge_coin_amount New amount of minimum knowledge coin amount for semester
      */
@@ -303,7 +305,7 @@ class Config {
     =============================================*/
 
     /**
-     * Append new assignment to semester 
+     * Append new assignment to semester
      *
      * @param {int} _semester_id Id of the semester the assignment should be appeneded
      * @param {string} _name Name of the semester
@@ -322,7 +324,7 @@ class Config {
 
     /**
      * Returns assignment config by id
-     * 
+     *
      * @param {int} _semester_id Id of the semester
      * @param {int} _assignment_id Id of the assignment
      * @returns Returns assignment
@@ -334,7 +336,7 @@ class Config {
 
     /**
      * Delete assignment config by id
-     * 
+     *
      * @param {int} _semester_id Id of the semester
      * @param {int} _assignment_id Id of the assignment
      */
@@ -347,7 +349,7 @@ class Config {
     /*----------  Setter  ----------*/
 
     /**
-     * Set assignment name to new value 
+     * Set assignment name to new value
      *
      * @param {int} _semester_id Id of the semester
      * @param {int} _assignment_id Id of the assignment
@@ -359,8 +361,8 @@ class Config {
     }
 
     /**
-     * Set assignment link to new value 
-     * 
+     * Set assignment link to new value
+     *
      * @param {int} _semester_id Id of the semester
      * @param {int} _assignment_id Id of the assignment
      * @param {string} link New link of assignment
@@ -372,7 +374,7 @@ class Config {
 
     /**
      * Set assignment address to new value
-     *  
+     *
      * @param {int} _semester_id Id of the semester
      * @param {int} _assignment_id Id of the assignment
      * @param {string} address New address of validation assignment smart contract
@@ -384,7 +386,7 @@ class Config {
 
     /**
      * Set assignment start block to new value
-     *  
+     *
      * @param {int} _semester_id Id of the semester
      * @param {int} _assignment_id Id of the assignment
      * @param {int} _start_block New start block of assignment
@@ -396,7 +398,7 @@ class Config {
 
     /**
      * Set assignment end block to new value
-     *  
+     *
      * @param {int} _semester_id Id of the semester
      * @param {int} _assignment_id Id of the assignment
      * @param {int} _end_block New end block of assignment

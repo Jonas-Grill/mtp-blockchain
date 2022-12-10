@@ -31,7 +31,7 @@ exports.get_assignment = async (web3, semester_id, assignment_id) => {
         const config = new configHandler.Config(web3)
 
         var assignment = await config.getAssignment(semester_id, assignment_id)
-        return { "success": true, "semester": { "name": assignment[0], "link": assignment[1], "validation_contract_address": assignment[2], "start_block": assignment[3], "end_block": assignment[4] } })
+        return { "success": true, "semester": { "name": assignment[0], "link": assignment[1], "validation_contract_address": assignment[2], "start_block": assignment[3], "end_block": assignment[4] } };
     }
     catch (err) {
         return { "success": false, "error": err.message };

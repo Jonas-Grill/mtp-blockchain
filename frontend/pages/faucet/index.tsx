@@ -1,15 +1,21 @@
-import { FireIcon } from '@heroicons/react/20/solid'
-import { send_gas } from '../../web3/src/entrypoints/account/send_gas'
-import { useEffect } from "react";
+import {FireIcon} from '@heroicons/react/20/solid'
+import {send_gas} from '../../web3/src/entrypoints/account/send_gas'
+import React, {useEffect} from "react";
+
+const Web3 = require("web3");
 
 
-export default function Faucet({ userAddress }: { userAddress: string }) {
-    const Web3 = require("web3");
+export default function Faucet({userAddress}: { userAddress: string }) {
+    let web3;
 
-    const handleSubmit = async (event: { preventDefault: () => void; }) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const result = await send_gas(new Web3(window.ethereum), event.target.address.value);
 
+        if (!web3) {
+            web3 = new Web3(window.ethereum);
+        }
+
+        const result = await send_gas(web3, event.currentTarget.address.value);
         alert(JSON.stringify(result))
     }
 
@@ -17,7 +23,7 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
         window.addEventListener('load', async () => {
             // Wait for loading completion to avoid race conditions with web3 injection timing.
             if (window.ethereum) {
-                const web3 = new Web3(window.ethereum);
+                web3 = new Web3(window.ethereum);
                 try {
                     // Request account access if needed
                     await window.ethereum.enable();
@@ -28,7 +34,7 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
             // Fallback to localhost; use dev console port by default...
             else {
                 const provider = new Web3.providers.HttpProvider(process.env.RPC_URL);
-                const web3 = new Web3(provider);
+                web3 = new Web3(provider);
                 console.log('No web3 instance injected, using Local web3.');
             }
         });
@@ -83,7 +89,7 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
                         >
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <FireIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
-                                    aria-hidden="true" />
+                                          aria-hidden="true"/>
                             </span>
                             Get gas
                         </button>
