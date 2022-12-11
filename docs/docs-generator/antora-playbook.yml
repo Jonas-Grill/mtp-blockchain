@@ -4,7 +4,7 @@ site:
 content:
   sources:
     - url: ./../../
-      branches: [main, feature/docs]
+      branches: [main]
       start_path: ./docs/docs-content
 
 ui:
