@@ -1,11 +1,11 @@
-import {FireIcon} from '@heroicons/react/20/solid'
-import {send_gas} from '../../web3/src/entrypoints/account/send_gas'
-import React, {useEffect} from "react";
+import { FireIcon } from '@heroicons/react/20/solid'
+import { send_gas } from '../../web3/src/entrypoints/account/faucet'
+import React, { useEffect } from "react";
 
 const Web3 = require("web3");
 
 
-export default function Faucet({userAddress}: { userAddress: string }) {
+export default function Faucet({ userAddress }: { userAddress: string }) {
     let web3;
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -89,7 +89,7 @@ export default function Faucet({userAddress}: { userAddress: string }) {
                         >
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <FireIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
-                                          aria-hidden="true"/>
+                                    aria-hidden="true" />
                             </span>
                             Get gas
                         </button>

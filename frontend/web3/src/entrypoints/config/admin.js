@@ -16,7 +16,7 @@ const utils = new utilsHelper.UniMaUtils();
 // Add admin endpoint
 exports.append_admin = async (address, new_address) => {
     try {
-        await config.add_admin(new_address);
+        await config.addAdmin(new_address);
         return { "success": true };
     }
     catch (err) {

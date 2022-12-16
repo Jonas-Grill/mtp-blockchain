@@ -9,11 +9,11 @@ const utilsHelper = require("../../web3/utils")
 const utils = new utilsHelper.UniMaUtils()
 
 // Set semester end block
-exports.set_semester_end_block = async (web3, semester_id, end_block) => {
+exports.setSemesterEndBlock = async (web3, semester_id, end_block) => {
     try {
         const config = new configHandler.Config(web3)
 
-        await config.set_semester_end_block(semester_id, end_block)
+        await config.setSemesterEndBlock(semester_id, end_block)
         return { "success": true };
     }
     catch (err) {

@@ -8,17 +8,29 @@ const configHandler = require("../../web3/config")
 // Create config class with config path
 
 
-
-
 // Send gas endpoint
-exports.send_gas = async (web3, to_address) => {
+exports.sendEth = async (web3, to_address) => {
     try {
         const account = new accountHandler.UniMaAccount(web3)
-        const config = new configHandler.Config(web3)
 
-        await account.send_gas(config.getCoinbaseAddress, to_address)
+        await account.sendEth(to_address)
 
         return { "success": true };
+    }
+    catch (err) {
+        console.trace(err)
+        return { "success": false, "error": err.message };
+    }
+};
+
+// Get faucet balance
+exports.getFaucetBalance = async (web3) => {
+    try {
+        const account = new accountHandler.UniMaAccount(web3)
+
+        var balance = await account.getFaucetBalance()
+
+        return { "success": true, "balance": balance };
     }
     catch (err) {
         console.trace(err)

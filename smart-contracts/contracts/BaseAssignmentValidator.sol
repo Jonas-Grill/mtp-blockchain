@@ -5,10 +5,10 @@ pragma solidity ^0.8.17;
 =                Assignment Helper            =
 =============================================*/
 
-import "../contracts/BaseAdmin.sol";
+import "../contracts/BaseConfig.sol";
 import "../contracts/BaseAssignment.sol";
 
-contract BaseAssignmentValidator is BaseAdmin {
+contract BaseAssignmentValidator is BaseConfig {
     struct Test {
         // Name of test
         string testName;
@@ -32,8 +32,8 @@ contract BaseAssignmentValidator is BaseAdmin {
     // Submitted assignments (student_address => true)
     mapping(address => bool) _assignmentSubmitted;
 
-    constructor() {
-        addAdmin(msg.sender);
+    constructor(address _configContractAddress) {
+        initAdmin(_configContractAddress);
 
         _testHistoryCounter = 0;
     }

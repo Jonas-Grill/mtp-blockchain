@@ -90,7 +90,7 @@ class UniMaUtils {
         // address from FaucetStorage contract
         const faucet_storage_address = this.get_contract_address(contract_name, network_id)
 
-        // Get faucetStorageContract using coinbase address
+        // Get faucetStorageContract using logged in web3 address
         return new web3.eth.Contract(abi, faucet_storage_address, {
             from: from_address
         });
@@ -108,7 +108,7 @@ class UniMaUtils {
         // faucet storage abi
         const abi = this.get_contract_abi("BaseAssignmentValidator")
 
-        // Get faucetStorageContract using coinbase address
+        // Get faucetStorageContract using logged in web3 address
         return new web3.eth.Contract(abi, assignment_validator_address, {
             from: from_address
         });

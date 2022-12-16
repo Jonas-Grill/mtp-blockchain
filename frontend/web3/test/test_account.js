@@ -59,7 +59,7 @@ describe("test", function () {
                     chaiAssert.isAtMost(Number(expectedNewWeiFrom), Number(oldWeiFrom), "New wei ist at most the old wei - 1 eth")
                 });
             });
-            it("should not send gas, because coinbase has not enough gas", async function () {
+            it("should not send gas, because faucet has not enough gas", async function () {
 
                 accounts = await ganache.get_account()
 

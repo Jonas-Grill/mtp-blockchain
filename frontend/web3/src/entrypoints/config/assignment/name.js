@@ -10,11 +10,11 @@ const utils = new utilsHelper.UniMaUtils()
 
 
 // Set assignment name
-exports.set_assignment_name = async (web3, semester_id, assignment_id, name) => {
+exports.setAssignmentName = async (web3, semester_id, assignment_id, name) => {
     try {
         const config = new configHandler.Config(web3)
 
-        await config.set_assignment_name(semester_id, assignment_id, name)
+        await config.setAssignmentName(semester_id, assignment_id, name)
         return { "success": true };
     }
     catch (err) {

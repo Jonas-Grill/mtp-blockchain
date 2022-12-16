@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "../contracts/BaseAdmin.sol";
+import "../contracts/BaseConfigAdmin.sol";
 
-contract ConfigStorage is BaseAdmin {
+contract ConfigStorage is BaseConfigAdmin {
     // Amount of gas the user can get using the faucet
-    int128 faucetGas;
+    uint128 faucetGas;
 
     // Amount of blocks difference between last faucet usage
-    int128 faucetBlockNoDifference;
+    uint128 faucetBlockNoDifference;
 
     // Struct Seminar
     struct uniMaSemester {
@@ -63,7 +63,7 @@ contract ConfigStorage is BaseAdmin {
      * Constructor to set default config values
      */
     constructor() {
-        addAdmin(msg.sender);
+        initAdmin();
 
         faucetGas = 10;
         faucetBlockNoDifference = 10;
@@ -82,7 +82,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _endBlock,
         uint256 _minKnowledgeCoinAmount
     ) public returns (uint256) {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
 
         uint256 index = semesterCounter + 1;
 
@@ -118,7 +118,7 @@ contract ConfigStorage is BaseAdmin {
     }
 
     function deleteSemester(uint256 _id) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
 
         delete semesters[_id];
         removeByValue(semesterIds, _id);
@@ -131,17 +131,17 @@ contract ConfigStorage is BaseAdmin {
     /*----------  Setter  ----------*/
 
     function setSemesterName(uint256 _id, string memory name) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_id].name = name;
     }
 
     function setSemesterStartBlock(uint256 _id, uint256 _startBlock) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_id].startBlock = _startBlock;
     }
 
     function setSemesterEndBlock(uint256 _id, uint256 _endBlock) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_id].endBlock = _endBlock;
     }
 
@@ -149,7 +149,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _id,
         uint256 _minKnowledgeCoinAmount
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_id].minKnowledgeCoinAmount = _minKnowledgeCoinAmount;
     }
 
@@ -167,7 +167,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _startBlock,
         uint256 _endBlock
     ) public returns (uint256) {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
 
         uint256 index = semesters[_semesterId].assignmentCounter + 1;
 
@@ -205,7 +205,7 @@ contract ConfigStorage is BaseAdmin {
     function deleteAssignment(uint256 _semesterId, uint256 _assignmentId)
         public
     {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         delete semesters[_semesterId].assignments[_assignmentId];
         removeByValue(semesters[_semesterId].assignmentIds, _assignmentId);
     }
@@ -225,7 +225,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _assignmentId,
         string memory name
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_semesterId].assignments[_assignmentId].name = name;
     }
 
@@ -234,7 +234,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _assignmentId,
         string memory link
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_semesterId].assignments[_assignmentId].link = link;
     }
 
@@ -243,7 +243,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _assignmentId,
         address _address
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_semesterId]
             .assignments[_assignmentId]
             .validationContractAddress = _address;
@@ -254,7 +254,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _assignmentId,
         uint256 _startBlock
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_semesterId]
             .assignments[_assignmentId]
             .startBlock = _startBlock;
@@ -265,7 +265,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _assignmentId,
         uint256 _endBlock
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_semesterId].assignments[_assignmentId].endBlock = _endBlock;
     }
 
@@ -275,7 +275,7 @@ contract ConfigStorage is BaseAdmin {
     =            Other functions            =
     =============================================*/
 
-    function getIntValue(string memory key) public view returns (int128) {
+    function getIntValue(string memory key) public view returns (uint128) {
         if (compareStrings(key, "faucetGas") == true) {
             return faucetGas;
         } else if (compareStrings(key, "faucetBlockNoDifference") == true) {
@@ -284,8 +284,8 @@ contract ConfigStorage is BaseAdmin {
         return 0;
     }
 
-    function setIntValue(string memory key, int128 value) public {
-        requireAdmin(msg.sender);
+    function setIntValue(string memory key, uint128 value) public {
+        requireUserAdmin(msg.sender);
 
         if (compareStrings(key, "faucetGas") == true) {
             faucetGas = value;

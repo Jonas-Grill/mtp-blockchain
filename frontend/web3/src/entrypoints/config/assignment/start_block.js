@@ -10,11 +10,11 @@ const utils = new utilsHelper.UniMaUtils()
 
 
 // Set assignment start_block
-exports.set_assignment_start_block = async (web3, semester_id, assignment_id, start_block) => {
+exports.setAssignmentStartBlock = async (web3, semester_id, assignment_id, start_block) => {
     try {
         const config = new configHandler.Config(web3)
 
-        await config.set_assignment_start_block(semester_id, assignment_id, start_block)
+        await config.setAssignmentStartBlock(semester_id, assignment_id, start_block)
         return { "success": true };
     }
     catch (err) {

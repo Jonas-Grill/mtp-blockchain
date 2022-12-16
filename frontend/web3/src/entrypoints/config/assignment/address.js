@@ -9,11 +9,11 @@ const utilsHelper = require("../../web3/utils")
 const utils = new utilsHelper.UniMaUtils()
 
 // Set assignment address
-exports.set_assignment_address = async (web3, semester_id, assignment_id, address) => {
+exports.setAssignmentAddress = async (web3, semester_id, assignment_id, address) => {
     try {
         const config = new configHandler.Config(web3)
 
-        await config.set_assignment_address(semester_id, assignment_id, address)
+        await config.setAssignmentAddress(semester_id, assignment_id, address)
         return { "success": true };
     }
     catch (err) {
