@@ -33,7 +33,7 @@ class UniMaAccount {
             _to,
             await this.web3.eth.net.getId())
 
-        const fromAddress = await web3.eth.requestAccounts()[0]
+        const fromAddress = await this.utils.getFromAccount(web3);
 
         await faucetStorageContract.methods.sendEth(_to).send({ from: fromAddress })
     }
@@ -54,14 +54,18 @@ class UniMaAccount {
     }
 
     /**
-     * Return amount of UniMa Coins from address
+     * Return amount of Knowledge Coins from address
      * 
      * @param {string} address address to check for first event transaction
-     * @returns amount of UniMa Coins
+     * @returns amount of Knowledge Coins
      */
-    async get_unima_coins(address) {
-        // Placeholder function to return amount of UniMa Coins
-        return 0;
+    async getKnowledgeCoinBalance(address) {
+        var knowledgeCoinContract = this.utils.get_contract(this.web3,
+            "SBCoin",
+            address,
+            await this.web3.eth.net.getId())
+
+        return await knowledgeCoinContract.methods.balanceOf(address).call()
     }
 }
 

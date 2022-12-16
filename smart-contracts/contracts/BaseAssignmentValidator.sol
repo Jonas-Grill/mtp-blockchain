@@ -7,6 +7,7 @@ pragma solidity ^0.8.17;
 
 import "../contracts/BaseConfig.sol";
 import "../contracts/BaseAssignment.sol";
+import "../contracts/SBCoin.sol";
 
 contract BaseAssignmentValidator is BaseConfig {
     struct Test {
@@ -74,7 +75,11 @@ contract BaseAssignmentValidator is BaseConfig {
             }
         }
 
-        // TODO send knoweldge coins to _studentAddress
+        SBCoin knowledgeCoin = SBCoin(
+            getConfigStorage().getKnowledgeCoinContractAddress()
+        );
+
+        knowledgeCoin.transfer(_studentAddress, knowledgeCoins);
     }
 
     /*=====  End of Validate and Submit  ======*/

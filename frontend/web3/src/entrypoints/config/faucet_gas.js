@@ -14,9 +14,9 @@ exports.set_faucet_gas = async (web3, faucet_gas) => {
     try {
         const config = new configHandler.Config(web3)
 
-        const accounts = await web3.eth.requestAccounts()
+        const from_address = await utils.getFromAccount(web3);
 
-        await config.setFaucetGas(accounts[0], faucet_gas)
+        await config.setFaucetGas(from_address, faucet_gas)
         return { "success": true };
     }
     catch (err) {

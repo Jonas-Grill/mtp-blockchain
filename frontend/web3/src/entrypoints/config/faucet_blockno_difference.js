@@ -13,10 +13,9 @@ const utils = new utilsHelper.UniMaUtils()
 exports.set_faucet_block_no_difference = async (web3, faucet_blockno_difference) => {
     try {
         const config = new configHandler.Config(web3)
+        const from_address = await utils.getFromAccount(web3);
 
-        const accounts = await web3.eth.requestAccounts()
-
-        await config.setFaucetBlockNoDifference(accounts[0], faucet_blockno_difference)
+        await config.setFaucetBlockNoDifference(from_address, faucet_blockno_difference)
         return { "success": true };
     }
     catch (err) {

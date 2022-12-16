@@ -37,3 +37,18 @@ exports.getFaucetBalance = async (web3) => {
         return { "success": false, "error": err.message };
     }
 };
+
+// Get Knowledge Coin balance
+exports.getKnowledgeCoinBalance = async (web3, address) => {
+    try {
+        const account = new accountHandler.UniMaAccount(web3)
+
+        var balance = await account.getKnowledgeCoinBalance(address)
+
+        return { "success": true, "balance": balance };
+    }
+    catch (err) {
+        console.trace(err)
+        return { "success": false, "error": err.message };
+    }
+}

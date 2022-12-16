@@ -59,6 +59,9 @@ contract ConfigStorage is BaseConfigAdmin {
     uint256[] private semesterIds;
     mapping(uint256 => uniMaSemester) semesters;
 
+    // SMART CONTRACT ADRESS
+    address public knowledgeCoinContractAddress;
+
     /**
      * Constructor to set default config values
      */
@@ -71,6 +74,20 @@ contract ConfigStorage is BaseConfigAdmin {
         // Set counters to 0
         semesterCounter = 0;
     }
+
+    /*=============================================
+    =            Contract Adresses            =
+    =============================================*/
+
+    function setKnowledgeCoinContractAdress(address _address) public {
+        knowledgeCoinContractAddress = _address;
+    }
+
+    function getKnowledgeCoinContractAddress() public view returns (address) {
+        return knowledgeCoinContractAddress;
+    }
+
+    /*=====  End of Contract Adresses  ======*/
 
     /*=============================================
     =              Semester function              =

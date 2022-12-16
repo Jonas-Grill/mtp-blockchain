@@ -85,6 +85,10 @@ contract BaseConfigAdmin {
         return false;
     }
 
+    function isAdmin(address possibleAdmin) public view returns (bool) {
+        return isUserAdmin(possibleAdmin) || isContractAdmin(possibleAdmin);
+    }
+
     // Add new admin to list
     function addUserAdmin(address userAdmin) public {
         // Only add user admin if not already in list

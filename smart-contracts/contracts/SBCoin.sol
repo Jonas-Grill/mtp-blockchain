@@ -1,22 +1,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity >=0.8.0;
 
-    error SoulBoundRestriction();
+error SoulBoundRestriction();
 
-contract SBCoin {
+import "../contracts/BaseConfig.sol";
 
+contract SBCoin is BaseConfig {
     //EVENTS
     event Transfer(address indexed from, address indexed to, uint256 amount);
-    event Approval(address indexed owner, address indexed spender, uint256 amount);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 amount
+    );
 
     //METADATA STORAGE
     string private _name;
     string private _symbol;
 
     uint8 private immutable _decimals;
-
-    //METADATA ACCESSORS
-    address private immutable admin;
 
     //ERC20 STORAGE
     uint256 private _totalSupply;
@@ -26,11 +28,14 @@ contract SBCoin {
     mapping(address => mapping(address => uint256)) private _allowances;
 
     //TIME VALIDATION STORAGE
-    mapping(address => mapping(uint => uint256)) private _timeStamps;
+    mapping(address => mapping(uint256 => uint256)) private _timeStamps;
 
     //CONSTRUCTOR
-    constructor(string memory name_, string memory symbol_) {
-        admin = msg.sender;
+    constructor(
+        string memory name_,
+        string memory symbol_,
+        address _configContractAddress
+    ) {
         _balances[msg.sender] = 10000;
         _totalSupply = 10000;
 
@@ -38,6 +43,9 @@ contract SBCoin {
         _symbol = symbol_; //NOW
         _decimals = 18;
         _totalSupply = 0;
+
+        initAdmin(_configContractAddress);
+        getConfigStorage().setKnowledgeCoinContractAdress(address(this));
     }
 
     //ERC20SB LOGIC
@@ -66,13 +74,20 @@ contract SBCoin {
         return true;
     }
 
-    function transferFrom(address from, address to, uint256 amount) public returns (bool) {
+    function transferFrom(
+        address from,
+        address to,
+        uint256 amount
+    ) public returns (bool) {
         address spender = msg.sender;
 
         uint256 currentAllowance = allowance(from, spender);
 
         if (currentAllowance != type(uint256).max) {
-            require(currentAllowance >= amount, "ERC20: insufficient allowance");
+            require(
+                currentAllowance >= amount,
+                "ERC20: insufficient allowance"
+            );
             unchecked {
                 _approve(from, spender, currentAllowance - amount);
             }
@@ -87,14 +102,21 @@ contract SBCoin {
         return true;
     }
 
-    function allowance(address owner, address spender) public view returns (uint256) {
+    function allowance(address owner, address spender)
+        public
+        view
+        returns (uint256)
+    {
         return _allowances[owner][spender];
     }
 
     //MINT LOGIC
     function mint(address to, uint256 amount) public returns (bool) {
         require(to != address(0), "ERC20: mint to the zero address");
-        require(msg.sender == admin, "ERC20: only admin can mint");
+        require(
+            getConfigStorage().isAdmin(msg.sender),
+            "ERC20: only admin can mint"
+        );
 
         _totalSupply += amount;
 
@@ -112,9 +134,13 @@ contract SBCoin {
     }
 
     //TIME VALIDATION LOGIC
-    function coinsInBlockNumberRange(address account, uint startBlock, uint endBlock) public view returns (uint256) {
+    function coinsInBlockNumberRange(
+        address account,
+        uint256 startBlock,
+        uint256 endBlock
+    ) public view returns (uint256) {
         uint256 amount = 0;
-        for (uint i = startBlock; i <= endBlock; i++) {
+        for (uint256 i = startBlock; i <= endBlock; i++) {
             amount += _timeStamps[account][i];
         }
         return amount;
@@ -123,15 +149,25 @@ contract SBCoin {
     //INTERNAL LOGIC
 
     //UTILITY
-    function _transfer(address from, address to, uint256 amount) internal virtual {
-        require(msg.sender == admin, "SoulBound Restriction: only admin can transfer");
+    function _transfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal virtual {
+        require(
+            getConfigStorage().isAdmin(msg.sender),
+            "SoulBound Restriction: only admin can transfer"
+        );
 
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
 
         uint256 fromBalance = _balances[from];
 
-        require(fromBalance >= amount, "ERC20: transfer amount exceeds balance");
+        require(
+            fromBalance >= amount,
+            "ERC20: transfer amount exceeds balance"
+        );
 
         // Cannot overflow or underflow because a user's balance
         // will never be larger than the total supply.
@@ -165,8 +201,15 @@ contract SBCoin {
         emit Transfer(from, to, amount);
     }
 
-    function _approve(address owner, address spender, uint256 amount) internal virtual {
-        require(msg.sender == admin, "SoulBound Restriction: only admin can approve");
+    function _approve(
+        address owner,
+        address spender,
+        uint256 amount
+    ) internal virtual {
+        require(
+            getConfigStorage().isAdmin(msg.sender),
+            "SoulBound Restriction: only admin can approve"
+        );
 
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");

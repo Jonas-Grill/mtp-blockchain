@@ -34,6 +34,7 @@ class UniMaUtils {
         const FaucetStorage = require('../../../../smart-contracts/build/contracts/FaucetStorage.json')
         const TestAssignmentValidator = require('../../../../smart-contracts/build/contracts/TestAssignmentValidator.json')
         const BaseAssignmentValidator = require('../../../../smart-contracts/build/contracts/BaseAssignmentValidator.json')
+        const SBCoin = require('../../../../smart-contracts/build/contracts/SBCoin.json')
 
         let json = null;
         if (contract_name === "ConfigStorage") {
@@ -47,6 +48,9 @@ class UniMaUtils {
         }
         if (contract_name === "BaseAssignmentValidator") {
             json = BaseAssignmentValidator;
+        }
+        if (contract_name === "SBCoin") {
+            json = SBCoin;
         }
         return JSON.parse(JSON.stringify(json))
     }
@@ -112,6 +116,23 @@ class UniMaUtils {
         return new web3.eth.Contract(abi, assignment_validator_address, {
             from: from_address
         });
+    }
+
+    /**
+     * Returns the from account 
+     *
+     * @param {web3} web3 web3 instance to connect to blockchain
+     * @returns the from account
+     */
+    async getFromAccount(web3) {
+        try {
+            const address = await web3.eth.requestAccounts();
+            return address[0];
+        }
+        catch (error) {
+            const address = await web3.eth.getAccounts();
+            return address[0];
+        }
     }
 }
 
