@@ -239,6 +239,16 @@ class Config {
     }
 
     /**
+     * Return all semester ids 
+     *
+     * @returns Returns all semester ids
+     */
+    async getSemesterIds() {
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.getSemesterIds().call({ from: this.coinbaseAddress });
+    }
+
+    /**
      * Delete semester config by id
      *
      * @param {int} _id Id of the semester
@@ -330,6 +340,17 @@ class Config {
     async getAssignment(_semester_id, _assignment_id) {
         const configStorageContract = await this.getConfigStorage()
         return await configStorageContract.methods.getAssignment(_semester_id, _assignment_id).call({ from: this.coinbaseAddress });
+    }
+
+    /**
+     * Return all assignment ids
+     * 
+     * @param {id} _semester_id Id of the semester
+     * @returns Returns all assignment ids
+     */
+    async getAssignmentIds(_semester_id) {
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.getAssignmentIds(_semester_id).call({ from: this.coinbaseAddress });
     }
 
     /**

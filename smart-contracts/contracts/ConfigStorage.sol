@@ -22,6 +22,8 @@ contract ConfigStorage is BaseAdmin {
         uint256 minKnowledgeCoinAmount;
         // Assignment counter
         uint256 assignmentCounter;
+        // Assignment Ids
+        uint256[] assignmentIds;
         // Assigned assignments
         mapping(uint256 => uniMaAssignments) assignments;
     }
@@ -52,7 +54,9 @@ contract ConfigStorage is BaseAdmin {
         uint256 endBlock;
     }
 
+    // Semester variables
     uint256 semesterCounter = 0;
+    uint256[] private semesterIds;
     mapping(uint256 => uniMaSemester) semesters;
 
     /**
@@ -90,6 +94,8 @@ contract ConfigStorage is BaseAdmin {
 
         semesterCounter = index;
 
+        semesterIds.push(index);
+
         return index;
     }
 
@@ -107,10 +113,15 @@ contract ConfigStorage is BaseAdmin {
             );
     }
 
+    function getSemesterIds() public view returns (uint256[] memory) {
+        return semesterIds;
+    }
+
     function deleteSemester(uint256 _id) public {
         requireAdmin(msg.sender);
 
         delete semesters[_id];
+        removeByValue(semesterIds, _id);
     }
 
     function getSemesterCounter() public view returns (uint256) {
@@ -170,6 +181,8 @@ contract ConfigStorage is BaseAdmin {
 
         semesters[_semesterId].assignmentCounter = index;
 
+        semesters[_semesterId].assignmentIds.push(index);
+
         return index;
     }
 
@@ -181,11 +194,20 @@ contract ConfigStorage is BaseAdmin {
         return semesters[_semesterId].assignments[_assignmentId];
     }
 
+    function getAssignmentIds(uint256 _semesterId)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        return semesters[_semesterId].assignmentIds;
+    }
+
     function deleteAssignment(uint256 _semesterId, uint256 _assignmentId)
         public
     {
         requireAdmin(msg.sender);
         delete semesters[_semesterId].assignments[_assignmentId];
+        removeByValue(semesters[_semesterId].assignmentIds, _assignmentId);
     }
 
     function getAssignmentCounter(uint256 semester_id)
@@ -280,11 +302,37 @@ contract ConfigStorage is BaseAdmin {
 
     function compareStrings(string memory a, string memory b)
         internal
-        view
+        pure
         returns (bool)
     {
         return (keccak256(abi.encodePacked((a))) ==
             keccak256(abi.encodePacked((b))));
     }
+
+    function find(uint256[] storage arr, uint256 value)
+        internal
+        view
+        returns (uint256)
+    {
+        uint256 i = 0;
+        while (arr[i] != value) {
+            i++;
+        }
+        return i;
+    }
+
+    function removeByValue(uint256[] storage arr, uint256 value) internal {
+        uint256 i = find(arr, value);
+        removeByIndex(arr, i);
+    }
+
+    function removeByIndex(uint256[] storage arr, uint256 i) internal {
+        while (i < arr.length - 1) {
+            arr[i] = arr[i + 1];
+            i++;
+        }
+        arr.pop();
+    }
+
     /*=====  End of Helper Functions  ======*/
 }

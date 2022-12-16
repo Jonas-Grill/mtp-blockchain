@@ -37,6 +37,20 @@ exports.get_semester = async (web3, semester_id) => {
     }
 };
 
+// Get semester ids
+exports.get_semester_ids = async (web3) => {
+    try {
+        const config = new configHandler.Config(web3)
+
+        var semester_ids = await config.getSemesterIds()
+
+        return { "success": true, "semester_ids": semester_ids };
+    }
+    catch (err) {
+        return { "success": false, "error": err.message };
+    }
+};
+
 // Delete semester
 exports.delete_semester = async (web3, semester_id) => {
     try {
