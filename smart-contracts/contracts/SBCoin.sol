@@ -8,11 +8,7 @@ import "../contracts/BaseConfig.sol";
 contract SBCoin is BaseConfig {
     //EVENTS
     event Transfer(address indexed from, address indexed to, uint256 amount);
-    event Approval(
-        address indexed owner,
-        address indexed spender,
-        uint256 amount
-    );
+    event Approval(address indexed owner, address indexed spender, uint256 amount);
 
     //METADATA STORAGE
     string private _name;
@@ -28,7 +24,7 @@ contract SBCoin is BaseConfig {
     mapping(address => mapping(address => uint256)) private _allowances;
 
     //TIME VALIDATION STORAGE
-    mapping(address => mapping(uint256 => uint256)) private _timeStamps;
+    mapping(address => mapping(uint256 => int256)) private _timeStamps;
 
     //CONSTRUCTOR
     constructor(
@@ -126,7 +122,7 @@ contract SBCoin is BaseConfig {
             _balances[to] += amount;
         }
 
-        _timeStamps[to][block.number] = amount;
+        _timeStamps[to][block.number] = int(amount);
 
         emit Transfer(address(0), to, amount);
 
@@ -139,11 +135,12 @@ contract SBCoin is BaseConfig {
         uint256 startBlock,
         uint256 endBlock
     ) public view returns (uint256) {
-        uint256 amount = 0;
+        int256 amount = 0;
         for (uint256 i = startBlock; i <= endBlock; i++) {
             amount += _timeStamps[account][i];
         }
-        return amount;
+
+        return amount > 0 ? uint256(amount) : 0;
     }
 
     //INTERNAL LOGIC
@@ -176,27 +173,8 @@ contract SBCoin is BaseConfig {
             _balances[to] += amount;
         }
 
-        uint256 counter = amount;
-        for (uint256 i = 0; i <= block.number; i++) {
-            if (_timeStamps[from][i] > 0) {
-                if (counter > _timeStamps[from][i]) {
-                    counter -= _timeStamps[from][i];
-                    delete _timeStamps[from][i];
-
-                    if (counter == 0) {
-                        break;
-                    }
-                } else {
-                    _timeStamps[from][i] -= counter;
-                    counter = 0;
-                    break;
-                }
-            } else {
-                delete _timeStamps[from][i];
-            }
-        }
-
-        _timeStamps[to][block.number] = amount;
+        _timeStamps[from][block.number] = -int(amount);
+        _timeStamps[to][block.number] = int(amount);
 
         emit Transfer(from, to, amount);
     }
