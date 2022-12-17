@@ -18,8 +18,8 @@ const assignment = new assignment_handler.UniMaAssignments(web3);
 const utilsHandler = require("./utils");
 const utils = new utilsHandler.UniMaUtils();
 
-const example_contract_address = "0x0342C05F1E8b2a88554339a43BA8119F9dBE498C"
-const example_validation_address = "0xf11Fcb601841ce60bC556d3744427A4C6cf5Ab5b"
+const example_contract_address = "0x7f4CBb05057916D77eABd0987A5965154e994247"
+const example_validation_address = "0xB833cB5D5C0a2094550d3a736F3c20d3dcA5bF42"
 
 const student_address = "0x917441412223Ac1104617Ca07ca9853504BEA5d0"
 
@@ -27,16 +27,32 @@ config.getContractAdmins().then((admins) => {
     console.log(admins);
 });
 
-assignment.validate_assignment(student_address, example_contract_address, example_validation_address).then(async (result) => {
+config.getContractAdminAddresses().then((admins) => {
+    console.log(admins);
+});
+
+assignment.validateAssignment(student_address, example_contract_address, example_validation_address).then(async (result) => {
     const id = result;
 
-    const test_results = await assignment.get_test_results(id, example_validation_address);
+    const test_results = await assignment.getTestResults(id, example_validation_address);
 
     console.log(test_results);
 
-    const test_results2 = await assignment.submitAssignment(student_address, example_contract_address, example_validation_address);
+    //const test_results2 = await assignment.submitAssignment(student_address, example_contract_address, example_validation_address);
 
-    console.log(test_results2);
+    //console.log(test_results2);
+
+    var balance = await account.getKnowledgeCoinBalance(student_address)
+
+    console.log(balance);
+
+    var testIndexes = await assignment.getTestHistoryIndexes(student_address, example_validation_address);
+
+    console.log(testIndexes);
+
+    var submittedAssignment = await assignment.getSubmittedAssignment(student_address, example_validation_address);
+
+    console.log(submittedAssignment);
 });
 
 

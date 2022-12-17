@@ -32,7 +32,7 @@ class UniMaUtils {
 
         const ConfigStorage = require('../../../../smart-contracts/build/contracts/ConfigStorage.json')
         const FaucetStorage = require('../../../../smart-contracts/build/contracts/FaucetStorage.json')
-        const TestAssignmentValidator = require('../../../../smart-contracts/build/contracts/TestAssignmentValidator.json')
+        const ExampleAssignmentValidator = require('../../../../smart-contracts/build/contracts/ExampleAssignmentValidator.json')
         const BaseAssignmentValidator = require('../../../../smart-contracts/build/contracts/BaseAssignmentValidator.json')
         const SBCoin = require('../../../../smart-contracts/build/contracts/SBCoin.json')
 
@@ -43,8 +43,8 @@ class UniMaUtils {
         if (contract_name === "FaucetStorage") {
             json = FaucetStorage;
         }
-        if (contract_name === "TestAssignmentValidator") {
-            json = TestAssignmentValidator;
+        if (contract_name === "ExampleAssignmentValidator") {
+            json = ExampleAssignmentValidator;
         }
         if (contract_name === "BaseAssignmentValidator") {
             json = BaseAssignmentValidator;

@@ -6,32 +6,35 @@ pragma solidity ^0.8.17;
  *  The imported base assignment needs to own the functions which are
  *  called by the validator
  */
-import "../contracts/TestAssignmentInterface.sol";
+import "../contracts/ExampleAssignmentInterface.sol";
 
 // Import the base assignment validator contract
 import "../contracts/BaseAssignmentValidator.sol";
 
 // Give the contract a name and inherit from the base assignment validator
-contract TestAssignmentValidator is BaseAssignmentValidator {
+contract ExampleAssignmentValidator is BaseAssignmentValidator {
     /**
      * Import empty constructor and pass the config contract address to the
      * base assignment validator constructor
      */
     constructor(address _configContractAddress)
-        BaseAssignmentValidator(_configContractAddress)
+        BaseAssignmentValidator(
+            _configContractAddress,
+            "ExampleAssignmentValidator" // Define the name of the contract
+        )
     {
         // The constructor is empty
     }
 
     /**
-     * The validateTestAssignment function is inherited from the base assignment validator
+     * The validateExampleAssignment function is inherited from the base assignment validator
      * and needs to be implemented in the child contract.
      *
      * In this function all the necessary tests are executed and the results are returned
      *
      * MARK THE override KEYWORD
      */
-    function validateTestAssignment(
+    function validateExampleAssignment(
         address _studentAddress,
         address _contractAddress
     ) public override(BaseAssignmentValidator) returns (uint256) {
@@ -47,9 +50,9 @@ contract TestAssignmentValidator is BaseAssignmentValidator {
         );
 
         // Call the contract which needs to be tested and store it in the variable assignment_contract
-        TestAssignmentInterface assignment_contract = TestAssignmentInterface(
-            _contractAddress
-        );
+        ExampleAssignmentInterface assignment_contract = ExampleAssignmentInterface(
+                _contractAddress
+            );
 
         /*
          *  The following tests are just examples and can be replaced with your own tests

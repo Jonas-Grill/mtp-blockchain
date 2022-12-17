@@ -9,12 +9,18 @@ contract BaseConfigAdmin {
     // Address of user admin (e.g., professor, lecturer, etc.)
     address[] private userAdmins;
 
-    // Address of contract admins (e.g., validator contract, etc.)
-    address[] private contractAdmins;
+    struct ContractAdmin {
+        string contractName; // Name of contract
+        address contractAddress; // Address of contract
+        bool isContractAdmin; // Is contract admin
+    }
 
-    function initAdmin() public {
+    // Address of contract admins (e.g., validator contract, etc.)
+    ContractAdmin[] private contractAdmins;
+
+    function initAdmin(string memory contractName) public {
         addUserAdmin(msg.sender);
-        addContractAdmin(address(this));
+        addContractAdmin(address(this), contractName);
     }
 
     // Require if address of user is admin > with error handling
@@ -45,7 +51,7 @@ contract BaseConfigAdmin {
         uint256 i;
 
         for (i = 0; i < contractAdmins.length; i++) {
-            if (contractAdmins[i] == possibleContractAdmin) {
+            if (contractAdmins[i].contractAddress == possibleContractAdmin) {
                 return true;
             }
         }
@@ -77,7 +83,7 @@ contract BaseConfigAdmin {
         uint256 i;
 
         for (i = 0; i < contractAdmins.length; i++) {
-            if (contractAdmins[i] == possibleContractAdmin) {
+            if (contractAdmins[i].contractAddress == possibleContractAdmin) {
                 return true;
             }
         }
@@ -96,10 +102,15 @@ contract BaseConfigAdmin {
     }
 
     // Add new admin to list
-    function addContractAdmin(address contractAdmin) public {
+    function addContractAdmin(address contractAdmin, string memory contractName)
+        public
+    {
         // Only add user admin if not already in list
-        if (isContractAdmin(contractAdmin) == false)
-            contractAdmins.push(contractAdmin);
+        if (isContractAdmin(contractAdmin) == false) {
+            contractAdmins.push(
+                ContractAdmin(contractName, contractAdmin, true)
+            );
+        }
     }
 
     // Remove admin from list
@@ -114,12 +125,13 @@ contract BaseConfigAdmin {
     }
 
     // Remove admin from list
-    function removeContractAdmin(address conractAdmin) public {
+    function removeContractAdmin(address contractAdmin) public {
         uint256 i;
 
         for (i = 0; i < contractAdmins.length; i++) {
-            if (contractAdmins[i] == conractAdmin) {
+            if (contractAdmins[i].contractAddress == contractAdmin) {
                 delete contractAdmins[i];
+                break;
             }
         }
     }
@@ -130,7 +142,24 @@ contract BaseConfigAdmin {
     }
 
     // Get list of all contractAdmins
-    function getContractAdmins() public view returns (address[] memory) {
+    function getContractAdminAddresses()
+        public
+        view
+        returns (address[] memory)
+    {
+        address[] memory adminAdresses = new address[](contractAdmins.length);
+
+        uint256 i = 0;
+
+        for (i = 0; i < contractAdmins.length; i++) {
+            adminAdresses[i] = contractAdmins[i].contractAddress;
+        }
+
+        return adminAdresses;
+    }
+
+    // Get list of all contractAdmins
+    function getContractAdmins() public view returns (ContractAdmin[] memory) {
         return contractAdmins;
     }
 

@@ -10,8 +10,8 @@ const name = "KnowledgeCoin";
 const symbol = "NOW";
 
 // test 
-const testAssignment = artifacts.require("TestAssignment");
-const testAssignmentValidator = artifacts.require("TestAssignmentValidator");
+const testAssignment = artifacts.require("ExampleAssignment");
+const testAssignmentValidator = artifacts.require("ExampleAssignmentValidator");
 
 module.exports = async (deployer) => {
     await deployer.deploy(testAssignment);
@@ -23,7 +23,7 @@ module.exports = async (deployer) => {
     // Faucet
     await deployer.deploy(faucetStorage, configStorage.address);
 
-    console.log("Deploying TestAssignmentValidator...")
+    console.log("Deploying ExampleAssignmentValidator...")
     // Assignment Validator
     await deployer.deploy(testAssignmentValidator, configStorage.address);
 

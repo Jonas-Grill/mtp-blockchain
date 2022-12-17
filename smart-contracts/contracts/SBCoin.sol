@@ -8,7 +8,11 @@ import "../contracts/BaseConfig.sol";
 contract SBCoin is BaseConfig {
     //EVENTS
     event Transfer(address indexed from, address indexed to, uint256 amount);
-    event Approval(address indexed owner, address indexed spender, uint256 amount);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 amount
+    );
 
     //METADATA STORAGE
     string private _name;
@@ -32,15 +36,16 @@ contract SBCoin is BaseConfig {
         string memory symbol_,
         address _configContractAddress
     ) {
-        _balances[msg.sender] = 10000;
-        _totalSupply = 10000;
-
         _name = name_; //KnowledgeCoin
         _symbol = symbol_; //NOW
         _decimals = 18;
         _totalSupply = 0;
 
-        initAdmin(_configContractAddress);
+        initAdmin(
+            _configContractAddress,
+            string(abi.encodePacked("SBCoin", "_", _name))
+        );
+
         getConfigStorage().setKnowledgeCoinContractAdress(address(this));
     }
 
@@ -122,7 +127,7 @@ contract SBCoin is BaseConfig {
             _balances[to] += amount;
         }
 
-        _timeStamps[to][block.number] = int(amount);
+        _timeStamps[to][block.number] = int256(amount);
 
         emit Transfer(address(0), to, amount);
 
@@ -173,8 +178,8 @@ contract SBCoin is BaseConfig {
             _balances[to] += amount;
         }
 
-        _timeStamps[from][block.number] = -int(amount);
-        _timeStamps[to][block.number] = int(amount);
+        _timeStamps[from][block.number] = -int256(amount);
+        _timeStamps[to][block.number] = int256(amount);
 
         emit Transfer(from, to, amount);
     }

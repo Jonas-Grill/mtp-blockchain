@@ -10,6 +10,7 @@ import "../contracts/BaseAssignment.sol";
 import "../contracts/SBCoin.sol";
 
 contract BaseAssignmentValidator is BaseConfig {
+    // TEST STRUCT
     struct Test {
         // Name of test
         string testName;
@@ -17,6 +18,7 @@ contract BaseAssignmentValidator is BaseConfig {
         bool testPassed;
     }
 
+    // TEST HISTORY STRUCT
     struct TestHistory {
         // studentAddress
         address studentAddress;
@@ -26,15 +28,31 @@ contract BaseAssignmentValidator is BaseConfig {
         Test[] test;
     }
 
+    // SUBMIT STRUCT
+    struct AssignmentSubmitted {
+        // index of the test which is used to calculate the amount of knowledge coins
+        uint256 testIndex;
+        // student address
+        address studentAddress;
+        // contract address
+        address contractAddress;
+        // knowledge coins
+        uint256 knowledgeCoins;
+        // blockno
+        uint256 blockNo;
+        // submitted
+        bool submitted;
+    }
+
     // Test history
     uint256 private _testHistoryCounter;
     mapping(uint256 => TestHistory) _testHistory;
 
     // Submitted assignments (student_address => true)
-    mapping(address => bool) _assignmentSubmitted;
+    mapping(address => AssignmentSubmitted) _assignmentSubmitted;
 
-    constructor(address _configContractAddress) {
-        initAdmin(_configContractAddress);
+    constructor(address _configContractAddress, string memory _contractName) {
+        initAdmin(_configContractAddress, _contractName);
 
         _testHistoryCounter = 0;
     }
@@ -44,7 +62,7 @@ contract BaseAssignmentValidator is BaseConfig {
     =============================================*/
 
     // abstract validate test function
-    function validateTestAssignment(
+    function validateExampleAssignment(
         address _studentAddress,
         address _contractAddress
     ) public virtual returns (uint256) {}
@@ -54,19 +72,25 @@ contract BaseAssignmentValidator is BaseConfig {
         public
     {
         require(
-            _assignmentSubmitted[_studentAddress] != true,
+            _assignmentSubmitted[_studentAddress].submitted != true,
             "Assignment already submitted! Cannot submit the assignment again!"
         );
 
-        uint256 historyIndex = validateTestAssignment(
+        require(
+            BaseAssignment(_contractAddress).getOwner() == _studentAddress,
+            "Only the owner of the contract can submit the assignment!"
+        );
+
+        // Validate assignment and return test history index
+        uint256 historyIndex = validateExampleAssignment(
             _studentAddress,
             _contractAddress
         );
 
+        // Get for each passed test a knowledge coin
         uint256 knowledgeCoins = 0;
 
         uint256 i;
-
         Test[] memory tests = _testHistory[historyIndex].test;
 
         for (i = 0; i < tests.length; i++) {
@@ -75,11 +99,23 @@ contract BaseAssignmentValidator is BaseConfig {
             }
         }
 
+        // Get knowledge coin contract
         SBCoin knowledgeCoin = SBCoin(
             getConfigStorage().getKnowledgeCoinContractAddress()
         );
 
-        knowledgeCoin.transfer(_studentAddress, knowledgeCoins);
+        // Mint knowledge coins
+        knowledgeCoin.mint(_studentAddress, knowledgeCoins);
+
+        // Mark assignment as submitted
+        _assignmentSubmitted[_studentAddress] = AssignmentSubmitted(
+            historyIndex,
+            _studentAddress,
+            _contractAddress,
+            knowledgeCoins,
+            block.number,
+            true
+        );
     }
 
     /*=====  End of Validate and Submit  ======*/
@@ -125,13 +161,54 @@ contract BaseAssignmentValidator is BaseConfig {
         return _testHistory[_historyIndex].test[_testIndex];
     }
 
-    // Return test reszlts
+    // Return test result
     function getTestResults(uint256 _historyIndex)
         public
         view
         returns (Test[] memory result)
     {
         return _testHistory[_historyIndex].test;
+    }
+
+    /**
+     * Get all test history indexes for a student
+     *
+     * MARK: The array has a fixed size, ignore all number besides 0
+     *
+     * @param _address Student address
+     * @return testIndexes Array of test history indexes
+     */
+    function getTestHistoryIndexes(address _address)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        uint256[] memory testIndexes = new uint256[](_testHistoryCounter);
+
+        uint256 i = 0;
+        uint256 j = 0;
+        for (i = 0; i < _testHistoryCounter; i++) {
+            if (_testHistory[i].studentAddress == _address) {
+                testIndexes[j] = i;
+                j++;
+            }
+        }
+
+        return testIndexes;
+    }
+
+    /**
+     * Get submitted assignment for address
+     *
+     * @param _address Student address
+     * @return AssignmentSubmitted
+     */
+    function getSubmittedAssignment(address _address)
+        public
+        view
+        returns (AssignmentSubmitted memory)
+    {
+        return _assignmentSubmitted[_address];
     }
 
     // Check assignment owner

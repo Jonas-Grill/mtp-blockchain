@@ -17,7 +17,7 @@ contract FaucetStorage is BaseConfig {
     event faucetUsed(address _address, uint256 _blockNo);
 
     constructor(address _configContractAddress) {
-        initAdmin(_configContractAddress);
+        initAdmin(_configContractAddress, string("FaucetSorage"));
     }
 
     /*=============================================

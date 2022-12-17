@@ -1,12 +1,12 @@
-import {DocumentTextIcon} from '@heroicons/react/20/solid'
-import React, {useEffect, useState} from "react";
-import {validate_assignment, get_test_results} from '../../web3/src/entrypoints/assignments/assignments'
+import { DocumentTextIcon } from '@heroicons/react/20/solid'
+import React, { useEffect, useState } from "react";
+import { validateAssignment, getTestResults } from '../../web3/src/entrypoints/assignments/assignments'
 import Web3 from "web3";
-import {loadSemesters} from "../semester";
-import {useRouter} from "next/router";
-import {loadAssignments} from "../assignments";
+import { loadSemesters } from "../semester";
+import { useRouter } from "next/router";
+import { loadAssignments } from "../assignments";
 
-export default function submitAssignment({userAddress}: { userAddress: string }) {
+export default function submitAssignment({ userAddress }: { userAddress: string }) {
     const router = useRouter();
 
     let web3;
@@ -30,14 +30,14 @@ export default function submitAssignment({userAddress}: { userAddress: string })
         const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
 
         if (assignment) {
-            validate_assignment(web3, userAddress, contractAddress, assignment.validationContractAddress).then((result) => {
+            validateAssignment(web3, userAddress, contractAddress, assignment.validationContractAddress).then((result) => {
                 alert(JSON.stringify(result));
 
                 if (!web3) {
                     web3 = new Web3(window.ethereum);
                 }
 
-                get_test_results(web3, contractAddress, result.id).then((result) => {
+                getTestResults(web3, contractAddress, result.id).then((result) => {
                     alert(JSON.stringify(result));
                 });
             });
@@ -95,7 +95,7 @@ export default function submitAssignment({userAddress}: { userAddress: string })
                                             onChange={() => setSelectedSemester(semester.id)}
                                         />
                                         <label htmlFor="semester"
-                                               className="ml-3 block text-sm font-medium text-gray-700">
+                                            className="ml-3 block text-sm font-medium text-gray-700">
                                             {semester.name}
                                         </label>
                                     </div>
@@ -115,7 +115,7 @@ export default function submitAssignment({userAddress}: { userAddress: string })
                                             onChange={() => setSelectedAssignment(assignment.id)}
                                         />
                                         <label htmlFor="assignment"
-                                               className="ml-3 block text-sm font-medium text-gray-700">
+                                            className="ml-3 block text-sm font-medium text-gray-700">
                                             {assignment.name}
                                         </label>
                                     </div>
@@ -137,10 +137,10 @@ export default function submitAssignment({userAddress}: { userAddress: string })
                             type="submit"
                             className="group relative mt-3 flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
                         >
-                                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <DocumentTextIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
-                                                      aria-hidden="true"/>
-                                </span>
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                                <DocumentTextIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
+                                    aria-hidden="true" />
+                            </span>
                             Test assignment
                         </button>
                         <button
@@ -148,10 +148,10 @@ export default function submitAssignment({userAddress}: { userAddress: string })
 
                             className="group relative mt-3 flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
                         >
-                                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <DocumentTextIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
-                                                      aria-hidden="true"/>
-                                </span>
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                                <DocumentTextIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
+                                    aria-hidden="true" />
+                            </span>
                             Submit assignment
                         </button>
                     </form>

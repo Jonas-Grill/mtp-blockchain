@@ -10,12 +10,15 @@ import "../contracts/ConfigStorage.sol";
 contract BaseConfig {
     address private configContractAddress;
 
-    function initAdmin(address _configContractAddress) public {
+    function initAdmin(
+        address _configContractAddress,
+        string memory _contractName
+    ) public {
         configContractAddress = _configContractAddress;
 
         ConfigStorage configContact = getConfigStorage();
         configContact.requireUserAdmin(msg.sender);
-        configContact.addContractAdmin(address(this));
+        configContact.addContractAdmin(address(this), _contractName);
     }
 
     function getConfigStorage() public view returns (ConfigStorage) {

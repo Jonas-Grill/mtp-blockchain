@@ -66,7 +66,7 @@ contract ConfigStorage is BaseConfigAdmin {
      * Constructor to set default config values
      */
     constructor() {
-        initAdmin();
+        initAdmin("ConfigStorage");
 
         faucetGas = 10;
         faucetBlockNoDifference = 10;

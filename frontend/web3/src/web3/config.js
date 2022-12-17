@@ -125,34 +125,47 @@ class Config {
     =============================================*/
 
     /**
-    * Set a new admin address for all contracts
+    * Set a new user admin address for all contracts
     *
     * @param {string} _newAdmin Address of the new admin
     */
-    // todo
     async addUserAdmin(_newAdmin) {
         // Change Admin for ConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
         await configStorageContract.methods.addUserAdmin(_newAdmin).send({ from: _newAdmin });
-
-        // Change Admin for FaucetStorage Contract
-        const faucetStorageContract = await this.utils.get_contract(this.web3, "FaucetStorage", _newAdmin, await this.web3.eth.net.getId())
-        await faucetStorageContract.methods.addUserAdmin(_newAdmin).send({ from: _newAdmin });
     }
 
     /**
-    * Remove admin address for all contracts
+    * Set a new contratc as admin
+    *
+    * @param {string} _newAdmin Address of the new admin
+    */
+    async addContractAdmin(_newAdmin) {
+        // Change Admin for ConfigStorage Contract
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.addContractAdmin(_newAdmin).send({ from: _newAdmin });
+    }
+
+    /**
+    * Remove user admin
     *
     * @param {string} _admin Address of the admin to remove
     */
-    async remove_admin(_admin) {
+    async removeUserAdmin(_admin) {
         // Change Admin for ConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.removeAdmin(_admin).send({ from: _admin });
+        await configStorageContract.methods.removeUserAdmin(_admin).send({ from: _admin });
+    }
 
-        // Change Admin for FaucetStorage Contract
-        const faucetStorageContract = await this.utils.get_contract(this.web3, "FaucetStorage", _admin, await this.web3.eth.net.getId())
-        await faucetStorageContract.methods.removeAdmin(_admin).send({ from: _admin });
+    /**
+    * Remove contract admin
+    *
+    * @param {string} _admin Address of the admin to remove
+    */
+    async removeContractAdmin(_admin) {
+        // Change Admin for ConfigStorage Contract
+        const configStorageContract = await this.getConfigStorage()
+        await configStorageContract.methods.removeContractAdmin(_admin).send({ from: _admin });
     }
 
     /**
@@ -171,8 +184,17 @@ class Config {
      *
      * @returns current user admin address
      */
+    async getContractAdminAddresses() {
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.getContractAdminAddresses().call();
+    }
+
+    /**
+    * Return contract admin address
+    *
+    * @returns current user admin address
+    */
     async getContractAdmins() {
-        // Change Admin for ConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
         return await configStorageContract.methods.getContractAdmins().call();
     }
@@ -182,10 +204,29 @@ class Config {
      *
      * @returns if address is admin
      */
-    async is_admin(_address) {
-        // Change Admin for ConfigStorage Contract
+    async isAdmin(_address) {
         const configStorageContract = await this.getConfigStorage()
         return await configStorageContract.methods.isAdmin(_address).call();
+    }
+
+    /**
+     * Return if user address is admin
+     *
+     * @returns if address is admin
+     */
+    async isUserAdmin(_address) {
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.isUserAdmin(_address).call();
+    }
+
+    /**
+     * Return if contract address is admin
+     *
+     * @returns if address is admin
+     */
+    async isContractAdmin(_address) {
+        const configStorageContract = await this.getConfigStorage()
+        return await configStorageContract.methods.isContractAdmin(_address).call();
     }
 
     /*=====      End of Admin Config       ======*/
