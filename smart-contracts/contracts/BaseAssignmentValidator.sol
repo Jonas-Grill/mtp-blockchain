@@ -104,8 +104,11 @@ contract BaseAssignmentValidator is BaseConfig {
             getConfigStorage().getKnowledgeCoinContractAddress()
         );
 
+        // Exchange coin into knowledge coin
+        uint256 sbCoinAmount = knowledgeCoin.exchangeToFullCoin(knowledgeCoins);
+
         // Mint knowledge coins
-        knowledgeCoin.mint(_studentAddress, knowledgeCoins);
+        knowledgeCoin.mint(_studentAddress, sbCoinAmount);
 
         // Mark assignment as submitted
         _assignmentSubmitted[_studentAddress] = AssignmentSubmitted(

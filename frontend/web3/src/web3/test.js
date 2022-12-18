@@ -18,8 +18,8 @@ const assignment = new assignment_handler.UniMaAssignments(web3);
 const utilsHandler = require("./utils");
 const utils = new utilsHandler.UniMaUtils();
 
-const example_contract_address = "0x7f4CBb05057916D77eABd0987A5965154e994247"
-const example_validation_address = "0xB833cB5D5C0a2094550d3a736F3c20d3dcA5bF42"
+const example_contract_address = "0x5d7A85abc9edce70bb91b6DC2f729129BCAf297E"
+const example_validation_address = "0x5Ef0206aEdc5B0065B9F46532f1aAc98C13bcDB9"
 
 const student_address = "0x917441412223Ac1104617Ca07ca9853504BEA5d0"
 
@@ -38,9 +38,9 @@ assignment.validateAssignment(student_address, example_contract_address, example
 
     console.log(test_results);
 
-    //const test_results2 = await assignment.submitAssignment(student_address, example_contract_address, example_validation_address);
+    const test_results2 = await assignment.submitAssignment(student_address, example_contract_address, example_validation_address);
 
-    //console.log(test_results2);
+    console.log(test_results2);
 
     var balance = await account.getKnowledgeCoinBalance(student_address)
 

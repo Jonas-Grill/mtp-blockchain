@@ -41,6 +41,7 @@ contract SBCoin is BaseConfig {
         _decimals = 18;
         _totalSupply = 0;
 
+        // Add smart contract to contract admin list with the name SBCoin_<coin_name>
         initAdmin(
             _configContractAddress,
             string(abi.encodePacked("SBCoin", "_", _name))
@@ -199,5 +200,13 @@ contract SBCoin is BaseConfig {
 
         _allowances[owner][spender] = amount;
         emit Approval(owner, spender, amount);
+    }
+
+    /**
+     * @dev Converts a value from smallest unit of the token to the
+     * standard unit used for display.
+     */
+    function exchangeToFullCoin(uint256 amount) public view returns (uint256) {
+        return amount * 10**decimals();
     }
 }

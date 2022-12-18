@@ -12,46 +12,30 @@ contract ConfigStorage is BaseConfigAdmin {
 
     // Struct Seminar
     struct uniMaSemester {
-        // Name of the semester (e.g. SS22)
-        string name;
-        // First block which counts towards this semester
-        uint256 startBlock;
-        // Last block which counts towards this semester
-        uint256 endBlock;
-        // Amount of knowledge Coins needed to take exam
-        uint256 minKnowledgeCoinAmount;
-        // Assignment counter
-        uint256 assignmentCounter;
-        // Assignment Ids
-        uint256[] assignmentIds;
-        // Assigned assignments
-        mapping(uint256 => uniMaAssignments) assignments;
+        string name; // Name of the semester (e.g. SS22)
+        uint256 startBlock; // First block which counts towards this semester
+        uint256 endBlock; // Last block which counts towards this semester
+        uint256 minKnowledgeCoinAmount; // Amount of knowledge Coins needed to take exam
+        uint256 assignmentCounter; // Assignment counter
+        uint256[] assignmentIds; // Assignment Ids
+        mapping(uint256 => uniMaAssignments) assignments; // Assigned assignments
     }
 
     // Struct Seminar
     struct uniMaSemesterReturn {
-        // Name of the semester (e.g. SS22)
-        string name;
-        // First block which counts towards this semester
-        uint256 startBlock;
-        // Last block which counts towards this semester
-        uint256 endBlock;
-        // Amount of knowledge Coins needed to take exam
-        uint256 minKnowledgeCoinAmount;
+        string name; // Name of the semester (e.g. SS22)
+        uint256 startBlock; // First block which counts towards this semester
+        uint256 endBlock; // Last block which counts towards this semester
+        uint256 minKnowledgeCoinAmount; // Amount of knowledge Coins needed to take exam
     }
 
-    // Assignments
+    // Struct Assignments
     struct uniMaAssignments {
-        // Name of the assignment
-        string name;
-        // Link to the assignment
-        string link;
-        // Address to the validation contrac
-        address validationContractAddress;
-        // First block which counts towards this assignment
-        uint256 startBlock;
-        // Last block which counts towards this assignment
-        uint256 endBlock;
+        string name; // Name of the assignment
+        string link; // Link to the assignment
+        address validationContractAddress; // Address to the validation contract
+        uint256 startBlock; // First block which counts towards this assignment
+        uint256 endBlock; // Last block which counts towards this assignment
     }
 
     // Semester variables
@@ -59,7 +43,7 @@ contract ConfigStorage is BaseConfigAdmin {
     uint256[] private semesterIds;
     mapping(uint256 => uniMaSemester) semesters;
 
-    // SMART CONTRACT ADRESS
+    // SMART CONTRACT ADDRESS
     address public knowledgeCoinContractAddress;
 
     /**
@@ -68,7 +52,7 @@ contract ConfigStorage is BaseConfigAdmin {
     constructor() {
         initAdmin("ConfigStorage");
 
-        faucetGas = 10;
+        faucetGas = 2;
         faucetBlockNoDifference = 10;
 
         // Set counters to 0

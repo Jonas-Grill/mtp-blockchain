@@ -1,43 +1,36 @@
 import { FireIcon } from '@heroicons/react/20/solid'
-import { send_gas } from '../../web3/src/entrypoints/account/faucet'
-import React, { useEffect } from "react";
+import { sendEth } from '../../web3/src/entrypoints/account/faucet'
+import React, { useEffect, useState } from "react";
 
 const Web3 = require("web3");
 
-
 export default function Faucet({ userAddress }: { userAddress: string }) {
     let web3;
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!web3) {
-            web3 = new Web3(window.ethereum);
-        }
+        alert(await web3.eth.getBalance(userAddress))
 
-        const result = await send_gas(web3, event.currentTarget.address.value);
-        alert(JSON.stringify(result))
+        await sendEth(web3, userAddress);
     }
 
     useEffect(() => {
-        window.addEventListener('load', async () => {
-            // Wait for loading completion to avoid race conditions with web3 injection timing.
+        const initBlockchain = async () => {
             if (window.ethereum) {
                 web3 = new Web3(window.ethereum);
-                try {
-                    // Request account access if needed
-                    await window.ethereum.enable();
-                } catch (error) {
-                    console.error(error);
-                }
+                await window.ethereum.enable();
+            } else if (web3) {
+                web3 = new Web3(web3.currentProvider);
+            } else {
+                console.log("Non-Ethereum browser detected. You should consider trying MetaMask!");
             }
-            // Fallback to localhost; use dev console port by default...
-            else {
-                const provider = new Web3.providers.HttpProvider(process.env.RPC_URL);
-                web3 = new Web3(provider);
-                console.log('No web3 instance injected, using Local web3.');
-            }
-        });
+
+            console.log("Successfully loaded web3...")
+        }
+
+        initBlockchain()
+            // make sure to catch any error
+            .catch(console.error);
     }, []);
 
     return (

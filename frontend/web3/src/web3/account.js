@@ -7,19 +7,19 @@ class UniMaAccount {
     /**
      * Create Account class
      */
-    constructor(web3) {
+    constructor(_web3) {
         // Require config
         const configHandler = require('./config')
 
         // Create config class with config path
-        this.config = new configHandler.Config(web3)
+        this.config = new configHandler.Config(_web3)
 
         // Require utils
         const utilsHandler = require('./utils')
 
         this.utils = new utilsHandler.UniMaUtils()
 
-        this.web3 = web3;
+        this.web3 = _web3;
     }
 
     /**
@@ -33,11 +33,10 @@ class UniMaAccount {
             _to,
             await this.web3.eth.net.getId())
 
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
 
         await faucetStorageContract.methods.sendEth(_to).send({ from: fromAddress })
     }
-
 
     /**
      * Get balance of faucet smart contract 
@@ -45,9 +44,11 @@ class UniMaAccount {
      * @returns faucet balance
      */
     async getFaucetBalance() {
+        const fromAddress = await this.utils.getFromAccount(this.web3);
+
         var faucetStorageContract = this.utils.get_contract(this.web3,
             "FaucetStorage",
-            await this.web3.eth.getCoinbase(),
+            fromAddress,
             await this.web3.eth.net.getId())
 
         return await faucetStorageContract.methods.getFaucetBalance().call()
