@@ -1,66 +1,98 @@
-/*----------  Config Helper  ----------*/
+/*----------  NOWConfig Helper  ----------*/
 // config
 const configHandler = require("../../web3/config")
 // Create config class with config path
-
-
 
 /*----------  Utils Helper  ----------*/
 // utils
 const utilsHelper = require("../../web3/utils")
 // Create utils class
-const utils = new utilsHelper.UniMaUtils()
+const utils = new utilsHelper.NOWUtils()
 
-
-// Append new assignment to semester
-exports.append_assignment = async (web3, semester_id, name, link, validation_contract_address, start_block, end_block) => {
-    try {
-        const config = new configHandler.Config(web3)
-
-        var id = await config.appendAssignment(semester_id, name, link, validation_contract_address, start_block, end_block)
-        return { "success": true, "id": id };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
-};
+/*=============================================
+=            GETTER            =
+=============================================*/
 
 // Get assignment
-exports.get_assignment = async (web3, semester_id, assignment_id) => {
-    try {
-        const config = new configHandler.Config(web3)
+exports.getAssignment = async (web3, semesterId, assignmentId) => {
+    const config = new configHandler.NOWConfig(web3)
 
-        var assignment = await config.getAssignment(semester_id, assignment_id)
-        return { "success": true, "semester": { "name": assignment[0], "link": assignment[1], "validation_contract_address": assignment[2], "start_block": assignment[3], "end_block": assignment[4] } };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
+    var assignment = await config.getAssignment(semesterId, assignmentId)
+    return { "name": assignment[0], "link": assignment[1], "validationContractAddress": assignment[2], "startBlock": assignment[3], "endBlock": assignment[4] };
+
 };
 
 // Get semester ids
-exports.get_assignment_ids = async (web3, semester_id) => {
-    try {
-        const config = new configHandler.Config(web3)
+exports.getAssignmentIds = async (web3, semesterId) => {
+    const config = new configHandler.NOWConfig(web3)
 
-        var assignment_ids = await config.getAssignmentIds(semester_id)
-
-        return { "success": true, "assignment_ids": assignment_ids };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
+    return await config.getAssignmentIds(semesterId)
 };
 
-// Delete assignment
-exports.delete_assignment = async (web3, semester_id, assignment_id) => {
-    try {
-        const config = new configHandler.Config(web3)
+/*=====  End of GETTER  ======*/
 
-        await config.deleteAssignment(semester_id, assignment_id)
-        return { "success": true };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
+
+
+/*=============================================
+=            SETTER            =
+=============================================*/
+
+
+/*----------  ADD  ----------*/
+
+
+// Append new assignment to semester
+exports.appendAssignment = async (web3, semesterId, name, link, validationContractAddress, startBlock, endBlock) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    return await config.appendAssignment(semesterId, name, link, validationContractAddress, startBlock, endBlock)
+};
+
+/*----------  DELETE  ----------*/
+
+// Delete assignment
+exports.deleteAssignment = async (web3, semesterId, assignmentId) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    await config.deleteAssignment(semesterId, assignmentId)
 }
+
+/*----------  EDIT  ----------*/
+
+// Set assignment address
+exports.setAssignmentAddress = async (web3, senesterId, assignmentId, address) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    await config.setAssignmentAddress(senesterId, assignmentId, address)
+};
+
+// Set assignment link
+exports.setAssignmentLink = async (web3, semesterId, assignmentId, link) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    await config.setAssignmentLink(semesterId, assignmentId, link)
+};
+
+// Set assignment name
+exports.setAssignmentName = async (web3, semesterId, assignmentId, name) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    await config.setAssignmentName(semesterId, assignmentId, name)
+};
+
+// Set assignment start block
+exports.setAssignmentStartBlock = async (web3, semesterId, assignmentId, startBlock) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    await config.setAssignmentStartBlock(semesterId, assignmentId, startBlock)
+};
+
+// Set assignment end block
+exports.setAssignmentEndBlock = async (web3, semesterId, assignmentId, endBlock) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    await config.setAssignmentEndBlock(semesterId, assignmentId, endBlock)
+};
+
+/*=====  End of SETTER  ======*/
+

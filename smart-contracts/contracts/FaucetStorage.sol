@@ -56,8 +56,10 @@ contract FaucetStorage is BaseConfig {
             "Ether sent successfully!"
         );
 
-        // Register the faucet usage
-        addFaucetUsage(_address, currentBlockNumber);
+        if (success) {
+            // Register the faucet usage
+            addFaucetUsage(_address, currentBlockNumber);
+        }
 
         // Make sure the transfer was successful
         require(success, "Transfer failed.");

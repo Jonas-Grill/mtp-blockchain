@@ -1,6 +1,6 @@
 <!-- Using h2 instead of h1 because npm doesn't support align=center on h1 tags -->
 <h1 align="center">
-    MTP - Blockchain based submission system
+    NOW - Knowledge Base
 </h1>
 
 <h3 align="center">
@@ -15,7 +15,7 @@
   <a href="#chain">Chain</a> •
   <a href="#documentation">Documentation</a> •
   <a href="#smart-contracts">Smart-Contracts</a> •
-  <a href="#web3">Web3</a>
+  <a href="#frontend">Frontend</a>
 </p>
 
 ## Chain

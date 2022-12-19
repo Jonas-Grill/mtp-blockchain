@@ -2,7 +2,7 @@
 Store some account related functions
 */
 
-class UniMaAccount {
+class NOWAccount {
 
     /**
      * Create Account class
@@ -12,12 +12,12 @@ class UniMaAccount {
         const configHandler = require('./config')
 
         // Create config class with config path
-        this.config = new configHandler.Config(_web3)
+        this.config = new configHandler.NOWConfig(_web3)
 
         // Require utils
         const utilsHandler = require('./utils')
 
-        this.utils = new utilsHandler.UniMaUtils()
+        this.utils = new utilsHandler.NOWUtils()
 
         this.web3 = _web3;
     }
@@ -28,7 +28,7 @@ class UniMaAccount {
      * @param {address} _to address to send eth to
      */
     async sendEth(_to) {
-        var faucetStorageContract = this.utils.get_contract(this.web3,
+        var faucetStorageContract = this.utils.getContract(this.web3,
             "FaucetStorage",
             _to,
             await this.web3.eth.net.getId())
@@ -46,12 +46,12 @@ class UniMaAccount {
     async getFaucetBalance() {
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
-        var faucetStorageContract = this.utils.get_contract(this.web3,
+        var faucetStorageContract = this.utils.getContract(this.web3,
             "FaucetStorage",
             fromAddress,
             await this.web3.eth.net.getId())
 
-        return await faucetStorageContract.methods.getFaucetBalance().call()
+        return await faucetStorageContract.methods.getFaucetBalance().call({ from: await this.utils.getFromAccount(web3) })
     }
 
     /**
@@ -61,14 +61,14 @@ class UniMaAccount {
      * @returns amount of Knowledge Coins
      */
     async getKnowledgeCoinBalance(address) {
-        var knowledgeCoinContract = this.utils.get_contract(this.web3,
+        var knowledgeCoinContract = this.utils.getContract(this.web3,
             "SBCoin",
             address,
             await this.web3.eth.net.getId())
 
-        return await knowledgeCoinContract.methods.balanceOf(address).call()
+        return await knowledgeCoinContract.methods.balanceOf(address).call({ from: await this.utils.getFromAccount(web3) })
     }
 }
 
 // export account class
-module.exports = { UniMaAccount };
+module.exports = { NOWAccount };

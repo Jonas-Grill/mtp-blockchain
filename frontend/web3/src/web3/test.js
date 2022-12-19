@@ -10,13 +10,13 @@ const config_handler = require("./config");
 const config = new config_handler.Config(web3);
 
 const account_handler = require("./account");
-const account = new account_handler.UniMaAccount(web3);
+const account = new account_handler.NOWAccount(web3);
 
 const assignment_handler = require("./assignment");
-const assignment = new assignment_handler.UniMaAssignments(web3);
+const assignment = new assignment_handler.NOWAssignments(web3);
 
 const utilsHandler = require("./utils");
-const utils = new utilsHandler.UniMaUtils();
+const utils = new utilsHandler.NOWUtils();
 
 const example_contract_address = "0x5d7A85abc9edce70bb91b6DC2f729129BCAf297E"
 const example_validation_address = "0x5Ef0206aEdc5B0065B9F46532f1aAc98C13bcDB9"

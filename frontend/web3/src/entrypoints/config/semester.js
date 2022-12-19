@@ -1,5 +1,5 @@
 
-/*----------  Config Helper  ----------*/
+/*----------  NOWConfig Helper  ----------*/
 // config#
 const configHandler = require("../../web3/config")
 
@@ -7,59 +7,83 @@ const configHandler = require("../../web3/config")
 // utils
 const utilsHelper = require("../../web3/utils")
 // Create utils class
-const utils = new utilsHelper.UniMaUtils()
+const utils = new utilsHelper.NOWUtils()
 
-// Append new semester
-exports.append_semester = async (web3, name, start_block, end_block, min_knowledge_coin_amount) => {
-    try {
-        const config = new configHandler.Config(web3)
 
-        var id = await config.appendSemester(name, start_block, end_block, min_knowledge_coin_amount)
-        return { "success": true, "id": id };
-    }
-    catch (err) {
-        console.trace(err)
-        return { "success": false, "error": err.message };
-    }
-};
+/*=============================================
+=            GETTER            =
+=============================================*/
 
 // Get semester
-exports.get_semester = async (web3, semester_id) => {
-    try {
-        const config = new configHandler.Config(web3)
+exports.getSemester = async (web3, semesterIds) => {
+    const config = new configHandler.NOWConfig(web3)
 
-        var semester = await config.getSemester(semester_id)
+    var semester = await config.getSemester(semesterIds)
 
-        return { "success": true, "semester": { "name": semester[0], "start_block": semester[1], "end_block": semester[2], "min_knowledge_coin_amount": semester[3] } };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
+    return { "name": semester[0], "startBlock": semester[1], "endBlock": semester[2], "minKnowledgeCoinAmount": semester[3] };
 };
 
 // Get semester ids
-exports.get_semester_ids = async (web3) => {
-    try {
-        const config = new configHandler.Config(web3)
+exports.getSemesterIds = async (web3) => {
+    const config = new configHandler.NOWConfig(web3)
 
-        var semester_ids = await config.getSemesterIds()
-
-        return { "success": true, "semester_ids": semester_ids };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
+    return await config.getSemesterIds()
 };
 
-// Delete semester
-exports.delete_semester = async (web3, semester_id) => {
-    try {
-        const config = new configHandler.Config(web3)
+/*=====  End of GETTER  ======*/
 
-        await config.deleteSemester(semester_id)
-        return { "success": true };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
+/*=============================================
+=            SETTER            =
+=============================================*/
+
+
+/*----------  ADD  ----------*/
+
+// Append new semester
+exports.appendSemester = async (web3, name, startBlock, endBlock, minKnowledgeCoinAmount) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    return await config.appendSemester(name, startBlock, endBlock, minKnowledgeCoinAmount)
+};
+
+/*----------  DELETE  ----------*/
+
+// Delete semester
+exports.deleteSemester = async (web3, semesterIds) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    await config.deleteSemester(semesterIds)
 }
+
+/*----------  CHANGE  ----------*/
+
+// Set faucet gas value
+exports.setSemesterAmountKnowledgeCoins = async (web3, semesterId, minKnowledgeCoinAmount) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    await config.setSemesterAmountKnowledgeCoins(semesterId, minKnowledgeCoinAmount)
+};
+
+// Set semester name
+exports.setSemesterName = async (web3, semesterId, name) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    await config.setSemesterName(semesterId, name);
+};
+
+// Set semester start block
+exports.setSemesterStartBlock = async (web3, semesterId, startBlock) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    await config.setSemesterStartBlock(semesterId, startBlock)
+};
+
+// Set semester end block
+exports.setSemesterEndBlock = async (web3, semesterId, endBlock) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    await config.setSemesterEndBlock(semesterId, endBlock)
+};
+
+
+/*=====  End of SETTER  ======*/
