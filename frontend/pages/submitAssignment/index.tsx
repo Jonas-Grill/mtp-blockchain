@@ -1,4 +1,9 @@
-import { DocumentTextIcon } from '@heroicons/react/20/solid'
+import {
+    ArrowUpTrayIcon,
+    DocumentMagnifyingGlassIcon,
+    DocumentTextIcon,
+    PaperAirplaneIcon
+} from '@heroicons/react/20/solid'
 import React, { useEffect, useState } from "react";
 import { validateAssignment, getTestResults } from '../../web3/src/entrypoints/assignments/assignments'
 import Web3 from "web3";
@@ -142,7 +147,7 @@ export default function submitAssignment({ userAddress }: { userAddress: string 
                             className="group relative mt-3 flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
                         >
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <DocumentTextIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
+                                <DocumentMagnifyingGlassIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
                                     aria-hidden="true" />
                             </span>
                             Test assignment
@@ -153,7 +158,7 @@ export default function submitAssignment({ userAddress }: { userAddress: string 
                             className="group relative mt-3 flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
                         >
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <DocumentTextIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
+                                <ArrowUpTrayIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
                                     aria-hidden="true" />
                             </span>
                             Submit assignment
