@@ -4,6 +4,7 @@ import React, {useEffect} from "react";
 import Web3 from "web3";
 import {router} from "next/client";
 import {useRouter} from "next/router";
+import Head from "next/head";
 
 export default function CreateSemester() {
     const router = useRouter();
@@ -64,6 +65,9 @@ export default function CreateSemester() {
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <Head>
+                    <title>Create semester</title>
+                </Head>
                 <div className="w-full max-w-md space-y-8">
                     <div>
                         <img

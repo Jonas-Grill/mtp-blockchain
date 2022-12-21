@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Web3 from "web3";
 import {get_assignment} from "../../web3/src/entrypoints/config/assignment";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import Head from "next/head";
 
 export const loadAssignments = async () => {
     const data = sessionStorage.getItem('assignmentList');
@@ -44,6 +45,9 @@ export default function AssignmentOverview() {
 
     return (
         <div className="flex-col">
+            <Head>
+                <title>Assignment overview</title>
+            </Head>
             <div className="bg-white">
                 <div className="mx-auto mt-10 max-w-2xl py-16 px-4 sm:py-0 sm:px-6 lg:max-w-7xl lg:px-8">
                     <div className="mb-10">

@@ -1,6 +1,7 @@
 import { FireIcon } from '@heroicons/react/20/solid'
 import { sendEth } from '../../web3/src/entrypoints/account/faucet'
 import React, { useEffect, useState } from "react";
+import Head from "next/head";
 
 const Web3 = require("web3");
 
@@ -36,6 +37,9 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <Head>
+                    <title>Faucet</title>
+                </Head>
                 <div className="w-full max-w-md space-y-8">
                     <div>
                         <img

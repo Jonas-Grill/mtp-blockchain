@@ -1,7 +1,8 @@
 import Link from "next/link";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {get_semester} from "../../web3/src/entrypoints/config/semester"
 import Web3 from "web3";
+import Head from "next/head";
 
 export const loadSemesters = async () => {
     const data = sessionStorage.getItem('semesterList');
@@ -43,6 +44,9 @@ export default function SemesterOverview() {
 
     return (
         <div className="flex-col">
+            <Head>
+                <title>Semester overview</title>
+            </Head>
             <div className="bg-white">
                 <div className="mx-auto max-w-2xl py-16 px-4 sm:py-0 sm:px-6 lg:max-w-7xl lg:px-8">
 

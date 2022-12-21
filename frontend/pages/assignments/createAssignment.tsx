@@ -4,6 +4,7 @@ import Web3 from "web3";
 import {append_assignment} from "../../web3/src/entrypoints/config/assignment";
 import {loadSemesters} from "../semester";
 import {useRouter} from "next/router";
+import Head from "next/head";
 
 export default function CreateAssignment() {
     const router = useRouter();
@@ -62,6 +63,9 @@ export default function CreateAssignment() {
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <Head>
+                    <title>Create assignment</title>
+                </Head>
                 <div className="w-full max-w-md space-y-8">
                     <div>
                         <img

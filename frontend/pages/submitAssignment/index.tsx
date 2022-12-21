@@ -5,6 +5,7 @@ import Web3 from "web3";
 import { loadSemesters } from "../semester";
 import { useRouter } from "next/router";
 import { loadAssignments } from "../assignments";
+import Head from "next/head";
 
 export default function submitAssignment({ userAddress }: { userAddress: string }) {
     const router = useRouter();
@@ -64,6 +65,9 @@ export default function submitAssignment({ userAddress }: { userAddress: string 
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <Head>
+                    <title>Submit assignment</title>
+                </Head>
                 <div className="w-full max-w-md space-y-8">
                     <div>
                         <img
