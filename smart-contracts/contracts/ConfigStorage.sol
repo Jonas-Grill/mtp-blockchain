@@ -276,23 +276,24 @@ contract ConfigStorage is BaseConfigAdmin {
     =            Other functions            =
     =============================================*/
 
-    function getIntValue(string memory key) public view returns (uint128) {
-        if (compareStrings(key, "faucetGas") == true) {
-            return faucetGas;
-        } else if (compareStrings(key, "faucetBlockNoDifference") == true) {
-            return faucetBlockNoDifference;
-        }
-        return 0;
+    function getFaucetGas() public view returns (uint128) {
+        return faucetGas;
     }
 
-    function setIntValue(string memory key, uint128 value) public {
-        requireUserAdmin(msg.sender);
+    function getFaucetBlockNoDifference() public view returns (uint128) {
+        return faucetBlockNoDifference;
+    }
 
-        if (compareStrings(key, "faucetGas") == true) {
-            faucetGas = value;
-        } else if (compareStrings(key, "faucetBlockNoDifference") == true) {
-            faucetBlockNoDifference = value;
-        }
+    function setFaucetGas(uint128 _faucetGas) public {
+        requireUserAdmin(msg.sender);
+        faucetGas = _faucetGas;
+    }
+
+    function setFaucetBlockNoDifference(uint128 _faucetBlockNoDifference)
+        public
+    {
+        requireUserAdmin(msg.sender);
+        faucetBlockNoDifference = _faucetBlockNoDifference;
     }
 
     /*=====  End of Other functions  ======*/

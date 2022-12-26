@@ -202,10 +202,6 @@ contract SBCoin is BaseConfig {
         emit Approval(owner, spender, amount);
     }
 
-    /**
-     * @dev Converts a value from smallest unit of the token to the
-     * standard unit used for display.
-     */
     function exchangeToFullCoin(uint256 amount) public view returns (uint256) {
         return amount * 10**decimals();
     }

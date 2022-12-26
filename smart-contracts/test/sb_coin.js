@@ -57,7 +57,7 @@ contract("SBCoin", (accounts) => {
 
         const account1 = accounts[0];
         const account2 = accounts[2];
-        const amount = 100;
+        const amount = 0;
 
         const account1BalanceBefore = (await SBCoinInstance.balanceOf(account1)).toNumber();
         const account2BalanceBefore = (await SBCoinInstance.balanceOf(account2)).toNumber();
