@@ -52,7 +52,13 @@ contract("FaucetStorage", (accounts) => {
         }
         catch (exception) {
             error = true
-            assert.equal(exception, "Error: Returned error: VM Exception while processing transaction: revert Faucet used too recently!", "Error message is correct")
+
+            // Make dirty preparation for error message to catch only the important part
+            // Why?
+            //  - Eerror message on github actions prints the message differently than on local machine
+            //  - "assert" has no "contains" method
+            const message = exception.message.split("revert ")[1].split("!")[0]
+            assert.equal(message, "Faucet used too recently", "Error message is correct")
         }
 
         assert.equal(error, true, "Error happened is true");
@@ -72,7 +78,12 @@ contract("FaucetStorage", (accounts) => {
         }
         catch (exception) {
             error = true
-            assert.equal(exception, "Error: Returned error: VM Exception while processing transaction: revert Not enough funds in faucet!", "Error message is correct")
+            // Make dirty preparation for error message to catch only the important part
+            // Why?
+            //  - Eerror message on github actions prints the message differently than on local machine
+            //  - "assert" has no "contains" method
+            const message = exception.message.split("revert ")[1].split("!")[0]
+            assert.equal(message, "Not enough funds in faucet", "Error message is correct")
         }
 
         assert.equal(error, true, "Error happened is true");
