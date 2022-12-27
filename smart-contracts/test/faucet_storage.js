@@ -5,7 +5,6 @@ const prepareFaucet = async function prepareFaucet(fromAddress, toAddress) {
     const balance = await web3.eth.getBalance(toAddress)
 
     if (balance <= web3.utils.toWei('10', 'ether')) {
-        console.log("Prepare faucet with 10 ether")
         await web3.eth.sendTransaction({ from: fromAddress, to: toAddress, value: web3.utils.toWei('10', 'ether') })
     }
 }
