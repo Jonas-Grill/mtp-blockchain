@@ -4,15 +4,15 @@ contract("ConfigStorage", (accounts) => {
     it("should get faucetGas", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
 
-        const value = await ConfigStorageInstance.getIntValue("faucetGas");
+        const value = await ConfigStorageInstance.getFaucetGas();
 
-        assert.equal(value, 10, "FaucetGas is 10");
+        assert.equal(value, 2, "FaucetGas is 2");
     });
 
     it("should get faucetBlockNoDifference", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
 
-        const value = await ConfigStorageInstance.getIntValue("faucetBlockNoDifference");
+        const value = await ConfigStorageInstance.getFaucetBlockNoDifference();
 
         assert.equal(value, 10, "FaucetBlockNoDifference is 10");
     });
@@ -20,9 +20,9 @@ contract("ConfigStorage", (accounts) => {
     it("should add faucetGas", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
 
-        await ConfigStorageInstance.setIntValue("faucetGas", 20);
+        await ConfigStorageInstance.setFaucetGas(20);
 
-        const value = await ConfigStorageInstance.getIntValue("faucetGas");
+        const value = await ConfigStorageInstance.getFaucetGas();
 
         assert.equal(value, 20, "faucetGas is 20");
     });
@@ -30,9 +30,9 @@ contract("ConfigStorage", (accounts) => {
     it("should add faucetBlockNoDifference", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
 
-        await ConfigStorageInstance.setIntValue("faucetBlockNoDifference", 30);
+        await ConfigStorageInstance.setFaucetBlockNoDifference(30);
 
-        const value = await ConfigStorageInstance.getIntValue("faucetBlockNoDifference");
+        const value = await ConfigStorageInstance.getFaucetBlockNoDifference();
 
         assert.equal(value, 30, "FaucetBlockNoDifference is 30");
     });

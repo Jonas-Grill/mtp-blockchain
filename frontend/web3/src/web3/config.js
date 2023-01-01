@@ -70,7 +70,7 @@ class NOWConfig {
 
         const fromAddress = await this.utils.getFromAccount(web3);
 
-        this.faucetGas = await configStorageContract.methods.getIntValue("faucetGas").call({ from: fromAddress });
+        this.faucetGas = await configStorageContract.methods.getFaucetGas().call({ from: fromAddress });
 
         if (val == _default) {
             return this.faucetGas;
@@ -94,7 +94,7 @@ class NOWConfig {
      */
     async setFaucetGas(_faucetGas) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.setIntValue("faucetGas", _faucetGas).send({ from: await this.utils.getFromAccount(web3) });
+        await configStorageContract.methods.setFaucetGas(_faucetGas).send({ from: await this.utils.getFromAccount(web3) });
     }
 
     /**
@@ -108,7 +108,7 @@ class NOWConfig {
         const configStorageContract = await this.getConfigStorage()
 
         const fromAddress = await this.utils.getFromAccount(web3);
-        this.faucetBlockNoDifference = await configStorageContract.methods.getIntValue("faucetBlockNoDifference").call({ from: fromAddress });
+        this.faucetBlockNoDifference = await configStorageContract.methods.getFaucetBlockNoDifference().call({ from: fromAddress });
 
         if (val == _default) {
             return this.faucetBlockNoDifference;
@@ -125,7 +125,7 @@ class NOWConfig {
      */
     async setFaucetBlockNoDifference(blockNoDifference) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.setIntValue("faucetBlockNoDifference", blockNoDifference).send({ from: await this.utils.getFromAccount(web3) });
+        await configStorageContract.methods.setFaucetBlockNoDifference(blockNoDifference).send({ from: await this.utils.getFromAccount(web3) });
     }
 
 

@@ -16,7 +16,7 @@ contract FaucetStorage is BaseConfig {
     // Create event when faucet is used
     event faucetUsed(address _address, uint256 _blockNo);
 
-    constructor(address _configContractAddress) {
+    constructor(address _configContractAddress) payable {
         initAdmin(_configContractAddress, string("FaucetSorage"));
     }
 
@@ -29,13 +29,16 @@ contract FaucetStorage is BaseConfig {
 
         faucetUser memory obj = getFaucetUsage(_address);
 
-        uint128 faucetBlockNoDifference = getConfigStorage().getIntValue(
-            "faucetBlockNoDifference"
-        );
+        // Get the block difference
+        uint128 faucetBlockNoDifference = getConfigStorage()
+            .getFaucetBlockNoDifference();
+
+        // Get the amount of gas to send
+        uint256 faucetGas = getConfigStorage().getFaucetGas() * 10**18;
 
         // Make sure the faucet has enough funds to send
         require(
-            address(this).balance >= faucetBlockNoDifference,
+            address(this).balance >= faucetGas,
             "Not enough funds in faucet!"
         );
 
@@ -47,12 +50,9 @@ contract FaucetStorage is BaseConfig {
             revert("Faucet used too recently!");
         }
 
-        // Get the amount of gas to send
-        uint128 faucetGas = getConfigStorage().getIntValue("faucetGas");
-
         // Send the gas
 
-        (bool success, ) = _address.call{value: faucetGas * (10**18)}(
+        (bool success, ) = _address.call{value: faucetGas}(
             "Ether sent successfully!"
         );
 
@@ -65,7 +65,7 @@ contract FaucetStorage is BaseConfig {
         require(success, "Transfer failed.");
     }
 
-    function addFaucetUsage(address _address, uint256 _blockNo) public {
+    function addFaucetUsage(address _address, uint256 _blockNo) private {
         faucetUser memory obj = faucetUser(_blockNo);
 
         Users[_address] = obj;
