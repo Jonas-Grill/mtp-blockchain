@@ -2,8 +2,22 @@ import { FireIcon } from '@heroicons/react/20/solid'
 import { sendEth } from '../../web3/src/entrypoints/account/faucet'
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import Web3 from "web3";
 
-const Web3 = require("web3");
+export const initBlockchain = async (web3) => {
+    if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+        await window.ethereum.enable();
+    } else if (web3) {
+        web3 = new Web3(web3.currentProvider);
+    } else {
+        console.log("Non-Ethereum browser detected. You should consider trying MetaMask!");
+    }
+
+    console.log("Successfully loaded web3...")
+
+    return web3;
+}
 
 export default function Faucet({ userAddress }: { userAddress: string }) {
     let web3;
@@ -16,22 +30,9 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
     }
 
     useEffect(() => {
-        const initBlockchain = async () => {
-            if (window.ethereum) {
-                web3 = new Web3(window.ethereum);
-                await window.ethereum.enable();
-            } else if (web3) {
-                web3 = new Web3(web3.currentProvider);
-            } else {
-                console.log("Non-Ethereum browser detected. You should consider trying MetaMask!");
-            }
-
-            console.log("Successfully loaded web3...")
-        }
-
-        initBlockchain()
-            // make sure to catch any error
-            .catch(console.error);
+        initBlockchain(web3).then((result) => {
+            web3 = result;
+        });
     }, []);
 
     return (
