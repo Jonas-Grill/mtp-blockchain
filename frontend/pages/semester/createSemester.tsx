@@ -14,8 +14,6 @@ export default function CreateSemester() {
         event.preventDefault();
 
         if (web3) {
-            console.log("Web3: ", web3.eth);
-
             const data = new FormData(event.currentTarget);
 
             const name = data.get('name');

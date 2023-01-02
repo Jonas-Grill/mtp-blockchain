@@ -1,14 +1,14 @@
 import {DocumentTextIcon} from '@heroicons/react/20/solid'
 import React, {useEffect, useState} from "react";
 import Web3 from "web3";
-import {append_assignment} from "../../web3/src/entrypoints/config/assignment";
+import {appendAssignment} from "../../web3/src/entrypoints/config/assignment";
 import {loadSemesters} from "../semester";
 import {useRouter} from "next/router";
 import Head from "next/head";
+import {initBlockchain} from "../faucet";
 
 export default function CreateAssignment() {
     const router = useRouter();
-
     let web3;
 
     const [semesters, setSemesters] = useState<{ id: string, name: any }[]>([]);
@@ -32,33 +32,25 @@ export default function CreateAssignment() {
     const createAssignment = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!web3) {
-             web3 = new Web3(window.ethereum);
-        }
+        if (web3) {
+            const data = new FormData(event.currentTarget);
 
-        const data = new FormData(event.currentTarget);
-        const name = data.get('name') as string;
-        const link = data.get('link') as string;
-        const contractAddress = data.get('contractAddress') as string;
-        const startBlock = data.get('startBlock') as string;
-        const endBlock = data.get('endBlock') as string;
+            const name = data.get('name');
+            const link = data.get('link');
+            const contractAddress = data.get('contractAddress');
+            const startBlock = data.get('startBlock');
+            const endBlock = data.get('endBlock');
 
-        append_assignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock).then((result) => {
-            const data = sessionStorage.getItem('assignmentList');
-            let assignmentList = [];
-
-            if (data) {
-                assignmentList = JSON.parse(data);
-                assignmentList.push({semester: selectedSemester, id: result.id});
-            } else {
-                assignmentList.push({semester: selectedSemester, id: result.id});
-            }
-
-            sessionStorage.setItem('assignmentList', JSON.stringify(assignmentList));
-
+            appendAssignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock)
             router.push('/assignments');
-        });
+        }
     }
+
+    useEffect(() => {
+        initBlockchain(web3).then((result) => {
+            web3 = result;
+        });
+    }, []);
 
     return (
         <>
