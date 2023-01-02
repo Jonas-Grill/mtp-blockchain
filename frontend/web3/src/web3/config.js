@@ -368,7 +368,7 @@ class NOWConfig {
     async setSemesterAmountKnowledgeCoins(id, minKnowledgeCoinAmount) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(web3);
-        await configStorageContract.methods.setMinKnowledgeCoinAmount(id, minKnowledgeCoinAmount).send({ from: fromAddress });
+        await configStorageContract.methods.setSemesterMinKnowledgeCoinAmount(id, minKnowledgeCoinAmount).send({ from: fromAddress });
     }
 
     /*============  End of Semester NOWConfig  =============*/
