@@ -258,7 +258,7 @@ class NOWConfig {
     */
     async setFaucetBlockNoDifference(_faucetBlockNoDifference) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.setIntValue("faucetBlockNoDifference", _faucetBlockNoDifference).send({ from: await this.utils.getFromAccount(web3) });
+        await configStorageContract.methods.setFaucetBlockNoDifference(_faucetBlockNoDifference).send({ from: await this.utils.getFromAccount(web3) });
     }
 
     /*=====  End of Faucet Block Difference  ======*/
