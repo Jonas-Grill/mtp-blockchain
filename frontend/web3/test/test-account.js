@@ -74,6 +74,8 @@ describe("test", function () {
                 }
                 catch (err) {
                     error_occured = true
+                    console.log(err)
+                    console.log(err.message)
                     assert.equal(err, "Error: Returned error: VM Exception while processing transaction: revert Faucet used too recently!")
                 }
 
