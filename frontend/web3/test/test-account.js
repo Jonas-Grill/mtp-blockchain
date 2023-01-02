@@ -65,17 +65,15 @@ describe("test", function () {
                 var to = accounts[1]
 
                 error_occured = false
-                // Set gas really high so that the from account doesn't have enough eth/gas
+
                 try {
-                    // Set blockNo difference to 10 to make sure error occures
+                    // Repeately send eth to the to address and enforce an error
                     await account.sendEth(to)
                     await account.sendEth(to)
                     await account.sendEth(to)
                 }
                 catch (err) {
                     error_occured = true
-                    console.log(err)
-                    console.log(err.message)
                     assert.equal(err, "Error: Returned error: VM Exception while processing transaction: revert Faucet used too recently!")
                 }
 
