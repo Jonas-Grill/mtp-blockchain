@@ -1,5 +1,5 @@
 class NOWConfig {
-    constructor(web3) {
+    constructor(_web3) {
         // Parse json config
         this.rpcURL = process.env.RPC_URL;
         this.networkId = process.env.NETWORK_ID;
@@ -7,7 +7,7 @@ class NOWConfig {
         // Connect to web3
 
         // Require web3 for talking to api
-        this.web3 = web3
+        this.web3 = _web3
 
         // Require utils
         const utilsHandler = require('./utils')
@@ -68,7 +68,7 @@ class NOWConfig {
     async getFreshFaucetGas(val = -1, _default = -1) {
         const configStorageContract = await this.getConfigStorage()
 
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
 
         this.faucetGas = await configStorageContract.methods.getFaucetGas().call({ from: fromAddress });
 
@@ -94,7 +94,7 @@ class NOWConfig {
      */
     async setFaucetGas(_faucetGas) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.setFaucetGas(_faucetGas).send({ from: await this.utils.getFromAccount(web3) });
+        await configStorageContract.methods.setFaucetGas(_faucetGas).send({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -107,7 +107,7 @@ class NOWConfig {
     async getFreshFaucetBlockNoDifference(val = -1, _default = -1) {
         const configStorageContract = await this.getConfigStorage()
 
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         this.faucetBlockNoDifference = await configStorageContract.methods.getFaucetBlockNoDifference().call({ from: fromAddress });
 
         if (val == _default) {
@@ -125,7 +125,7 @@ class NOWConfig {
      */
     async setFaucetBlockNoDifference(blockNoDifference) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.setFaucetBlockNoDifference(blockNoDifference).send({ from: await this.utils.getFromAccount(web3) });
+        await configStorageContract.methods.setFaucetBlockNoDifference(blockNoDifference).send({ from: await this.utils.getFromAccount(this.web3) });
     }
 
 
@@ -141,7 +141,7 @@ class NOWConfig {
     async addUserAdmin(_newAdmin) {
         // Change Admin for NOWConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.addUserAdmin(_newAdmin).send({ from: await this.utils.getFromAccount(web3) });
+        await configStorageContract.methods.addUserAdmin(_newAdmin).send({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -152,7 +152,7 @@ class NOWConfig {
     async addContractAdmin(_newAdmin) {
         // Change Admin for NOWConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.addContractAdmin(_newAdmin).send({ from: await this.utils.getFromAccount(web3) });
+        await configStorageContract.methods.addContractAdmin(_newAdmin).send({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -163,7 +163,7 @@ class NOWConfig {
     async removeUserAdmin(_admin) {
         // Change Admin for NOWConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.removeUserAdmin(_admin).send({ from: await this.utils.getFromAccount(web3) });
+        await configStorageContract.methods.removeUserAdmin(_admin).send({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -174,7 +174,7 @@ class NOWConfig {
     async removeContractAdmin(_admin) {
         // Change Admin for NOWConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.removeContractAdmin(_admin).send({ from: await this.utils.getFromAccount(web3) });
+        await configStorageContract.methods.removeContractAdmin(_admin).send({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -185,7 +185,7 @@ class NOWConfig {
     async getUserAdmins() {
         // Change Admin for NOWConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        return await configStorageContract.methods.getUserAdmins().call({ from: await this.utils.getFromAccount(web3) });
+        return await configStorageContract.methods.getUserAdmins().call({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -195,7 +195,7 @@ class NOWConfig {
      */
     async getContractAdminAddresses() {
         const configStorageContract = await this.getConfigStorage()
-        return await configStorageContract.methods.getContractAdminAddresses().call({ from: await this.utils.getFromAccount(web3) });
+        return await configStorageContract.methods.getContractAdminAddresses().call({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -205,7 +205,7 @@ class NOWConfig {
     */
     async getContractAdmins() {
         const configStorageContract = await this.getConfigStorage()
-        return await configStorageContract.methods.getContractAdmins().call({ from: await this.utils.getFromAccount(web3) });
+        return await configStorageContract.methods.getContractAdmins().call({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -215,7 +215,7 @@ class NOWConfig {
      */
     async isAdmin(_address) {
         const configStorageContract = await this.getConfigStorage()
-        return await configStorageContract.methods.isAdmin(_address).call({ from: await this.utils.getFromAccount(web3) });
+        return await configStorageContract.methods.isAdmin(_address).call({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -225,7 +225,7 @@ class NOWConfig {
      */
     async isUserAdmin(_address) {
         const configStorageContract = await this.getConfigStorage()
-        return await configStorageContract.methods.isUserAdmin(_address).call({ from: await this.utils.getFromAccount(web3) });
+        return await configStorageContract.methods.isUserAdmin(_address).call({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -235,7 +235,7 @@ class NOWConfig {
      */
     async isContractAdmin(_address) {
         const configStorageContract = await this.getConfigStorage()
-        return await configStorageContract.methods.isContractAdmin(_address).call({ from: await this.utils.getFromAccount(web3) });
+        return await configStorageContract.methods.isContractAdmin(_address).call({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /*=====      End of Admin NOWConfig       ======*/
@@ -258,7 +258,7 @@ class NOWConfig {
     */
     async setFaucetBlockNoDifference(_faucetBlockNoDifference) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.setFaucetBlockNoDifference(_faucetBlockNoDifference).send({ from: await this.utils.getFromAccount(web3) });
+        await configStorageContract.methods.setFaucetBlockNoDifference(_faucetBlockNoDifference).send({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /*=====  End of Faucet Block Difference  ======*/
@@ -279,11 +279,11 @@ class NOWConfig {
      */
     async appendSemester(_name, _startBlock, _endBlock, _minKnowledgeCoinAmount) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
 
         await configStorageContract.methods.appendSemester(_name, _startBlock, _endBlock, _minKnowledgeCoinAmount).send({ from: fromAddress });
 
-        return await configStorageContract.methods.getSemesterCounter().call({ from: await this.utils.getFromAccount(web3) });
+        return await configStorageContract.methods.getSemesterCounter().call({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -294,7 +294,7 @@ class NOWConfig {
      */
     async getSemester(_id) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         return await configStorageContract.methods.getSemester(_id).call({ from: fromAddress });
     }
 
@@ -305,7 +305,7 @@ class NOWConfig {
      */
     async getSemesterIds() {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
 
         return await configStorageContract.methods.getSemesterIds().call({ from: fromAddress });
     }
@@ -317,7 +317,7 @@ class NOWConfig {
      */
     async deleteSemester(_id) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         return await configStorageContract.methods.deleteSemester(_id).send({ from: fromAddress });
     }
 
@@ -331,7 +331,7 @@ class NOWConfig {
      */
     async setSemesterName(id, name) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.setSemesterName(id, name).send({ from: fromAddress });
     }
 
@@ -343,7 +343,7 @@ class NOWConfig {
      */
     async setSemesterStartBlock(id, startBlock) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.setSemesterStartBlock(id, startBlock).send({ from: fromAddress });
     }
 
@@ -355,7 +355,7 @@ class NOWConfig {
      */
     async setSemesterEndBlock(id, endBlock) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.setSemesterEndBlock(id, endBlock).send({ from: fromAddress });
     }
 
@@ -367,7 +367,7 @@ class NOWConfig {
      */
     async setSemesterAmountKnowledgeCoins(id, minKnowledgeCoinAmount) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.setSemesterMinKnowledgeCoinAmount(id, minKnowledgeCoinAmount).send({ from: fromAddress });
     }
 
@@ -392,10 +392,10 @@ class NOWConfig {
      */
     async appendAssignment(_semesterId, _name, _link, _validationContractAddress, _startBlock, _endBlock) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.appendAssignment(_semesterId, _name, _link, _validationContractAddress, _startBlock, _endBlock).send({ from: fromAddress });
 
-        return await configStorageContract.methods.getAssignmentCounter(_semesterId).call({ from: await this.utils.getFromAccount(web3) });
+        return await configStorageContract.methods.getAssignmentCounter(_semesterId).call({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -407,7 +407,7 @@ class NOWConfig {
      */
     async getAssignment(_semesterId, _assignmentId) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         return await configStorageContract.methods.getAssignment(_semesterId, _assignmentId).call({ from: fromAddress });
     }
 
@@ -419,7 +419,7 @@ class NOWConfig {
      */
     async getAssignmentIds(_semesterId) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         return await configStorageContract.methods.getAssignmentIds(_semesterId).call({ from: fromAddress });
     }
 
@@ -431,7 +431,7 @@ class NOWConfig {
      */
     async deleteAssignment(_semesterId, _assignmentId) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.deleteAssignment(_semesterId, _assignmentId).send({ from: fromAddress });
     }
 
@@ -447,7 +447,7 @@ class NOWConfig {
      */
     async setAssignmentName(_semesterId, _assignmentId, name) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.setAssignmentName(_semesterId, _assignmentId, name).send({ from: fromAddress });
     }
 
@@ -460,7 +460,7 @@ class NOWConfig {
      */
     async setAssignmentLink(_semesterId, _assignmentId, link) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.setAssignmentLink(_semesterId, _assignmentId, link).send({ from: fromAddress });
     }
 
@@ -473,7 +473,7 @@ class NOWConfig {
      */
     async setAssignmentAddress(_semesterId, _assignmentId, address) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.setAssignmentAddress(_semesterId, _assignmentId, address).send({ from: fromAddress });
     }
 
@@ -486,7 +486,7 @@ class NOWConfig {
      */
     async setAssignmentStartBlock(_semesterId, _assignmentId, _startBlock) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.setAssignmentStartBlock(_semesterId, _assignmentId, _startBlock).send({ from: fromAddress });
     }
 
@@ -499,7 +499,7 @@ class NOWConfig {
      */
     async setAssignmentEndBlock(_semesterId, _assignmentId, _endBlock) {
         const configStorageContract = await this.getConfigStorage()
-        const fromAddress = await this.utils.getFromAccount(web3);
+        const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.setAssignmentEndBlock(_semesterId, _assignmentId, _endBlock).send({ from: fromAddress });
     }
 

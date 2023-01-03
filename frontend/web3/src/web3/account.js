@@ -51,7 +51,7 @@ class NOWAccount {
             fromAddress,
             await this.web3.eth.net.getId())
 
-        return await faucetStorageContract.methods.getFaucetBalance().call({ from: await this.utils.getFromAccount(web3) })
+        return await faucetStorageContract.methods.getFaucetBalance().call({ from: await this.utils.getFromAccount(this.web3) })
     }
 
     /**
@@ -66,7 +66,7 @@ class NOWAccount {
             address,
             await this.web3.eth.net.getId())
 
-        return await knowledgeCoinContract.methods.balanceOf(address).call({ from: await this.utils.getFromAccount(web3) })
+        return await knowledgeCoinContract.methods.balanceOf(address).call({ from: await this.utils.getFromAccount(this.web3) })
     }
 }
 
