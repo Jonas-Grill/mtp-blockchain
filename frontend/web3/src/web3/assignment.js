@@ -4,6 +4,11 @@ Store some utility functions
 
 class NOWAssignments {
 
+    /**
+    * Create Account class
+    *
+    * @param {web3} _web3 web3 instance from metamask or other provider
+    */
     constructor(_web3) {
         // Require config
         const configHandler = require('./config')
@@ -34,15 +39,20 @@ class NOWAssignments {
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
         assignmentValidatorContract.options.gas = 5000000
 
-        await assignmentValidatorContract.methods.validateExampleAssignment(studentAddress, contractAddress).send({
-            from: fromAddress,
-        });
+        try {
+            await assignmentValidatorContract.methods.validateExampleAssignment(studentAddress, contractAddress).send({
+                from: fromAddress,
+            });
 
-        var id = await assignmentValidatorContract.methods.getHistoryCounter().call({
-            from: fromAddress,
-        });
+            var id = await assignmentValidatorContract.methods.getHistoryCounter().call({
+                from: fromAddress,
+            });
 
-        return id;
+            return id;
+        }
+        catch (e) {
+            throw new Error("Assignment validation failed, because contract is not made for this assignment.");
+        }
     }
 
     /**
@@ -101,6 +111,13 @@ class NOWAssignments {
         return results;
     }
 
+    /**
+     * Get submitted assignment
+     *
+     * @param {string} studentAddress Address of student
+     * @param {string} validationContractAddress Address of validation contract
+     * @returns 
+     */
     async getSubmittedAssignment(studentAddress, validationContractAddress) {
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
@@ -111,6 +128,22 @@ class NOWAssignments {
         });
 
         return { "testIndex": results[0], "studentAddress": results[1], "contractAddress": results[2], "knowledgeCoins": results[3], "blockNo": results[4], "submitted": results[5] };
+    }
+
+    /**
+     * Remove submitted assignment 
+     *
+     * @param {string} studentAddress Address of student
+     * @param {string} validationContractAddress Address of validation contract
+     */
+    async removeSubmittedAssignment(studentAddress, validationContractAddress) {
+        const fromAddress = await this.utils.getFromAccount(this.web3);
+
+        const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
+
+        await assignmentValidatorContract.methods.removeSubmittedAssignment(studentAddress).send({
+            from: fromAddress,
+        });
     }
 }
 

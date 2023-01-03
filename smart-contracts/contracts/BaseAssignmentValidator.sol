@@ -228,9 +228,25 @@ contract BaseAssignmentValidator is BaseConfig {
         }
     }
 
-    // Get history counter
+    /**
+     * Get test history counter
+     */
     function getHistoryCounter() public view returns (uint256) {
         return _testHistoryCounter;
+    }
+
+    /**
+     * Remove submitted assignment
+     *
+     * @param _address Student address
+     */
+    function removeSubmittedAssignment(address _address) public {
+        require(
+            getConfigStorage().isAdmin(msg.sender),
+            "Only admin can do this"
+        );
+
+        delete _assignmentSubmitted[_address];
     }
 
     /*=====        End of Test Helper      ======*/
