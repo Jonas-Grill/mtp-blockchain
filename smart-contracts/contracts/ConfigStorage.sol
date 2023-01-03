@@ -146,7 +146,7 @@ contract ConfigStorage is BaseConfigAdmin {
         semesters[_id].endBlock = _endBlock;
     }
 
-    function setMinKnowledgeCoinAmount(
+    function setSemesterMinKnowledgeCoinAmount(
         uint256 _id,
         uint256 _minKnowledgeCoinAmount
     ) public {

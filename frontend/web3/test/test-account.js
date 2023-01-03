@@ -37,35 +37,6 @@ describe("test", function () {
                 const config = new configHandler.NOWConfig(web3)
                 await config.setFaucetBlockNoDifference(0) // Set block difference to 0 so that the faucet can be used
 
-
-                const networkId = await web3.eth.net.getId()
-
-                const faucetAddress = await utils.getContractAddress("FaucetStorage", networkId)
-
-                // Send funds to faucet if it has not enough funds
-                if (await web3.eth.getBalance(faucetAddress) < web3.utils.toWei("10", "ether")) {
-
-                    console.log("Faucet has not enough funds. Sending 10 eth to faucet.")
-
-                    const createTransaction = await web3.eth.accounts.signTransaction(
-                        {
-                            from: accounts[0],
-                            to: faucetAddress,
-                            value: web3.utils.toWei('10', 'ether'),
-                            gas: 50000
-                        },
-                        "ec600628a7de4dfc762f9ea5e574ae180c2c6bc4b71b0a8a40cac2e630a666f9"
-                    );
-
-                    const createReceipt = await web3.eth.sendSignedTransaction(
-                        createTransaction.rawTransaction
-                    );
-
-                    console.log(
-                        `Transaction successful with hash: ${createReceipt.transactionHash}`
-                    );
-                }
-
                 // rest of test
 
                 const account = new accountHandler.NOWAccount(web3)
@@ -94,9 +65,9 @@ describe("test", function () {
                 var to = accounts[1]
 
                 error_occured = false
-                // Set gas really high so that the from account doesn't have enough eth/gas
+
                 try {
-                    // Set blockNo difference to 10 to make sure error occures
+                    // Repeately send eth to the to address and enforce an error
                     await account.sendEth(to)
                     await account.sendEth(to)
                     await account.sendEth(to)
