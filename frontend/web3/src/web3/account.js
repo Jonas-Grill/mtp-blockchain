@@ -33,8 +33,8 @@ class NOWAccount {
             _to,
             await this.web3.eth.net.getId());
 
-        faucetStorageContract.options.gasLimit = 6000000
-        faucetStorageContract.options.gas = 20000000000
+        faucetStorageContract.options.gasLimit = 600000
+        faucetStorageContract.options.gas = 2000000000
 
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
