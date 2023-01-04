@@ -166,7 +166,9 @@ contract SBCoin is BaseConfig {
         );
 
         require(from != address(0), "ERC20: transfer from the zero address");
-        require(to != address(0), "ERC20: transfer to the zero address");
+
+        // Allow transfer to 0x0 address to burn tokens
+        // require(to != address(0), "ERC20: transfer to the zero address");
 
         uint256 fromBalance = _balances[from];
 
