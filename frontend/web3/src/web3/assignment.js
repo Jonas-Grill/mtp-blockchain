@@ -172,6 +172,7 @@ class NOWAssignments {
 
         return results;
     }
+
 }
 
 // export utils class

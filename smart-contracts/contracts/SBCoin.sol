@@ -146,7 +146,6 @@ contract SBCoin is BaseConfig {
         for (uint256 i = startBlock; i <= endBlock; i++) {
             amount += _timeStamps[account][i];
         }
-
         return amount > 0 ? uint256(amount) : 0;
     }
 
