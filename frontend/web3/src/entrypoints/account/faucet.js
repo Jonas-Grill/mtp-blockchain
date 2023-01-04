@@ -16,10 +16,3 @@ exports.getFaucetBalance = async (web3) => {
 
     return await account.getFaucetBalance()
 };
-
-// Get Knowledge Coin balance
-exports.getKnowledgeCoinBalance = async (web3, address) => {
-    const account = new accountHandler.NOWAccount(web3)
-
-    return await account.getKnowledgeCoinBalance(address)
-}

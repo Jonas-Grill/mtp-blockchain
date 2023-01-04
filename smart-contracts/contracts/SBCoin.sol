@@ -211,6 +211,20 @@ contract SBCoin is BaseConfig {
         return amount * 10**decimals();
     }
 
+    // Convert amount of tokens to amount of decimal coins.
+    function exchangeToDecimalCoin(uint256 amount)
+        public
+        view
+        returns (uint256)
+    {
+        return amount / 10**decimals();
+    }
+
+    // Convert amount of tokens to amount of full coins.
+    function scaledBalanceOf(address _address) public view returns (uint256) {
+        return exchangeToDecimalCoin(_balances[_address]);
+    }
+
     // Burn amount of tokens from sender.
     function burn(address _address, uint256 _value) public returns (bool) {
         require(
@@ -221,13 +235,10 @@ contract SBCoin is BaseConfig {
         // Requires that the message sender has enough tokens to burn
         require(_value <= _balances[_address]);
 
-        // Subtracts _value from callers balance and total supply
-        _balances[_address] = _balances[_address] - _value;
-        _totalSupply = _totalSupply - _value;
+        _transfer(_address, address(0), _value);
 
-        // Emits burn and transfer events, make sure you have them in your contracts
+        // Emits burn events
         emit Burn(_address, _value);
-        emit Transfer(_address, address(0), _value);
 
         // Since you cant actually burn tokens on the blockchain, sending to address 0, which none has the private keys to, removes them from the circulating supply
         return true;
