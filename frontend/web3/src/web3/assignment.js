@@ -37,7 +37,10 @@ class NOWAssignments {
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
-        assignmentValidatorContract.options.gasLimit = 600000
+
+        var block = await web3.eth.getBlock("latest");
+
+        assignmentValidatorContract.options.gasLimit = block.gasLimit
         assignmentValidatorContract.options.gas = 2000000000
 
         try {
@@ -67,7 +70,9 @@ class NOWAssignments {
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
-        assignmentValidatorContract.options.gasLimit = 600000
+        var block = await web3.eth.getBlock("latest");
+
+        assignmentValidatorContract.options.gasLimit = block.gasLimit
         assignmentValidatorContract.options.gas = 2000000000
 
         await assignmentValidatorContract.methods.submitAssignment(studentAddress, contractAddress).send({
