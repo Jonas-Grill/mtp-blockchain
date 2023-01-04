@@ -38,7 +38,7 @@ class NOWAssignments {
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
         assignmentValidatorContract.options.gas = 10000000000
-        assignmentValidatorContract.options.gasLimit = 10000000000
+        assignmentValidatorContract.options.gasLimit = 6721975
 
         try {
             await assignmentValidatorContract.methods.validateExampleAssignment(studentAddress, contractAddress).send({
@@ -68,7 +68,7 @@ class NOWAssignments {
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
         assignmentValidatorContract.options.gas = 10000000000
-        assignmentValidatorContract.options.gasLimit = 10000000000
+        assignmentValidatorContract.options.gasLimit = 6721975
 
         await assignmentValidatorContract.methods.submitAssignment(studentAddress, contractAddress).send({
             from: fromAddress,
