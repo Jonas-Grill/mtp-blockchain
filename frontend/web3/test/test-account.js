@@ -55,6 +55,7 @@ describe("test", function () {
                 assert.equal(newWeiTo > oldWeiTo, true)
             });
             it("should not send gas, because faucet used too recent", async function () {
+                // Skip test if CI is true, because it will fail on CI
                 if (process.env.CI) {
                     this.skip()
                 }
