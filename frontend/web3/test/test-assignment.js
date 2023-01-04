@@ -1,8 +1,11 @@
 // Require web3 for talking to api
 const Web3 = require('web3')
 
-// Require get_gas
+// Require assignment
 const assignmentHandler = require('../src/web3/assignment')
+
+// Require account
+const accountHandler = require('../src/web3/account')
 
 //utils
 const utilsHandler = require('../src/web3/utils')
@@ -84,7 +87,8 @@ describe("test", function () {
             const exampleContractAddress = utils.getContractAddress("ExampleAssignment", networkId); // Address of the contract that is being tested
             const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
 
-            await assignment.removeSubmittedAssignment(studentAddress, exampleValidationAddress);
+            if (await assignment.hasSubmittedAssignment(studentAddress, exampleValidationAddress))
+                await assignment.removeSubmittedAssignment(studentAddress, exampleValidationAddress);
 
             const assignmentBeforeSubmit = await assignment.getSubmittedAssignment(studentAddress, exampleValidationAddress);
 
@@ -105,6 +109,12 @@ describe("test", function () {
             }
 
             assert.equal(correctTestCounter, 2);
+
+            const account = new accountHandler.NOWAccount(web3);
+
+            const coin = await account.getKnowledgeCoinBalance(studentAddress);
+
+            assert.equal(coin, 2, "Knowledge coin balance should be 2");
         });
 
         it("submit assignment not successful because address from other user wants to submit not his own contract", async function () {
@@ -128,7 +138,8 @@ describe("test", function () {
             const exampleContractAddress = utils.getContractAddress("ExampleAssignment", networkId); // Address of the contract that is being tested
             const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
 
-            await assignment.removeSubmittedAssignment(studentAddress, exampleValidationAddress);
+            if (await assignment.hasSubmittedAssignment(studentAddress, exampleValidationAddress))
+                await assignment.removeSubmittedAssignment(studentAddress, exampleValidationAddress);
 
             const assignmentBeforeSubmit = await assignment.getSubmittedAssignment(studentAddress, exampleValidationAddress);
 

@@ -27,14 +27,14 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
     }
 
     /**
-     * The validateExampleAssignment function is inherited from the base assignment validator
+     * The validateAssignment function is inherited from the base assignment validator
      * and needs to be implemented in the child contract.
      *
      * In this function all the necessary tests are executed and the results are returned
      *
      * MARK THE override KEYWORD
      */
-    function validateExampleAssignment(
+    function validateAssignment(
         address _studentAddress,
         address _contractAddress
     ) public override(BaseAssignmentValidator) returns (uint256) {
@@ -77,11 +77,11 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
             checkAssignmentOwner(_studentAddress, _contractAddress)
         );
 
-        // Test 1 - test if default value is 1998
-        if (int256(assignment_contract.getTestValue()) == int256(1998)) {
+        // Test 1 - test if default value is 1998 --> will fail intentional
+        if (int256(assignment_contract.getTestValue()) == int256(1000)) {
             appendTestResult(
                 historyIndex,
-                "test if default value is 1998",
+                "test if default value is 1000",
                 true
             );
         } else {

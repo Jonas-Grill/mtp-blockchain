@@ -62,7 +62,7 @@ contract BaseAssignmentValidator is BaseConfig {
     =============================================*/
 
     // abstract validate test function
-    function validateExampleAssignment(
+    function validateAssignment(
         address _studentAddress,
         address _contractAddress
     ) public virtual returns (uint256) {}
@@ -70,6 +70,7 @@ contract BaseAssignmentValidator is BaseConfig {
     // Submit assignment
     function submitAssignment(address _studentAddress, address _contractAddress)
         public
+        returns (uint256)
     {
         require(
             _assignmentSubmitted[_studentAddress].submitted != true,
@@ -82,7 +83,7 @@ contract BaseAssignmentValidator is BaseConfig {
         );
 
         // Validate assignment and return test history index
-        uint256 historyIndex = validateExampleAssignment(
+        uint256 historyIndex = validateAssignment(
             _studentAddress,
             _contractAddress
         );
@@ -119,6 +120,8 @@ contract BaseAssignmentValidator is BaseConfig {
             block.number,
             true
         );
+
+        return historyIndex;
     }
 
     /*=====  End of Validate and Submit  ======*/
@@ -241,12 +244,37 @@ contract BaseAssignmentValidator is BaseConfig {
      * @param _address Student address
      */
     function removeSubmittedAssignment(address _address) public {
+        getConfigStorage().requireAdmin(_address);
+
         require(
-            getConfigStorage().isAdmin(msg.sender),
-            "Only admin can do this"
+            hasAssignmentSubmitted(_address) == true,
+            "Assignment need to be first submitted, to be removed!"
         );
 
+        uint256 knowledgeCoins = _assignmentSubmitted[_address].knowledgeCoins;
+
+        // Get knowledge coin contract
+        SBCoin knowledgeCoinInstance = SBCoin(
+            getConfigStorage().getKnowledgeCoinContractAddress()
+        );
+
+        knowledgeCoinInstance.burn(_address, knowledgeCoins);
+
         delete _assignmentSubmitted[_address];
+    }
+
+    /**
+     * Check if assignment is submitted
+     *
+     * @param _address Student address
+     * @return bool
+     */
+    function hasAssignmentSubmitted(address _address)
+        public
+        view
+        returns (bool)
+    {
+        return _assignmentSubmitted[_address].submitted;
     }
 
     /*=====        End of Test Helper      ======*/

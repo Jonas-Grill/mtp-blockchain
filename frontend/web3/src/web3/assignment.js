@@ -38,14 +38,10 @@ class NOWAssignments {
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
-        var block = await web3.eth.getBlock("latest");
-
-        assignmentValidatorContract.options.gasLimit = block.gasLimit
-        assignmentValidatorContract.options.gas = block.gasLimit
-
         try {
-            await assignmentValidatorContract.methods.validateExampleAssignment(studentAddress, contractAddress).send({
+            await assignmentValidatorContract.methods.validateAssignment(studentAddress, contractAddress).send({
                 from: fromAddress,
+                gas: 5000000
             });
 
             var id = await assignmentValidatorContract.methods.getHistoryCounter().call({
@@ -65,17 +61,21 @@ class NOWAssignments {
      * @param {string} studentAddress Student address
      * @param {string} contractAddress Contract address
      * @param {string} validationContractAddress Address of validation contract
+     * @returns Return submitted assignment
      */
     async submitAssignment(studentAddress, contractAddress, validationContractAddress) {
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
-        var block = await web3.eth.getBlock("latest");
 
-        assignmentValidatorContract.options.gasLimit = block.gasLimit
-        assignmentValidatorContract.options.gas = block.gasLimit
-
+        // Submit assignment
         await assignmentValidatorContract.methods.submitAssignment(studentAddress, contractAddress).send({
+            from: fromAddress,
+            gas: 5000000
+        });
+
+        // Return submitted assignment
+        return await assignmentValidatorContract.methods.getSubmittedAssignment(studentAddress).call({
             from: fromAddress,
         });
     }
@@ -150,7 +150,27 @@ class NOWAssignments {
 
         await assignmentValidatorContract.methods.removeSubmittedAssignment(studentAddress).send({
             from: fromAddress,
+            gas: 5000000
         });
+    }
+
+    /**
+     * Check if a student has already submitted an assignment 
+     *
+     * @param {string} studentAddress Address of student
+     * @param {string} validationContractAddress Address of validation contract
+     * @returns Return true if assignment is submitted, false if not
+     */
+    async hasSubmittedAssignment(studentAddress, validationContractAddress) {
+        const fromAddress = await this.utils.getFromAccount(this.web3);
+
+        const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
+
+        var results = await assignmentValidatorContract.methods.hasAssignmentSubmitted(studentAddress).call({
+            from: fromAddress,
+        });
+
+        return results;
     }
 }
 

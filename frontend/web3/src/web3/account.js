@@ -60,7 +60,7 @@ class NOWAccount {
     }
 
     /**
-     * Return amount of Knowledge Coins from address
+     * Return amount of Knowledge Coins from address (in full coins)
      * 
      * @param {string} address address to check for first event transaction
      * @returns amount of Knowledge Coins
@@ -71,7 +71,24 @@ class NOWAccount {
             address,
             await this.web3.eth.net.getId())
 
-        return await knowledgeCoinContract.methods.balanceOf(address).call({ from: await this.utils.getFromAccount(this.web3) })
+        return await knowledgeCoinContract.methods.scaledBalanceOf(address).call({ from: await this.utils.getFromAccount(this.web3) })
+    }
+
+    /**
+     * Return amount of Knowledge Coins from address (in full coins)
+     * 
+     * @param {string} address address to check for balance in range
+     * @param {int} startBlock Start block to check for balance
+     * @param {int} endBlock  End block to check for balance
+     * @returns Balance in range
+     */
+    async getKnowledgeCoinBalanceInRange(address, startBlock, endBlock) {
+        var knowledgeCoinContract = this.utils.getContract(this.web3,
+            "SBCoin",
+            address,
+            await this.web3.eth.net.getId())
+
+        return await knowledgeCoinContract.methods.coinsInBlockNumberRange(address, startBlock, endBlock).call({ from: await this.utils.getFromAccount(this.web3) })
     }
 }
 

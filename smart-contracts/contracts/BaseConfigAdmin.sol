@@ -23,6 +23,12 @@ contract BaseConfigAdmin {
         addContractAdmin(address(this), contractName);
     }
 
+    // Require if address is either user or contract admin > with error handling
+    function requireAdmin(address possibleAdmin) public view returns (bool) {
+        if (isAdmin(possibleAdmin)) return true;
+        else revert("Address is neither an user nor an contract admin!");
+    }
+
     // Require if address of user is admin > with error handling
     function requireUserAdmin(address possibleUserAdmin)
         public
