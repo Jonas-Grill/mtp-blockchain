@@ -26,7 +26,7 @@ var chaiAssert = chai.assert
 
 const ganache = new prepare.GanacheHelper()
 
-import process from 'node:process';
+require('dotenv').config()
 
 describe("test", function () {
     describe("send", function () {
