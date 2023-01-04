@@ -114,7 +114,7 @@ describe("test", function () {
              * 3. Check if assignment was NOT submitted and error message is correct
              */
 
-            // Skip test if CI is true, because it will fail on CI
+            // Skip test if CI is true, because it will fail ONLY CI --> local test will pass
             if (process.env.CI) {
                 this.skip()
             }
