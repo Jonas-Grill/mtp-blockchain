@@ -23,7 +23,6 @@ var prepare = require('./ganache/setup-ganache')
 const ganache = new prepare.GanacheHelper()
 
 
-
 describe("test", function () {
     describe("assignment", function () {
         it("validate assignment should create entry in test results", async function () {
