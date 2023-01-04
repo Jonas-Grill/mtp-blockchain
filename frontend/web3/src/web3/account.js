@@ -28,10 +28,13 @@ class NOWAccount {
      * @param {address} _to address to send eth to
      */
     async sendEth(_to) {
-        var faucetStorageContract = this.utils.getContract(this.web3,
+        const faucetStorageContract = this.utils.getContract(this.web3,
             "FaucetStorage",
             _to,
-            await this.web3.eth.net.getId())
+            await this.web3.eth.net.getId());
+
+        faucetStorageContract.options.gasLimit = 500000
+        faucetStorageContract.options.gas = 500000
 
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
