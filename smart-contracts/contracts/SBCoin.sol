@@ -13,6 +13,7 @@ contract SBCoin is BaseConfig {
         address indexed spender,
         uint256 amount
     );
+    event Burn(address indexed from, uint256 amount);
 
     //METADATA STORAGE
     string private _name;
@@ -152,6 +153,8 @@ contract SBCoin is BaseConfig {
     //INTERNAL LOGIC
 
     //UTILITY
+
+    // Transfer amount of tokens from sender to recipient.
     function _transfer(
         address from,
         address to,
@@ -185,6 +188,7 @@ contract SBCoin is BaseConfig {
         emit Transfer(from, to, amount);
     }
 
+    // Approve spender to transfer amount of tokens on behalf of owner.
     function _approve(
         address owner,
         address spender,
@@ -202,7 +206,30 @@ contract SBCoin is BaseConfig {
         emit Approval(owner, spender, amount);
     }
 
+    // Convert amount of full coins to amount of tokens.
     function exchangeToFullCoin(uint256 amount) public view returns (uint256) {
         return amount * 10**decimals();
+    }
+
+    // Burn amount of tokens from sender.
+    function burn(address _address, uint256 _value) public returns (bool) {
+        require(
+            getConfigStorage().isAdmin(msg.sender),
+            "SoulBound Restriction: only admin can burn"
+        );
+
+        // Requires that the message sender has enough tokens to burn
+        require(_value <= _balances[_address]);
+
+        // Subtracts _value from callers balance and total supply
+        _balances[_address] = _balances[_address] - _value;
+        _totalSupply = _totalSupply - _value;
+
+        // Emits burn and transfer events, make sure you have them in your contracts
+        emit Burn(_address, _value);
+        emit Transfer(_address, address(0), _value);
+
+        // Since you cant actually burn tokens on the blockchain, sending to address 0, which none has the private keys to, removes them from the circulating supply
+        return true;
     }
 }

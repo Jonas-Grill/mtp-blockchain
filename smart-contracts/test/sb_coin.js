@@ -52,15 +52,31 @@ contract("SBCoin", (accounts) => {
         assert.notEqual(value, undefined, "Allowance is returned");
     });
 
-    // todo: @jonas - this test fails, please take a look at balanceOf
-    /**
+    it("should burn token", async () => {
+        const SBCoinInstance = await SBCoin.deployed(name, symbol);
+
+        const account = accounts[0];
+
+        await SBCoinInstance.mint(account, 100);
+
+        const amountPrev = (await SBCoinInstance.balanceOf(account)).toNumber();
+
+        assert.equal(amountPrev, 100, "Account balance is 100");
+
+        await SBCoinInstance.burn(account, 100);
+
+        const amountAfter = (await SBCoinInstance.balanceOf(account)).toNumber();
+
+        assert.equal(amountAfter, 0, "Account balance is 0");
+    });
     it("transfer should increase and decrease balanceOf", async () => {
         const SBCoinInstance = await SBCoin.deployed(name, symbol);
 
         const account1 = accounts[0];
-        const account2 = accounts[2];
+        const account2 = accounts[6];
         const amount = 100;
 
+        await SBCoinInstance.mint(account1, amount);
         const account1BalanceBefore = (await SBCoinInstance.balanceOf(account1)).toNumber();
         const account2BalanceBefore = (await SBCoinInstance.balanceOf(account2)).toNumber();
 
@@ -71,5 +87,5 @@ contract("SBCoin", (accounts) => {
 
         assert.equal(account1BalanceAfter, account1BalanceBefore - amount, "Account1 balance decreased by " + amount);
         assert.equal(account2BalanceAfter, account2BalanceBefore + amount, "Account2 balance increased by " + amount);
-    });*/
+    });
 });
