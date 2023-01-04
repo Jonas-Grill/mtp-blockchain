@@ -8,11 +8,11 @@ const name = "KnowledgeCoin";
 const symbol = "NOW";
 
 // test 
-const testAssignment = artifacts.require("ExampleAssignment");
-const testAssignmentValidator = artifacts.require("ExampleAssignmentValidator");
+const exampleAssignment = artifacts.require("ExampleAssignment");
+const exampleAssignmentValidator = artifacts.require("ExampleAssignmentValidator");
 
 module.exports = async (deployer, network, account) => {
-    await deployer.deploy(testAssignment);
+    await deployer.deploy(exampleAssignment);
     // deployment steps
     configContract = await deployer.deploy(configStorage)
 
@@ -23,7 +23,7 @@ module.exports = async (deployer, network, account) => {
 
     console.log("Deploying ExampleAssignmentValidator...")
     // Assignment Validator
-    await deployer.deploy(testAssignmentValidator, configStorage.address);
+    await deployer.deploy(exampleAssignmentValidator, configStorage.address);
 
     console.log("Deploying SBCoin...")
     await deployer.deploy(SBCoin, name, symbol, configStorage.address);

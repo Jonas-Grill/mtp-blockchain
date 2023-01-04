@@ -8,8 +8,6 @@ const assignmentHandler = require('../src/web3/assignment')
 const utilsHandler = require('../src/web3/utils')
 const utils = new utilsHandler.NOWUtils()
 
-// config
-const networkId = "1337"
 
 // Parse and set rpc url
 const rpcURL = "http://localhost:8545";
@@ -31,6 +29,9 @@ describe("test", function () {
         it("validate assignment should create entry in test results", async function () {
             const accounts = await ganache.getAccount()
 
+            // config
+            const networkId = await web3.eth.net.getId()
+
             const assignment = new assignmentHandler.NOWAssignments(web3);
 
             const studentAddress = accounts[0]; // Address of the student who deployed the contract
@@ -46,6 +47,7 @@ describe("test", function () {
 
         it("validate assignment has 2 of 3 correct tests", async function () {
             const accounts = await ganache.getAccount()
+            const networkId = await web3.eth.net.getId()
 
             const assignment = new assignmentHandler.NOWAssignments(web3);
 
@@ -74,6 +76,7 @@ describe("test", function () {
              * 4. Check if test results are correct
              */
             const accounts = await ganache.getAccount()
+            const networkId = await web3.eth.net.getId()
 
             const assignment = new assignmentHandler.NOWAssignments(web3);
 
@@ -111,6 +114,7 @@ describe("test", function () {
              * 3. Check if assignment was NOT submitted and error message is correct
              */
             const accounts = await ganache.getAccount()
+            const networkId = await web3.eth.net.getId()
 
             const assignment = new assignmentHandler.NOWAssignments(web3);
 
@@ -138,6 +142,7 @@ describe("test", function () {
 
         it("validate assignment that is not made for the validator", async function () {
             const accounts = await ganache.getAccount()
+            const networkId = await web3.eth.net.getId()
 
             const assignment = new assignmentHandler.NOWAssignments(web3);
 
