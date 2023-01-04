@@ -8,10 +8,6 @@ class GanacheHelper {
     async getAccount() {
         return await this.web3.eth.getAccounts()
     }
-
-    async sendFaucetFunds(from, faucetAddress) {
-        await this.web3.eth.sendTransaction({ from: from, to: faucetAddress, value: 20 * (10 ** 18) })
-    }
 }
 
 module.exports = { GanacheHelper };
