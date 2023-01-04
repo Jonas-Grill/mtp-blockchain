@@ -1,12 +1,11 @@
 import Link from "next/link";
 import React, {useEffect, useState} from "react";
 import {getSemester, getSemesterIds, deleteSemester} from "../../web3/src/entrypoints/config/semester"
-import Web3 from "web3";
 import Head from "next/head";
-import {AcademicCapIcon, BookOpenIcon, ClockIcon} from "@heroicons/react/20/solid";
+import {AcademicCapIcon} from "@heroicons/react/20/solid";
 import {initBlockchain} from "../faucet";
 
-export const loadSemesters = async (web3) => {
+export const loadSemesters = async (web3: any) => {
     const semesters: { id: string, name: any, startBlock: any, endBlock: any, minKnowledgeCoinAmount: any }[] = [];
     const ids: string[] = await getSemesterIds(web3);
 
@@ -29,7 +28,7 @@ export const loadSemesters = async (web3) => {
 export default function SemesterOverview() {
     const [semesters, setSemesters] = useState<{ id: string, name: any, startBlock: any, endBlock: any, minKnowledgeCoinAmount: any }[]>([]);
 
-    let web3;
+    let web3: any;
 
     const handleDeleteSemester = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();

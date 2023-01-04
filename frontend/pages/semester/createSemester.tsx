@@ -27,9 +27,7 @@ export default function CreateSemester() {
     }
 
     useEffect(() => {
-        initBlockchain(web3).then((result) => {
-            web3 = result;
-        });
+        web3 = initBlockchain(web3);
     }, []);
 
     return (

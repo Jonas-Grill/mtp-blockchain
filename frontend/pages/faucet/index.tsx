@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Web3 from "web3";
 
-export const initBlockchain = async (web3) => {
+export const initBlockchain = (web3: any) => {
     if (window.ethereum) {
         web3 = new Web3(window.ethereum);
-        await window.ethereum.enable();
+        window.ethereum.enable();
     } else if (web3) {
         web3 = new Web3(web3.currentProvider);
     } else {
@@ -20,7 +20,7 @@ export const initBlockchain = async (web3) => {
 }
 
 export default function Faucet({ userAddress }: { userAddress: string }) {
-    let web3;
+    let web3: any;
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -30,9 +30,7 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
     }
 
     useEffect(() => {
-        initBlockchain(web3).then((result) => {
-            web3 = result;
-        });
+        web3 = initBlockchain(web3);
     }, []);
 
     return (

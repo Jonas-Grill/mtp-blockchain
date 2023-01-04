@@ -1,6 +1,5 @@
 import {DocumentTextIcon} from '@heroicons/react/20/solid'
 import React, {useEffect, useState} from "react";
-import Web3 from "web3";
 import {appendAssignment} from "../../web3/src/entrypoints/config/assignment";
 import {loadSemesters} from "../semester";
 import {useRouter} from "next/router";
@@ -9,37 +8,28 @@ import {initBlockchain} from "../faucet";
 
 export default function CreateAssignment() {
     const router = useRouter();
-    let web3;
+    let web3: any;
 
     const [semesters, setSemesters] = useState<{ id: string, name: any }[]>([]);
     const [selectedSemester, setSelectedSemester] = useState<string>("");
 
-    useEffect(() => {
-        loadSemesters().then((semesters) => {
-            if (semesters) {
-                setSemesters(semesters);
-                setSelectedSemester(semesters[0].id);
-            }
-
-        });
-
-        if (window.ethereum) {
-            web3 = new Web3(window.ethereum);
-            window.ethereum.enable();
-        }
-    }, []);
-
     const createAssignment = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (web3) {
-            const data = new FormData(event.currentTarget);
+        console.log("Test: ", web3)
 
-            const name = data.get('name');
+        if (web3) {
+            console.log("Event: ", event.currentTarget)
+
+            const data = event.currentTarget;
+
+            const name = data.name;
             const link = data.get('link');
             const contractAddress = data.get('contractAddress');
             const startBlock = data.get('startBlock');
             const endBlock = data.get('endBlock');
+
+            console.log(name, link, contractAddress, startBlock, endBlock);
 
             appendAssignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock)
             router.push('/assignments');
@@ -47,8 +37,14 @@ export default function CreateAssignment() {
     }
 
     useEffect(() => {
-        initBlockchain(web3).then((result) => {
-            web3 = result;
+        web3 = initBlockchain(web3)
+
+        loadSemesters(web3).then((semesters) => {
+            if (semesters) {
+                setSemesters(semesters);
+                setSelectedSemester(semesters[0].id);
+            }
+
         });
     }, []);
 
@@ -147,7 +143,6 @@ export default function CreateAssignment() {
                         />
                         <button
                             type="submit"
-
                             className="group relative mt-3 flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
                         >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
