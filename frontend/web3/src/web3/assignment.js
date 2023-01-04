@@ -89,12 +89,12 @@ class NOWAssignments {
      * @param {string} validationContractAddress Address of validation contract
      * @returns Return test result
      */
-    async getTestResults(id, validationContractAddress) {
+    async getTestResults(validationContractAddress, id) {
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
-        var results = await assignmentValidatorContract.methods.getTestResults(id).call({
+        const results = await assignmentValidatorContract.methods.getTestResults(id).call({
             from: fromAddress,
         });
 
@@ -106,7 +106,7 @@ class NOWAssignments {
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
-        var results = await assignmentValidatorContract.methods.getSubmittedAssignment(studentAddress).call({
+        const results = await assignmentValidatorContract.methods.getSubmittedAssignment(studentAddress).call({
             from: fromAddress,
         });
 

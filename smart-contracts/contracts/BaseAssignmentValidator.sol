@@ -68,9 +68,7 @@ contract BaseAssignmentValidator is BaseConfig {
     ) public virtual returns (uint256) {}
 
     // Submit assignment
-    function submitAssignment(address _studentAddress, address _contractAddress)
-        public
-    {
+    function submitAssignment(address _studentAddress, address _contractAddress) public {
         require(
             _assignmentSubmitted[_studentAddress].submitted != true,
             "Assignment already submitted! Cannot submit the assignment again!"

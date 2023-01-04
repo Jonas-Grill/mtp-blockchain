@@ -1,52 +1,53 @@
 import {DocumentTextIcon} from '@heroicons/react/20/solid'
 import React, {useEffect, useState} from "react";
 import {appendAssignment} from "../../web3/src/entrypoints/config/assignment";
-import {loadSemesters} from "../semester";
+import {loadSemesters, Semester} from "../semester";
 import {useRouter} from "next/router";
 import Head from "next/head";
 import {initBlockchain} from "../faucet";
 
 export default function CreateAssignment() {
     const router = useRouter();
-    let web3: any;
 
-    const [semesters, setSemesters] = useState<{ id: string, name: any }[]>([]);
+    const [web3, setWeb3] = useState<any>(undefined);
+    const [semesters, setSemesters] = useState<Semester[]>([]);
     const [selectedSemester, setSelectedSemester] = useState<string>("");
 
     const createAssignment = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        console.log("Test: ", web3)
-
         if (web3) {
-            console.log("Event: ", event.currentTarget)
+            const data = new FormData(event.currentTarget);
 
-            const data = event.currentTarget;
-
-            const name = data.name;
+            const name = data.get('name');
             const link = data.get('link');
             const contractAddress = data.get('contractAddress');
             const startBlock = data.get('startBlock');
             const endBlock = data.get('endBlock');
 
-            console.log(name, link, contractAddress, startBlock, endBlock);
-
-            appendAssignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock)
-            router.push('/assignments');
+            appendAssignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock).then(() => {
+                router.push("/assignments");
+            })
         }
     }
 
+    const getSemesterById = (id: string) => {
+        return semesters.find((semester) => semester.id === id);
+    }
+
     useEffect(() => {
-        web3 = initBlockchain(web3)
 
-        loadSemesters(web3).then((semesters) => {
-            if (semesters) {
-                setSemesters(semesters);
-                setSelectedSemester(semesters[0].id);
-            }
-
-        });
-    }, []);
+        if (!web3) {
+            initBlockchain(web3).then((web3) => {
+                setWeb3(web3);
+            });
+        } else {
+            loadSemesters(web3).then((result) => {
+                setSemesters(result);
+                setSelectedSemester(result[0].id);
+            });
+        }
+    }, [web3]);
 
     return (
         <>
@@ -125,7 +126,9 @@ export default function CreateAssignment() {
                         <input
                             id="startBlock"
                             name="startBlock"
-                            type="text"
+                            type="number"
+                            min={getSemesterById(selectedSemester)?.startBlock}
+                            max={getSemesterById(selectedSemester)?.endBlock}
                             required
                             className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Starting block"
@@ -136,7 +139,9 @@ export default function CreateAssignment() {
                         <input
                             id="endBlock"
                             name="endBlock"
-                            type="text"
+                            type="number"
+                            min={getSemesterById(selectedSemester)?.startBlock}
+                            max={getSemesterById(selectedSemester)?.endBlock}
                             required
                             className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="End block"

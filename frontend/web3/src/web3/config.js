@@ -394,9 +394,10 @@ class NOWConfig {
     async appendAssignment(_semesterId, _name, _link, _validationContractAddress, _startBlock, _endBlock) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
+        console.log("Append assignment", _semesterId, _name, _link, _validationContractAddress, _startBlock, _endBlock)
         await configStorageContract.methods.appendAssignment(_semesterId, _name, _link, _validationContractAddress, _startBlock, _endBlock).send({ from: fromAddress });
 
-        return await configStorageContract.methods.getAssignmentCounter(_semesterId).call({ from: await this.utils.getFromAccount(this.web3) });
+        return await configStorageContract.methods.getAssignmentCounter(_semesterId).call({ from: fromAddress });
     }
 
     /**

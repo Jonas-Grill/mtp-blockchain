@@ -28,7 +28,7 @@ class NOWAccount {
      * @param {address} _to address to send eth to
      */
     async sendEth(_to) {
-        var faucetStorageContract = this.utils.getContract(this.web3,
+        const faucetStorageContract = this.utils.getContract(this.web3,
             "FaucetStorage",
             _to,
             await this.web3.eth.net.getId())
@@ -46,7 +46,7 @@ class NOWAccount {
     async getFaucetBalance() {
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
-        var faucetStorageContract = this.utils.getContract(this.web3,
+        const faucetStorageContract = this.utils.getContract(this.web3,
             "FaucetStorage",
             fromAddress,
             await this.web3.eth.net.getId())
@@ -61,12 +61,18 @@ class NOWAccount {
      * @returns amount of Knowledge Coins
      */
     async getKnowledgeCoinBalance(address) {
-        var knowledgeCoinContract = this.utils.getContract(this.web3,
+        const knowledgeCoinContract = this.utils.getContract(this.web3,
             "SBCoin",
             address,
-            await this.web3.eth.net.getId())
 
-        return await knowledgeCoinContract.methods.balanceOf(address).call({ from: await this.utils.getFromAccount(web3) })
+            await this.web3.eth.net.getId()
+        )
+
+        const BN = this.web3.utils.BN;
+        const balance = new BN(await knowledgeCoinContract.methods.balanceOf(address).call({ from: await this.utils.getFromAccount(this.web3) }));
+        const decimals = new BN(await knowledgeCoinContract.methods.decimals().call({ from: await this.utils.getFromAccount(this.web3) }));
+
+        return parseInt(balance.div(new BN(10).pow(decimals)));
     }
 }
 

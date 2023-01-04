@@ -1,14 +1,14 @@
 import {AcademicCapIcon} from '@heroicons/react/20/solid'
 import {appendSemester} from "../../web3/src/entrypoints/config/semester"
 import React, {useEffect} from "react";
-import Web3 from "web3";
 import {useRouter} from "next/router";
 import Head from "next/head";
 import {initBlockchain} from "../faucet";
 
 export default function CreateSemester() {
     const router = useRouter();
-    let web3: any;
+
+    const [web3, setWeb3] = React.useState<any>(undefined);
 
     const createSemester = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -21,13 +21,17 @@ export default function CreateSemester() {
             const endBlock = data.get('endBlock');
             const coinAmountForExam = data.get('coinAmountForExam');
 
-            appendSemester(web3, name, startingBlock, endBlock, coinAmountForExam)
-            router.push('/semester');
+            appendSemester(web3, name, startingBlock, endBlock, coinAmountForExam).then((result) => {
+                router.push('/semester');
+            });
+
         }
     }
 
     useEffect(() => {
-        web3 = initBlockchain(web3);
+        initBlockchain(web3).then((web3) => {
+            setWeb3(web3);
+        });
     }, []);
 
     return (

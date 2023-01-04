@@ -5,8 +5,18 @@ import Head from "next/head";
 import {AcademicCapIcon} from "@heroicons/react/20/solid";
 import {initBlockchain} from "../faucet";
 
+// Export semester type
+export type Semester = {
+    id: string,
+    name: string,
+    startBlock: number,
+    endBlock: number,
+    minKnowledgeCoinAmount: number
+
+}
+
 export const loadSemesters = async (web3: any) => {
-    const semesters: { id: string, name: any, startBlock: any, endBlock: any, minKnowledgeCoinAmount: any }[] = [];
+    const semesters: Semester[] = [];
     const ids: string[] = await getSemesterIds(web3);
 
     for (let id of ids) {
@@ -26,25 +36,34 @@ export const loadSemesters = async (web3: any) => {
 }
 
 export default function SemesterOverview() {
-    const [semesters, setSemesters] = useState<{ id: string, name: any, startBlock: any, endBlock: any, minKnowledgeCoinAmount: any }[]>([]);
-
-    let web3: any;
+    const [semesters, setSemesters] = useState<Semester[]>([]);
+    const [web3, setWeb3] = useState<any>(undefined);
 
     const handleDeleteSemester = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        event.currentTarget.name;
-        deleteSemester(web3, event.currentTarget.name);
+
+        console.log("Web3: ", web3);
+
+        if (web3) {
+            deleteSemester(web3, event.currentTarget.name).then((result) => {
+                loadSemesters(web3).then((semesters) => {
+                    setSemesters(semesters);
+                });
+            });
+        }
     }
 
     useEffect(() => {
-        initBlockchain(web3).then((result) => {
-            web3 = result;
-
+        if (!web3) {
+            initBlockchain(web3).then((web3) => {
+                setWeb3(web3);
+            });
+        } else {
             loadSemesters(web3).then((result) => {
                 setSemesters(result);
             });
-        });
-    }, []);
+        }
+    }, [web3]);
 
     return (
         <div className="flex-col">
@@ -87,7 +106,7 @@ export default function SemesterOverview() {
                                         Edit
                                     </Link>
                                     <button name={semester.id} onClick={handleDeleteSemester}
-                                          className="rounded-md border border-transparent bg-uni flex w-1/2 items-center justify-center py-3 px-8 text-center font-medium text-white hover:bg-sustail-dark mt-4">
+                                            className="rounded-md border border-transparent bg-uni flex w-1/2 items-center justify-center py-3 px-8 text-center font-medium text-white hover:bg-sustail-dark mt-4">
                                         Delete
                                     </button>
                                 </div>

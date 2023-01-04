@@ -52,6 +52,7 @@ class NOWUtils {
         if (contractName === "SBCoin") {
             json = SBCoin;
         }
+
         return JSON.parse(JSON.stringify(json))
     }
 

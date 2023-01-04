@@ -1,27 +1,35 @@
 import Link from "next/link";
-import Web3 from "web3";
-import {get_assignment} from "../../web3/src/entrypoints/config/assignment";
+import {getAssignment, getAssignmentIds} from "../../web3/src/entrypoints/config/assignment";
 import React, {useEffect, useState} from "react";
 import Head from "next/head";
-import {ClockIcon, DocumentPlusIcon, DocumentTextIcon} from "@heroicons/react/20/solid";
+import {DocumentTextIcon} from "@heroicons/react/20/solid";
 import {initBlockchain} from "../faucet";
-import {loadSemesters} from "../semester";
+import {loadSemesters, Semester} from "../semester";
 
-export const loadAssignments = async (web3: any) => {
-    const ids: { semester: string, id: string }[] = [/*TDOD: get all assignment ids*/];
-    const assignments: { id: string, name: any, link: any, validationContractAddress: any, startBlock: any, endBlock: any }[] = [];
+export type Assignment = {
+    id: string,
+    name: string,
+    link: string,
+    validationContractAddress: string,
+    startBlock: number,
+    endBlock: number,
+}
+
+export const loadAssignments = async (semesterId: string, web3: any) => {
+    const ids: string[] = await getAssignmentIds(web3, semesterId);
+    const assignments: Assignment[] = [];
 
     for (let id of ids) {
-        const result = await get_assignment(web3, id.semester, id.id);
+        const assignment = await getAssignment(web3, semesterId, id);
 
-        if (result.semester) {
+        if (assignment) {
             assignments.push({
-                id: id.id,
-                name: result.semester.name,
-                link: result.semester.link,
-                validationContractAddress: result.semester.validation_contract_address,
-                startBlock: result.semester.start_block,
-                endBlock: result.semester.end_block,
+                id: id,
+                name: assignment.name,
+                link: assignment.link,
+                validationContractAddress: assignment.validationContractAddress,
+                startBlock: assignment.startBlock,
+                endBlock: assignment.endBlock,
             });
         }
     }
@@ -30,21 +38,27 @@ export const loadAssignments = async (web3: any) => {
 }
 
 export default function AssignmentOverview() {
-    const [assignments, setAssignments] = useState<{ id: string, name: any, link: any, validationContractAddress: any, startBlock: any, endBlock: any }[]>([]);
-
-    let web3: any;
+    const [assignments, setAssignments] = useState<Assignment[]>([]);
+    const [semesters, setSemesters] = useState<Semester[]>([]);
+    const [selectedSemester, setSelectedSemester] = useState<string>("");
+    const [web3, setWeb3] = useState<any>(undefined);
 
     useEffect(() => {
-        initBlockchain(web3).then((result) => {
-            web3 = result;
-
-            loadAssignments(web3).then((assignments) => {
-                if (assignments) {
-                    setAssignments(assignments);
-                }
+        if (!web3) {
+            initBlockchain(web3).then((web3) => {
+                setWeb3(web3);
             });
-        });
-    }, []);
+        } else if (semesters.length <= 0) {
+            loadSemesters(web3).then((result) => {
+                setSemesters(result);
+                setSelectedSemester(result[0].id);
+            });
+        } else {
+            loadAssignments(selectedSemester, web3).then((result) => {
+                setAssignments(result);
+            });
+        }
+    }, [web3, semesters, selectedSemester]);
 
     return (
         <div className="flex-col">
@@ -70,7 +84,26 @@ export default function AssignmentOverview() {
                             </button>
                         </Link>
                     </div>
-
+                    <fieldset>
+                        <div className="mt-4 space-y-4">
+                            {semesters.map((semester) => (
+                                <div className="flex items-center">
+                                    <input
+                                        id={semester.id}
+                                        name="semester"
+                                        type="radio"
+                                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                        checked={semester.id === selectedSemester}
+                                        onChange={() => setSelectedSemester(semester.id)}
+                                    />
+                                    <label htmlFor="semester"
+                                           className="ml-3 block text-sm font-medium text-gray-700">
+                                        {semester.name}
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
+                    </fieldset>
                     <div
                         className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                         {assignments.map((assignment) => (

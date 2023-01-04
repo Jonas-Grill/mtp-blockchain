@@ -1,13 +1,13 @@
-import { FireIcon } from '@heroicons/react/20/solid'
-import { sendEth } from '../../web3/src/entrypoints/account/faucet'
-import React, { useEffect, useState } from "react";
+import {FireIcon} from '@heroicons/react/20/solid'
+import {sendEth} from '../../web3/src/entrypoints/account/faucet'
+import React, {useEffect, useState} from "react";
 import Head from "next/head";
 import Web3 from "web3";
 
-export const initBlockchain = (web3: any) => {
+export const initBlockchain = async (web3: any) => {
     if (window.ethereum) {
         web3 = new Web3(window.ethereum);
-        window.ethereum.enable();
+        await window.ethereum.enable();
     } else if (web3) {
         web3 = new Web3(web3.currentProvider);
     } else {
@@ -19,8 +19,9 @@ export const initBlockchain = (web3: any) => {
     return web3;
 }
 
-export default function Faucet({ userAddress }: { userAddress: string }) {
-    let web3: any;
+export default function Faucet({userAddress}: { userAddress: string }) {
+    const [web3, setWeb3] = useState<any>(undefined);
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -30,7 +31,11 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
     }
 
     useEffect(() => {
-        web3 = initBlockchain(web3);
+        if (!web3) {
+            initBlockchain(web3).then((web3) => {
+                setWeb3(web3);
+            });
+        }
     }, []);
 
     return (
@@ -85,7 +90,7 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
                         >
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <FireIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
-                                    aria-hidden="true" />
+                                          aria-hidden="true"/>
                             </span>
                             Get gas
                         </button>
