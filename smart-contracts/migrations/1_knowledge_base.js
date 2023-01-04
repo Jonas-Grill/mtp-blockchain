@@ -1,5 +1,3 @@
-const { config } = require("process");
-
 const configStorage = artifacts.require("ConfigStorage");
 const faucetStorage = artifacts.require("FaucetStorage");
 
@@ -13,7 +11,7 @@ const symbol = "NOW";
 const testAssignment = artifacts.require("ExampleAssignment");
 const testAssignmentValidator = artifacts.require("ExampleAssignmentValidator");
 
-module.exports = async (deployer) => {
+module.exports = async (deployer, network, account) => {
     await deployer.deploy(testAssignment);
     // deployment steps
     configContract = await deployer.deploy(configStorage)
@@ -21,7 +19,7 @@ module.exports = async (deployer) => {
     console.log("ConfigStorage deployed at " + configStorage.address)
     console.log("Deploying FaucetStorage...")
     // Faucet
-    await deployer.deploy(faucetStorage, configStorage.address);
+    await deployer.deploy(faucetStorage, configStorage.address, { from: account[0], value: "20000000000000000000" });
 
     console.log("Deploying ExampleAssignmentValidator...")
     // Assignment Validator

@@ -258,7 +258,7 @@ class NOWConfig {
     */
     async setFaucetBlockNoDifference(_faucetBlockNoDifference) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.setIntValue("faucetBlockNoDifference", _faucetBlockNoDifference).send({ from: await this.utils.getFromAccount(this.web3) });
+        await configStorageContract.methods.setFaucetBlockNoDifference(_faucetBlockNoDifference).send({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /*=====  End of Faucet Block Difference  ======*/
@@ -369,7 +369,7 @@ class NOWConfig {
     async setSemesterAmountKnowledgeCoins(id, minKnowledgeCoinAmount) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        await configStorageContract.methods.setMinKnowledgeCoinAmount(id, minKnowledgeCoinAmount).send({ from: fromAddress });
+        await configStorageContract.methods.setSemesterMinKnowledgeCoinAmount(id, minKnowledgeCoinAmount).send({ from: fromAddress });
     }
 
     /*============  End of Semester NOWConfig  =============*/
