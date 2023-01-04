@@ -41,7 +41,7 @@ class NOWAssignments {
         var block = await web3.eth.getBlock("latest");
 
         assignmentValidatorContract.options.gasLimit = block.gasLimit
-        assignmentValidatorContract.options.gas = 2000000000
+        assignmentValidatorContract.options.gas = block.gasLimit
 
         try {
             await assignmentValidatorContract.methods.validateExampleAssignment(studentAddress, contractAddress).send({
@@ -73,7 +73,7 @@ class NOWAssignments {
         var block = await web3.eth.getBlock("latest");
 
         assignmentValidatorContract.options.gasLimit = block.gasLimit
-        assignmentValidatorContract.options.gas = 2000000000
+        assignmentValidatorContract.options.gas = block.gasLimit
 
         await assignmentValidatorContract.methods.submitAssignment(studentAddress, contractAddress).send({
             from: fromAddress,

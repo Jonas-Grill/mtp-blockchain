@@ -36,7 +36,7 @@ class NOWAccount {
         var block = await web3.eth.getBlock("latest");
 
         faucetStorageContract.options.gasLimit = block.gasLimit
-        faucetStorageContract.options.gas = 2000000000
+        faucetStorageContract.options.gas = block.gasLimit
 
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
