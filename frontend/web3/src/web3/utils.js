@@ -33,6 +33,7 @@ class NOWUtils {
         const ConfigStorage = require('../../../../smart-contracts/build/contracts/ConfigStorage.json')
         const FaucetStorage = require('../../../../smart-contracts/build/contracts/FaucetStorage.json')
         const ExampleAssignmentValidator = require('../../../../smart-contracts/build/contracts/ExampleAssignmentValidator.json')
+        const ExampleAssignmentValidator2 = require('../../../../smart-contracts/build/contracts/ExampleAssignmentValidator2.json')
         const BaseAssignmentValidator = require('../../../../smart-contracts/build/contracts/BaseAssignmentValidator.json')
         const SBCoin = require('../../../../smart-contracts/build/contracts/SBCoin.json')
         const ExampleAssignment = require('../../../../smart-contracts/build/contracts/ExampleAssignment.json')
@@ -47,6 +48,9 @@ class NOWUtils {
         if (contractName === "ExampleAssignmentValidator") {
             json = ExampleAssignmentValidator;
         }
+        if (contractName === "ExampleAssignmentValidator2") {
+            json = ExampleAssignmentValidator2;
+        }
         if (contractName === "BaseAssignmentValidator") {
             json = BaseAssignmentValidator;
         }
@@ -56,6 +60,7 @@ class NOWUtils {
         if (contractName === "ExampleAssignment") {
             json = ExampleAssignment;
         }
+
         return JSON.parse(JSON.stringify(json))
     }
 

@@ -1,4 +1,7 @@
 const ConfigStorage = artifacts.require("ConfigStorage");
+const ExampleAssignment = artifacts.require("ExampleAssignment");
+const ExampleAssignmentValidator = artifacts.require("ExampleAssignmentValidator");
+const ExampleAssignmentValidator2 = artifacts.require("ExampleAssignmentValidator2");
 
 contract("ConfigStorage", (accounts) => {
 
@@ -145,34 +148,47 @@ contract("ConfigStorage", (accounts) => {
 
     it("should add assignment", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
+        const ExampleAssignmentValidatorInstance = await ExampleAssignmentValidator.deployed(ConfigStorageInstance.address);
 
+        // Add semester
         await ConfigStorageInstance.appendSemester("SS 2023", 1, 10, 5);
-
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", "0x71C7656EC7ab88b098defB751B7401B5f6d8976F", 5, 10);
-
+        // Add assignment
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 0, 10000);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
 
+        // Get assignment
         const value = await ConfigStorageInstance.getAssignment(semesterId, assignmentId);
 
         assert.equal(value["name"], "Assignment 1", "Assignment is Assignment 1");
         assert.equal(value["link"], "test-link", "Link is test-link");
-        assert.equal(value["validationContractAddress"], "0x71C7656EC7ab88b098defB751B7401B5f6d8976F", "ValidAddress is 0x71C7656EC7ab88b098defB751B7401B5f6d8976F");
-        assert.equal(value["startBlock"], 5, "StartBlock is 5");
-        assert.equal(value["endBlock"], 10, "EndBlock is 10");
+        assert.equal(value["validationContractAddress"], ExampleAssignmentValidatorInstance.address, "Validator contract address is correct");
+        assert.equal(value["startBlock"], 0, "StartBlock is 0");
+        assert.equal(value["endBlock"], 10000, "EndBlock is 10000");
+
+        // Get assignment validator
+        assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), true, "Assignment is linked");
+
+        // Clean up after
+        await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
+        assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), false, "Assignment is not linked anymore");
     });
 
     it("should delete assignment", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
+        const ExampleAssignmentValidatorInstance = await ExampleAssignmentValidator.deployed(ConfigStorageInstance.address);
 
+        // Add semester
         await ConfigStorageInstance.appendSemester("SS 2023", 1, 10, 5);
-
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", "0x71C7656EC7ab88b098defB751B7401B5f6d8976F", 5, 10);
-
+        // Add assignment
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 0, 10000);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
+
+        // Get assignment validator
+        assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), true, "Assignment is linked");
 
         await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
 
@@ -183,96 +199,156 @@ contract("ConfigStorage", (accounts) => {
         assert.equal(value["validationContractAddress"], "0x0000000000000000000000000000000000000000", "ValidAddress is 0x0000000000000000000000000000000000000000");
         assert.equal(value["startBlock"], 0, "StartBlock is 0");
         assert.equal(value["endBlock"], 0, "EndBlock is 0");
+
+        // Get assignment validator
+        assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), false, "Assignment is not linked anymore");
+
+        // Clean up after if assignment is exists
+        if (await ConfigStorageInstance.hasAssignmentId(semesterId, assignmentId)) {
+            await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
+            assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), false, "Assignment is not linked anymore");
+        }
     });
 
     it("should set assignment name", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
+        const ExampleAssignmentValidatorInstance = await ExampleAssignmentValidator.deployed(ConfigStorageInstance.address);
 
+        // Add semester
         await ConfigStorageInstance.appendSemester("SS 2023", 1, 10, 5);
-
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", "0x71C7656EC7ab88b098defB751B7401B5f6d8976F", 5, 10);
-
+        // Add assignment
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 0, 10000);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
+
+        // Get assignment validator
+        assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), true, "Assignment is linked");
 
         await ConfigStorageInstance.setAssignmentName(semesterId, assignmentId, "Assignment 2");
 
         const value = await ConfigStorageInstance.getAssignment(semesterId, assignmentId);
 
         assert.equal(value["name"], "Assignment 2", "Assignment is Assignment 2");
+
+        // Clean up after if assignment is exists
+        if (await ConfigStorageInstance.hasAssignmentId(semesterId, assignmentId)) {
+            await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
+            assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), false, "Assignment is not linked anymore");
+        }
     });
 
     it("should set assignment link", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
+        const ExampleAssignmentValidatorInstance = await ExampleAssignmentValidator.deployed(ConfigStorageInstance.address);
 
+        // Add semester
         await ConfigStorageInstance.appendSemester("SS 2023", 1, 10, 5);
-
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", "0x71C7656EC7ab88b098defB751B7401B5f6d8976F", 5, 10);
-
+        // Add assignment
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 0, 10000);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
+
+        // Get assignment validator
+        assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), true, "Assignment is linked");
 
         await ConfigStorageInstance.setAssignmentLink(semesterId, assignmentId, "test-link-2");
 
         const value = await ConfigStorageInstance.getAssignment(semesterId, assignmentId);
 
         assert.equal(value["link"], "test-link-2", "Link is test-link-2");
+
+        // Clean up after if assignment is exists
+        if (await ConfigStorageInstance.hasAssignmentId(semesterId, assignmentId)) {
+            await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
+            assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), false, "Assignment is not linked anymore");
+        }
     });
 
     it("should set assignment valid address", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
+        const ExampleAssignmentValidatorInstance = await ExampleAssignmentValidator.deployed(ConfigStorageInstance.address);
+        const ExampleAssignmentValidator2Instance = await ExampleAssignmentValidator2.deployed(ConfigStorageInstance.address);
 
+        // Add semester
         await ConfigStorageInstance.appendSemester("SS 2023", 1, 10, 5);
-
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", "0x71C7656EC7ab88b098defB751B7401B5f6d8976F", 5, 10);
-
+        // Add assignment
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 0, 10000);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
 
-        await ConfigStorageInstance.setAssignmentAddress(semesterId, assignmentId, "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7");
+        // Get assignment validator
+        assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), true, "Assignment is linked");
+
+        await ConfigStorageInstance.setAssignmentAddress(semesterId, assignmentId, ExampleAssignmentValidator2Instance.address);
 
         const value = await ConfigStorageInstance.getAssignment(semesterId, assignmentId);
 
-        assert.equal(value["validationContractAddress"], "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7", "ValidAddress is 0x10f76bccd5f7d335111a898e6f6121e3391773ce5117d3446f7490ab01235b5b");
+        assert.equal(value["validationContractAddress"], ExampleAssignmentValidator2Instance.address, "ValidAddress is 0x10f76bccd5f7d335111a898e6f6121e3391773ce5117d3446f7490ab01235b5b");
+
+        // Clean up after if assignment is exists
+        if (await ConfigStorageInstance.hasAssignmentId(semesterId, assignmentId)) {
+            await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
+            assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), false, "Assignment is not linked anymore");
+        }
     });
 
     it("should set assignment start block", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
+        const ExampleAssignmentValidatorInstance = await ExampleAssignmentValidator.deployed(ConfigStorageInstance.address);
 
+        // Add semester
         await ConfigStorageInstance.appendSemester("SS 2023", 1, 10, 5);
-
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", "0x71C7656EC7ab88b098defB751B7401B5f6d8976F", 5, 10);
-
+        // Add assignment
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 0, 10000);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
+
+        // Get assignment validator
+        assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), true, "Assignment is linked");
 
         await ConfigStorageInstance.setAssignmentStartBlock(semesterId, assignmentId, 2);
 
         const value = await ConfigStorageInstance.getAssignment(semesterId, assignmentId);
 
         assert.equal(value["startBlock"], 2, "StartBlock is 2");
+
+        // Clean up after if assignment is exists
+        if (await ConfigStorageInstance.hasAssignmentId(semesterId, assignmentId)) {
+            await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
+            assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), false, "Assignment is not linked anymore");
+        }
     });
 
     it("should set assignment end block", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
+        const ExampleAssignmentValidatorInstance = await ExampleAssignmentValidator.deployed(ConfigStorageInstance.address);
 
+        // Add semester
         await ConfigStorageInstance.appendSemester("SS 2023", 1, 10, 5);
-
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", "0x71C7656EC7ab88b098defB751B7401B5f6d8976F", 5, 10);
-
+        // Add assignment
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 0, 10000);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
+
+        // Get assignment validator
+        assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), true, "Assignment is linked");
 
         await ConfigStorageInstance.setAssignmentEndBlock(semesterId, assignmentId, 11);
 
         const value = await ConfigStorageInstance.getAssignment(semesterId, assignmentId);
 
         assert.equal(value["endBlock"], 11, "EndBlock is 11");
+
+        // Clean up after if assignment is exists
+        if (await ConfigStorageInstance.hasAssignmentId(semesterId, assignmentId)) {
+            await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
+            assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), false, "Assignment is not linked anymore");
+        }
     });
 
     /*=====  End of ASSIGNMENT TEST  ======*/

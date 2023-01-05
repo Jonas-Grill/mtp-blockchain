@@ -12,7 +12,7 @@ import "../contracts/ExampleAssignmentInterface.sol";
 import "../contracts/BaseAssignmentValidator.sol";
 
 // Give the contract a name and inherit from the base assignment validator
-contract ExampleAssignmentValidator is BaseAssignmentValidator {
+contract ExampleAssignmentValidator2 is BaseAssignmentValidator {
     /**
      * Import empty constructor and pass the config contract address to the
      * base assignment validator constructor
@@ -20,14 +20,14 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
     constructor(address _configContractAddress)
         BaseAssignmentValidator(
             _configContractAddress,
-            "ExampleAssignmentValidator" // Define the name of the contract
+            "ExampleAssignmentValidator2" // Define the name of the contract
         )
     {
         // The constructor is empty
     }
 
     /**
-     * The validateAssignment function is inherited from the base assignment validator
+     * The ´test´ function is inherited from the base assignment validator
      * and needs to be implemented in the child contract.
      *
      * In this function all the necessary tests are executed and the results are returned

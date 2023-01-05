@@ -435,6 +435,19 @@ class NOWConfig {
         await configStorageContract.methods.deleteAssignment(_semesterId, _assignmentId).send({ from: fromAddress });
     }
 
+    /**
+     * Check if assignment exists 
+     *
+     * @param {int} _semesterId Id of the semester
+     * @param {int} _assignmentId Id of the assignment
+     * @returns Return if assignment exists
+     */
+    async hasAssignment(_semesterId, _assignmentId) {
+        const configStorageContract = await this.getConfigStorage()
+
+        return await configStorageContract.methods.hasAssignmentId(_semesterId, _assignmentId).call({ from: await this.utils.getFromAccount(this.web3) });
+    }
+
 
     /*----------  Setter  ----------*/
 

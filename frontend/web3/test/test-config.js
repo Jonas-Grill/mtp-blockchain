@@ -14,6 +14,10 @@ process.env.NETWORK_ID = networkId
 var prepare = require('./ganache/setup-ganache')
 ganache = new prepare.GanacheHelper()
 
+//utils
+const utilsHandler = require('../src/web3/utils')
+const utils = new utilsHandler.NOWUtils()
+
 // Require web3 for talking to api
 Web3 = require('web3')
 
@@ -179,7 +183,16 @@ describe("test", async function () {
             it("should correctly append assignment", async function () {
                 // Create config class with config path
                 const config = new configHandler.NOWConfig(web3)
+                const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId);
 
+                // CLEAR ASSIGNMENT INFOS
+                const fromAddress = await utils.getFromAccount(web3);
+
+                const assignmentValidatorContract = utils.getAssignmentValidatorContract(web3, fromAddress, exampleValidationAddress);
+
+                await assignmentValidatorContract.methods.clearAssignmentInfos().send({
+                    from: fromAddress,
+                });
 
                 // Create new semester
                 var id = await config.appendSemester("test", 0, 1, 55);
@@ -194,7 +207,7 @@ describe("test", async function () {
                 assert.equal(obj[3], 55)
 
                 // Create new assignment
-                var assignmentId = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F", 101, 102);
+                var assignmentId = await config.appendAssignment(id, "test", "test_link", exampleValidationAddress, 101, 102);
 
                 // Get new assignment
                 const assignmentObject = await config.getAssignment(id, assignmentId);
@@ -202,14 +215,19 @@ describe("test", async function () {
                 // Compare saved values with set values
                 assert.equal(assignmentObject[0], "test")
                 assert.equal(assignmentObject[1], "test_link")
-                assert.equal(assignmentObject[2], "0x720888250810885B45E5C6407EB5A9fBD5CdD38F")
+                assert.equal(assignmentObject[2], exampleValidationAddress)
                 assert.equal(assignmentObject[3], 101)
                 assert.equal(assignmentObject[4], 102)
+
+                // cleanup
+                await config.deleteAssignment(id, assignmentId);
+                await config.deleteSemester(id);
             });
 
             it("should correctly delete assignment", async function () {
                 // Create config class with config path
                 const config = new configHandler.NOWConfig(web3)
+                const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId);
 
                 // Create new semester
                 var id = await config.appendSemester("test", 0, 1, 55);
@@ -224,7 +242,7 @@ describe("test", async function () {
                 assert.equal(obj[3], 55)
 
                 // Create new assignment
-                var assignmentId = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F", 101, 102);
+                var assignmentId = await config.appendAssignment(id, "test", "test_link", exampleValidationAddress, 101, 102);
 
                 // Get new assignment
                 const assignmentObject = await config.getAssignment(id, assignmentId);
@@ -232,7 +250,7 @@ describe("test", async function () {
                 // Compare saved values with set values
                 assert.equal(assignmentObject[0], "test")
                 assert.equal(assignmentObject[1], "test_link")
-                assert.equal(assignmentObject[2], "0x720888250810885B45E5C6407EB5A9fBD5CdD38F")
+                assert.equal(assignmentObject[2], exampleValidationAddress)
                 assert.equal(assignmentObject[3], 101)
                 assert.equal(assignmentObject[4], 102)
 
@@ -248,17 +266,22 @@ describe("test", async function () {
                 assert.equal(deletedObject[2], "0x0000000000000000000000000000000000000000")
                 assert.equal(deletedObject[3], 0)
                 assert.equal(deletedObject[4], 0)
+
+                // cleanup
+                await config.deleteSemester(id);
             });
 
-            it("should correctly change assignment paramaters", async function () {
+            it("should correctly change assignment parameters", async function () {
                 // Create config class with config path
                 const config = new configHandler.NOWConfig(web3)
+                const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId);
+                const exampleValidationAddress2 = utils.getContractAddress("ExampleAssignmentValidator2", networkId);
 
                 // Create new semester
                 var id = await config.appendSemester("test", 0, 1, 55);
 
                 // Create new assignment
-                var assignmentId = await config.appendAssignment(id, "test", "test_link", "0x720888250810885B45E5C6407EB5A9fBD5CdD38F", 44, 33);
+                var assignmentId = await config.appendAssignment(id, "test", "test_link", exampleValidationAddress, 44, 33);
 
                 // Set name to test2
                 await config.setAssignmentName(id, assignmentId, "test2")
@@ -272,9 +295,9 @@ describe("test", async function () {
                 assert.equal(obj2[1], "testlink")
 
                 // Set end_block to test2
-                await config.setAssignmentAddress(id, assignmentId, "0xb0a484f3e70b3cdF2CBa764808A9E147D4bCC1f2")
+                await config.setAssignmentAddress(id, assignmentId, exampleValidationAddress2)
                 const obj3 = await config.getAssignment(id, assignmentId)
-                assert.equal(obj3[2], "0xb0a484f3e70b3cdF2CBa764808A9E147D4bCC1f2")
+                assert.equal(obj3[2], exampleValidationAddress2)
 
                 // Set end_block to test2
                 await config.setAssignmentStartBlock(id, assignmentId, 5555)
@@ -285,6 +308,10 @@ describe("test", async function () {
                 await config.setAssignmentEndBlock(id, assignmentId, 6666)
                 const obj5 = await config.getAssignment(id, assignmentId)
                 assert.equal(obj5[4], 6666)
+
+                // cleanup
+                await config.deleteAssignment(id, assignmentId);
+                await config.deleteSemester(id);
             });
         })
     })

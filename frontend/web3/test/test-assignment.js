@@ -11,6 +11,9 @@ const accountHandler = require('../src/web3/account')
 const utilsHandler = require('../src/web3/utils')
 const utils = new utilsHandler.NOWUtils()
 
+// config
+const configHandler = require('../src/web3/config')
+
 
 // Parse and set rpc url
 const rpcURL = "http://localhost:8545";
@@ -37,15 +40,33 @@ describe("test", function () {
 
             const assignment = new assignmentHandler.NOWAssignments(web3);
 
-            const studentAddress = accounts[0]; // Address of the student who deployed the contract
             const exampleContractAddress = utils.getContractAddress("ExampleAssignment", networkId); // Address of the contract that is being tested
             const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
 
-            const id = await assignment.validateAssignment(studentAddress, exampleContractAddress, exampleValidationAddress);
+            const infos = await assignment.getAssignmentInfos(exampleValidationAddress);
+
+            // Create config class with config path
+            const config = new configHandler.NOWConfig(web3)
+
+            if (infos["2"] == true) {
+                config.deleteAssignment(infos["0"], infos["1"]);
+            }
+
+            // Create new semester
+            const semesterId = await config.appendSemester("test", 0, 1, 5);
+
+            // Create new assignment
+            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 0, 10000)
+
+            const id = await assignment.validateAssignment(exampleContractAddress, exampleValidationAddress);
 
             const test_results = await assignment.getTestResults(id, exampleValidationAddress);
 
             assert.equal(test_results.length > 0, true);
+
+            if (await config.hasAssignment(semesterId, assignmentId)) {
+                await config.deleteAssignment(semesterId, assignmentId);
+            }
         });
 
         it("validate assignment has 2 of 3 correct tests", async function () {
@@ -58,7 +79,16 @@ describe("test", function () {
             const exampleContractAddress = utils.getContractAddress("ExampleAssignment", networkId); // Address of the contract that is being tested
             const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
 
-            const id = await assignment.validateAssignment(studentAddress, exampleContractAddress, exampleValidationAddress);
+            // Create config class with config path
+            const config = new configHandler.NOWConfig(web3)
+
+            // Create new semester
+            const semesterId = await config.appendSemester("test", 0, 1, 5);
+
+            // Create new assignment
+            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 0, 10000)
+
+            const id = await assignment.validateAssignment(exampleContractAddress, exampleValidationAddress);
 
             const testResults = await assignment.getTestResults(id, exampleValidationAddress);
 
@@ -69,6 +99,10 @@ describe("test", function () {
             }
 
             assert.equal(correctTestCounter, 2);
+
+            if (await config.hasAssignment(semesterId, assignmentId)) {
+                await config.deleteAssignment(semesterId, assignmentId);
+            }
         });
 
         it("submit assignment was successful", async function () {
@@ -87,6 +121,15 @@ describe("test", function () {
             const exampleContractAddress = utils.getContractAddress("ExampleAssignment", networkId); // Address of the contract that is being tested
             const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
 
+            // Create config class with config path
+            const config = new configHandler.NOWConfig(web3)
+
+            // Create new semester
+            const semesterId = await config.appendSemester("test", 0, 1, 5);
+
+            // Create new assignment
+            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 0, 10000)
+
             if (await assignment.hasSubmittedAssignment(studentAddress, exampleValidationAddress))
                 await assignment.removeSubmittedAssignment(studentAddress, exampleValidationAddress);
 
@@ -94,7 +137,7 @@ describe("test", function () {
 
             assert.equal(assignmentBeforeSubmit.submitted, false);
 
-            await assignment.submitAssignment(studentAddress, exampleContractAddress, exampleValidationAddress);
+            await assignment.submitAssignment(exampleContractAddress, exampleValidationAddress);
 
             const assignmentAfterSubmit = await assignment.getSubmittedAssignment(studentAddress, exampleValidationAddress);
 
@@ -114,47 +157,12 @@ describe("test", function () {
 
             const coin = await account.getKnowledgeCoinBalance(studentAddress);
 
+            console.log("Knowledge coin balance: " + coin)
             assert.equal(coin, 2, "Knowledge coin balance should be 2");
-        });
 
-        it("submit assignment not successful because address from other user wants to submit not his own contract", async function () {
-            /**
-             * 1. Remove submitted assignment
-             * 2. Submit assignment
-             * 3. Check if assignment was NOT submitted and error message is correct
-             */
-
-            // Skip test if CI is true, because it will fail ONLY CI --> local test will pass
-            if (process.env.CI) {
-                this.skip()
+            if (await config.hasAssignment(semesterId, assignmentId)) {
+                await config.deleteAssignment(semesterId, assignmentId);
             }
-
-            const accounts = await ganache.getAccount()
-            const networkId = await web3.eth.net.getId()
-
-            const assignment = new assignmentHandler.NOWAssignments(web3);
-
-            const studentAddress = accounts[1]; // Address of the student who deployed the contract
-            const exampleContractAddress = utils.getContractAddress("ExampleAssignment", networkId); // Address of the contract that is being tested
-            const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
-
-            if (await assignment.hasSubmittedAssignment(studentAddress, exampleValidationAddress))
-                await assignment.removeSubmittedAssignment(studentAddress, exampleValidationAddress);
-
-            const assignmentBeforeSubmit = await assignment.getSubmittedAssignment(studentAddress, exampleValidationAddress);
-
-            assert.equal(assignmentBeforeSubmit.submitted, false);
-
-            let error = false;
-            try {
-                await assignment.submitAssignment(studentAddress, exampleContractAddress, exampleValidationAddress);
-            }
-            catch (e) {
-                error = true;
-                assert.equal(e.message, "Returned error: VM Exception while processing transaction: revert Only the owner of the contract can submit the assignment!", "Error message is correct");
-            }
-
-            assert(error, true, "Error occured")
         });
 
         it("validate assignment that is not made for the validator", async function () {
@@ -167,9 +175,18 @@ describe("test", function () {
             const exampleContractAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
             const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
 
+            // Create config class with config path
+            const config = new configHandler.NOWConfig(web3)
+
+            // Create new semester
+            const semesterId = await config.appendSemester("test", 0, 1, 5);
+
+            // Create new assignment
+            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 0, 10000)
+
             let error = false;
             try {
-                await assignment.validateAssignment(studentAddress, exampleContractAddress, exampleValidationAddress);
+                await assignment.validateAssignment(exampleContractAddress, exampleValidationAddress);
             }
             catch (e) {
                 error = true;
@@ -177,6 +194,10 @@ describe("test", function () {
             }
 
             assert(error, true, "Error occured")
+
+            if (await config.hasAssignment(semesterId, assignmentId)) {
+                await config.deleteAssignment(semesterId, assignmentId);
+            }
         });
     });
 });

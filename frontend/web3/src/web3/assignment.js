@@ -28,54 +28,45 @@ class NOWAssignments {
     /**
      * Validate assignment
      *
-     * @param {string} studentAddress Student address
      * @param {string} contractAddress Contract address
      * @param {string} validationContractAddress Address of contract
      * @returns Id of assignment check
      */
-    async validateAssignment(studentAddress, contractAddress, validationContractAddress) {
+    async validateAssignment(contractAddress, validationContractAddress) {
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
-        try {
-            await assignmentValidatorContract.methods.validateAssignment(studentAddress, contractAddress).send({
-                from: fromAddress,
-                gas: 5000000
-            });
+        await assignmentValidatorContract.methods.validateAssignment(contractAddress).send({
+            from: fromAddress,
+            gas: 5000000
+        });
 
-            var id = await assignmentValidatorContract.methods.getHistoryCounter().call({
-                from: fromAddress,
-            });
-
-            return id;
-        }
-        catch (e) {
-            throw new Error("Assignment validation failed, because contract is not made for this assignment.");
-        }
+        return await assignmentValidatorContract.methods.getHistoryCounter().call({
+            from: fromAddress,
+        });
     }
 
     /**
      * Submit assignment
      * 
-     * @param {string} studentAddress Student address
      * @param {string} contractAddress Contract address
      * @param {string} validationContractAddress Address of validation contract
      * @returns Return submitted assignment
      */
-    async submitAssignment(studentAddress, contractAddress, validationContractAddress) {
+    async submitAssignment(contractAddress, validationContractAddress) {
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
         // Submit assignment
-        await assignmentValidatorContract.methods.submitAssignment(studentAddress, contractAddress).send({
+        await assignmentValidatorContract.methods.submitAssignment(contractAddress).send({
             from: fromAddress,
             gas: 5000000
         });
 
         // Return submitted assignment
-        return await assignmentValidatorContract.methods.getSubmittedAssignment(studentAddress).call({
+        return await assignmentValidatorContract.methods.getSubmittedAssignment(fromAddress).call({
             from: fromAddress,
         });
     }
@@ -173,6 +164,24 @@ class NOWAssignments {
         return results;
     }
 
+    /**
+     * Get assignment infos 
+     *
+     * @param {string} validationContractAddress Address of validation contract
+     * @returns Return assignment infos
+     */
+    async getAssignmentInfos(validationContractAddress) {
+        const fromAddress = await this.utils.getFromAccount(this.web3);
+
+        const assignmentContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
+
+        var infos = await assignmentContract.methods.getAssignmentInfos().call({
+            from: fromAddress,
+        });
+
+
+        return infos;
+    }
 }
 
 // export utils class

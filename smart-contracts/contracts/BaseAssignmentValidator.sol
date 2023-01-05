@@ -44,6 +44,11 @@ contract BaseAssignmentValidator is BaseConfig {
         bool submitted;
     }
 
+    // Info about the assignment is has in the ConfigStorage
+    uint256 _semesterId;
+    uint256 _assignmentId;
+    bool _assignmentLinked;
+
     // Test history
     uint256 private _testHistoryCounter;
     mapping(uint256 => TestHistory) _testHistory;
@@ -62,31 +67,71 @@ contract BaseAssignmentValidator is BaseConfig {
     =============================================*/
 
     // abstract validate test function
-    function validateAssignment(
-        address _studentAddress,
-        address _contractAddress
-    ) public virtual returns (uint256) {}
+    function test(address _contractAddress) public virtual returns (uint256) {}
 
-    // Submit assignment
-    function submitAssignment(address _studentAddress, address _contractAddress)
+    // validate function
+    function validateAssignment(address _contractAddress)
         public
         returns (uint256)
     {
+        // Make sure the assignment is linked to a semester
         require(
-            _assignmentSubmitted[_studentAddress].submitted != true,
-            "Assignment already submitted! Cannot submit the assignment again!"
+            isAssignmentLinked() == true,
+            "Assignment Error: Assignment is not linked to a semester! Please contract the Admin asap!"
         );
 
+        // Make sure the person who is checking the assignment is the owner of the contract or an admin
         require(
-            BaseAssignment(_contractAddress).getOwner() == _studentAddress,
-            "Only the owner of the contract can submit the assignment!"
+            BaseAssignment(_contractAddress).getOwner() == msg.sender ||
+                getConfigStorage().isAdmin(
+                    BaseAssignment(_contractAddress).getOwner()
+                ) ==
+                true,
+            "Assignment Error: Only the owner of the contract or an admin can validate this assignment!"
+        );
+
+        // Make sure the assignment is deploy in the required block range
+        require(
+            hasAssignmentDeployedInBlockRange(_contractAddress) == true,
+            "Assignment Error: Assignment not deployed in the required assignment block range!"
+        );
+
+        uint256 historyCounter = test(_contractAddress);
+
+        return historyCounter;
+    }
+
+    // Submit assignment
+    function submitAssignment(address _contractAddress)
+        public
+        returns (uint256)
+    {
+        // Make sure the assignment is linked to a semester
+        require(
+            isAssignmentLinked() == true,
+            "Assignment Error: Assignment is not linked to a semester! Please contract the Admin asap!"
+        );
+
+        // Make sure the assignment is not already submitted
+        require(
+            _assignmentSubmitted[msg.sender].submitted != true,
+            "Assignment Error: Assignment already submitted! Cannot submit the assignment again!"
+        );
+
+        // Make sure the student is the owner of the contract
+        require(
+            BaseAssignment(_contractAddress).getOwner() == msg.sender,
+            "Assignment Error: Only the owner of the contract can submit this assignment!"
+        );
+
+        // Make sure the assignment is deployed in the required block range
+        require(
+            hasAssignmentDeployedInBlockRange(_contractAddress) == true,
+            "Assignment Error: Assignment not deployed in the required assignment block range!"
         );
 
         // Validate assignment and return test history index
-        uint256 historyIndex = validateAssignment(
-            _studentAddress,
-            _contractAddress
-        );
+        uint256 historyIndex = validateAssignment(_contractAddress);
 
         // Get for each passed test a knowledge coin
         uint256 knowledgeCoins = 0;
@@ -109,12 +154,12 @@ contract BaseAssignmentValidator is BaseConfig {
         uint256 sbCoinAmount = knowledgeCoin.exchangeToFullCoin(knowledgeCoins);
 
         // Mint knowledge coins
-        knowledgeCoin.mint(_studentAddress, sbCoinAmount);
+        knowledgeCoin.mint(msg.sender, sbCoinAmount);
 
         // Mark assignment as submitted
-        _assignmentSubmitted[_studentAddress] = AssignmentSubmitted(
+        _assignmentSubmitted[msg.sender] = AssignmentSubmitted(
             historyIndex,
-            _studentAddress,
+            msg.sender,
             _contractAddress,
             knowledgeCoins,
             block.number,
@@ -131,13 +176,13 @@ contract BaseAssignmentValidator is BaseConfig {
     =============================================*/
 
     // Create test history
-    function createTestHistory(
-        address _studentAddress,
-        address _contractAddress
-    ) public returns (uint256) {
+    function createTestHistory(address _contractAddress)
+        public
+        returns (uint256)
+    {
         uint256 index = _testHistoryCounter + 1;
 
-        _testHistory[index].studentAddress = _studentAddress;
+        _testHistory[index].studentAddress = msg.sender;
         _testHistory[index].contractAddress = _contractAddress;
 
         _testHistoryCounter = index;
@@ -218,13 +263,14 @@ contract BaseAssignmentValidator is BaseConfig {
     }
 
     // Check assignment owner
-    function checkAssignmentOwner(
-        address _studentAddress,
-        address _contractAddress
-    ) public view returns (bool) {
+    function checkAssignmentOwner(address _contractAddress)
+        public
+        view
+        returns (bool)
+    {
         BaseAssignment assignment = BaseAssignment(_contractAddress);
 
-        if (assignment.owner() == _studentAddress) {
+        if (assignment.getOwner() == msg.sender) {
             return true;
         } else {
             return false;
@@ -277,7 +323,109 @@ contract BaseAssignmentValidator is BaseConfig {
         return _assignmentSubmitted[_address].submitted;
     }
 
+    /**
+     * Check if assignment is deployed in block range
+     *
+     * @param _contractAddress Assignment contract address
+     * @return bool
+     */
+    function hasAssignmentDeployedInBlockRange(address _contractAddress)
+        private
+        view
+        returns (bool)
+    {
+        BaseAssignment assignment = BaseAssignment(_contractAddress);
+
+        // Get block number of assignment
+        uint256 blockNumber = assignment.getBlockNumber();
+
+        // Get allowed start and end block of assignment
+        uint256 startBlock = getConfigStorage()
+            .getAssignment(_semesterId, _assignmentId)
+            .startBlock;
+        uint256 endBlock = getConfigStorage()
+            .getAssignment(_semesterId, _assignmentId)
+            .endBlock;
+
+        // Check if block number is in range
+        if (blockNumber >= startBlock && blockNumber <= endBlock) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*=====        End of Test Helper      ======*/
+
+    /*=============================================
+    =               Config Helper               =
+    =============================================*/
+
+    /**
+     * Set assignment infos
+     *
+     * @param semesterId Semester id
+     * @param assignmentId Assignment id
+     */
+    function setAssignmentInfos(uint256 semesterId, uint256 assignmentId)
+        public
+    {
+        getConfigStorage().requireAdmin(msg.sender);
+
+        // Make sure that the semester exists
+        require(
+            getConfigStorage().hasSemesterId(semesterId) == true,
+            "Semester id does not exist!"
+        );
+
+        // Make sure that the assignment exists in the semester
+        require(
+            getConfigStorage().hasAssignmentId(semesterId, assignmentId) ==
+                true,
+            "Assignment id for the semester does not exist!"
+        );
+
+        _semesterId = semesterId;
+        _assignmentId = assignmentId;
+
+        // set linked to true
+        _assignmentLinked = true;
+    }
+
+    /**
+     * Clear assignment infos
+     */
+    function clearAssignmentInfos() public {
+        getConfigStorage().requireAdmin(msg.sender);
+
+        _semesterId = 0;
+        _assignmentId = 0;
+        _assignmentLinked = false;
+    }
+
+    /**
+     * Check if assignment is linked to config storage
+     */
+    function isAssignmentLinked() public view returns (bool) {
+        return _assignmentLinked;
+    }
+
+    /**
+     * Get assignment infos
+     */
+    function getAssignmentInfos()
+        public
+        view
+        returns (
+            uint256,
+            uint256,
+            bool
+        )
+    {
+        return (_semesterId, _assignmentId, _assignmentLinked);
+    }
+
+    /*=====     End of Config Helper     ======*/
 }
 
 /*=====   End of Assignment Helper    ======*/
