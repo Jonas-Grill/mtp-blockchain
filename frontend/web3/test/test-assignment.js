@@ -56,7 +56,7 @@ describe("test", function () {
             const semesterId = await config.appendSemester("test", 1, 20000, 5);
 
             // Create new assignment
-            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 2, 19999)
+            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 1, 19999)
 
             const id = await assignment.validateAssignment(exampleContractAddress, exampleValidationAddress);
 
