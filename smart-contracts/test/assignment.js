@@ -33,7 +33,7 @@ contract("Assignment", (accounts) => {
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
         // Add assignment > make sure contract is deployed in block range
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 50, 19999);
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 1, 19999);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
 
         const account = accounts[0];
@@ -62,7 +62,7 @@ contract("Assignment", (accounts) => {
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
         // Add assignment
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 50, 19999);
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 1, 19999);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
 
         const account = accounts[0];
@@ -99,7 +99,7 @@ contract("Assignment", (accounts) => {
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
         // Add assignment
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 50, 19999);
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 1, 19999);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
 
         const account = accounts[0];
