@@ -20,6 +20,9 @@ contract ConfigStorage is BaseConfigAdmin {
         uint256 assignmentCounter; // Assignment counter
         uint256[] assignmentIds; // Assignment Ids
         mapping(uint256 => NOWAssignments) assignments; // Assigned assignments
+        // TEMP VARIABLES
+        uint256 assignmentStartBlock; // Temp var to keep track of lowest start block of all assignments
+        uint256 assignmentEndBlock; // Temp var to keep track of highest end block of all assignments
     }
 
     // Struct Seminar
@@ -87,6 +90,24 @@ contract ConfigStorage is BaseConfigAdmin {
     ) public returns (uint256) {
         requireUserAdmin(msg.sender);
 
+        // Require start block to be smaller than end block
+        require(
+            _startBlock < _endBlock,
+            "Start block must be smaller than end block"
+        );
+
+        // Require min knowledge coin amount to be larger than 0
+        require(
+            _minKnowledgeCoinAmount > 0,
+            "Min knowledge coin amount must be larger than 0"
+        );
+
+        // Require start and end block to be larger than 0
+        require(
+            _startBlock > 0 && _endBlock > 0,
+            "Start and end block must be larger than 0"
+        );
+
         uint256 index = semesterCounter + 1;
 
         semesters[index].name = _name;
@@ -94,6 +115,10 @@ contract ConfigStorage is BaseConfigAdmin {
         semesters[index].endBlock = _endBlock;
         semesters[index].minKnowledgeCoinAmount = _minKnowledgeCoinAmount;
         semesters[index].assignmentCounter = 0;
+
+        // TEMP VARIABLES
+        semesters[index].assignmentStartBlock = 0;
+        semesters[index].assignmentEndBlock = 0;
 
         semesterCounter = index;
 
@@ -156,12 +181,48 @@ contract ConfigStorage is BaseConfigAdmin {
     // Set the semester start block
     function setSemesterStartBlock(uint256 _id, uint256 _startBlock) public {
         requireUserAdmin(msg.sender);
+
+        // Require start block to be smaller than end block
+        require(
+            _startBlock < semesters[_id].endBlock,
+            "Start block must be smaller than end block"
+        );
+
+        // Require start block to be larger than 0
+        require(_startBlock > 0, "Start block must be larger than 0");
+
+        // Require new start block to be smaller than the assignment start block
+        if (semesters[_id].assignmentStartBlock > 0) {
+            require(
+                _startBlock < semesters[_id].assignmentStartBlock,
+                "Start block must be smaller than the smallest assignment start block"
+            );
+        }
+
         semesters[_id].startBlock = _startBlock;
     }
 
     // Set the semester end block
     function setSemesterEndBlock(uint256 _id, uint256 _endBlock) public {
         requireUserAdmin(msg.sender);
+
+        // Require end block to be larger than start block
+        require(
+            _endBlock > semesters[_id].startBlock,
+            "End block must be larger than start block"
+        );
+
+        // Require end block to be larger than 0
+        require(_endBlock > 0, "End block must be larger than 0");
+
+        // Require new start block to be smaller than the assignment start block
+        if (semesters[_id].assignmentStartBlock > 0) {
+            require(
+                _endBlock > semesters[_id].assignmentEndBlock,
+                "Start block must be smaller than the largest assignment endblock block"
+            );
+        }
+
         semesters[_id].endBlock = _endBlock;
     }
 
@@ -171,6 +232,13 @@ contract ConfigStorage is BaseConfigAdmin {
         uint256 _minKnowledgeCoinAmount
     ) public {
         requireUserAdmin(msg.sender);
+
+        // Require min knowledge coin amount to be larger than 0
+        require(
+            _minKnowledgeCoinAmount > 0,
+            "Min knowledge coin amount must be larger than 0"
+        );
+
         semesters[_id].minKnowledgeCoinAmount = _minKnowledgeCoinAmount;
     }
 
@@ -191,6 +259,25 @@ contract ConfigStorage is BaseConfigAdmin {
     ) public returns (uint256) {
         requireUserAdmin(msg.sender);
 
+        // Require that assignment is in block range of semester
+        require(
+            _startBlock >= semesters[_semesterId].startBlock &&
+                _endBlock <= semesters[_semesterId].endBlock,
+            "Defined Assignment range is not in semester range"
+        );
+
+        // Require that start block is smaller than end block
+        require(
+            _startBlock < _endBlock,
+            "Start block must be smaller than end block"
+        );
+
+        // Require start and end block to be larger than 0
+        require(
+            _startBlock > 0 && _endBlock > 0,
+            "Start and end block must be larger than 0"
+        );
+
         uint256 index = semesters[_semesterId].assignmentCounter + 1;
 
         semesters[_semesterId].assignments[index].name = _name;
@@ -205,6 +292,23 @@ contract ConfigStorage is BaseConfigAdmin {
 
         semesters[_semesterId].assignmentIds.push(index);
 
+        if (semesters[_semesterId].assignmentStartBlock > 0) {
+            // if start block is lower then assignment start block set to value
+            if (_startBlock < semesters[_semesterId].assignmentStartBlock) {
+                semesters[_semesterId].assignmentStartBlock = _startBlock;
+            }
+        } else {
+            semesters[_semesterId].assignmentStartBlock = _startBlock;
+        }
+
+        if (semesters[_semesterId].assignmentEndBlock > 0) {
+            // if end block is higher then assignment end block set to value
+            if (_endBlock > semesters[_semesterId].assignmentEndBlock) {
+                semesters[_semesterId].assignmentEndBlock = _endBlock;
+            }
+        } else {
+            semesters[_semesterId].assignmentEndBlock = _endBlock;
+        }
         // Set the assignment infos to the validator contract
         BaseAssignmentValidator validator = BaseAssignmentValidator(
             _validationContractAddress
@@ -380,6 +484,31 @@ contract ConfigStorage is BaseConfigAdmin {
         uint256 _startBlock
     ) public {
         requireUserAdmin(msg.sender);
+
+        // Require that the start block is smaller than the end block
+        require(
+            _startBlock <
+                semesters[_semesterId].assignments[_assignmentId].endBlock,
+            "Start block needs to be smaller than end block"
+        );
+
+        // Require start block to be in range of the semester
+        require(
+            _startBlock >= semesters[_semesterId].startBlock &&
+                _startBlock <= semesters[_semesterId].endBlock,
+            "Start block needs to be in range of the semester"
+        );
+
+        // Require start block to be larger than 0
+        require(_startBlock > 0, "Start block needs to be larger than 0");
+
+        if (semesters[_semesterId].assignmentStartBlock > 0) {
+            // if start block is lower then assignment start block set to value
+            if (_startBlock < semesters[_semesterId].assignmentStartBlock) {
+                semesters[_semesterId].assignmentStartBlock = _startBlock;
+            }
+        }
+
         semesters[_semesterId]
             .assignments[_assignmentId]
             .startBlock = _startBlock;
@@ -391,6 +520,31 @@ contract ConfigStorage is BaseConfigAdmin {
         uint256 _endBlock
     ) public {
         requireUserAdmin(msg.sender);
+
+        // Require that the end block is bigger than the start block
+        require(
+            _endBlock >
+                semesters[_semesterId].assignments[_assignmentId].startBlock,
+            "End block needs to be bigger than start block"
+        );
+
+        // Require end block to be in range of the semester
+        require(
+            _endBlock >= semesters[_semesterId].startBlock &&
+                _endBlock <= semesters[_semesterId].endBlock,
+            "End block needs to be in range of the semester"
+        );
+
+        // Require end block to be larger than 0
+        require(_endBlock > 0, "End block needs to be larger than 0");
+
+        if (semesters[_semesterId].assignmentEndBlock > 0) {
+            // if end block is higher then assignment end block set to value
+            if (_endBlock > semesters[_semesterId].assignmentEndBlock) {
+                semesters[_semesterId].assignmentEndBlock = _endBlock;
+            }
+        }
+
         semesters[_semesterId].assignments[_assignmentId].endBlock = _endBlock;
     }
 

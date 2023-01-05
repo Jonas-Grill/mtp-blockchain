@@ -7,6 +7,21 @@ const SBCoin = artifacts.require("SBCoin");
 const name = "KnowledgeCoin";
 const symbol = "NOW";
 
+const cleanUp = async (ConfigStorageInstance, ExampleAssignmentValidatorInstance, semesterId) => {
+    // Get all assignments
+    const assignmentIds = await ConfigStorageInstance.getAssignmentIds(semesterId);
+
+    // Loop through all assignments
+    for (let i = 0; i < assignmentIds.length; i++) {
+        const assignmentId = assignmentIds[i];
+
+        // Delete assignment
+        await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
+    }
+
+    await ConfigStorageInstance.deleteSemester(semesterId);
+}
+
 contract("Assignment", (accounts) => {
     it("validate assignment should create entry in test results", async () => {
         const ConfigStorageInstance = await ConfigStorage.deployed();
@@ -14,11 +29,11 @@ contract("Assignment", (accounts) => {
         const ExampleAssignmentValidatorInstance = await ExampleAssignmentValidator.deployed(ConfigStorageInstance.address);
 
         // Add semester
-        await ConfigStorageInstance.appendSemester("SS 2023", 1, 10, 5);
+        await ConfigStorageInstance.appendSemester("SS 2023", 1, 20000, 5);
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
-        // Add assignment
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 0, 10000);
+        // Add assignment > make sure contract is deployed in block range
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 50, 19999);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
 
         const account = accounts[0];
@@ -33,11 +48,8 @@ contract("Assignment", (accounts) => {
 
         assert.equal(test_results.length > 0, true, "test results should be greater than 0");
 
-        // Clean up after if assignment is exists
-        if (await ConfigStorageInstance.hasAssignmentId(semesterId, assignmentId)) {
-            await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
-            assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), false, "Assignment is not linked anymore");
-        }
+        // Clean up
+        await cleanUp(ConfigStorageInstance, ExampleAssignmentValidatorInstance, semesterId);
     });
 
     it("validate assignment has 2 of 3 correct tests", async () => {
@@ -46,11 +58,11 @@ contract("Assignment", (accounts) => {
         const ExampleAssignmentValidatorInstance = await ExampleAssignmentValidator.deployed(ConfigStorageInstance.address);
 
         // Add semester
-        await ConfigStorageInstance.appendSemester("SS 2023", 1, 10, 5);
+        await ConfigStorageInstance.appendSemester("SS 2023", 1, 20000, 5);
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
         // Add assignment
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 0, 10000);
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 50, 19999);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
 
         const account = accounts[0];
@@ -71,11 +83,8 @@ contract("Assignment", (accounts) => {
 
         assert.equal(correctTestCounter, 2, "correct test counter should be 1");
 
-        // Clean up after if assignment is exists
-        if (await ConfigStorageInstance.hasAssignmentId(semesterId, assignmentId)) {
-            await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
-            assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), false, "Assignment is not linked anymore");
-        }
+        // Clean up
+        await cleanUp(ConfigStorageInstance, ExampleAssignmentValidatorInstance, semesterId);
     });
 
     it("submit assignment was successful", async () => {
@@ -86,11 +95,11 @@ contract("Assignment", (accounts) => {
         const SBCoinInstance = await SBCoin.deployed(name, symbol, ConfigStorageInstance.address);
 
         // Add semester
-        await ConfigStorageInstance.appendSemester("SS 2023", 1, 10, 5);
+        await ConfigStorageInstance.appendSemester("SS 2023", 1, 20000, 5);
         const semesterId = await ConfigStorageInstance.getSemesterCounter();
 
         // Add assignment
-        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 0, 10000);
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 50, 19999);
         const assignmentId = await ConfigStorageInstance.getAssignmentCounter(semesterId);
 
         const account = accounts[0];
@@ -115,11 +124,8 @@ contract("Assignment", (accounts) => {
 
         assert.equal(coins, correctTestCounter, "balance should be 2");
 
-        // Clean up after if assignment is exists
-        if (await ConfigStorageInstance.hasAssignmentId(semesterId, assignmentId)) {
-            await ConfigStorageInstance.deleteAssignment(semesterId, assignmentId);
-            assert.equal(await ExampleAssignmentValidatorInstance.isAssignmentLinked(), false, "Assignment is not linked anymore");
-        }
+        // Clean up
+        await cleanUp(ConfigStorageInstance, ExampleAssignmentValidatorInstance, semesterId);
     });
 
     it

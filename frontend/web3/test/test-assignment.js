@@ -53,10 +53,10 @@ describe("test", function () {
             }
 
             // Create new semester
-            const semesterId = await config.appendSemester("test", 0, 1, 5);
+            const semesterId = await config.appendSemester("test", 1, 20000, 5);
 
             // Create new assignment
-            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 0, 10000)
+            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 2, 19999)
 
             const id = await assignment.validateAssignment(exampleContractAddress, exampleValidationAddress);
 
@@ -83,10 +83,10 @@ describe("test", function () {
             const config = new configHandler.NOWConfig(web3)
 
             // Create new semester
-            const semesterId = await config.appendSemester("test", 0, 1, 5);
+            const semesterId = await config.appendSemester("test", 1, 20000, 5);
 
             // Create new assignment
-            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 0, 10000)
+            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 2, 19999)
 
             const id = await assignment.validateAssignment(exampleContractAddress, exampleValidationAddress);
 
@@ -125,10 +125,10 @@ describe("test", function () {
             const config = new configHandler.NOWConfig(web3)
 
             // Create new semester
-            const semesterId = await config.appendSemester("test", 0, 1, 5);
+            const semesterId = await config.appendSemester("test", 1, 20000, 5);
 
             // Create new assignment
-            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 0, 10000)
+            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 2, 19999)
 
             if (await assignment.hasSubmittedAssignment(studentAddress, exampleValidationAddress))
                 await assignment.removeSubmittedAssignment(studentAddress, exampleValidationAddress);
@@ -179,10 +179,10 @@ describe("test", function () {
             const config = new configHandler.NOWConfig(web3)
 
             // Create new semester
-            const semesterId = await config.appendSemester("test", 0, 1, 5);
+            const semesterId = await config.appendSemester("test", 1, 20000, 5);
 
             // Create new assignment
-            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 0, 10000)
+            const assignmentId = await config.appendAssignment(semesterId, "test", "test-link", exampleValidationAddress, 2, 19999)
 
             let error = false;
             try {

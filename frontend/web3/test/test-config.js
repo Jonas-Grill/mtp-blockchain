@@ -108,15 +108,15 @@ describe("test", async function () {
                 const config = new configHandler.NOWConfig(web3)
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1, 5);
+                var id = await config.appendSemester("test", 1, 100, 5);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
 
                 // Compare set values with saved values
                 assert.equal(obj[0], "test")
-                assert.equal(obj[1], 0)
-                assert.equal(obj[2], 1)
+                assert.equal(obj[1], 1)
+                assert.equal(obj[2], 100)
                 assert.equal(obj[3], 5)
             });
 
@@ -125,15 +125,15 @@ describe("test", async function () {
                 const config = new configHandler.NOWConfig(web3)
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1, 5);
+                var id = await config.appendSemester("test", 1, 100, 5);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
 
                 // Compare set values with saved values
                 assert.equal(obj[0], "test")
-                assert.equal(obj[1], 0)
-                assert.equal(obj[2], 1)
+                assert.equal(obj[1], 1)
+                assert.equal(obj[2], 100)
                 assert.equal(obj[3], 5)
 
                 // Delete Semester
@@ -156,7 +156,7 @@ describe("test", async function () {
 
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1, 55);
+                var id = await config.appendSemester("test", 1, 2000, 55);
 
                 // Set name to test2
                 await config.setSemesterName(id, "test2")
@@ -169,9 +169,9 @@ describe("test", async function () {
                 assert.equal(obj2[1], 999)
 
                 // Set end_block to test2
-                await config.setSemesterEndBlock(id, 777)
+                await config.setSemesterEndBlock(id, 1111)
                 const obj3 = await config.getSemester(id)
-                assert.equal(obj3[2], 777)
+                assert.equal(obj3[2], 1111)
 
                 // Set minKnowledgeCoinAmount to 99
                 await config.setSemesterAmountKnowledgeCoins(id, 99)
@@ -195,15 +195,15 @@ describe("test", async function () {
                 });
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1, 55);
+                var id = await config.appendSemester("test", 1, 10000, 55);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
 
                 // Compare set values with saved values
                 assert.equal(obj[0], "test")
-                assert.equal(obj[1], 0)
-                assert.equal(obj[2], 1)
+                assert.equal(obj[1], 1)
+                assert.equal(obj[2], 10000)
                 assert.equal(obj[3], 55)
 
                 // Create new assignment
@@ -230,15 +230,15 @@ describe("test", async function () {
                 const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId);
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1, 55);
+                var id = await config.appendSemester("test", 1, 10000, 55);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
 
                 // Compare set values with saved values
                 assert.equal(obj[0], "test")
-                assert.equal(obj[1], 0)
-                assert.equal(obj[2], 1)
+                assert.equal(obj[1], 1)
+                assert.equal(obj[2], 10000)
                 assert.equal(obj[3], 55)
 
                 // Create new assignment
@@ -278,10 +278,10 @@ describe("test", async function () {
                 const exampleValidationAddress2 = utils.getContractAddress("ExampleAssignmentValidator2", networkId);
 
                 // Create new semester
-                var id = await config.appendSemester("test", 0, 1, 55);
+                var id = await config.appendSemester("test", 1, 10000, 55);
 
                 // Create new assignment
-                var assignmentId = await config.appendAssignment(id, "test", "test_link", exampleValidationAddress, 44, 33);
+                var assignmentId = await config.appendAssignment(id, "test", "test_link", exampleValidationAddress, 100, 1000);
 
                 // Set name to test2
                 await config.setAssignmentName(id, assignmentId, "test2")
@@ -300,14 +300,14 @@ describe("test", async function () {
                 assert.equal(obj3[2], exampleValidationAddress2)
 
                 // Set end_block to test2
-                await config.setAssignmentStartBlock(id, assignmentId, 5555)
+                await config.setAssignmentStartBlock(id, assignmentId, 999)
                 const obj4 = await config.getAssignment(id, assignmentId)
-                assert.equal(obj4[3], 5555)
+                assert.equal(obj4[3], 999)
 
                 // Set end_block to test2
-                await config.setAssignmentEndBlock(id, assignmentId, 6666)
+                await config.setAssignmentEndBlock(id, assignmentId, 9999)
                 const obj5 = await config.getAssignment(id, assignmentId)
-                assert.equal(obj5[4], 6666)
+                assert.equal(obj5[4], 9999)
 
                 // cleanup
                 await config.deleteAssignment(id, assignmentId);
