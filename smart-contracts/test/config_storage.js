@@ -174,6 +174,27 @@ contract("ConfigStorage", (accounts) => {
             assert.include(error.message, "Min knowledge coin amount must be larger than 0");
         }
     });
+    it("it should fail, because semester has linked assignments", async () => {
+        const ConfigStorageInstance = await ConfigStorage.deployed();
+        const ExampleAssignmentValidatorInstance = await ExampleAssignmentValidator.deployed(ConfigStorageInstance.address);
+
+        // Add semester
+        await ConfigStorageInstance.appendSemester("SS 2023", 1, 10000, 5);
+        const semesterId = await ConfigStorageInstance.getSemesterCounter();
+
+        // Add assignment
+        await ConfigStorageInstance.appendAssignment(semesterId, "Assignment 1", "test-link", ExampleAssignmentValidatorInstance.address, 100, 9000);
+
+        try {
+            await ConfigStorageInstance.deleteSemester(semesterId);
+            assert.fail("Should have thrown an error");
+        } catch (error) {
+            assert.include(error.message, "Semester has linked assignments");
+        }
+
+        // Clean up
+        await cleanUp(ConfigStorageInstance, ExampleAssignmentValidatorInstance, semesterId);
+    });
 
     /*=====  End of SEMESTER  ======*/
 

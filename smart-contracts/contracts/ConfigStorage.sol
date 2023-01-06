@@ -151,6 +151,12 @@ contract ConfigStorage is BaseConfigAdmin {
     function deleteSemester(uint256 _id) public {
         requireUserAdmin(msg.sender);
 
+        // Require no linked assignments
+        require(
+            semesters[_id].assignmentIds.length == 0,
+            "Semester has linked assignments"
+        );
+
         delete semesters[_id];
         removeByValue(semesterIds, _id);
     }
