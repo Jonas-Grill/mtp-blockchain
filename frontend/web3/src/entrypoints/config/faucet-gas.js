@@ -8,6 +8,23 @@ const utilsHelper = require("../../web3/utils")
 // Create utils class
 const utils = new utilsHelper.NOWUtils()
 
+/*=============================================
+=                 GETTER                     =
+=============================================*/
+
+// Get faucet gas value endpoint
+exports.getFaucetGas = async (web3) => {
+    const config = new configHandler.NOWConfig(web3)
+
+    return await config.getFreshFaucetGas()
+};
+
+/*=====         End of GETTER          ======*/
+
+
+/*=============================================
+=                   SETTER                  =
+=============================================*/
 
 // Set faucet gas value endpoint
 exports.setFaucetGas = async (web3, faucetGas) => {
@@ -16,9 +33,4 @@ exports.setFaucetGas = async (web3, faucetGas) => {
     await config.setFaucetGas(faucetGas)
 };
 
-// Get faucet gas value endpoint
-exports.getFaucetGas = async (web3) => {
-    const config = new configHandler.NOWConfig(web3)
-
-    return await config.getFreshFaucetGas()
-};
+/*=====          End of   SETTER        ======*/
