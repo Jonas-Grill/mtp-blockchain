@@ -183,7 +183,7 @@ describe("test", async function () {
             it("should correctly append assignment", async function () {
                 // Create config class with config path
                 const config = new configHandler.NOWConfig(web3)
-                const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId);
+                const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", await web3.eth.net.getId());
 
                 // CLEAR ASSIGNMENT INFOS
                 const fromAddress = await utils.getFromAccount(web3);
@@ -227,7 +227,7 @@ describe("test", async function () {
             it("should correctly delete assignment", async function () {
                 // Create config class with config path
                 const config = new configHandler.NOWConfig(web3)
-                const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId);
+                const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", await web3.eth.net.getId());
 
                 // Create new semester
                 var id = await config.appendSemester("test", 1, 10000, 55);
@@ -274,8 +274,8 @@ describe("test", async function () {
             it("should correctly change assignment parameters", async function () {
                 // Create config class with config path
                 const config = new configHandler.NOWConfig(web3)
-                const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId);
-                const exampleValidationAddress2 = utils.getContractAddress("ExampleAssignmentValidator2", networkId);
+                const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", await web3.eth.net.getId());
+                const exampleValidationAddress2 = utils.getContractAddress("ExampleAssignmentValidator2", await web3.eth.net.getId());
 
                 // Create new semester
                 var id = await config.appendSemester("test", 1, 10000, 55);
