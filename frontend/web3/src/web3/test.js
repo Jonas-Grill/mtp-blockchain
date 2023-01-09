@@ -19,6 +19,17 @@ const utilsHandler = require("./utils");
 const utils = new utilsHandler.NOWUtils();
 
 
+utils.getCurrentBlockNumber(web3).then(async (result) => {
+    console.log("Current Block no: " + result);
+
+    const futureBlock = await utils.getTimestampFromBlockNumber(web3, result + 10);
+    console.log("Future Block: " + futureBlock);
+
+    const oldBlock = await utils.getTimestampFromBlockNumber(web3, result - 10);
+    console.log("Old Block: " + oldBlock);
+});
+
+/**
 const networkId = 1337
 
 const student_address = "0x917441412223Ac1104617Ca07ca9853504BEA5d0"
@@ -59,7 +70,7 @@ assignment.validateAssignment(student_address, example_contract_address, example
 
     //console.log(balance);
 });
-
+**/
 
 /**
 config.setFaucetGas(config.getCoinbaseAddress, 1).then((result) => {
