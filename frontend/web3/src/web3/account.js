@@ -90,6 +90,60 @@ class NOWAccount {
 
         return await knowledgeCoinContract.methods.coinsInBlockNumberRange(address, startBlock, endBlock).call({ from: await this.utils.getFromAccount(this.web3) })
     }
+
+    /**
+     * Check if student passed the minimum amount of NOW coins needed
+     * 
+     * @param {string} studentAddress Address of student to check
+     * @param {id} semesterId Id of semester
+     * @returns True if student passed the minimum amount of NOW coins needed, false if not
+     */
+    async hasStudentPassedSemester(studentAddress, semesterId) {
+        const configHandler = require("./config.js");
+        const config = new configHandler.NOWConfig(this.web3);
+
+        const semester = config.getSemester(semesterId);
+
+        const startBlock = semester.startBlock;
+        const endBlock = semester.endBlock;
+
+        const balance = await this.getKnowledgeCoinBalance(studentAddress, startBlock, endBlock);
+
+        if (balance > semester.minKnowledgeCoinAmount) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Return list of addresses which passed the semester 
+     *
+     * @param {array} studentAddresses Array of student addresses to check
+     * @param {id} semesterId Id of semester
+     * @returns Return array of addresses which passed the semester
+     */
+    async hasStudentsPassedSemester(studentAddresses, semesterId) {
+        const configHandler = require("./config.js");
+        const config = new configHandler.NOWConfig(this.web3);
+
+        const semester = config.getSemester(semesterId);
+
+        const startBlock = semester.startBlock;
+        const endBlock = semester.endBlock;
+
+        var passedStudents = [];
+
+        for (var i = 0; i < studentAddresses.length; i++) {
+            const balance = await this.getKnowledgeCoinBalance(studentAddresses[i], startBlock, endBlock);
+
+            if (balance > semester.minKnowledgeCoinAmount) {
+                passedStudents.push(studentAddresses[i]);
+            }
+        }
+
+        return passedStudents;
+    }
 }
 
 // export account class
