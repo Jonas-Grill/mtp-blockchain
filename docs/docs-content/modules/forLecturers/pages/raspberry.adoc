@@ -1,7 +1,7 @@
 = How to install a new Raspberry Pi node
 
 To provide a decentralized network there need to be different nodes rather than one central server.
-If one node is missing, the system won´t work, so the setup has to be restarted.
+If one node is missing, the system won´t work, so the setup has to be restarted. The number of nodes is set to 6.
 The following steps will guide you through the installation process.
 
 == Tools needed
@@ -211,3 +211,4 @@ Then type:
 sh start_node[number of Pi].sh
 ----
 and press enter. Your node is now running.
+Once every node is set up accordingly and running, the blockchain is running.
