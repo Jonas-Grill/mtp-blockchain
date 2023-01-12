@@ -10,18 +10,18 @@ const assignmentsHandler = require("../../web3/assignment")
 
 
 // Run validate assignment
-exports.validateAssignment = async (web3, studentAddress, contractAddress, validationContractAddress) => {
+exports.validateAssignment = async (web3, contractAddress, validationContractAddress) => {
     const assignments = new assignmentsHandler.NOWAssignments(web3);
 
-    return await assignments.validateAssignment(studentAddress, contractAddress, validationContractAddress)
+    return await assignments.validateAssignment(contractAddress, validationContractAddress)
 
 };
 
 // Submit assignment
-exports.submitAssignment = async (web3, studentAddress, contractAddress, validationContractAddress) => {
+exports.submitAssignment = async (web3, contractAddress, validationContractAddress) => {
     const assignments = new assignmentsHandler.NOWAssignments(web3);
 
-    return await assignments.submitAssignment(studentAddress, contractAddress, validationContractAddress)
+    return await assignments.submitAssignment(contractAddress, validationContractAddress)
 }
 
 // Run validator for test assignment

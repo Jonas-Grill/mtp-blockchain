@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "testweb3": "mocha 'web3/test/*.js' --timeout 10000"
+    "test_web3": "mocha 'web3/test/*.js' --timeout 10000"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.3",

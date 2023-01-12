@@ -13,6 +13,7 @@ contract SBCoin is BaseConfig {
         address indexed spender,
         uint256 amount
     );
+    event Burn(address indexed from, uint256 amount);
 
     //METADATA STORAGE
     string private _name;
@@ -145,13 +146,14 @@ contract SBCoin is BaseConfig {
         for (uint256 i = startBlock; i <= endBlock; i++) {
             amount += _timeStamps[account][i];
         }
-
         return amount > 0 ? uint256(amount) : 0;
     }
 
     //INTERNAL LOGIC
 
     //UTILITY
+
+    // Transfer amount of tokens from sender to recipient.
     function _transfer(
         address from,
         address to,
@@ -163,7 +165,9 @@ contract SBCoin is BaseConfig {
         );
 
         require(from != address(0), "ERC20: transfer from the zero address");
-        require(to != address(0), "ERC20: transfer to the zero address");
+
+        // Allow transfer to 0x0 address to burn tokens
+        // require(to != address(0), "ERC20: transfer to the zero address");
 
         uint256 fromBalance = _balances[from];
 
@@ -185,6 +189,7 @@ contract SBCoin is BaseConfig {
         emit Transfer(from, to, amount);
     }
 
+    // Approve spender to transfer amount of tokens on behalf of owner.
     function _approve(
         address owner,
         address spender,
@@ -202,7 +207,41 @@ contract SBCoin is BaseConfig {
         emit Approval(owner, spender, amount);
     }
 
+    // Convert amount of full coins to amount of tokens.
     function exchangeToFullCoin(uint256 amount) public view returns (uint256) {
         return amount * 10**decimals();
+    }
+
+    // Convert amount of tokens to amount of decimal coins.
+    function exchangeToDecimalCoin(uint256 amount)
+        public
+        view
+        returns (uint256)
+    {
+        return amount / 10**decimals();
+    }
+
+    // Convert amount of tokens to amount of full coins.
+    function scaledBalanceOf(address _address) public view returns (uint256) {
+        return exchangeToDecimalCoin(_balances[_address]);
+    }
+
+    // Burn amount of tokens from sender.
+    function burn(address _address, uint256 _value) public returns (bool) {
+        require(
+            getConfigStorage().isAdmin(msg.sender),
+            "SoulBound Restriction: only admin can burn"
+        );
+
+        // Requires that the message sender has enough tokens to burn
+        require(_value <= _balances[_address]);
+
+        _transfer(_address, address(0), _value);
+
+        // Emits burn events
+        emit Burn(_address, _value);
+
+        // Since you cant actually burn tokens on the blockchain, sending to address 0, which none has the private keys to, removes them from the circulating supply
+        return true;
     }
 }

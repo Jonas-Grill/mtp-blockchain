@@ -2,6 +2,7 @@
 pragma solidity ^0.8.17;
 
 import "../contracts/BaseConfigAdmin.sol";
+import "../contracts/BaseAssignmentValidator.sol";
 
 contract ConfigStorage is BaseConfigAdmin {
     // Amount of gas the user can get using the faucet
@@ -11,18 +12,21 @@ contract ConfigStorage is BaseConfigAdmin {
     uint128 faucetBlockNoDifference;
 
     // Struct Seminar
-    struct uniMaSemester {
+    struct NOWSemester {
         string name; // Name of the semester (e.g. SS22)
         uint256 startBlock; // First block which counts towards this semester
         uint256 endBlock; // Last block which counts towards this semester
         uint256 minKnowledgeCoinAmount; // Amount of knowledge Coins needed to take exam
         uint256 assignmentCounter; // Assignment counter
         uint256[] assignmentIds; // Assignment Ids
-        mapping(uint256 => uniMaAssignments) assignments; // Assigned assignments
+        mapping(uint256 => NOWAssignments) assignments; // Assigned assignments
+        // TEMP VARIABLES
+        uint256 assignmentStartBlock; // Temp var to keep track of lowest start block of all assignments
+        uint256 assignmentEndBlock; // Temp var to keep track of highest end block of all assignments
     }
 
     // Struct Seminar
-    struct uniMaSemesterReturn {
+    struct NOWSemesterReturn {
         string name; // Name of the semester (e.g. SS22)
         uint256 startBlock; // First block which counts towards this semester
         uint256 endBlock; // Last block which counts towards this semester
@@ -30,7 +34,7 @@ contract ConfigStorage is BaseConfigAdmin {
     }
 
     // Struct Assignments
-    struct uniMaAssignments {
+    struct NOWAssignments {
         string name; // Name of the assignment
         string link; // Link to the assignment
         address validationContractAddress; // Address to the validation contract
@@ -41,7 +45,7 @@ contract ConfigStorage is BaseConfigAdmin {
     // Semester variables
     uint256 semesterCounter = 0;
     uint256[] private semesterIds;
-    mapping(uint256 => uniMaSemester) semesters;
+    mapping(uint256 => NOWSemester) semesters;
 
     // SMART CONTRACT ADDRESS
     address public knowledgeCoinContractAddress;
@@ -77,6 +81,7 @@ contract ConfigStorage is BaseConfigAdmin {
     =              Semester function              =
     =============================================*/
 
+    // Append a new semester
     function appendSemester(
         string memory _name,
         uint256 _startBlock,
@@ -84,6 +89,24 @@ contract ConfigStorage is BaseConfigAdmin {
         uint256 _minKnowledgeCoinAmount
     ) public returns (uint256) {
         requireUserAdmin(msg.sender);
+
+        // Require start block to be smaller than end block
+        require(
+            _startBlock < _endBlock,
+            "Start block must be smaller than end block"
+        );
+
+        // Require min knowledge coin amount to be larger than 0
+        require(
+            _minKnowledgeCoinAmount > 0,
+            "Min knowledge coin amount must be larger than 0"
+        );
+
+        // Require start and end block to be larger than 0
+        require(
+            _startBlock > 0 && _endBlock > 0,
+            "Start and end block must be larger than 0"
+        );
 
         uint256 index = semesterCounter + 1;
 
@@ -93,6 +116,10 @@ contract ConfigStorage is BaseConfigAdmin {
         semesters[index].minKnowledgeCoinAmount = _minKnowledgeCoinAmount;
         semesters[index].assignmentCounter = 0;
 
+        // TEMP VARIABLES
+        semesters[index].assignmentStartBlock = 0;
+        semesters[index].assignmentEndBlock = 0;
+
         semesterCounter = index;
 
         semesterIds.push(index);
@@ -100,13 +127,14 @@ contract ConfigStorage is BaseConfigAdmin {
         return index;
     }
 
+    // Get the semester by id
     function getSemester(uint256 _id)
         public
         view
-        returns (uniMaSemesterReturn memory semester)
+        returns (NOWSemesterReturn memory semester)
     {
         return
-            uniMaSemesterReturn(
+            NOWSemesterReturn(
                 semesters[_id].name,
                 semesters[_id].startBlock,
                 semesters[_id].endBlock,
@@ -114,43 +142,109 @@ contract ConfigStorage is BaseConfigAdmin {
             );
     }
 
+    // Get all semester ids
     function getSemesterIds() public view returns (uint256[] memory) {
         return semesterIds;
     }
 
+    // Delete the semester by id
     function deleteSemester(uint256 _id) public {
         requireUserAdmin(msg.sender);
+
+        // Require no linked assignments
+        require(
+            semesters[_id].assignmentIds.length == 0,
+            "Semester has linked assignments"
+        );
 
         delete semesters[_id];
         removeByValue(semesterIds, _id);
     }
 
+    // Get the latest semester counter id
     function getSemesterCounter() public view returns (uint256) {
         return semesterCounter;
     }
 
+    // Check if semester id exists
+    function hasSemesterId(uint256 _semesterId) public view returns (bool) {
+        for (uint256 i = 0; i < semesterIds.length; i++) {
+            if (semesterIds[i] == _semesterId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /*----------  Setter  ----------*/
 
+    // Set the semester name
     function setSemesterName(uint256 _id, string memory name) public {
         requireUserAdmin(msg.sender);
         semesters[_id].name = name;
     }
 
+    // Set the semester start block
     function setSemesterStartBlock(uint256 _id, uint256 _startBlock) public {
         requireUserAdmin(msg.sender);
+
+        // Require start block to be smaller than end block
+        require(
+            _startBlock < semesters[_id].endBlock,
+            "Start block must be smaller than end block"
+        );
+
+        // Require start block to be larger than 0
+        require(_startBlock > 0, "Start block must be larger than 0");
+
+        // Require new start block to be smaller than the assignment start block
+        if (semesters[_id].assignmentStartBlock > 0) {
+            require(
+                _startBlock < semesters[_id].assignmentStartBlock,
+                "Start block must be smaller than the smallest assignment start block"
+            );
+        }
+
         semesters[_id].startBlock = _startBlock;
     }
 
+    // Set the semester end block
     function setSemesterEndBlock(uint256 _id, uint256 _endBlock) public {
         requireUserAdmin(msg.sender);
+
+        // Require end block to be larger than start block
+        require(
+            _endBlock > semesters[_id].startBlock,
+            "End block must be larger than start block"
+        );
+
+        // Require end block to be larger than 0
+        require(_endBlock > 0, "End block must be larger than 0");
+
+        // Require new start block to be smaller than the assignment start block
+        if (semesters[_id].assignmentStartBlock > 0) {
+            require(
+                _endBlock > semesters[_id].assignmentEndBlock,
+                "Start block must be smaller than the largest assignment endblock block"
+            );
+        }
+
         semesters[_id].endBlock = _endBlock;
     }
 
+    // Set the semester min knowledge coin amount
     function setSemesterMinKnowledgeCoinAmount(
         uint256 _id,
         uint256 _minKnowledgeCoinAmount
     ) public {
         requireUserAdmin(msg.sender);
+
+        // Require min knowledge coin amount to be larger than 0
+        require(
+            _minKnowledgeCoinAmount > 0,
+            "Min knowledge coin amount must be larger than 0"
+        );
+
         semesters[_id].minKnowledgeCoinAmount = _minKnowledgeCoinAmount;
     }
 
@@ -160,6 +254,7 @@ contract ConfigStorage is BaseConfigAdmin {
     =            Assignment functions            =
     =============================================*/
 
+    // Append a new assignment to a semester
     function appendAssignment(
         uint256 _semesterId,
         string memory _name,
@@ -169,6 +264,25 @@ contract ConfigStorage is BaseConfigAdmin {
         uint256 _endBlock
     ) public returns (uint256) {
         requireUserAdmin(msg.sender);
+
+        // Require that assignment is in block range of semester
+        require(
+            _startBlock >= semesters[_semesterId].startBlock &&
+                _endBlock <= semesters[_semesterId].endBlock,
+            "Defined Assignment range is not in semester range"
+        );
+
+        // Require that start block is smaller than end block
+        require(
+            _startBlock < _endBlock,
+            "Start block must be smaller than end block"
+        );
+
+        // Require start and end block to be larger than 0
+        require(
+            _startBlock > 0 && _endBlock > 0,
+            "Start and end block must be larger than 0"
+        );
 
         uint256 index = semesters[_semesterId].assignmentCounter + 1;
 
@@ -184,17 +298,53 @@ contract ConfigStorage is BaseConfigAdmin {
 
         semesters[_semesterId].assignmentIds.push(index);
 
+        if (semesters[_semesterId].assignmentStartBlock > 0) {
+            // if start block is lower then assignment start block set to value
+            if (_startBlock < semesters[_semesterId].assignmentStartBlock) {
+                semesters[_semesterId].assignmentStartBlock = _startBlock;
+            }
+        } else {
+            semesters[_semesterId].assignmentStartBlock = _startBlock;
+        }
+
+        if (semesters[_semesterId].assignmentEndBlock > 0) {
+            // if end block is higher then assignment end block set to value
+            if (_endBlock > semesters[_semesterId].assignmentEndBlock) {
+                semesters[_semesterId].assignmentEndBlock = _endBlock;
+            }
+        } else {
+            semesters[_semesterId].assignmentEndBlock = _endBlock;
+        }
+        // Set the assignment infos to the validator contract
+        BaseAssignmentValidator validator = BaseAssignmentValidator(
+            _validationContractAddress
+        );
+
+        require(
+            validator.isAssignmentLinked() == false,
+            "Assignment is already linked to a semester"
+        );
+
+        validator.setAssignmentInfos(_semesterId, index);
+
+        require(
+            validator.isAssignmentLinked() == true,
+            "Assignment needs to be linked to a semester, now!"
+        );
+
         return index;
     }
 
+    // Get the assignment by id and semester id
     function getAssignment(uint256 _semesterId, uint256 _assignmentId)
         public
         view
-        returns (uniMaAssignments memory assignment)
+        returns (NOWAssignments memory assignment)
     {
         return semesters[_semesterId].assignments[_assignmentId];
     }
 
+    // Get all assignment ids from the semester
     function getAssignmentIds(uint256 _semesterId)
         public
         view
@@ -203,20 +353,74 @@ contract ConfigStorage is BaseConfigAdmin {
         return semesters[_semesterId].assignmentIds;
     }
 
+    // Delete the assignment by id and semester id
     function deleteAssignment(uint256 _semesterId, uint256 _assignmentId)
         public
     {
         requireUserAdmin(msg.sender);
+
+        // First get the validation contract address
+        address validationContractAddress = semesters[_semesterId]
+            .assignments[_assignmentId]
+            .validationContractAddress;
+
+        // Remove the assignment from the mapping and address
         delete semesters[_semesterId].assignments[_assignmentId];
         removeByValue(semesters[_semesterId].assignmentIds, _assignmentId);
+
+        // Remove the infos from the assignment contract
+        BaseAssignmentValidator validator = BaseAssignmentValidator(
+            validationContractAddress
+        );
+
+        validator.clearAssignmentInfos();
+
+        require(
+            validator.isAssignmentLinked() == false,
+            "Assignment is still linked to a semester!"
+        );
     }
 
+    // Get the latest assignment counter id
     function getAssignmentCounter(uint256 semester_id)
         public
         view
         returns (uint256)
     {
         return semesters[semester_id].assignmentCounter;
+    }
+
+    // Check if semester id exists
+    function hasAssignmentId(uint256 _semesterId, uint256 _assignmentId)
+        public
+        view
+        returns (bool)
+    {
+        // Loop over all semesters
+        for (uint256 i = 0; i < semesterIds.length; i++) {
+            // Check if the semester id exists
+            if (semesterIds[i] == _semesterId) {
+                // Loop over all assignments of the matching semester
+                for (
+                    uint256 j = 0;
+                    j < semesters[_semesterId].assignmentIds.length;
+                    j++
+                ) {
+                    // if the assignment id matches return true
+                    if (
+                        semesters[_semesterId].assignmentIds[j] == _assignmentId
+                    ) {
+                        return true;
+                    }
+                }
+
+                // If no assignment id matches of the matching semester return false
+                return false;
+            }
+        }
+
+        // Semester id does not exist
+        return false;
     }
 
     /*----------  Setter  ----------*/
@@ -245,6 +449,36 @@ contract ConfigStorage is BaseConfigAdmin {
         address _address
     ) public {
         requireUserAdmin(msg.sender);
+
+        // 1. DELETE LINKAGE TO OLD VALIDATOR CONTRACT
+        address validationContractAddress = semesters[_semesterId]
+            .assignments[_assignmentId]
+            .validationContractAddress;
+
+        // Remove the infos from the assignment contract
+        BaseAssignmentValidator oldValidator = BaseAssignmentValidator(
+            validationContractAddress
+        );
+        oldValidator.clearAssignmentInfos();
+
+        require(
+            oldValidator.isAssignmentLinked() == false,
+            "OLD Assignment is still linked to a semester!"
+        );
+
+        // 2. SET NEW VALIDATOR CONTRACT
+        BaseAssignmentValidator newValidator = BaseAssignmentValidator(
+            _address
+        );
+
+        newValidator.setAssignmentInfos(_semesterId, _assignmentId);
+
+        require(
+            newValidator.isAssignmentLinked() == true,
+            "NEW Assignment is not linked to a semester!"
+        );
+
+        // 3. SET NEW VALIDATOR CONTRACT ADDRESS
         semesters[_semesterId]
             .assignments[_assignmentId]
             .validationContractAddress = _address;
@@ -256,6 +490,31 @@ contract ConfigStorage is BaseConfigAdmin {
         uint256 _startBlock
     ) public {
         requireUserAdmin(msg.sender);
+
+        // Require that the start block is smaller than the end block
+        require(
+            _startBlock <
+                semesters[_semesterId].assignments[_assignmentId].endBlock,
+            "Start block needs to be smaller than end block"
+        );
+
+        // Require start block to be in range of the semester
+        require(
+            _startBlock >= semesters[_semesterId].startBlock &&
+                _startBlock <= semesters[_semesterId].endBlock,
+            "Start block needs to be in range of the semester"
+        );
+
+        // Require start block to be larger than 0
+        require(_startBlock > 0, "Start block needs to be larger than 0");
+
+        if (semesters[_semesterId].assignmentStartBlock > 0) {
+            // if start block is lower then assignment start block set to value
+            if (_startBlock < semesters[_semesterId].assignmentStartBlock) {
+                semesters[_semesterId].assignmentStartBlock = _startBlock;
+            }
+        }
+
         semesters[_semesterId]
             .assignments[_assignmentId]
             .startBlock = _startBlock;
@@ -267,6 +526,31 @@ contract ConfigStorage is BaseConfigAdmin {
         uint256 _endBlock
     ) public {
         requireUserAdmin(msg.sender);
+
+        // Require that the end block is bigger than the start block
+        require(
+            _endBlock >
+                semesters[_semesterId].assignments[_assignmentId].startBlock,
+            "End block needs to be bigger than start block"
+        );
+
+        // Require end block to be in range of the semester
+        require(
+            _endBlock >= semesters[_semesterId].startBlock &&
+                _endBlock <= semesters[_semesterId].endBlock,
+            "End block needs to be in range of the semester"
+        );
+
+        // Require end block to be larger than 0
+        require(_endBlock > 0, "End block needs to be larger than 0");
+
+        if (semesters[_semesterId].assignmentEndBlock > 0) {
+            // if end block is higher then assignment end block set to value
+            if (_endBlock > semesters[_semesterId].assignmentEndBlock) {
+                semesters[_semesterId].assignmentEndBlock = _endBlock;
+            }
+        }
+
         semesters[_semesterId].assignments[_assignmentId].endBlock = _endBlock;
     }
 

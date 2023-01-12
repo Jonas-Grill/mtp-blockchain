@@ -1,5 +1,5 @@
 class NOWConfig {
-    constructor(web3) {
+    constructor(_web3) {
         // Parse json config
         this.rpcURL = process.env.RPC_URL;
         this.networkId = process.env.NETWORK_ID;
@@ -7,7 +7,7 @@ class NOWConfig {
         // Connect to web3
 
         // Require web3 for talking to api
-        this.web3 = web3
+        this.web3 = _web3
 
         // Require utils
         const utilsHandler = require('./utils')
@@ -305,7 +305,6 @@ class NOWConfig {
      */
     async getSemesterIds() {
         const configStorageContract = await this.getConfigStorage()
-
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
         return await configStorageContract.methods.getSemesterIds().call({ from: fromAddress });
@@ -394,7 +393,6 @@ class NOWConfig {
     async appendAssignment(_semesterId, _name, _link, _validationContractAddress, _startBlock, _endBlock) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        console.log("Append assignment", _semesterId, _name, _link, _validationContractAddress, _startBlock, _endBlock)
         await configStorageContract.methods.appendAssignment(_semesterId, _name, _link, _validationContractAddress, _startBlock, _endBlock).send({ from: fromAddress });
 
         return await configStorageContract.methods.getAssignmentCounter(_semesterId).call({ from: fromAddress });
@@ -435,6 +433,19 @@ class NOWConfig {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.deleteAssignment(_semesterId, _assignmentId).send({ from: fromAddress });
+    }
+
+    /**
+     * Check if assignment exists
+     *
+     * @param {int} _semesterId Id of the semester
+     * @param {int} _assignmentId Id of the assignment
+     * @returns Return if assignment exists
+     */
+    async hasAssignment(_semesterId, _assignmentId) {
+        const configStorageContract = await this.getConfigStorage()
+
+        return await configStorageContract.methods.hasAssignmentId(_semesterId, _assignmentId).call({ from: await this.utils.getFromAccount(this.web3) });
     }
 
 

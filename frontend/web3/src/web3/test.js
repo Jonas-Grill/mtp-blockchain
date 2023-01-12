@@ -7,7 +7,7 @@ const web3 = new Web3("http://localhost:8545");
 
 
 const config_handler = require("./config");
-const config = new config_handler.Config(web3);
+const config = new config_handler.NOWConfig(web3);
 
 const account_handler = require("./account");
 const account = new account_handler.NOWAccount(web3);
@@ -18,43 +18,59 @@ const assignment = new assignment_handler.NOWAssignments(web3);
 const utilsHandler = require("./utils");
 const utils = new utilsHandler.NOWUtils();
 
-const example_contract_address = "0x5d7A85abc9edce70bb91b6DC2f729129BCAf297E"
-const example_validation_address = "0x5Ef0206aEdc5B0065B9F46532f1aAc98C13bcDB9"
+
+utils.getCurrentBlockNumber(web3).then(async (result) => {
+    console.log("Current Block no: " + result);
+
+    const futureBlock = await utils.getTimestampFromBlockNumber(web3, result + 10);
+    console.log("Future Block: " + futureBlock);
+
+    const oldBlock = await utils.getTimestampFromBlockNumber(web3, result - 10);
+    console.log("Old Block: " + oldBlock);
+});
+
+/**
+const networkId = 1337
 
 const student_address = "0x917441412223Ac1104617Ca07ca9853504BEA5d0"
 
-config.getContractAdmins().then((admins) => {
-    console.log(admins);
-});
-
-config.getContractAdminAddresses().then((admins) => {
-    console.log(admins);
-});
+const example_contract_address = utils.getContractAddress("ExampleAssignment", networkId); // Address of the contract that is being tested
+const example_validation_address = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
 
 assignment.validateAssignment(student_address, example_contract_address, example_validation_address).then(async (result) => {
     const id = result;
 
-    const test_results = await assignment.getTestResults(id, example_validation_address);
+    if (await assignment.hasSubmittedAssignment(student_address, example_validation_address)) {
+        console.log("has submitted assignment");
+        await assignment.removeSubmittedAssignment(student_address, example_validation_address);
+    }
+    const assignmentBeforeSubmit = await assignment.getSubmittedAssignment(student_address, example_validation_address);
 
-    console.log(test_results);
+    await assignment.submitAssignment(student_address, example_contract_address, example_validation_address);
 
-    const test_results2 = await assignment.submitAssignment(student_address, example_contract_address, example_validation_address);
+    const assignmentAfterSubmit = await assignment.getSubmittedAssignment(student_address, example_validation_address);
 
-    console.log(test_results2);
+    const testResults = await assignment.getTestResults(assignmentAfterSubmit.testIndex, example_validation_address);
 
-    var balance = await account.getKnowledgeCoinBalance(student_address)
+    let correctTestCounter = 0
+    for (var i = 0; i < testResults.length; i++) {
+        if (testResults[i].testPassed == true)
+            correctTestCounter++;
+    }
 
-    console.log(balance);
+    const coin = await account.getKnowledgeCoinBalance(student_address);
 
-    var testIndexes = await assignment.getTestHistoryIndexes(student_address, example_validation_address);
+    console.log("Knowledge Coin Balance: " + coin);
 
-    console.log(testIndexes);
+    //const test_results2 = await assignment.submitAssignment(student_address, example_contract_address, example_validation_address);
 
-    var submittedAssignment = await assignment.getSubmittedAssignment(student_address, example_validation_address);
+    //console.log(test_results2);
 
-    console.log(submittedAssignment);
+    //var balance = await account.getKnowledgeCoinBalance(student_address)
+
+    //console.log(balance);
 });
-
+**/
 
 /**
 config.setFaucetGas(config.getCoinbaseAddress, 1).then((result) => {

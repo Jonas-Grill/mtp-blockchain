@@ -31,7 +31,12 @@ class NOWAccount {
         const faucetStorageContract = this.utils.getContract(this.web3,
             "FaucetStorage",
             _to,
-            await this.web3.eth.net.getId())
+            await this.web3.eth.net.getId());
+
+        const block = await web3.eth.getBlock("latest");
+
+        faucetStorageContract.options.gasLimit = block.gasLimit
+        faucetStorageContract.options.gas = block.gasLimit
 
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
@@ -51,11 +56,11 @@ class NOWAccount {
             fromAddress,
             await this.web3.eth.net.getId())
 
-        return await faucetStorageContract.methods.getFaucetBalance().call({ from: await this.utils.getFromAccount(web3) })
+        return await faucetStorageContract.methods.getFaucetBalance().call({ from: await this.utils.getFromAccount(this.web3) })
     }
 
     /**
-     * Return amount of Knowledge Coins from address
+     * Return amount of Knowledge Coins from address (in full coins)
      * 
      * @param {string} address address to check for first event transaction
      * @returns amount of Knowledge Coins
@@ -64,15 +69,81 @@ class NOWAccount {
         const knowledgeCoinContract = this.utils.getContract(this.web3,
             "SBCoin",
             address,
-
             await this.web3.eth.net.getId()
         )
 
-        const BN = this.web3.utils.BN;
-        const balance = new BN(await knowledgeCoinContract.methods.balanceOf(address).call({ from: await this.utils.getFromAccount(this.web3) }));
-        const decimals = new BN(await knowledgeCoinContract.methods.decimals().call({ from: await this.utils.getFromAccount(this.web3) }));
+        return await knowledgeCoinContract.methods.scaledBalanceOf(address).call({ from: await this.utils.getFromAccount(this.web3) })
+    }
 
-        return parseInt(balance.div(new BN(10).pow(decimals)));
+    /**
+     * Return amount of Knowledge Coins from address (in full coins)
+     *
+     * @param {string} address address to check for balance in range
+     * @param {int} startBlock Start block to check for balance
+     * @param {int} endBlock  End block to check for balance
+     * @returns Balance in range
+     */
+    async getKnowledgeCoinBalanceInRange(address, startBlock, endBlock) {
+        var knowledgeCoinContract = this.utils.getContract(this.web3,
+            "SBCoin",
+            address,
+            await this.web3.eth.net.getId())
+
+        return await knowledgeCoinContract.methods.coinsInBlockNumberRange(address, startBlock, endBlock).call({ from: await this.utils.getFromAccount(this.web3) })
+    }
+
+    /**
+     * Check if student passed the minimum amount of NOW coins needed
+     *
+     * @param {string} studentAddress Address of student to check
+     * @param {id} semesterId Id of semester
+     * @returns True if student passed the minimum amount of NOW coins needed, false if not
+     */
+    async hasStudentPassedSemester(studentAddress, semesterId) {
+        const configHandler = require("./config.js");
+        const config = new configHandler.NOWConfig(this.web3);
+
+        const semester = config.getSemester(semesterId);
+
+        const startBlock = semester.startBlock;
+        const endBlock = semester.endBlock;
+
+        const balance = await this.getKnowledgeCoinBalance(studentAddress, startBlock, endBlock);
+
+        if (balance > semester.minKnowledgeCoinAmount) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Return list of addresses which passed the semester
+     *
+     * @param {array} studentAddresses Array of student addresses to check
+     * @param {id} semesterId Id of semester
+     * @returns Return array of addresses which passed the semester
+     */
+    async hasStudentsPassedSemester(studentAddresses, semesterId) {
+        const configHandler = require("./config.js");
+        const config = new configHandler.NOWConfig(this.web3);
+
+        const semester = config.getSemester(semesterId);
+
+        const startBlock = semester.startBlock;
+        const endBlock = semester.endBlock;
+
+        var passedStudents = [];
+
+        for (var i = 0; i < studentAddresses.length; i++) {
+            const balance = await this.getKnowledgeCoinBalance(studentAddresses[i], startBlock, endBlock);
+
+            if (balance > semester.minKnowledgeCoinAmount) {
+                passedStudents.push(studentAddresses[i]);
+            }
+        }
+
+        return passedStudents;
     }
 }
 

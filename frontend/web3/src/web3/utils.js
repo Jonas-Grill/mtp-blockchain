@@ -33,8 +33,10 @@ class NOWUtils {
         const ConfigStorage = require('../../../../smart-contracts/build/contracts/ConfigStorage.json')
         const FaucetStorage = require('../../../../smart-contracts/build/contracts/FaucetStorage.json')
         const ExampleAssignmentValidator = require('../../../../smart-contracts/build/contracts/ExampleAssignmentValidator.json')
+        const ExampleAssignmentValidator2 = require('../../../../smart-contracts/build/contracts/ExampleAssignmentValidator2.json')
         const BaseAssignmentValidator = require('../../../../smart-contracts/build/contracts/BaseAssignmentValidator.json')
         const SBCoin = require('../../../../smart-contracts/build/contracts/SBCoin.json')
+        const ExampleAssignment = require('../../../../smart-contracts/build/contracts/ExampleAssignment.json')
 
         let json = null;
         if (contractName === "ConfigStorage") {
@@ -46,11 +48,17 @@ class NOWUtils {
         if (contractName === "ExampleAssignmentValidator") {
             json = ExampleAssignmentValidator;
         }
+        if (contractName === "ExampleAssignmentValidator2") {
+            json = ExampleAssignmentValidator2;
+        }
         if (contractName === "BaseAssignmentValidator") {
             json = BaseAssignmentValidator;
         }
         if (contractName === "SBCoin") {
             json = SBCoin;
+        }
+        if (contractName === "ExampleAssignment") {
+            json = ExampleAssignment;
         }
 
         return JSON.parse(JSON.stringify(json))
@@ -135,6 +143,94 @@ class NOWUtils {
             return address[0];
         }
     }
+
+
+    /*=============================================
+    =              BLOCK HELPER                 =
+    =============================================*/
+
+    /**
+     * Returns the average time for a block to mine
+     *
+     * @param {web3} web3 Web3 instance to connect to blockchain
+     * @returns average time for a block to mine
+     */
+    async getBlockAverageTime(web3) {
+        const span = 100
+        const times = []
+        const currentNumber = await web3.eth.getBlockNumber()
+        const firstBlock = await web3.eth.getBlock(currentNumber - span)
+        let prevTimestamp = firstBlock.timestamp
+
+        for (let i = currentNumber - span + 1; i <= currentNumber; i++) {
+            const block = await web3.eth.getBlock(i)
+            let time = block.timestamp - prevTimestamp
+            prevTimestamp = block.timestamp
+            times.push(time)
+        }
+
+        return Math.round(times.reduce((a, b) => a + b) / times.length)
+    }
+
+    /**
+     * Returns the current block
+     *
+     * @param {web3} web3 Web3 instance to connect to blockchain
+     * @returns Return current block
+     */
+    async getCurrentBlock(web3) {
+        const blockNumber = await web3.eth.getBlockNumber();
+
+        const block = await web3.eth.getBlock(blockNumber);
+        return block;
+    }
+
+    /**
+     * Return current block number
+     *
+     * @param {web3} web3 Web3 instance to connect to blockchain
+     * @returns Returns the current block number
+     */
+    async getCurrentBlockNumber(web3) {
+        return await web3.eth.getBlockNumber();
+    }
+
+    /**
+     * Returns the estimated timestamp of the block number
+     *
+     * @param {web3} web3 Web3 instance to connect to blockchain
+     * @param {int} blockNumber Block number to be converted to timestamp
+     * @returns Estimated timestamp of the block number
+     */
+    async getTimestampFromBlockNumber(web3, estimateBlockNumber) {
+        const currentBlockNumber = await this.getCurrentBlockNumber(web3);
+
+        if (estimateBlockNumber > currentBlockNumber) {
+            console.log("Block number is higher than current block number");
+
+            const diff = estimateBlockNumber - currentBlockNumber;
+
+            const averageTime = await this.getBlockAverageTime(web3);
+
+            const currentBlock = await this.getCurrentBlock(web3);
+
+            // parse timestamp 2023-01-06 09:45:54
+            const currentBlockTimestamp = new Date(currentBlock.timestamp * 1000);
+            const estimatedTime = new Date(currentBlockTimestamp.getTime() + (1000 * (averageTime * diff)));
+
+            return estimatedTime;
+        }
+        else {
+            console.log("Block number is lower or equal to current block number");
+
+            const block = await web3.eth.getBlock(estimateBlockNumber);
+
+            return new Date(block.timestamp * 1000);
+        }
+    }
+
+    /*=====     End of BLOCK HELPER        ======*/
+
 }
 
 // export unima class

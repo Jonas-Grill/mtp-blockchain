@@ -1,7 +1,7 @@
 {
   "name": "mtp-blockchain-smart-contracts",
   "version": "1.0.0",
-  "description": "Blockchain Project for University Mannheim",
+  "description": "Blockchain Project for University Mannheim - Smart Contracts",
   "main": "index.js",
   "scripts": {
     "test": "truffle test",
