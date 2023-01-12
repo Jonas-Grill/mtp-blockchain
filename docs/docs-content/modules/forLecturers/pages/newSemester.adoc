@@ -20,6 +20,7 @@ Then you are asked to type in the following information:
 
 If you want to create a semester with new assignments, there need to be validator contracts that check the solutions that are submitted by the students.
 To deploy such a validator contract you have to
+
 TODO
 
 == Create assignments or use existing ones on Knowledge Base
@@ -40,5 +41,13 @@ Please keep in mind that the semester has to be created before you can add an as
 To gather the needed student data and comply to the data privacy rules of the University of Mannheim you have to use ILIAS as a data source.
 To do so, you have to create a survey on ILIAS. The survey should contain the following questions:
 
-* What is your student number at University of Mannheim?
+* What is your student id at University of Mannheim? (Matrikelnummer)
 * What is the public address of your Metamask wallet? (The students need to have set up a Metamask wallet before they can provide this information.)
+
+== Upload the student data to Knowledge Base
+
+Once the survey is completed, you can export the results as csv. Please copy the content from the csv. Then go to Knowledge Base to the Knowledge Overview (you still need to be signed in via an admin address).
+Then paste the content you copied from the csv in the text field. Press the Show data button.
+You will see a list of every student id with its corresponding wallet address and the Knowledge they earned.
+You may also see, whether the student has passed or failed with their current Knowledge amount.
+If you want to have a list of all students, you can export an excel-sheet via clicking the export .xls button.

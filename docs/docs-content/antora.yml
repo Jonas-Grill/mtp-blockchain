@@ -6,3 +6,4 @@ nav:
   - modules/ROOT/nav.adoc
   - modules/forStudents/nav.adoc
   - modules/forLecturers/nav.adoc
+  - modules/masterTeamProject/nav.adoc
