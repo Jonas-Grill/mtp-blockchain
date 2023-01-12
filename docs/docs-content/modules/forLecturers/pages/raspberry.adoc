@@ -186,9 +186,12 @@ You will again see a lot of information. You need to copy the enode. The enode i
 Then open the filesystem of the USB-Stick again, and open the "enodes.json". There you need to replace the line of the Pi you want to set up. The lines are sorted according to number starting on top with Pi number 1.
 So for example, if you want to add the enode of Pi 6 you need to replace the last line in the "enodes.json".
 Now scroll to the right and change the number after the "@" and before the ":" to the IP-Address you looked up in the beginning. Once typed in, copy everything between the square brackets.
-Then press CTRL+S and close the window.
+Then press CTRL+S and close the window. You can now remove the USB-Stick.
 
-Then go back to the terminal and type:
+Please do all the steps before for every Pi you want to set up, so that the list of enodes in the "enode.json" is complete and up-to-date.
+Then you can go on with the following steps for each Pi.
+
+Go back to the terminal and type:
 ----
 nano config.toml
 ----
@@ -196,3 +199,15 @@ and press enter. Then scroll down to [Node.P2P]. After "StaticNodes = [" paste t
 Comma and quotation marks are kept, but empty lines need to be removed. Then press CTRL+S and CTRL+X.
 
 The Raspberry Pi is now all set to be a node.
+
+Start the node by typing in the terminal:
+----
+cd nodes/
+----
+and press enter.
+
+Then type:
+----
+sh start_node[number of Pi].sh
+----
+and press enter. Your node is now running.
