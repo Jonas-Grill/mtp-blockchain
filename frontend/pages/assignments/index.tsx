@@ -5,6 +5,7 @@ import Head from "next/head";
 import {DocumentTextIcon} from "@heroicons/react/20/solid";
 import {initBlockchain} from "../faucet";
 import {loadSemesters, Semester} from "../semester";
+import {isAdmin} from "../../web3/src/entrypoints/config/admin";
 
 export type Assignment = {
     id: string,
@@ -42,6 +43,7 @@ export default function AssignmentOverview() {
     const [semesters, setSemesters] = useState<Semester[]>([]);
     const [selectedSemester, setSelectedSemester] = useState<string>("");
     const [web3, setWeb3] = useState<any>(undefined);
+    const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
 
     useEffect(() => {
         if (!web3) {
@@ -56,9 +58,13 @@ export default function AssignmentOverview() {
                     setSelectedSemester(result[0].id);
                 }
             });
-        } else {
+        } else if (assignments.length <= 0){
             loadAssignments(selectedSemester, web3).then((result) => {
                 setAssignments(result);
+            });
+        } else {
+            isAdmin(web3).then((result) => {
+                setIsUserAdmin(result);
             });
         }
     }, [web3, semesters, selectedSemester]);
@@ -70,22 +76,29 @@ export default function AssignmentOverview() {
             </Head>
             <div className="bg-white">
                 <div className="mx-auto mt-10 max-w-2xl py-16 px-4 sm:py-0 sm:px-6 lg:max-w-7xl lg:px-8">
-                    <div className="mb-10">
-                        <Link href={"/assignments/createAssignment"}
-                              className="w-3/4 max-w-md space-y-8"
-                        >
-                            <button
-                                type="button"
+                    {
+                        isUserAdmin ? (
+                            <div className="mb-10">
+                                <Link href={"/assignments/createAssignment"}
+                                      className="w-3/4 max-w-md space-y-8"
+                                >
+                                    <button
+                                        type="button"
 
-                                className="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
-                            >
+                                        className="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
+                                    >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                     <DocumentTextIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
                                                       aria-hidden="true"/>
                                 </span>
-                                Add new assignment
-                            </button>
-                        </Link>
+                                        Add new assignment
+                                    </button>
+                                </Link>
+                            </div>
+                        ) : null
+                    }
+                    <div className="mb-10">
+                        Choose semester:
                     </div>
                     <fieldset>
                         <div className="mt-4 space-y-4">

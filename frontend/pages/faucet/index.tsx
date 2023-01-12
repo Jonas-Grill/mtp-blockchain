@@ -14,8 +14,6 @@ export const initBlockchain = async (web3: any) => {
         console.log("Non-Ethereum browser detected. You should consider trying MetaMask!");
     }
 
-    console.log("Successfully loaded web3...")
-
     return web3;
 }
 

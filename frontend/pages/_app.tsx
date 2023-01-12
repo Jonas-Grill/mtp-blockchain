@@ -16,7 +16,6 @@ export default function MyApp({Component, pageProps}: AppProps) {
             });
         } else {
             web3.eth.getChainId().then((chainId: number) => {
-                console.log(chainId);
                 setChainId(chainId);
             });
         }

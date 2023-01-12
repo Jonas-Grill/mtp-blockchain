@@ -1,9 +1,12 @@
-import {
-    ArrowUpTrayIcon,
-    DocumentMagnifyingGlassIcon
-} from '@heroicons/react/20/solid'
+import {ArrowUpTrayIcon, DocumentMagnifyingGlassIcon} from '@heroicons/react/20/solid'
 import React, {useEffect, useState} from "react";
-import {validateAssignment, submitAssignment, getTestResults} from '../../web3/src/entrypoints/assignments/assignments'
+import {
+    getTestIndexes,
+    getTestResults,
+    submitAssignment,
+    validateAssignment,
+    getSubmittedAssignment,
+} from '../../web3/src/entrypoints/assignments/assignments'
 import {loadSemesters, Semester} from "../semester";
 import {Assignment, loadAssignments} from "../assignments";
 import Head from "next/head";
@@ -19,6 +22,10 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
     const [assignments, setAssignments] = useState<Assignment[]>([]);
     const [selectedAssignment, setSelectedAssignment] = useState<string>("");
 
+    const [testResults, setTestResults] = useState<string[][][]>([]);
+
+    const [submittedAssignment, setSubmittedAssignment] = useState<{ testIndex: string, studentAddress: string, contractAddress: string, knowledgeCoins: string, blockNo: string }>();
+
     const handleTestAssignment = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
@@ -27,10 +34,11 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
 
             if (assignment) {
                 validateAssignment(web3, contract, assignment.validationContractAddress).then((result) => {
-                    console.log("Result ID", result);
                     getTestResults(web3, assignment.validationContractAddress, result).then((result) => {
-                        alert(JSON.stringify(result));
+                        setTestResults((results) => [...results, result]);
                     });
+                }).catch((error) => {
+                    console.log(error);
                 });
             }
         }
@@ -44,13 +52,39 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
 
             if (assignment) {
                 submitAssignment(web3, contract, assignment.validationContractAddress).then((result) => {
-                    alert(JSON.stringify(result));
+                    setSubmittedAssignment(result);
+                }).catch((error) => {
+                    if (error.code === -32603) {
+                        const message = error.message.substring(
+                            error.message.indexOf('"message"') + 2,
+                            error.message.indexOf('",')
+                        );
+                        console.log(message);
+
+                        alert(message.substring(
+                            message.indexOf('Error:') + 7,
+                            message.indexOf('!')
+                        ));
+                    } else {
+                        console.log(error);
+                    }
                 });
             }
         }
     }
 
+    const loadTestResults = async (web3: any, userAddress: string, contractAddress: string) => {
+        const ids = await getTestIndexes(web3, userAddress, contractAddress);
+        if (ids.length > 0) {
+            return await Promise.all(ids.map(async (id: string) => {
+                return await getTestResults(web3, contractAddress, id);
+            }));
+        }
+    }
+
     useEffect(() => {
+        const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
@@ -63,7 +97,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                     setSelectedSemester(semesters[0].id);
                 }
             });
-        } else {
+        } else if (assignments.length <= 0) {
             loadAssignments(selectedSemester, web3).then((assignments) => {
                 setAssignments(assignments);
 
@@ -71,8 +105,21 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                     setSelectedSemester(assignments[0].id);
                 }
             });
+        } else if (assignment) {
+            loadTestResults(web3, userAddress, assignment.validationContractAddress).then((results) => {
+                if (results) {
+                    setTestResults(results);
+                }
+            });
+            getSubmittedAssignment(web3, userAddress, assignment.validationContractAddress).then((result) => {
+                if (result) {
+                    setSubmittedAssignment(result);
+                }
+            });
+        } else {
+            setSelectedAssignment(assignments[0].id);
         }
-    }, [web3, semesters, selectedSemester]);
+    }, [web3, semesters, selectedSemester, assignments, contract, selectedAssignment]);
 
     return (
         <>
@@ -97,7 +144,8 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                             Remaining test tries: 2/3
                         </h2>
                     </div>
-                    <label htmlFor="semester" className="mt-2 text-center text-lg font-medium tracking-tight text-gray-900">
+                    <label htmlFor="semester"
+                           className="mt-2 text-center text-lg font-medium tracking-tight text-gray-900">
                         Choose Semester
                     </label>
                     <fieldset>
@@ -120,7 +168,8 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                             ))}
                         </div>
                     </fieldset>
-                    <label htmlFor="assignment" className="mt-2 text-center text-lg font-medium tracking-tight text-gray-900">
+                    <label htmlFor="assignment"
+                           className="mt-2 text-center text-lg font-medium tracking-tight text-gray-900">
                         Choose Assignment
                     </label>
                     <fieldset>
@@ -172,6 +221,45 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                             </span>
                         Submit assignment
                     </button>
+                    {
+                        submittedAssignment && submittedAssignment.blockNo != "0" ? (
+                            <div className="grid grid-cols-3 border-solid border-2 rounded-md border-uni p-2">
+                                <dt className="col-span-2 text-lg font-medium text-gray-900">Test index: {submittedAssignment.testIndex}</dt>
+                                <dt className="col-span-2 text-lg font-medium text-gray-900">Block number: {submittedAssignment.blockNo}</dt>
+                                <dt className="col-span-2 text-lg font-medium text-gray-900">Coins: {submittedAssignment.knowledgeCoins}</dt>
+                                <dt className="col-span-2 text-lg font-medium text-gray-900">Contract address: {submittedAssignment.contractAddress}</dt>
+                            </div>
+                        ) : (
+                            <div className="mt-3">
+                                <p className="text-sm text-gray-600">
+                                    You have not submitted an assignment yet.
+                                </p>
+                            </div>
+                        )
+                    }
+                    <div className="mt-6">
+                        Test results:
+                    </div>
+                    {testResults && testResults.length >= 0 ? (
+                        <>
+                            {testResults.map((results, index) => (
+                                <div key={index}
+                                     className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-y-4 gap-x-8 py-8 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+                                    Try {index}
+                                    {results.map((testResult, i) => (
+                                        <div key={i}
+                                             className="grid grid-cols-3 border-solid border-2 rounded-md border-uni p-2">
+                                            <dt className="col-span-2 text-lg font-medium text-gray-900">Test: {i}</dt>
+                                            <dt className="col-span-2 text-lg font-medium text-gray-900">Test
+                                                name: {testResult[0]}</dt>
+                                            <dt className="col-span-2 text-lg font-medium text-gray-900">Passed: {testResult[1]?.toString()}</dt>
+                                        </div>
+                                    ))}
+                                </div>
+                            ))}
+                        </>
+                    ) : null
+                    }
                 </div>
             </div>
         </>

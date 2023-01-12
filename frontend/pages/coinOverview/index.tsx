@@ -2,30 +2,21 @@ import Head from "next/head";
 import React, {useEffect, useState} from "react";
 import {loadSemesters, Semester} from "../semester";
 import {initBlockchain} from "../faucet";
-import {getKnowledgeCoinBalanceInRange} from "../../web3/src/entrypoints/account/coin"
+import {isAdmin} from "../../web3/src/entrypoints/config/admin";
+import Student from "../../components/coin/Student";
+import Admin from "../../components/coin/Admin";
 
-export default function CoinOverview({ userAddress }: { userAddress: string }) {
+export default function CoinOverview({userAddress}: { userAddress: string }) {
     const [semesters, setSemesters] = useState<Semester[]>([]);
     const [selectedSemester, setSelectedSemester] = useState<string>("");
     const [web3, setWeb3] = useState<any>(undefined);
-    const [coins, setCoins] = useState<number>(0);
+    const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
 
     const getSemesterById = (id: string) => {
         return semesters.find((semester) => semester.id === id);
     }
 
-    const getMissingCoins = () => {
-        const semester = getSemesterById(selectedSemester);
-
-        if (selectedSemester === "") return 0;
-        if (semester === undefined) return 0;
-
-        return semester.minKnowledgeCoinAmount - coins;
-    }
-
     useEffect(() => {
-        const semester = getSemesterById(selectedSemester);
-
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
@@ -38,9 +29,9 @@ export default function CoinOverview({ userAddress }: { userAddress: string }) {
                     setSelectedSemester(result[0].id);
                 }
             });
-        } else if (semester) {
-            getKnowledgeCoinBalanceInRange(web3, userAddress, semester.endBlock, semester.startBlock).then((result) => {
-                setCoins(result);
+        } else if (userAddress) {
+            isAdmin(web3, userAddress).then((result) => {
+                setIsUserAdmin(result);
             });
         }
     }, [web3, semesters, selectedSemester, userAddress]);
@@ -81,25 +72,12 @@ export default function CoinOverview({ userAddress }: { userAddress: string }) {
                                 ))}
                             </div>
                         </fieldset>
-                        <div
-                            className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-y-4 gap-x-8 py-8 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                            <div className="grid grid-cols-3 border-solid border-2 rounded-md border-uni p-2">
-                                <dt className="col-span-2 text-lg font-medium text-gray-900">Knowledge needed for
-                                    exam:
-                                </dt>
-                                <dt className="text-lg font-medium text-gray-900 text-right">{getSemesterById(selectedSemester)?.minKnowledgeCoinAmount}</dt>
-                            </div>
-                            <div className="grid grid-cols-3 border-solid border-2 rounded-md border-uni p-2">
-                                <dt className="col-span-2 text-lg font-medium text-gray-900">Your current knowledge:
-                                </dt>
-                                <dt className="text-lg font-medium text-green-600 text-right">{coins}</dt>
-                            </div>
-                            <div className="grid grid-cols-3 border-solid border-2 rounded-md border-uni p-2">
-                                <dt className="col-span-2 text-lg font-medium text-gray-900">Your missing knowledge:
-                                </dt>
-                                <dt className="text-lg font-medium text-red-600 text-right">{getMissingCoins()}</dt>
-                            </div>
-                        </div>
+                        {isUserAdmin ? (
+                            <Admin selectedSemester={selectedSemester} getSemesterById={getSemesterById} web3={web3}/>
+                        ) : (
+                            <Student selectedSemester={selectedSemester} getSemesterById={getSemesterById} web3={web3} userAddress={userAddress}/>
+                        )
+                        }
                     </div>
                 </div>
             </div>

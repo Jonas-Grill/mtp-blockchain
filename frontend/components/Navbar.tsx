@@ -4,24 +4,28 @@ import MetaMaskAuth from "./MetaMaskAuth";
 import {useEffect, useState} from "react";
 import Link from "next/link";
 import {isAdmin} from "../web3/src/entrypoints/config/admin"
+import {getCurrentBlockNumer} from "../web3/src/entrypoints/utils/utils"
 import {initBlockchain} from "../pages/faucet";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Navbar({userAddress, setUserAddress}: { userAddress: string, setUserAddress: (address: string) => void }) {
+export default function Navbar({
+                                   userAddress,
+                                   setUserAddress
+                               }: { userAddress: string, setUserAddress: (address: string) => void }) {
     const initialNavItems = [
         {name: 'Faucet', href: '/faucet', current: false, admin: false},
-        {name: 'Semester', href: '/semester', current: false, admin: true},
-        {name: 'Assignments', href: '/assignments', current: false, admin: true},
+        {name: 'Semester', href: '/semester', current: false, admin: false},
+        {name: 'Assignments', href: '/assignments', current: false, admin: false},
         {name: 'Coin overview', href: '/coinOverview', current: false, admin: false},
         {name: 'Submit assignment', href: '/submitAssignment', current: false, admin: false},
     ]
 
-    const [navigation, setNavigation] = useState<{name: string, href: string, current: boolean, admin: boolean}[]>(initialNavItems);
-    const [isUserAdmin, setIsUserAdmin] = useState(false);
+    const [navigation, setNavigation] = useState<{ name: string, href: string, current: boolean, admin: boolean }[]>(initialNavItems);
     const [web3, setWeb3] = useState<any>(undefined);
+    const [blockNumber, setBlockNumber] = useState<string>("0");
 
     useEffect(() => {
         if (!web3) {
@@ -30,22 +34,19 @@ export default function Navbar({userAddress, setUserAddress}: { userAddress: str
             });
         } else if (userAddress) {
             isAdmin(web3, userAddress).then((result) => {
-                setIsUserAdmin(result);
-
                 if (result) {
                     setNavigation(initialNavItems);
                 } else {
                     setNavigation(initialNavItems.filter((item) => !item.admin));
                 }
-                console.log("Admin: ", result);
             });
-        } else if (isUserAdmin){
-            setNavigation(initialNavItems);
-        } else if (!isUserAdmin) {
-            setNavigation(initialNavItems.filter((item) => !item.admin));
-            console.log("Nav: ", navigation);
         }
-    }, [web3, userAddress, isUserAdmin]);
+        if (web3) {
+            getCurrentBlockNumer(web3).then((blockNumber) => {
+                setBlockNumber(blockNumber.toString());
+            });
+        }
+    }, [web3, userAddress]);
 
     return (
         <Disclosure as="nav" className="bg-gray-300">
@@ -109,6 +110,7 @@ export default function Navbar({userAddress, setUserAddress}: { userAddress: str
                                                 {item.name}
                                             </Link>
                                         ))}
+                                        {web3 ? `Block: ${blockNumber}` : null}
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +133,7 @@ export default function Navbar({userAddress, setUserAddress}: { userAddress: str
                                     as="a"
                                     href={item.href}
                                     accessKey={item.name}
-                                    onClick={(event) => {
+                                    onClick={(event: any) => {
                                         let tmpNav = navigation;
                                         for (let i = 0; i < tmpNav.length; i++) {
                                             if (tmpNav[i].name == event.currentTarget.accessKey) {

@@ -27,7 +27,16 @@ export default function CreateAssignment() {
 
             appendAssignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock).then(() => {
                 router.push("/assignments");
-            })
+            }).catch((error) => {
+                if (error.code === "INVALID_ARGUMENT") {
+                    alert(`${error.value} is not a valid ${error.reason.substring(
+                        error.reason.indexOf('="') + 2,
+                        error.reason.indexOf('",')
+                    )}`);
+                } else {
+                    console.error(error);
+                }
+            });
         }
     }
 
