@@ -1,0 +1,214 @@
+= How to install a new Raspberry Pi node
+
+To provide a decentralized network there need to be different nodes rather than one central server.
+If one node is missing, the system won´t work, so the setup has to be restarted. The number of nodes is set to 6.
+The following steps will guide you through the installation process.
+
+== Tools needed
+
+* Raspberry Pi
+* SD card
+* SD card reader
+* Ethernet cable or WiFi
+* USB keyboard
+* USB mouse
+* Micro HDMI to HDMI/Display port cable or adapter
+* Power supply
+* Own PC
+* USB stick with needed files for creating the etherum node
+
+== Installing the imager on a SD card
+
+To install the Raspberry Pi OS on the Pi´s you need to have the Raspberry Pi imager installed on your PC.
+For this, visit the website: https://www.raspberrypi.com/software/. Here you can choose the right download according to your operating system:
+
+image::Raspberry1.png[]
+
+Once downloaded you see a screen like this:
+
+image::Raspberry2.png[]
+
+You then need to put your SD card in your SD card reader.
+Then you need to select the OS you want to install on your Pi´s, which is the following:
+
+image::Raspberry3.png[]
+
+Then you need to select the SD card you put in your SD card reader.
+When you have done this, you can click on the "Write" button to start the installation process.
+After some time, the imager will tell you that the installation was successful, and you can remove the SD card from the SD card reader.
+
+== Setting up the Raspberry Pi hardware
+
+Please follow the instructions on how to put the Raspberry Pi together which are in the packaging of the Pi. A picture of all the possible connection points is shown here:
+
+image::Raspberry4.png[]
+
+After you have put the Pi together, you need to connect the Pi to the fitting power supply. You will also need to plug in the micro HDMI cable to the Pi and connect it to a display.
+You will also need to connect the Pi to an ethernet cable if you choose this over a WiFi-Connection.
+You eventually also need to plug in a USB keyboard and mouse to interact with the Pi.
+Lastly you can insert the SD card in the SD card slot of the Raspberry Pi. Please keep in mind to insert it in the right way, so that the gold contacts are facing the Pi.
+Once all of this is done you can start the software setup process of your Raspberry Pi.
+
+== Setting up the Raspberry Pi software
+
+When you turn on your Raspberry Pi with all the things plugged in as described in the step before, you will see a welcome screen. Then you have to press "Next".
+
+Then you have to set the country, by choosing "Germany" for the country. Language should then automatically be set to "German" and Timezone to "Berlin". If not, please change it manually.
+Please check the box for "Use English Language". Then press "Next".
+
+You are then asked to create a user by providing a username and password. This information is given to the admin/lecturer beforehand. Then press "Next".
+
+Now you can set up the screen if it us not shown correctly. You can either switch the toggle and click "Next" or if the screen is shown correctly just press "Next".
+
+If you have decided for a Wifi-Connection, you now have to select your Wifi-Network and press "Next". Then you need to provide the WiFi-Password and press "Next".
+
+Once done, you are asked to update the software. Please press "Next" to do this. This eventually takes a while.
+
+After this is completed you see the setup Complete screen, and you have to press "Restart". The Raspberry Pi will now restart, and you will see the desktop of the Pi.
+
+You now have to click on the raspberry icon in the top left corner and select "Preferences" and then "Raspberry Pi Configuration". Then you have to select "Interfaces" and enable "SSH". Then press "OK".
+Also in the configuration window, go to Localisation and set the keyboard layout to "German". Then press "OK".
+
+== Preparation to create the node
+
+Now you need to open the terminal in the top left corner. Keep in mind, that you can only paste something in the terminal by rightlick and selecting "Paste" with the mouse and not by CTRL+V.
+Please enter the following
+----
+ifconfig
+----
+and press enter. You will see a lot of information about your PI.
+In the wlan0 section you will see the IP-Address of your Pi after "inet". Please write this down, as you will need it later.
+
+=== Installing GO
+
+Now you need to install GO on your Pi. To do this, please open the browser on the Pi in the top left corner. Then enter the following link: https://go.dev/dl/.
+You will see a Downloads page. Choose the go1.19.5 version and download go1.19.5.linux-armv6l.tar.gz.
+Please put the downloaded file on your desktop.
+
+Once done, open the terminal and type:
+----
+cd Desktop/
+----
+and press enter.
+
+Then type:
+----
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.19.5.linux-armv6l.tar.gz
+----
+and press enter.
+
+Then type:
+----
+cd ..
+----
+and press enter.
+
+Then type:
+----
+nano .profile
+----
+and press enter.
+
+Then scroll down to the bottom of the file and add the following lines:
+----
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+----
+and press CTRL+S and then CTRL+X.
+
+Then type:
+----
+sudo reboot now
+----
+and press enter. The Pi will now reboot.
+
+Once the Pi is rebooted, you need to open the terminal again and type:
+----
+go version
+----
+and press enter. You should see the version of go you installed. If not, please repeat the steps above. If it is correct, you can continue.
+
+=== Installing geth
+
+Now you need to install geth on your Pi. To do this, please open the terminal and type:
+----
+go install github.com/ethereum/go-ethereum/cmd/geth@latest
+----
+and press enter.
+
+Then type:
+----
+nano .profile
+----
+and press enter.
+
+Then scroll down to the bottom of the file and add the following line under the lines you already added for GO:
+----
+export PATH=$PATH:$GOPATH/bin
+----
+and press CTRL+S and then CTRL+X.
+
+Then type:
+----
+sudo reboot now
+----
+and press enter. The Pi will now reboot.
+
+== Installing the node setup files
+
+Insert the USB stick in the Pi. You will see a "Removable medium is inserted" screen and need to press "OK".
+You then see all the files on the USB stick. Please navigate to /media/unima/[name of USB-Stick]/pis/pi [number of Pi you want to set up].
+In there you will see a "nodes" folder. Please copy the folder to /home/unima.
+In /home/unima/nodes you should see a folder "node[number of Pi]", a "config.toml", a "genesis.json" and a "start_node_[number of Pi].sh".
+
+Now open the terminal and type:
+----
+cd nodes/
+----
+and press enter.
+
+Then type:
+----
+nano config.toml
+----
+and press enter.
+
+Now scroll down to the [Node] segment and look at the IP-Address behind HTTPHost. This should be the same as the IP-Address you looked up in the beginning. If not, please adjust it.
+Then press CTRL+S and CTRL+X.
+
+Now type the following:
+----
+sh start_node[number of Pi].sh
+----
+and press CTRL+C.
+You will again see a lot of information. You need to copy the enode. The enode is shown in quotation marks after "self=".
+
+Then open the filesystem of the USB-Stick again, and open the "enodes.json". There you need to replace the line of the Pi you want to set up. The lines are sorted according to number starting on top with Pi number 1.
+So for example, if you want to add the enode of Pi 6 you need to replace the last line in the "enodes.json".
+Now scroll to the right and change the number after the "@" and before the ":" to the IP-Address you looked up in the beginning. Once typed in, copy everything between the square brackets.
+Then press CTRL+S and close the window. You can now remove the USB-Stick.
+
+Please do all the steps before for every Pi you want to set up, so that the list of enodes in the "enode.json" is complete and up-to-date.
+Then you can go on with the following steps for each Pi.
+
+Go back to the terminal and type:
+----
+nano config.toml
+----
+and press enter. Then scroll down to [Node.P2P]. After "StaticNodes = [" paste the enodes you copied.
+Comma and quotation marks are kept, but empty lines need to be removed. Then press CTRL+S and CTRL+X.
+
+The Raspberry Pi is now all set to be a node.
+
+Start the node by typing in the terminal:
+----
+cd nodes/
+----
+and press enter.
+
+Then type:
+----
+sh start_node[number of Pi].sh
+----
+and press enter. Your node is now running.
+Once every node is set up accordingly and running, the blockchain is running.
