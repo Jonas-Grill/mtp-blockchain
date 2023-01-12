@@ -76,8 +76,8 @@ Please enter the following
 ----
 ifconfig
 ----
-and press enter. You will see a lot of information about your PI.
-In the wlan0 (for WiFi) / ether0 (for ethernet connection) section you will see the IP-Address of your Pi after "inet". Please write this down, as you will need it later.
+and press enter. You will see a lot of information about your Pi.
+In the wlan0 (for WiFi) / eth0 (for ethernet connection) section you will see the IP-Address of your Pi after "inet". Please write this down, as you will need it later.
 
 === Installing GO
 
