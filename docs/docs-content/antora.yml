@@ -5,3 +5,4 @@ prerelease: -beta.1
 nav:
   - modules/ROOT/nav.adoc
   - modules/forStudents/nav.adoc
+  - modules/forLecturers/nav.adoc
