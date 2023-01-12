@@ -4,7 +4,7 @@ import {loadSemesters, Semester} from "../semester";
 import {initBlockchain} from "../faucet";
 import {getKnowledgeCoinBalance} from "../../web3/src/entrypoints/account/faucet"
 
-export default function coinOverview({ userAddress }: { userAddress: string }) {
+export default function CoinOverview({ userAddress }: { userAddress: string }) {
     const [semesters, setSemesters] = useState<Semester[]>([]);
     const [selectedSemester, setSelectedSemester] = useState<string>("");
     const [web3, setWeb3] = useState<any>(undefined);
@@ -38,7 +38,7 @@ export default function coinOverview({ userAddress }: { userAddress: string }) {
                 setCoins(result);
             });
         }
-    }, [web3, semesters, selectedSemester]);
+    }, [web3, semesters, selectedSemester, userAddress]);
 
     return (
         <>
@@ -59,7 +59,7 @@ export default function coinOverview({ userAddress }: { userAddress: string }) {
                         <fieldset>
                             <div className="mt-4 space-y-4">
                                 {semesters.map((semester) => (
-                                    <div className="flex items-center">
+                                    <div className="flex items-center" key={semester.id}>
                                         <input
                                             id={semester.id}
                                             name="semester"

@@ -70,7 +70,7 @@ export default function CreateAssignment() {
                         <fieldset>
                             <div className="mt-4 space-y-4">
                                 {semesters.map((semester) => (
-                                    <div className="flex items-center">
+                                    <div className="flex items-center" key={semester.id}>
                                         <input
                                             id={semester.id}
                                             name="semester"

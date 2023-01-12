@@ -5,14 +5,11 @@ import {
 import React, {useEffect, useState} from "react";
 import {validateAssignment, submitAssignment, getTestResults} from '../../web3/src/entrypoints/assignments/assignments'
 import {loadSemesters, Semester} from "../semester";
-import {useRouter} from "next/router";
 import {Assignment, loadAssignments} from "../assignments";
 import Head from "next/head";
 import {initBlockchain} from "../faucet";
 
 export default function SubmitAssignment({userAddress}: { userAddress: string }) {
-    const router = useRouter();
-
     const [web3, setWeb3] = useState<any>(undefined);
     const [contract, setContract] = useState<string>("");
 
@@ -100,7 +97,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                     <fieldset>
                         <div className="mt-4 space-y-4">
                             {semesters.map((semester) => (
-                                <div className="flex items-center">
+                                <div className="flex items-center" key={semester.id}>
                                     <input
                                         id={semester.id}
                                         name="semester"
@@ -123,7 +120,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                     <fieldset>
                         <div className="mt-4 space-y-4">
                             {assignments.map((assignment) => (
-                                <div className="flex items-center">
+                                <div className="flex items-center" key={assignment.id}>
                                     <input
                                         id={assignment.id}
                                         name="assignment"

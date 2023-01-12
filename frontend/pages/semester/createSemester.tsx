@@ -29,10 +29,12 @@ export default function CreateSemester() {
     }
 
     useEffect(() => {
-        initBlockchain(web3).then((web3) => {
-            setWeb3(web3);
-        });
-    }, []);
+        if (!web3) {
+            initBlockchain(web3).then((web3) => {
+                setWeb3(web3);
+            });
+        }
+    }, [web3]);
 
     return (
         <>

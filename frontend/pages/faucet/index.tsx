@@ -24,9 +24,6 @@ export default function Faucet({userAddress}: { userAddress: string }) {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        alert(await web3.eth.getBalance(userAddress))
-
         await sendEth(web3, userAddress);
     }
 
@@ -36,7 +33,7 @@ export default function Faucet({userAddress}: { userAddress: string }) {
                 setWeb3(web3);
             });
         }
-    }, []);
+    }, [web3]);
 
     return (
         <>
