@@ -1,21 +1,51 @@
 import {Disclosure} from '@headlessui/react'
 import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
 import MetaMaskAuth from "./MetaMaskAuth";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Link from "next/link";
+import {isAdmin} from "../web3/src/entrypoints/config/admin"
+import {initBlockchain} from "../pages/faucet";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Navbar({setUserAddress}) {
-    const [navigation, setNavigation] = useState([
-        {name: 'Faucet', href: '/faucet', current: false},
-        {name: 'Semester', href: '/semester', current: false},
-        {name: 'Assignments', href: '/assignments', current: false},
-        {name: 'Coin overview', href: '/coinOverview', current: false},
-        {name: 'Submit assignment', href: '/submitAssignment', current: false},
-    ]);
+export default function Navbar({userAddress, setUserAddress}: { userAddress: string, setUserAddress: (address: string) => void }) {
+    const initialNavItems = [
+        {name: 'Faucet', href: '/faucet', current: false, admin: false},
+        {name: 'Semester', href: '/semester', current: false, admin: true},
+        {name: 'Assignments', href: '/assignments', current: false, admin: true},
+        {name: 'Coin overview', href: '/coinOverview', current: false, admin: false},
+        {name: 'Submit assignment', href: '/submitAssignment', current: false, admin: false},
+    ]
+
+    const [navigation, setNavigation] = useState<{name: string, href: string, current: boolean, admin: boolean}[]>(initialNavItems);
+    const [isUserAdmin, setIsUserAdmin] = useState(false);
+    const [web3, setWeb3] = useState<any>(undefined);
+
+    useEffect(() => {
+        if (!web3) {
+            initBlockchain(web3).then((web3) => {
+                setWeb3(web3);
+            });
+        } else if (userAddress) {
+            isAdmin(web3, userAddress).then((result) => {
+                setIsUserAdmin(result);
+
+                if (result) {
+                    setNavigation(initialNavItems);
+                } else {
+                    setNavigation(initialNavItems.filter((item) => !item.admin));
+                }
+                console.log("Admin: ", result);
+            });
+        } else if (isUserAdmin){
+            setNavigation(initialNavItems);
+        } else if (!isUserAdmin) {
+            setNavigation(initialNavItems.filter((item) => !item.admin));
+            console.log("Nav: ", navigation);
+        }
+    }, [web3, userAddress, isUserAdmin]);
 
     return (
         <Disclosure as="nav" className="bg-gray-300">

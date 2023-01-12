@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, {useEffect, useState} from "react";
 import {loadSemesters, Semester} from "../semester";
 import {initBlockchain} from "../faucet";
-import {getKnowledgeCoinBalance} from "../../web3/src/entrypoints/account/faucet"
+import {getKnowledgeCoinBalanceInRange} from "../../web3/src/entrypoints/account/coin"
 
 export default function CoinOverview({ userAddress }: { userAddress: string }) {
     const [semesters, setSemesters] = useState<Semester[]>([]);
@@ -24,6 +24,8 @@ export default function CoinOverview({ userAddress }: { userAddress: string }) {
     }
 
     useEffect(() => {
+        const semester = getSemesterById(selectedSemester);
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
@@ -31,10 +33,13 @@ export default function CoinOverview({ userAddress }: { userAddress: string }) {
         } else if (semesters.length <= 0) {
             loadSemesters(web3).then((result) => {
                 setSemesters(result);
-                setSelectedSemester(result[0].id);
+
+                if (result.length > 0) {
+                    setSelectedSemester(result[0].id);
+                }
             });
-        } else {
-            getKnowledgeCoinBalance(web3, userAddress).then((result) => {
+        } else if (semester) {
+            getKnowledgeCoinBalanceInRange(web3, userAddress, semester.endBlock, semester.startBlock).then((result) => {
                 setCoins(result);
             });
         }

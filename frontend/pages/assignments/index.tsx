@@ -51,7 +51,10 @@ export default function AssignmentOverview() {
         } else if (semesters.length <= 0) {
             loadSemesters(web3).then((result) => {
                 setSemesters(result);
-                setSelectedSemester(result[0].id);
+
+                if (result.length > 0) {
+                    setSelectedSemester(result[0].id);
+                }
             });
         } else {
             loadAssignments(selectedSemester, web3).then((result) => {

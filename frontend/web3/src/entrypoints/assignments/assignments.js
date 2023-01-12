@@ -14,7 +14,6 @@ exports.validateAssignment = async (web3, contractAddress, validationContractAdd
     const assignments = new assignmentsHandler.NOWAssignments(web3);
 
     return await assignments.validateAssignment(contractAddress, validationContractAddress)
-
 };
 
 // Submit assignment

@@ -26,7 +26,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
             const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
 
             if (assignment) {
-                validateAssignment(web3, userAddress, contract, assignment.validationContractAddress).then((result) => {
+                validateAssignment(web3, contract, assignment.validationContractAddress).then((result) => {
                     console.log("Result ID", result);
                     getTestResults(web3, assignment.validationContractAddress, result).then((result) => {
                         alert(JSON.stringify(result));
@@ -43,7 +43,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
             const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
 
             if (assignment) {
-                submitAssignment(web3, userAddress, contract, assignment.validationContractAddress).then((result) => {
+                submitAssignment(web3, contract, assignment.validationContractAddress).then((result) => {
                     alert(JSON.stringify(result));
                 });
             }
@@ -58,12 +58,18 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
         } else if (semesters.length <= 0) {
             loadSemesters(web3).then((semesters) => {
                 setSemesters(semesters);
-                setSelectedSemester(semesters[0].id);
+
+                if (semesters.length > 0) {
+                    setSelectedSemester(semesters[0].id);
+                }
             });
         } else {
             loadAssignments(selectedSemester, web3).then((assignments) => {
                 setAssignments(assignments);
-                setSelectedAssignment(assignments[0].id);
+
+                if (assignments.length > 0) {
+                    setSelectedSemester(assignments[0].id);
+                }
             });
         }
     }, [web3, semesters, selectedSemester]);

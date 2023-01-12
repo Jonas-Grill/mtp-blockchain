@@ -31,9 +31,10 @@ class NOWAccount {
         const faucetStorageContract = this.utils.getContract(this.web3,
             "FaucetStorage",
             _to,
-            await this.web3.eth.net.getId());
+            await this.web3.eth.net.getId()
+        );
 
-        const block = await web3.eth.getBlock("latest");
+        const block = await this.web3.eth.getBlock("latest");
 
         faucetStorageContract.options.gasLimit = block.gasLimit
         faucetStorageContract.options.gas = block.gasLimit

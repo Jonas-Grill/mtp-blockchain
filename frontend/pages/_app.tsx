@@ -25,7 +25,7 @@ export default function MyApp({Component, pageProps}: AppProps) {
     if (!web3) {
         return (
             <>
-                <Navbar setUserAddress={setUserAddress}/>
+                <Navbar setUserAddress={setUserAddress} userAddress={userAddress}/>
                 <div>You need metamask to use this web app</div>
             </>
         )
@@ -33,14 +33,14 @@ export default function MyApp({Component, pageProps}: AppProps) {
         if (chainId !== parseInt(process.env.NETWORK_ID || "-1")) {
             return (
                 <>
-                    <Navbar setUserAddress={setUserAddress}/>
+                    <Navbar setUserAddress={setUserAddress} userAddress={userAddress}/>
                     <div>You need to connect to the correct network</div>
                 </>
             )
         } else {
             return (
                 <>
-                    <Navbar setUserAddress={setUserAddress}/>
+                    <Navbar setUserAddress={setUserAddress} userAddress={userAddress}/>
                     <Component {...pageProps} userAddress={userAddress}/>
                 </>
             )

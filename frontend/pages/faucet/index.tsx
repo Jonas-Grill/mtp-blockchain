@@ -24,7 +24,31 @@ export default function Faucet({userAddress}: { userAddress: string }) {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        await sendEth(web3, userAddress);
+
+        if (web3) {
+            web3.eth.getBalance(userAddress).then((result: any) => {
+                const balance = web3.utils.fromWei(result, "ether");
+
+                if (balance > 0.2) {
+                    sendEth(web3, userAddress);
+                } else {
+                    fetch("http://localhost:8080/sendEth", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                toAddress: userAddress,
+                            }),
+                        }
+                    ).catch((error) => {
+                        console.log(error);
+                    });
+                }
+            }).catch((error: any) => {
+                console.log(error);
+            });
+        }
     }
 
     useEffect(() => {
