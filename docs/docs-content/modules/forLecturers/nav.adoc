@@ -1,2 +1,3 @@
 .For Lecturers
 * xref:raspberry.adoc[Raspberry Pi Setup]
+* xref:newSemester.adoc[Start a new semester]
