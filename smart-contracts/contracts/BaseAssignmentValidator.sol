@@ -102,10 +102,7 @@ contract BaseAssignmentValidator is BaseConfig {
     }
 
     // Submit assignment
-    function submitAssignment(address _contractAddress)
-        public
-        returns (uint256)
-    {
+    function submitAssignment(address _contractAddress) public returns (uint256) {
         // Make sure the assignment is linked to a semester
         require(
             isAssignmentLinked() == true,
@@ -355,7 +352,7 @@ contract BaseAssignmentValidator is BaseConfig {
         }
     }
 
-    /*=====        End of Test Helper      ======*/    
+    /*=====        End of Test Helper      ======*/
 
     /*=============================================
     =               Config Helper               =

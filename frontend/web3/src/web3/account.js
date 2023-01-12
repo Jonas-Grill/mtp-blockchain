@@ -33,7 +33,7 @@ class NOWAccount {
             _to,
             await this.web3.eth.net.getId());
 
-        var block = await web3.eth.getBlock("latest");
+        const block = await web3.eth.getBlock("latest");
 
         faucetStorageContract.options.gasLimit = block.gasLimit
         faucetStorageContract.options.gas = block.gasLimit
@@ -51,7 +51,7 @@ class NOWAccount {
     async getFaucetBalance() {
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
-        var faucetStorageContract = this.utils.getContract(this.web3,
+        const faucetStorageContract = this.utils.getContract(this.web3,
             "FaucetStorage",
             fromAddress,
             await this.web3.eth.net.getId())
@@ -66,17 +66,18 @@ class NOWAccount {
      * @returns amount of Knowledge Coins
      */
     async getKnowledgeCoinBalance(address) {
-        var knowledgeCoinContract = this.utils.getContract(this.web3,
+        const knowledgeCoinContract = this.utils.getContract(this.web3,
             "SBCoin",
             address,
-            await this.web3.eth.net.getId())
+            await this.web3.eth.net.getId()
+        )
 
         return await knowledgeCoinContract.methods.scaledBalanceOf(address).call({ from: await this.utils.getFromAccount(this.web3) })
     }
 
     /**
      * Return amount of Knowledge Coins from address (in full coins)
-     * 
+     *
      * @param {string} address address to check for balance in range
      * @param {int} startBlock Start block to check for balance
      * @param {int} endBlock  End block to check for balance
@@ -93,7 +94,7 @@ class NOWAccount {
 
     /**
      * Check if student passed the minimum amount of NOW coins needed
-     * 
+     *
      * @param {string} studentAddress Address of student to check
      * @param {id} semesterId Id of semester
      * @returns True if student passed the minimum amount of NOW coins needed, false if not
@@ -117,7 +118,7 @@ class NOWAccount {
     }
 
     /**
-     * Return list of addresses which passed the semester 
+     * Return list of addresses which passed the semester
      *
      * @param {array} studentAddresses Array of student addresses to check
      * @param {id} semesterId Id of semester

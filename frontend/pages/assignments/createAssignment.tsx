@@ -1,67 +1,60 @@
 import {DocumentTextIcon} from '@heroicons/react/20/solid'
 import React, {useEffect, useState} from "react";
-import Web3 from "web3";
-import {append_assignment} from "../../web3/src/entrypoints/config/assignment";
-import {loadSemesters} from "../semester";
+import {appendAssignment} from "../../web3/src/entrypoints/config/assignment";
+import {loadSemesters, Semester} from "../semester";
 import {useRouter} from "next/router";
+import Head from "next/head";
+import {initBlockchain} from "../faucet";
 
 export default function CreateAssignment() {
     const router = useRouter();
 
-    let web3;
-
-    const [semesters, setSemesters] = useState<{ id: string, name: any }[]>([]);
+    const [web3, setWeb3] = useState<any>(undefined);
+    const [semesters, setSemesters] = useState<Semester[]>([]);
     const [selectedSemester, setSelectedSemester] = useState<string>("");
-
-    useEffect(() => {
-        loadSemesters().then((semesters) => {
-            if (semesters) {
-                setSemesters(semesters);
-                setSelectedSemester(semesters[0].id);
-            }
-
-        });
-
-        if (window.ethereum) {
-            web3 = new Web3(window.ethereum);
-            window.ethereum.enable();
-        }
-    }, []);
 
     const createAssignment = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!web3) {
-             web3 = new Web3(window.ethereum);
+        if (web3) {
+            const data = new FormData(event.currentTarget);
+
+            const name = data.get('name');
+            const link = data.get('link');
+            const contractAddress = data.get('contractAddress');
+            const startBlock = data.get('startBlock');
+            const endBlock = data.get('endBlock');
+
+            appendAssignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock).then(() => {
+                router.push("/assignments");
+            })
         }
-
-        const data = new FormData(event.currentTarget);
-        const name = data.get('name') as string;
-        const link = data.get('link') as string;
-        const contractAddress = data.get('contractAddress') as string;
-        const startBlock = data.get('startBlock') as string;
-        const endBlock = data.get('endBlock') as string;
-
-        append_assignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock).then((result) => {
-            const data = sessionStorage.getItem('assignmentList');
-            let assignmentList = [];
-
-            if (data) {
-                assignmentList = JSON.parse(data);
-                assignmentList.push({semester: selectedSemester, id: result.id});
-            } else {
-                assignmentList.push({semester: selectedSemester, id: result.id});
-            }
-
-            sessionStorage.setItem('assignmentList', JSON.stringify(assignmentList));
-
-            router.push('/assignments');
-        });
     }
+
+    const getSemesterById = (id: string) => {
+        return semesters.find((semester) => semester.id === id);
+    }
+
+    useEffect(() => {
+
+        if (!web3) {
+            initBlockchain(web3).then((web3) => {
+                setWeb3(web3);
+            });
+        } else {
+            loadSemesters(web3).then((result) => {
+                setSemesters(result);
+                setSelectedSemester(result[0].id);
+            });
+        }
+    }, [web3]);
 
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <Head>
+                    <title>Create assignment</title>
+                </Head>
                 <div className="w-full max-w-md space-y-8">
                     <div>
                         <img
@@ -77,7 +70,7 @@ export default function CreateAssignment() {
                         <fieldset>
                             <div className="mt-4 space-y-4">
                                 {semesters.map((semester) => (
-                                    <div className="flex items-center">
+                                    <div className="flex items-center" key={semester.id}>
                                         <input
                                             id={semester.id}
                                             name="semester"
@@ -133,7 +126,9 @@ export default function CreateAssignment() {
                         <input
                             id="startBlock"
                             name="startBlock"
-                            type="text"
+                            type="number"
+                            min={getSemesterById(selectedSemester)?.startBlock}
+                            max={getSemesterById(selectedSemester)?.endBlock}
                             required
                             className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Starting block"
@@ -144,14 +139,15 @@ export default function CreateAssignment() {
                         <input
                             id="endBlock"
                             name="endBlock"
-                            type="text"
+                            type="number"
+                            min={getSemesterById(selectedSemester)?.startBlock}
+                            max={getSemesterById(selectedSemester)?.endBlock}
                             required
                             className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="End block"
                         />
                         <button
                             type="submit"
-
                             className="group relative mt-3 flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
                         >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
