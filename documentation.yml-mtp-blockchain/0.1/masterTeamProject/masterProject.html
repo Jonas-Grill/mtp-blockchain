@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>First steps :: Antora Docs</title>
+    <title>A Blockchain-based system for course submissions :: Antora Docs</title>
     <meta name="generator" content="Antora 3.1.2">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -37,11 +37,11 @@
     <button class="nav-item-toggle"></button>
     <span class="nav-text">For Students</span>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="metamask.html">Metamask Setup</a>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../forStudents/metamask.html">Metamask Setup</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="guide.html">Guide for Knowledge Base</a>
+    <a class="nav-link" href="../forStudents/guide.html">Guide for Knowledge Base</a>
   </li>
 </ul>
   </li>
@@ -64,8 +64,8 @@
     <button class="nav-item-toggle"></button>
     <span class="nav-text">Master Team Project</span>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../masterTeamProject/masterProject.html">A Blockchain-based system for course submissions</a>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="masterProject.html">A Blockchain-based system for course submissions</a>
   </li>
 </ul>
   </li>
@@ -98,8 +98,8 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">MTP-Blockchain</a></li>
-    <li>For Students</li>
-    <li><a href="metamask.html">Metamask Setup</a></li>
+    <li>Master Team Project</li>
+    <li><a href="masterProject.html">A Blockchain-based system for course submissions</a></li>
   </ul>
 </nav>
 </div>
@@ -108,48 +108,34 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">First steps</h1>
+<h1 class="page">A Blockchain-based system for course submissions</h1>
 <div class="sect1">
-<h2 id="_get_a_metamask_wallet"><a class="anchor" href="#_get_a_metamask_wallet"></a>Get a Metamask wallet</h2>
+<h2 id="_who_we_are"><a class="anchor" href="#_who_we_are"></a>Who we are</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_why_metamask"><a class="anchor" href="#_why_metamask"></a>Why MetaMask?</h3>
 <div class="paragraph">
-<p>MetaMask is a crypto wallet, which is used to interact with the Ethereum Blockchain.
-With MetaMask users can easily access their Ethereum wallet through a browser extension or a mobile app. Those can be used to interact with decentralized apps.</p>
+<p>We are Elias Anderlohr, Jonas Grill and Gina Weber. We are / were master students in business informatics at the University of Mannheim.
+We chose "A Blockchain-based system for course submissions" by Prof. Dr. Markus Strohmaier (Chair of Data Science in the Economic and Social Sciences) and Dr. Stefano Balietti as our Master Team Project.
+We started the project in fall semester 2022.
+The project was first launched in spring semester 2023.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_metamask_setup"><a class="anchor" href="#_metamask_setup"></a>MetaMask Setup</h3>
+</div>
+<div class="sect1">
+<h2 id="_what_we_did"><a class="anchor" href="#_what_we_did"></a>What we did</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>First you need to head to the MetaMask website: <a href="https://metamask.io/" class="bare">https://metamask.io/</a>.
-Now you need to click on the "Install MetaMask for Chrome" button, which is shown in the following picture:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/Metamask1.png" alt="Metamask1">
+<p>The basic idea of Prof. Strohmaier was to teach blockchain by using a blockchain based learning system. Therefore, basic concepts such as block numbers and smart contracts are understood through using the system.
+We implemented a frontend with Next.js and tailwindCSS. The faucet was implemented via a Node.js backend. All other logical operations are running directly on-chain.
+The chain is running on six raspberry Pi´s in the University of Mannheim which are working via a proof of authority consensus algorithm.
+Only for the submission of student ID and wallet addresses, an off-chain system such as ILIAS is used to comply to data privacy rules.</p>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_documentation"><a class="anchor" href="#_documentation"></a>documentation</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>This will take you to the Chrome Web Store. There you need to click the "Add to Chrome" button. This is completely free.
-Supported browsers are: Chrome, Firefox, Brave, Edge and Opera.
-Once MetaMask is installed, you will see the MetaMask fox in the top right corner of your browser.
-When you click on the fox icon, you are given the option to "Get started". Once you clicked on this, you will see the following screen:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/Metamask2.png" alt="Metamask2">
-</div>
-</div>
-<div class="paragraph">
-<p>Now you have to click on the "Create a Wallet" button. The system will ask you if you want to share analytics data with Metamask, which is up to you to decide.
-Once you decided on this, you are asked to create a password. This password will allow you to access your wallet, therefore you should use a strong password.
-On the next page you will be given a set of 12 words that act as your private key. This key gives you access to all your digital assets. If you forgot your password, you can use these 12 words to gain access again.
-So please write those words down (in the correct order!) for the case of forgetting your password.
-Also, please don´t share those phrases because everyone that knows them can access your assets.
-Only once you have written the phrases down, click "Next". Then MetaMask will ask you to confirm your secret recovery phrase by selecting the words in the order they were displayed before.
-Once you have done that, you can click "Continue". With this you successfully created your Metamask wallet, which you can always access via the browser extension in your browser.</p>
-</div>
+<p>If you want to learn more about our system, motivation and other interesting things, you can find the documentation which we handed in for grading in the following PDF file:</p>
 </div>
 </div>
 </div>
