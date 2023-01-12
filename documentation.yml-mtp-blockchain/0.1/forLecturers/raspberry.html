@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>How to install a new Raspberry Pi node :: Antora Docs</title>
+    <meta name="generator" content="Antora 3.1.2">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a>MTP-Blockchain</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="documentation.yml-mtp-blockchain" data-version="0.1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">MTP-Blockchain</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Welcome</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Students</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../forStudents/metamask.html">Metamask Setup</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">MTP-Blockchain</span>
+    <span class="version">0.1-beta.1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">MTP-Blockchain</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">0.1-beta.1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">MTP-Blockchain</a></li>
+    <li><a href="raspberry.html">How to install a new Raspberry Pi node</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">How to install a new Raspberry Pi node</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>To provide a decentralized network there need to be different nodes rather than one central server.
+If one node is missing, the system won´t work, so the setup has to be restarted. The number of nodes is set to 6.
+The following steps will guide you through the installation process.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tools_needed"><a class="anchor" href="#_tools_needed"></a>Tools needed</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Raspberry Pi</p>
+</li>
+<li>
+<p>SD card</p>
+</li>
+<li>
+<p>SD card reader</p>
+</li>
+<li>
+<p>Ethernet cable or WiFi</p>
+</li>
+<li>
+<p>USB keyboard</p>
+</li>
+<li>
+<p>USB mouse</p>
+</li>
+<li>
+<p>Micro HDMI to HDMI/Display port cable or adapter</p>
+</li>
+<li>
+<p>Power supply</p>
+</li>
+<li>
+<p>Own PC</p>
+</li>
+<li>
+<p>USB stick with needed files for creating the etherum node</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installing_the_imager_on_a_sd_card"><a class="anchor" href="#_installing_the_imager_on_a_sd_card"></a>Installing the imager on a SD card</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To install the Raspberry Pi OS on the Pi´s you need to have the Raspberry Pi imager installed on your PC.
+For this, visit the website: <a href="https://www.raspberrypi.com/software/" class="bare">https://www.raspberrypi.com/software/</a>. Here you can choose the right download according to your operating system:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Raspberry1.png" alt="Raspberry1">
+</div>
+</div>
+<div class="paragraph">
+<p>Once downloaded you see a screen like this:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Raspberry2.png" alt="Raspberry2">
+</div>
+</div>
+<div class="paragraph">
+<p>You then need to put your SD card in your SD card reader.
+Then you need to select the OS you want to install on your Pi´s, which is the following:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Raspberry3.png" alt="Raspberry3">
+</div>
+</div>
+<div class="paragraph">
+<p>Then you need to select the SD card you put in your SD card reader.
+When you have done this, you can click on the "Write" button to start the installation process.
+After some time, the imager will tell you that the installation was successful, and you can remove the SD card from the SD card reader.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setting_up_the_raspberry_pi_hardware"><a class="anchor" href="#_setting_up_the_raspberry_pi_hardware"></a>Setting up the Raspberry Pi hardware</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Please follow the instructions on how to put the Raspberry Pi together which are in the packaging of the Pi. A picture of all the possible connection points is shown here:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Raspberry4.png" alt="Raspberry4">
+</div>
+</div>
+<div class="paragraph">
+<p>After you have put the Pi together, you need to connect the Pi to the fitting power supply. You will also need to plug in the micro HDMI cable to the Pi and connect it to a display.
+You will also need to connect the Pi to an ethernet cable if you choose this over a WiFi-Connection.
+You eventually also need to plug in a USB keyboard and mouse to interact with the Pi.
+Lastly you can insert the SD card in the SD card slot of the Raspberry Pi. Please keep in mind to insert it in the right way, so that the gold contacts are facing the Pi.
+Once all of this is done you can start the software setup process of your Raspberry Pi.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setting_up_the_raspberry_pi_software"><a class="anchor" href="#_setting_up_the_raspberry_pi_software"></a>Setting up the Raspberry Pi software</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you turn on your Raspberry Pi with all the things plugged in as described in the step before, you will see a welcome screen. Then you have to press "Next".</p>
+</div>
+<div class="paragraph">
+<p>Then you have to set the country, by choosing "Germany" for the country. Language should then automatically be set to "German" and Timezone to "Berlin". If not, please change it manually.
+Please check the box for "Use English Language". Then press "Next".</p>
+</div>
+<div class="paragraph">
+<p>You are then asked to create a user by providing a username and password. This information is given to the admin/lecturer beforehand. Then press "Next".</p>
+</div>
+<div class="paragraph">
+<p>Now you can set up the screen if it us not shown correctly. You can either switch the toggle and click "Next" or if the screen is shown correctly just press "Next".</p>
+</div>
+<div class="paragraph">
+<p>If you have decided for a Wifi-Connection, you now have to select your Wifi-Network and press "Next". Then you need to provide the WiFi-Password and press "Next".</p>
+</div>
+<div class="paragraph">
+<p>Once done, you are asked to update the software. Please press "Next" to do this. This eventually takes a while.</p>
+</div>
+<div class="paragraph">
+<p>After this is completed you see the setup Complete screen, and you have to press "Restart". The Raspberry Pi will now restart, and you will see the desktop of the Pi.</p>
+</div>
+<div class="paragraph">
+<p>You now have to click on the raspberry icon in the top left corner and select "Preferences" and then "Raspberry Pi Configuration". Then you have to select "Interfaces" and enable "SSH". Then press "OK".
+Also in the configuration window, go to Localisation and set the keyboard layout to "German". Then press "OK".</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_preparation_to_create_the_node"><a class="anchor" href="#_preparation_to_create_the_node"></a>Preparation to create the node</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now you need to open the terminal in the top left corner. Keep in mind, that you can only paste something in the terminal by rightlick and selecting "Paste" with the mouse and not by CTRL+V.
+Please enter the following</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ifconfig</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter. You will see a lot of information about your PI.
+In the wlan0 section you will see the IP-Address of your Pi after "inet". Please write this down, as you will need it later.</p>
+</div>
+<div class="sect2">
+<h3 id="_installing_go"><a class="anchor" href="#_installing_go"></a>Installing GO</h3>
+<div class="paragraph">
+<p>Now you need to install GO on your Pi. To do this, please open the browser on the Pi in the top left corner. Then enter the following link: <a href="https://go.dev/dl/" class="bare">https://go.dev/dl/</a>.
+You will see a Downloads page. Choose the go1.19.5 version and download go1.19.5.linux-armv6l.tar.gz.
+Please put the downloaded file on your desktop.</p>
+</div>
+<div class="paragraph">
+<p>Once done, open the terminal and type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd Desktop/</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter.</p>
+</div>
+<div class="paragraph">
+<p>Then type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sudo rm -rf /usr/local/go &amp;&amp; sudo tar -C /usr/local -xzf go1.19.5.linux-armv6l.tar.gz</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter.</p>
+</div>
+<div class="paragraph">
+<p>Then type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd ..</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter.</p>
+</div>
+<div class="paragraph">
+<p>Then type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nano .profile</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter.</p>
+</div>
+<div class="paragraph">
+<p>Then scroll down to the bottom of the file and add the following lines:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press CTRL+S and then CTRL+X.</p>
+</div>
+<div class="paragraph">
+<p>Then type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sudo reboot now</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter. The Pi will now reboot.</p>
+</div>
+<div class="paragraph">
+<p>Once the Pi is rebooted, you need to open the terminal again and type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>go version</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter. You should see the version of go you installed. If not, please repeat the steps above. If it is correct, you can continue.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installing_geth"><a class="anchor" href="#_installing_geth"></a>Installing geth</h3>
+<div class="paragraph">
+<p>Now you need to install geth on your Pi. To do this, please open the terminal and type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>go install github.com/ethereum/go-ethereum/cmd/geth@latest</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter.</p>
+</div>
+<div class="paragraph">
+<p>Then type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nano .profile</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter.</p>
+</div>
+<div class="paragraph">
+<p>Then scroll down to the bottom of the file and add the following line under the lines you already added for GO:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>export PATH=$PATH:$GOPATH/bin</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press CTRL+S and then CTRL+X.</p>
+</div>
+<div class="paragraph">
+<p>Then type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sudo reboot now</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter. The Pi will now reboot.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installing_the_node_setup_files"><a class="anchor" href="#_installing_the_node_setup_files"></a>Installing the node setup files</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Insert the USB stick in the Pi. You will see a "Removable medium is inserted" screen and need to press "OK".
+You then see all the files on the USB stick. Please navigate to /media/unima/[name of USB-Stick]/pis/pi [number of Pi you want to set up].
+In there you will see a "nodes" folder. Please copy the folder to /home/unima.
+In /home/unima/nodes you should see a folder "node[number of Pi]", a "config.toml", a "genesis.json" and a "start_node_[number of Pi].sh".</p>
+</div>
+<div class="paragraph">
+<p>Now open the terminal and type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd nodes/</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter.</p>
+</div>
+<div class="paragraph">
+<p>Then type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nano config.toml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter.</p>
+</div>
+<div class="paragraph">
+<p>Now scroll down to the [Node] segment and look at the IP-Address behind HTTPHost. This should be the same as the IP-Address you looked up in the beginning. If not, please adjust it.
+Then press CTRL+S and CTRL+X.</p>
+</div>
+<div class="paragraph">
+<p>Now type the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sh start_node[number of Pi].sh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press CTRL+C.
+You will again see a lot of information. You need to copy the enode. The enode is shown in quotation marks after "self=".</p>
+</div>
+<div class="paragraph">
+<p>Then open the filesystem of the USB-Stick again, and open the "enodes.json". There you need to replace the line of the Pi you want to set up. The lines are sorted according to number starting on top with Pi number 1.
+So for example, if you want to add the enode of Pi 6 you need to replace the last line in the "enodes.json".
+Now scroll to the right and change the number after the "@" and before the ":" to the IP-Address you looked up in the beginning. Once typed in, copy everything between the square brackets.
+Then press CTRL+S and close the window. You can now remove the USB-Stick.</p>
+</div>
+<div class="paragraph">
+<p>Please do all the steps before for every Pi you want to set up, so that the list of enodes in the "enode.json" is complete and up-to-date.
+Then you can go on with the following steps for each Pi.</p>
+</div>
+<div class="paragraph">
+<p>Go back to the terminal and type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nano config.toml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter. Then scroll down to [Node.P2P]. After "StaticNodes = [" paste the enodes you copied.
+Comma and quotation marks are kept, but empty lines need to be removed. Then press CTRL+S and CTRL+X.</p>
+</div>
+<div class="paragraph">
+<p>The Raspberry Pi is now all set to be a node.</p>
+</div>
+<div class="paragraph">
+<p>Start the node by typing in the terminal:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd nodes/</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter.</p>
+</div>
+<div class="paragraph">
+<p>Then type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sh start_node[number of Pi].sh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter. Your node is now running.
+Once every node is set up accordingly and running, the blockchain is running.</p>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
