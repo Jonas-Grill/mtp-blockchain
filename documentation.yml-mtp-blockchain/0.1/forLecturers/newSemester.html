@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Untitled :: Antora Docs</title>
+    <title>How to start with a new semester :: Antora Docs</title>
     <meta name="generator" content="Antora 3.1.2">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -42,6 +42,15 @@
   </li>
 </ul>
   </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Lecturers</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="raspberry.html">Raspberry Pi Setup</a>
+  </li>
+</ul>
+  </li>
 </ul>
   </nav>
 </div>
@@ -69,6 +78,10 @@
 <button class="nav-toggle"></button>
   <a href="../index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">MTP-Blockchain</a></li>
+    <li><a href="newSemester.html">How to start with a new semester</a></li>
+  </ul>
 </nav>
 </div>
   <div class="content">
@@ -76,7 +89,108 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-
+<h1 class="page">How to start with a new semester</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This will be a step-by-step guide on how you get a new semester with new students up and running.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_log_in_as_admin_on_knowledge_base"><a class="anchor" href="#_log_in_as_admin_on_knowledge_base"></a>Log in as admin on Knowledge Base</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To be able to see all the admin functions to create a new semester on Knowledge Base you have to log in with your Metamask account that is registered as an admin account.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_a_new_semester_on_knowledge_base"><a class="anchor" href="#_create_a_new_semester_on_knowledge_base"></a>Create a new semester on Knowledge Base</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To create a new semester on Knowledge Base you have to go to the Semester section and click on the button "Create new semester".
+Then you are asked to type in the following information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Type in the name of the semester.</p>
+</li>
+<li>
+<p>Specify the starting block of the assignment. The students won´t see a time slot for the assignment but only the starting and end block. Students have to manually calculate the time slot for the assignment.</p>
+</li>
+<li>
+<p>Specify the end block of the assignment.</p>
+</li>
+<li>
+<p>Provide the coin amount that is needed to be qualified for the exam.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_how_to_deploy_a_new_validator_contract"><a class="anchor" href="#_how_to_deploy_a_new_validator_contract"></a>How to deploy a new validator contract</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you want to create a semester with new assignments, there need to be validator contracts that check the solutions that are submitted by the students.
+To deploy such a validator contract you have to
+TODO</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_assignments_or_use_existing_ones_on_knowledge_base"><a class="anchor" href="#_create_assignments_or_use_existing_ones_on_knowledge_base"></a>Create assignments or use existing ones on Knowledge Base</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you want to add a new assignment on Knowledge Base you have to go to the section "Assignments" and press the "Add new Assignment"-Button.
+Then you are asked to type in the following information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Select the semester you want to add the assignment to. This way you can also add an existing assignment to a new semester.
+Please keep in mind that the semester has to be created before you can add an assignment to it.</p>
+</li>
+<li>
+<p>Type in the name of the assignment.</p>
+</li>
+<li>
+<p>Provide the link to the assignment task. This link will lead to a pdf document which contains the instructions for the task of the assignment.</p>
+</li>
+<li>
+<p>Insert the contract address of the contract that will validate the solutions handed in by the students. This contract should have been deployed by this point.</p>
+</li>
+<li>
+<p>Specify the starting block of the assignment. The students won´t see a time slot for the assignment but only the starting and end block. Students have to manually calculate the time slot for the assignment.</p>
+</li>
+<li>
+<p>Specify the end block of the assignment.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_a_survey_on_ilias"><a class="anchor" href="#_create_a_survey_on_ilias"></a>Create a survey on ILIAS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To gather the needed student data and comply to the data privacy rules of the University of Mannheim you have to use ILIAS as a data source.
+To do so, you have to create a survey on ILIAS. The survey should contain the following questions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>What is your student number at University of Mannheim?</p>
+</li>
+<li>
+<p>What is the public address of your Metamask wallet? (The students need to have set up a Metamask wallet before they can provide this information.)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </article>
   </div>
 </main>
