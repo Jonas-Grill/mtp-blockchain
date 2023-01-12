@@ -1,0 +1,2 @@
+.For Lecturers
+* xref:raspberry.adoc[Raspberry Pi Setup]
