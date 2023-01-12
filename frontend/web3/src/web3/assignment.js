@@ -2,61 +2,117 @@
 Store some utility functions
 */
 
-class UniMaAssignments {
+class NOWAssignments {
 
-    constructor(web3) {
+    constructor(_web3) {
         // Require config
         const configHandler = require('./config')
 
         // Create config class with config path
-        this.config = new configHandler.Config(web3)
+        this.config = new configHandler.NOWConfig(_web3)
 
         // Require utils
         const utilsHandler = require('./utils')
 
-        this.utils = new utilsHandler.UniMaUtils()
+        this.utils = new utilsHandler.NOWUtils()
 
-        this.web3 = web3
+        this.web3 = _web3
     }
 
 
     /**
      * Validate assignment
      *
-     * @param {string} student_address Student address
-     * @param {string} contract_address Contract address
-     * @param {string} validation_contract_address Address of contract
+     * @param {string} studentAddress Student address
+     * @param {string} contractAddress Contract address
+     * @param {string} validationContractAddress Address of contract
      * @returns Id of assignment check
      */
-    async validate_assignment(student_address, contract_address, validation_contract_address) {
-        const deploy_address = this.config.getCoinbaseAddress;
+    async validateAssignment(studentAddress, contractAddress, validationContractAddress) {
+        const fromAddress = await this.utils.getFromAccount(this.web3);
 
-        const test_assignment_validator = this.utils.get_assignment_validator_contract(this.web3, deploy_address, validation_contract_address);
-        test_assignment_validator.options.gas = 5000000
+        const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
+        assignmentValidatorContract.options.gas = 5000000
 
-        await test_assignment_validator.methods.validateTestAssignment(student_address, contract_address).send({
-            from: deploy_address,
+        await assignmentValidatorContract.methods.validateExampleAssignment(studentAddress, contractAddress).send({
+            from: fromAddress,
         });
 
-        var id = await test_assignment_validator.methods.getHistoryCounter().call({
-            from: deploy_address,
+        var id = await assignmentValidatorContract.methods.getHistoryCounter().call({
+            from: fromAddress,
         });
 
         return id;
     }
 
-    async get_test_results(id, validation_contract_address) {
-        const deploy_address = this.config.getCoinbaseAddress;
+    /**
+     * Submit assignment
+     * 
+     * @param {string} studentAddress Student address
+     * @param {string} contractAddress Contract address
+     * @param {string} validationContractAddress Address of validation contract
+     */
+    async submitAssignment(studentAddress, contractAddress, validationContractAddress) {
+        const fromAddress = await this.utils.getFromAccount(this.web3);
 
-        const test_assignment_validator = this.utils.get_assignment_validator_contract(this.web3, deploy_address, validation_contract_address);
+        const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
+        assignmentValidatorContract.options.gas = 5000000
 
-        var results = await test_assignment_validator.methods.getTestResults(id).call({
-            from: deploy_address,
+        await assignmentValidatorContract.methods.submitAssignment(studentAddress, contractAddress).send({
+            from: fromAddress,
+        });
+    }
+
+    /**
+     * Get all test history indexes of student
+     * 
+     * @param {string} studentAddress Student address
+     * @param {string} validationContractAddress Address of validation contract
+     * @returns Return array of all test indexes
+     */
+    async getTestHistoryIndexes(studentAddress, validationContractAddress) {
+        const fromAddress = await this.utils.getFromAccount(this.web3);
+
+        const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
+
+        const testHistoryIndexes = await assignmentValidatorContract.methods.getTestHistoryIndexes(studentAddress).call({
+            from: fromAddress,
+        });
+
+        return testHistoryIndexes.filter(val => val !== "0");
+    }
+
+    /**
+     * Get test results by id 
+     *
+     * @param {int} id Id of the test
+     * @param {string} validationContractAddress Address of validation contract
+     * @returns Return test result
+     */
+    async getTestResults(validationContractAddress, id) {
+        const fromAddress = await this.utils.getFromAccount(this.web3);
+
+        const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
+
+        const results = await assignmentValidatorContract.methods.getTestResults(id).call({
+            from: fromAddress,
         });
 
         return results;
     }
+
+    async getSubmittedAssignment(studentAddress, validationContractAddress) {
+        const fromAddress = await this.utils.getFromAccount(this.web3);
+
+        const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
+
+        const results = await assignmentValidatorContract.methods.getSubmittedAssignment(studentAddress).call({
+            from: fromAddress,
+        });
+
+        return { "testIndex": results[0], "studentAddress": results[1], "contractAddress": results[2], "knowledgeCoins": results[3], "blockNo": results[4], "submitted": results[5] };
+    }
 }
 
 // export utils class
-module.exports = { UniMaAssignments };
+module.exports = { NOWAssignments };

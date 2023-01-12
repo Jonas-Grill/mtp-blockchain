@@ -1,64 +1,73 @@
-/*----------  Account Helper ----------*/
-// Get account Handler
-const accountHandler = require(root_path + '/web3/src/web3/account');
-
-/*----------  Config Helper  ----------*/
+/*----------  NOWConfig Helper  ----------*/
 // config
 const configHandler = require("../../web3/config");
 
+// Add user admin
+exports.addUserAdmin = async (web3, address) => {
+    const config = new configHandler.NOWConfig(web3);
 
-/*----------  Utils Helper  ----------*/
-// utils
-const utilsHelper = require("../../web3/utils")
-// Create utils class
-const utils = new utilsHelper.UniMaUtils();
-
-// Add admin endpoint
-exports.append_admin = async (address, new_address) => {
-    try {
-        await config.add_admin(new_address);
-        return { "success": true };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
+    await config.addUserAdmin(address);
 };
 
-// Delete admin endpoint
-exports.delete_admin = async (web3, new_address) => {
-    try {
-        const config = new configHandler.Config(web3);
+// Add contract admin
+exports.addContractAdmin = async (web3, address) => {
+    const config = new configHandler.NOWConfig(web3);
 
-        await config.remove_admin(new_address);
-        return { "success": true };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
+    await config.addContractAdmin(address);
 };
 
-// Get admin endpoint
-exports.get_admin = async (web3, new_address) => {
-    try {
-        const config = new configHandler.Config(web3);
+// Delete user admin
+exports.removeUserAdmin = async (web3, address) => {
+    const config = new configHandler.NOWConfig(web3);
 
-        const admins = await config.get_admins(new_address);
-        return { "success": true, "admins": admins };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
+    await config.removeUserAdmin(address);
 };
 
-// Is admin endpoint
-exports.is_admin = async (web3, new_address) => {
-    try {
-        const config = new configHandler.Config(web3);
+// Delete contract admin
+exports.removeContractAdmin = async (web3, address) => {
+    const config = new configHandler.NOWConfig(web3);
 
-        const is_admin = await config.is_admin(new_address)
-        return { "success": true, "is_admin": is_admin };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
+    await config.removeContractAdmin(address);
+};
+
+// Get admin addresses
+exports.getUserAdmins = async (web3, address) => {
+    const config = new configHandler.NOWConfig(web3);
+
+    return await config.getUserAdmins(address);
+};
+
+// Get contract admin addresses
+exports.getContractAdminAddresses = async (web3, address) => {
+    const config = new configHandler.NOWConfig(web3);
+
+    return await config.getContractAdminAddresses(address);
+};
+
+// Get contract admins
+exports.getContractAdmins = async (web3, address) => {
+    const config = new configHandler.NOWConfig(web3);
+
+    return await config.getContractAdmins(address);
+};
+
+// Is address admin
+exports.isAdmin = async (web3, address) => {
+    const config = new configHandler.NOWConfig(web3);
+
+    return await config.isAdmin(address)
+};
+
+// Is user address admin
+exports.isUserAdmin = async (web3, address) => {
+    const config = new configHandler.NOWConfig(web3);
+
+    return await config.isUserAdmin(address)
+};
+
+// Is contract address admin
+exports.isContractAdmin = async (web3, address) => {
+    const config = new configHandler.NOWConfig(web3);
+
+    return await config.isContractAdmin(address)
 };

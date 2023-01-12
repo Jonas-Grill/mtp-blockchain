@@ -37,16 +37,20 @@ export default function Navbar({setUserAddress}) {
                             </div>
                             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                                 <div className="flex flex-shrink-0 items-center">
-                                    <img
-                                        className="block h-10 w-auto lg:hidden"
-                                        src="/uniMannheim.svg.png"
-                                        alt="Your Company"
-                                    />
-                                    <img
-                                        className="hidden h-10 w-auto lg:block"
-                                        src="/uniMannheim.svg.png"
-                                        alt="Your Company"
-                                    />
+                                    <Link href="/">
+                                        <img
+                                            className="block h-10 w-auto lg:hidden"
+                                            src="/uniMannheim.svg.png"
+                                            alt="Your Company"
+                                        />
+                                    </Link>
+                                    <Link href="/">
+                                        <img
+                                            className="hidden h-10 w-auto lg:block"
+                                            src="/uniMannheim.svg.png"
+                                            alt="Your Company"
+                                        />
+                                    </Link>
                                 </div>
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex space-x-4">

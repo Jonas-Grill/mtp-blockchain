@@ -1,72 +1,77 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "../contracts/BaseAdmin.sol";
+import "../contracts/BaseConfigAdmin.sol";
 
-contract ConfigStorage is BaseAdmin {
+contract ConfigStorage is BaseConfigAdmin {
     // Amount of gas the user can get using the faucet
-    int128 faucetGas;
+    uint128 faucetGas;
 
     // Amount of blocks difference between last faucet usage
-    int128 faucetBlockNoDifference;
+    uint128 faucetBlockNoDifference;
 
     // Struct Seminar
     struct uniMaSemester {
-        // Name of the semester (e.g. SS22)
-        string name;
-        // First block which counts towards this semester
-        uint256 startBlock;
-        // Last block which counts towards this semester
-        uint256 endBlock;
-        // Amount of knowledge Coins needed to take exam
-        uint256 minKnowledgeCoinAmount;
-        // Assignment counter
-        uint256 assignmentCounter;
-        // Assigned assignments
-        mapping(uint256 => uniMaAssignments) assignments;
+        string name; // Name of the semester (e.g. SS22)
+        uint256 startBlock; // First block which counts towards this semester
+        uint256 endBlock; // Last block which counts towards this semester
+        uint256 minKnowledgeCoinAmount; // Amount of knowledge Coins needed to take exam
+        uint256 assignmentCounter; // Assignment counter
+        uint256[] assignmentIds; // Assignment Ids
+        mapping(uint256 => uniMaAssignments) assignments; // Assigned assignments
     }
 
     // Struct Seminar
     struct uniMaSemesterReturn {
-        // Name of the semester (e.g. SS22)
-        string name;
-        // First block which counts towards this semester
-        uint256 startBlock;
-        // Last block which counts towards this semester
-        uint256 endBlock;
-        // Amount of knowledge Coins needed to take exam
-        uint256 minKnowledgeCoinAmount;
+        string name; // Name of the semester (e.g. SS22)
+        uint256 startBlock; // First block which counts towards this semester
+        uint256 endBlock; // Last block which counts towards this semester
+        uint256 minKnowledgeCoinAmount; // Amount of knowledge Coins needed to take exam
     }
 
-    // Assignments
+    // Struct Assignments
     struct uniMaAssignments {
-        // Name of the assignment
-        string name;
-        // Link to the assignment
-        string link;
-        // Address to the validation contrac
-        address validationContractAddress;
-        // First block which counts towards this assignment
-        uint256 startBlock;
-        // Last block which counts towards this assignment
-        uint256 endBlock;
+        string name; // Name of the assignment
+        string link; // Link to the assignment
+        address validationContractAddress; // Address to the validation contract
+        uint256 startBlock; // First block which counts towards this assignment
+        uint256 endBlock; // Last block which counts towards this assignment
     }
 
+    // Semester variables
     uint256 semesterCounter = 0;
+    uint256[] private semesterIds;
     mapping(uint256 => uniMaSemester) semesters;
+
+    // SMART CONTRACT ADDRESS
+    address public knowledgeCoinContractAddress;
 
     /**
      * Constructor to set default config values
      */
     constructor() {
-        addAdmin(msg.sender);
+        initAdmin("ConfigStorage");
 
-        faucetGas = 10;
+        faucetGas = 2;
         faucetBlockNoDifference = 10;
 
         // Set counters to 0
         semesterCounter = 0;
     }
+
+    /*=============================================
+    =            Contract Adresses            =
+    =============================================*/
+
+    function setKnowledgeCoinContractAdress(address _address) public {
+        knowledgeCoinContractAddress = _address;
+    }
+
+    function getKnowledgeCoinContractAddress() public view returns (address) {
+        return knowledgeCoinContractAddress;
+    }
+
+    /*=====  End of Contract Adresses  ======*/
 
     /*=============================================
     =              Semester function              =
@@ -78,7 +83,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _endBlock,
         uint256 _minKnowledgeCoinAmount
     ) public returns (uint256) {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
 
         uint256 index = semesterCounter + 1;
 
@@ -89,6 +94,8 @@ contract ConfigStorage is BaseAdmin {
         semesters[index].assignmentCounter = 0;
 
         semesterCounter = index;
+
+        semesterIds.push(index);
 
         return index;
     }
@@ -107,10 +114,15 @@ contract ConfigStorage is BaseAdmin {
             );
     }
 
+    function getSemesterIds() public view returns (uint256[] memory) {
+        return semesterIds;
+    }
+
     function deleteSemester(uint256 _id) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
 
         delete semesters[_id];
+        removeByValue(semesterIds, _id);
     }
 
     function getSemesterCounter() public view returns (uint256) {
@@ -120,25 +132,25 @@ contract ConfigStorage is BaseAdmin {
     /*----------  Setter  ----------*/
 
     function setSemesterName(uint256 _id, string memory name) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_id].name = name;
     }
 
     function setSemesterStartBlock(uint256 _id, uint256 _startBlock) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_id].startBlock = _startBlock;
     }
 
     function setSemesterEndBlock(uint256 _id, uint256 _endBlock) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_id].endBlock = _endBlock;
     }
 
-    function setMinKnowledgeCoinAmount(
+    function setSemesterMinKnowledgeCoinAmount(
         uint256 _id,
         uint256 _minKnowledgeCoinAmount
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_id].minKnowledgeCoinAmount = _minKnowledgeCoinAmount;
     }
 
@@ -156,7 +168,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _startBlock,
         uint256 _endBlock
     ) public returns (uint256) {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
 
         uint256 index = semesters[_semesterId].assignmentCounter + 1;
 
@@ -170,6 +182,8 @@ contract ConfigStorage is BaseAdmin {
 
         semesters[_semesterId].assignmentCounter = index;
 
+        semesters[_semesterId].assignmentIds.push(index);
+
         return index;
     }
 
@@ -181,11 +195,20 @@ contract ConfigStorage is BaseAdmin {
         return semesters[_semesterId].assignments[_assignmentId];
     }
 
+    function getAssignmentIds(uint256 _semesterId)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        return semesters[_semesterId].assignmentIds;
+    }
+
     function deleteAssignment(uint256 _semesterId, uint256 _assignmentId)
         public
     {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         delete semesters[_semesterId].assignments[_assignmentId];
+        removeByValue(semesters[_semesterId].assignmentIds, _assignmentId);
     }
 
     function getAssignmentCounter(uint256 semester_id)
@@ -203,7 +226,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _assignmentId,
         string memory name
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_semesterId].assignments[_assignmentId].name = name;
     }
 
@@ -212,7 +235,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _assignmentId,
         string memory link
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_semesterId].assignments[_assignmentId].link = link;
     }
 
@@ -221,7 +244,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _assignmentId,
         address _address
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_semesterId]
             .assignments[_assignmentId]
             .validationContractAddress = _address;
@@ -232,7 +255,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _assignmentId,
         uint256 _startBlock
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_semesterId]
             .assignments[_assignmentId]
             .startBlock = _startBlock;
@@ -243,7 +266,7 @@ contract ConfigStorage is BaseAdmin {
         uint256 _assignmentId,
         uint256 _endBlock
     ) public {
-        requireAdmin(msg.sender);
+        requireUserAdmin(msg.sender);
         semesters[_semesterId].assignments[_assignmentId].endBlock = _endBlock;
     }
 
@@ -253,23 +276,24 @@ contract ConfigStorage is BaseAdmin {
     =            Other functions            =
     =============================================*/
 
-    function getIntValue(string memory key) public view returns (int128) {
-        if (compareStrings(key, "faucetGas") == true) {
-            return faucetGas;
-        } else if (compareStrings(key, "faucetBlockNoDifference") == true) {
-            return faucetBlockNoDifference;
-        }
-        return 0;
+    function getFaucetGas() public view returns (uint128) {
+        return faucetGas;
     }
 
-    function setIntValue(string memory key, int128 value) public {
-        requireAdmin(msg.sender);
+    function getFaucetBlockNoDifference() public view returns (uint128) {
+        return faucetBlockNoDifference;
+    }
 
-        if (compareStrings(key, "faucetGas") == true) {
-            faucetGas = value;
-        } else if (compareStrings(key, "faucetBlockNoDifference") == true) {
-            faucetBlockNoDifference = value;
-        }
+    function setFaucetGas(uint128 _faucetGas) public {
+        requireUserAdmin(msg.sender);
+        faucetGas = _faucetGas;
+    }
+
+    function setFaucetBlockNoDifference(uint128 _faucetBlockNoDifference)
+        public
+    {
+        requireUserAdmin(msg.sender);
+        faucetBlockNoDifference = _faucetBlockNoDifference;
     }
 
     /*=====  End of Other functions  ======*/
@@ -280,11 +304,37 @@ contract ConfigStorage is BaseAdmin {
 
     function compareStrings(string memory a, string memory b)
         internal
-        view
+        pure
         returns (bool)
     {
         return (keccak256(abi.encodePacked((a))) ==
             keccak256(abi.encodePacked((b))));
     }
+
+    function find(uint256[] storage arr, uint256 value)
+        internal
+        view
+        returns (uint256)
+    {
+        uint256 i = 0;
+        while (arr[i] != value) {
+            i++;
+        }
+        return i;
+    }
+
+    function removeByValue(uint256[] storage arr, uint256 value) internal {
+        uint256 i = find(arr, value);
+        removeByIndex(arr, i);
+    }
+
+    function removeByIndex(uint256[] storage arr, uint256 i) internal {
+        while (i < arr.length - 1) {
+            arr[i] = arr[i + 1];
+            i++;
+        }
+        arr.pop();
+    }
+
     /*=====  End of Helper Functions  ======*/
 }

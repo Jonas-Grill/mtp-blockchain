@@ -11,6 +11,10 @@ contract BaseAssignment {
     constructor() {
         owner = msg.sender;
     }
+
+    function getOwner() public view returns (address) {
+        return owner;
+    }
 }
 
 /*=====       End of BaseAssignment        ======*/

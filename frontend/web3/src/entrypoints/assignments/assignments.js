@@ -2,33 +2,45 @@
 // utils
 const utilsHelper = require("../../web3/utils")
 // Create utils class
-const utils = new utilsHelper.UniMaUtils()
+const utils = new utilsHelper.NOWUtils()
 
 /*----------  Assignment Helper  ----------*/
 // assignments
 const assignmentsHandler = require("../../web3/assignment")
 
 
-// Run validator for test assignment
-exports.get_test_results = async (web3, contract_address, test_id) => {
-    try {
-        const assignments = new assignmentsHandler.UniMaAssignments(web3);
-
-        const result = await assignments.get_test_results(contract_address, test_id)
-        return { "success": true, "result": result };
-    }
-    catch (err) {
-        return { "success": false, "error": err.message };
-    }
-};
-
 // Run validate assignment
-exports.validate_assignment = async (web3, student_address, contract_address, validation_contract_address) => {
-    try {
-        const assignments = new assignmentsHandler.UniMaAssignments(web3);
-        const result = await assignments.validate_assignment(student_address, contract_address, validation_contract_address)
-        return { "success": true, "id": result };
-    } catch (err) {
-        return { "success": false, "error": err.message };
-    }
+exports.validateAssignment = async (web3, studentAddress, contractAddress, validationContractAddress) => {
+    const assignments = new assignmentsHandler.NOWAssignments(web3);
+
+    return await assignments.validateAssignment(studentAddress, contractAddress, validationContractAddress)
+
 };
+
+// Submit assignment
+exports.submitAssignment = async (web3, studentAddress, contractAddress, validationContractAddress) => {
+    const assignments = new assignmentsHandler.NOWAssignments(web3);
+
+    return await assignments.submitAssignment(studentAddress, contractAddress, validationContractAddress)
+}
+
+// Run validator for test assignment
+exports.getTestResults = async (web3, contractAddress, testId) => {
+    const assignments = new assignmentsHandler.NOWAssignments(web3);
+
+    return await assignments.getTestResults(contractAddress, testId)
+};
+
+// Get test indexes for student address
+exports.getTestIndexes = async (web3, studentAddress, contractAddress) => {
+    const assignments = new assignmentsHandler.NOWAssignments(web3);
+
+    return await assignments.getTestHistoryIndexes(studentAddress, contractAddress)
+}
+
+// Get submitted assignment for student address
+exports.getSubmittedAssignment = async (web3, studentAddress, contractAddress) => {
+    const assignments = new assignmentsHandler.NOWAssignments(web3);
+
+    return await assignments.getSubmittedAssignment(studentAddress, contractAddress)
+}

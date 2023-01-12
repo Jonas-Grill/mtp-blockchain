@@ -5,9 +5,9 @@ pragma solidity ^0.8.17;
  * Example assignment for testing
  */
 
-import "../contracts/TestAssignmentInterface.sol";
+import "../contracts/ExampleAssignmentInterface.sol";
 
-contract TestAssignment is TestAssignmentInterface {
+contract ExampleAssignment is ExampleAssignmentInterface {
     int256 testValue;
 
     constructor() {

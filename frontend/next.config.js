@@ -5,7 +5,7 @@ const nextConfig = {
   swcMinify: true,
   env: {
     RPC_URL: "http://127.0.0.1:8545",
-    COINBASE_ADDRESS: "0x917441412223Ac1104617Ca07ca9853504BEA5d0",
+    FROM_ADDRESS: "0x917441412223Ac1104617Ca07ca9853504BEA5d0",
     NETWORK_ID: "1337"
   }
 }

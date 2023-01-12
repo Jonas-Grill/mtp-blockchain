@@ -1,37 +1,90 @@
 const FaucetStorage = artifacts.require("FaucetStorage");
+const ConfigStorage = artifacts.require("ConfigStorage");
+
+const prepareFaucet = async function prepareFaucet(fromAddress, toAddress) {
+    const balance = await web3.eth.getBalance(toAddress)
+
+    if (balance <= web3.utils.toWei('10', 'ether')) {
+        await web3.eth.sendTransaction({ from: fromAddress, to: toAddress, value: web3.utils.toWei('10', 'ether') })
+    }
+}
 
 contract("FaucetStorage", (accounts) => {
-    it("should add proper faucet usage", async () => {
-        const faucetStorageInstance = await FaucetStorage.deployed();
+    it("should get gas from faucet", async () => {
+        const ConfigStorageInstance = await ConfigStorage.deployed();
+        const FaucetStorageInstance = await FaucetStorage.deployed(ConfigStorageInstance.address);
 
-        await faucetStorageInstance.addFaucetUsage(accounts[0], 11);
+        // set config faucet gas to 1000
+        await ConfigStorageInstance.setFaucetGas(2)
 
-        const user = await faucetStorageInstance.getFaucetUsage(accounts[0]);
+        // prepare faucet
+        await prepareFaucet(accounts[0], FaucetStorageInstance.address)
 
-        assert.equal(user.blockNo, 11, "BlockNo is 11");
+        const balance_old = await web3.eth.getBalance(accounts[1])
+
+        // send gas to account [1]
+        await FaucetStorageInstance.sendEth(accounts[1])
+
+        // check balance
+        const balance_new = await web3.eth.getBalance(accounts[1])
+
+        assert.notEqual(balance_new, balance_old, "Balance has changed");
     });
 
-    it("should override faucet usage", async () => {
-        const faucetStorageInstance = await FaucetStorage.deployed();
+    it("should NOT get gas from faucet, because used to recent", async () => {
+        const ConfigStorageInstance = await ConfigStorage.deployed();
+        const FaucetStorageInstance = await FaucetStorage.deployed(ConfigStorageInstance.address);
 
-        await faucetStorageInstance.addFaucetUsage(accounts[0], 11);
+        // set config faucet gas to 1000
+        await ConfigStorageInstance.setFaucetGas(2)
 
-        const user1 = await faucetStorageInstance.getFaucetUsage(accounts[0]);
+        // prepare faucet
+        await prepareFaucet(accounts[0], FaucetStorageInstance.address)
 
-        assert.equal(user1.blockNo, 11, "BlockNo is 11");
+        let error = false
+        try {
+            // send gas to account [2]
+            await FaucetStorageInstance.sendEth(accounts[2])
 
-        await faucetStorageInstance.addFaucetUsage(accounts[0], 22);
+            // send gas to account [2]
+            await FaucetStorageInstance.sendEth(accounts[2])
+        }
+        catch (exception) {
+            error = true
 
-        const user2 = await faucetStorageInstance.getFaucetUsage(accounts[0]);
+            // Make dirty preparation for error message to catch only the important part
+            // Why?
+            //  - Error message on github actions prints the message differently than on local machine
+            //  - "assert" has no "contains" method
+            const message = exception.message.split("revert ")[1].split("!")[0]
+            assert.equal(message, "Faucet used too recently", "Error message is correct")
+        }
 
-        assert.equal(user2.blockNo, 22, "BlockNo is 22");
+        assert.equal(error, true, "Error happened is true");
     });
 
-    it("should get not existing entry", async () => {
-        const faucetStorageInstance = await FaucetStorage.deployed();
+    it("should NOT get gas from faucet, because not enough funds", async () => {
+        const ConfigStorageInstance = await ConfigStorage.deployed();
+        const FaucetStorageInstance = await FaucetStorage.deployed(ConfigStorageInstance.address);
 
-        const user = await faucetStorageInstance.getFaucetUsage(accounts[1]);
+        // set config faucet gas to 1000
+        await ConfigStorageInstance.setFaucetGas(1000)
 
-        assert.equal(user.blockNo, 0, "BlockNo is 0");
+        let error = false
+        try {
+            // send gas to account [2]
+            await FaucetStorageInstance.sendEth(accounts[4])
+        }
+        catch (exception) {
+            error = true
+            // Make dirty preparation for error message to catch only the important part
+            // Why?
+            //  - Error message on github actions prints the message differently than on local machine
+            //  - "assert" has no "contains" method
+            const message = exception.message.split("revert ")[1].split("!")[0]
+            assert.equal(message, "Not enough funds in faucet", "Error message is correct")
+        }
+
+        assert.equal(error, true, "Error happened is true");
     });
 });

@@ -7,7 +7,7 @@ pragma solidity ^0.8.17;
 
 import "../contracts/BaseAssignment.sol";
 
-contract TestAssignmentInterface is BaseAssignment {
+contract ExampleAssignmentInterface is BaseAssignment {
     function setTestValue(int256 _value) public virtual {}
 
     function getTestValue() public view virtual returns (int256) {}
