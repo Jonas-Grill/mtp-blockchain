@@ -1,0 +1,2 @@
+.Master Team Project
+* xref:masterProject.adoc[A Blockchain-based system for course submissions]
