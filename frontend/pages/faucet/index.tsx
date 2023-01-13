@@ -86,7 +86,7 @@ export default function Faucet({userAddress}: { userAddress: string }) {
                                 type="text"
                                 autoComplete="walletAddress"
                                 required
-                                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                                className="relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                                 placeholder="Wallet address"
                                 value={userAddress}
                                 readOnly
@@ -97,7 +97,7 @@ export default function Faucet({userAddress}: { userAddress: string }) {
                                 type="text"
                                 autoComplete="walletAddress"
                                 required
-                                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                                className="relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                                 placeholder="Wallet address"
                             />
                         }
@@ -105,7 +105,7 @@ export default function Faucet({userAddress}: { userAddress: string }) {
                         <button
                             type="submit"
 
-                            className="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
+                            className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                         >
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <FireIcon className="h-5 w-5 text-uni group-hover:text-gray-400"

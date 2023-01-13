@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Semester} from "../../pages/semester";
-import {FireIcon} from "@heroicons/react/20/solid";
+import {DocumentMagnifyingGlassIcon, FireIcon, MagnifyingGlassIcon} from "@heroicons/react/20/solid";
 import {getKnowledgeCoinBalanceInRange} from "../../web3/src/entrypoints/account/coin";
 import {hasStudentPassedSemester} from "../../web3/src/entrypoints/account/exam";
 
@@ -83,7 +83,7 @@ export default function Admin({
                     type="text"
                     autoComplete="studentId"
                     required
-                    className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                    className="relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                     placeholder="Student ID"
                 />
                 <label htmlFor="wallet-address" className="sr-only">
@@ -95,19 +95,19 @@ export default function Admin({
                     type="text"
                     autoComplete="walletAddress"
                     required
-                    className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                    className="relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                     placeholder="Wallet address"
                 />
 
                 <button
                     type="submit"
-                    className="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
+                    className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                 >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <FireIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
+                    <MagnifyingGlassIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
                               aria-hidden="true"/>
                 </span>
-                    Add address
+                    Check Knowledge of this address
                 </button>
             </form>
             <form className="mt-8 space-y-6" onSubmit={handleMassSubmit}>
@@ -117,19 +117,19 @@ export default function Admin({
                     type="file"
                     autoComplete="csv"
                     required
-                    className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                    className="relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                     placeholder="csv"
                 />
 
                 <button
                     type="submit"
-                    className="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
+                    className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                 >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <FireIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
+                    <DocumentMagnifyingGlassIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
                               aria-hidden="true"/>
                 </span>
-                    Add addresses
+                    Check Knowledge of course
                 </button>
             </form>
             {students.map((student) => (

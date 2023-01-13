@@ -63,7 +63,7 @@ export default function CreateSemester() {
                             name="name"
                             type="text"
                             required
-                            className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Semester name"
                         />
                         <label htmlFor="startBlock" className="sr-only">
@@ -74,7 +74,7 @@ export default function CreateSemester() {
                             name="startBlock"
                             type="text"
                             required
-                            className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Starting block"
                         />
                         <label htmlFor="endBlock" className="sr-only">
@@ -85,7 +85,7 @@ export default function CreateSemester() {
                             name="endBlock"
                             type="text"
                             required
-                            className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="End block"
                         />
                         <label htmlFor="coinAmountForExam" className="sr-only">
@@ -96,13 +96,13 @@ export default function CreateSemester() {
                             name="coinAmountForExam"
                             type="text"
                             required
-                            className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-4 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Coin amount needed for exam qualification"
                         />
 
                         <button
                             type="submit"
-                            className="group relative mt-3 flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
+                            className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                         >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                     <AcademicCapIcon className="h-5 w-5 text-uni group-hover:text-gray-400"

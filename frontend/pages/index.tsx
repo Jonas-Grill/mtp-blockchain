@@ -27,7 +27,7 @@ export default function Home() {
                             <button
                                 type="button"
 
-                                className="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
+                                className="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                             >
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                         <BookOpenIcon className="h-5 w-5 text-uni group-hover:text-gray-400"

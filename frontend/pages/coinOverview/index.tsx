@@ -52,6 +52,9 @@ export default function CoinOverview({userAddress}: { userAddress: string }) {
                         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
                             Knowledge overview
                         </h2>
+                        <div className="mt-4 text-lg font-medium text-uni">
+                            Choose your semester:
+                        </div>
                         <fieldset>
                             <div className="mt-4 space-y-4">
                                 {semesters.map((semester) => (
@@ -60,12 +63,12 @@ export default function CoinOverview({userAddress}: { userAddress: string }) {
                                             id={semester.id}
                                             name="semester"
                                             type="radio"
-                                            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                            className="h-4 w-4 text-uni focus:ring-transparent"
                                             checked={semester.id === selectedSemester}
                                             onChange={() => setSelectedSemester(semester.id)}
                                         />
                                         <label htmlFor="semester"
-                                               className="ml-3 block text-sm font-medium text-gray-700">
+                                               className="ml-3 block text-sm font-medium text-uni">
                                             {semester.name}
                                         </label>
                                     </div>

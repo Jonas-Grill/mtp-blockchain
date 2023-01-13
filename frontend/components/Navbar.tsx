@@ -57,7 +57,7 @@ export default function Navbar({
                             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                 {/* Mobile menu button*/}
                                 <Disclosure.Button
-                                    className="inline-flex items-center justify-center rounded-md p-2 text-gray-800 hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                                    className="inline-flex items-center justify-center rounded-md p-2 text-gray-800 hover:bg-uni hover:text-white">
                                     <span className="sr-only">Open main menu</span>
                                     {open ? (
                                         <XMarkIcon className="block h-6 w-6" aria-hidden="true"/>
@@ -110,17 +110,24 @@ export default function Navbar({
                                                 {item.name}
                                             </Link>
                                         ))}
-                                        {web3 ? `Block: ${blockNumber}` : null}
                                     </div>
+
                                 </div>
                             </div>
                             <div
-                                className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                <div>
-                                    <MetaMaskAuth onAddressChanged={function (userAddress: any) {
-                                        setUserAddress(userAddress);
-                                    }}/>
+                                className="hidden sm:ml-6 sm:block">
+                                <div className="flex items-center pr-2 sm:ml-6 sm:pr-0 divide-uni divide-x">
+                                    <div
+                                        className="text-sm font-medium text-uni items-center mr-4 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                                        {web3 ? `Block: ${blockNumber}` : null}
+                                    </div>
+                                    <div>
+                                        <MetaMaskAuth onAddressChanged={function (userAddress: any) {
+                                            setUserAddress(userAddress);
+                                        }}/>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

@@ -48,7 +48,7 @@ export default function MetaMaskAuth({ onAddressChanged }: { onAddressChanged: (
     }, [userAddress]);
 
     return userAddress ? (
-        <div className="flex text-sm font-medium text-uni">
+        <div className="flex text-sm font-medium text-uni ml-4">
             <div className="pr-2">
                 Connected with:
             </div>
