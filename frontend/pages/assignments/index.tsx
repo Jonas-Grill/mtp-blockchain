@@ -1,11 +1,12 @@
 import Link from "next/link";
-import {getAssignment, getAssignmentIds} from "../../web3/src/entrypoints/config/assignment";
+import {deleteAssignment, getAssignment, getAssignmentIds} from "../../web3/src/entrypoints/config/assignment";
 import React, {useEffect, useState} from "react";
 import Head from "next/head";
 import {DocumentTextIcon} from "@heroicons/react/20/solid";
 import {initBlockchain} from "../faucet";
 import {loadSemesters, Semester} from "../semester";
 import {isAdmin} from "../../web3/src/entrypoints/config/admin";
+import {deleteSemester} from "../../web3/src/entrypoints/config/semester";
 
 export type Assignment = {
     id: string,
@@ -45,6 +46,18 @@ export default function AssignmentOverview({userAddress}: { userAddress: string 
     const [web3, setWeb3] = useState<any>(undefined);
     const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
 
+    const handleDeleteAssignment = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+
+        if (web3) {
+            deleteAssignment(web3, selectedSemester, event.currentTarget.name).then((result) => {
+                loadAssignments(selectedSemester, web3).then((assignments) => {
+                    setAssignments(assignments);
+                });
+            });
+        }
+    }
+
     useEffect(() => {
         if (!web3) {
             initBlockchain(web3).then((web3) => {
@@ -54,11 +67,11 @@ export default function AssignmentOverview({userAddress}: { userAddress: string 
             loadSemesters(web3).then((result) => {
                 setSemesters(result);
 
-                if (result.length > 0) {
+                if (result && result.length > 0) {
                     setSelectedSemester(result[0].id);
                 }
             });
-        } else if (assignments.length <= 0){
+        } else {
             loadAssignments(selectedSemester, web3).then((result) => {
                 setAssignments(result);
             });
@@ -97,11 +110,11 @@ export default function AssignmentOverview({userAddress}: { userAddress: string 
                             </div>
                         ) : null
                     }
-                    <div className="mb-4 text-lg font-medium text-uni">
+                    <div className="mb-2 text-lg font-medium text-uni">
                         Choose semester:
                     </div>
                     <fieldset>
-                        <div className="mt-4 space-y-4">
+                        <div className="space-y-2">
                             {semesters.map((semester) => (
                                 <div className="flex items-center" key={semester.id}>
                                     <input
@@ -123,10 +136,16 @@ export default function AssignmentOverview({userAddress}: { userAddress: string 
                     <div
                         className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                         {assignments.map((assignment) => (
-                            <div className="border-solid border-2 rounded-md border-uni p-2" key={assignment.id}>
-                                <h3 className="mt-1 text-lg font-medium text-gray-900">Assignment: {assignment.name}</h3>
-                                <p className="mt-4 text-sm text-gray-700">Contract
+                            <div className="mt-4 shadow shadow-uni bg-gray-300 rounded-md p-2 w-auto" key={assignment.id}>
+                                <h3 className="mt-1 text-lg font-medium text-uni">Assignment: {assignment.name}</h3>
+                                <p className="mt-4 text-xs text-uni">Contract
                                     address: {assignment.validationContractAddress}</p>
+                                <div className="flex justify-center">
+                                    <button name={assignment.id} onClick={handleDeleteAssignment}
+                                            className="rounded-md flex w-1/2 items-center justify-center py-3 px-8 text-center font-medium text-uni bg-gray-400 hover:bg-uni hover:text-white mt-4">
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
                         ))}
                     </div>

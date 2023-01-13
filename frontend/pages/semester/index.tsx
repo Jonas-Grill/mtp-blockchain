@@ -16,23 +16,39 @@ export type Semester = {
 }
 
 export const loadSemesters = async (web3: any) => {
-    const semesters: Semester[] = [];
-    const ids: string[] = await getSemesterIds(web3);
+   if (web3) {
+       const semesters: Semester[] = [];
+       const ids: string[] = await getSemesterIds(web3);
 
-    for (let id of ids) {
+       for (let id of ids) {
+           const semester = await getSemester(web3, id);
+
+           if (semester) {
+               semesters.push({
+                   id: id,
+                   name: semester.name,
+                   startBlock: semester.startBlock,
+                   endBlock: semester.endBlock,
+                   minKnowledgeCoinAmount: semester.minKnowledgeCoinAmount
+               });
+           }
+       }
+       return semesters;
+   }
+}
+
+export const loadSemester = async (web3: any, id: string) => {
+    if (web3) {
         const semester = await getSemester(web3, id);
 
-        if (semester) {
-            semesters.push({
-                id: id,
-                name: semester.name,
-                startBlock: semester.startBlock,
-                endBlock: semester.endBlock,
-                minKnowledgeCoinAmount: semester.minKnowledgeCoinAmount
-            });
+        return {
+            id: id,
+            name: semester.name,
+            startBlock: semester.startBlock,
+            endBlock: semester.endBlock,
+            minKnowledgeCoinAmount: semester.minKnowledgeCoinAmount
         }
     }
-    return semesters;
 }
 
 export default function SemesterOverview({userAddress}: { userAddress: string }) {
@@ -106,7 +122,7 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
                                 <p className="mt-4 text-sm text-uni">Starting block: {semester.startBlock}</p>
                                 <p className="mt-4 text-sm text-uni">Starting block: {semester.endBlock}</p>
                                 <div className="flex">
-                                    <Link href={"/semester/"}
+                                    <Link href={"/semester/" + semester.id}
                                           className="rounded-md mr-2 flex w-1/2 items-center justify-center py-3 px-8 text-center font-medium text-uni bg-gray-400 hover:bg-uni hover:text-white mt-4">
                                         Edit
                                     </Link>

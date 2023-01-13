@@ -33,7 +33,7 @@ exports.setFaucetBlockNoDifference = async (web3, faucetBlockNoDifference) => {
     const config = new configHandler.NOWConfig(web3)
     const fromAddress = await utils.getFromAccount(web3);
 
-    await config.setFaucetBlockNoDifference(fromAddress, faucetBlockNoDifference)
+    await config.setFaucetBlockNoDifference(faucetBlockNoDifference)
 };
 
 /*=====          End of   SETTER        ======*/

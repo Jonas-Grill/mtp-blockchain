@@ -17,6 +17,8 @@ export default function MyApp({Component, pageProps}: AppProps) {
         } else {
             web3.eth.getChainId().then((chainId: number) => {
                 setChainId(chainId);
+            }).catch((reason: any) => {
+                console.log(reason);
             });
         }
     }, [web3, chainId]);
@@ -25,7 +27,8 @@ export default function MyApp({Component, pageProps}: AppProps) {
         return (
             <>
                 <Navbar setUserAddress={setUserAddress} userAddress={userAddress}/>
-                <div>You need metamask to use this web app</div>
+                <Component {...pageProps} userAddress={userAddress}/>
+                <div className="mt-2 text-center text-lg font-medium tracking-tight text-gray-900">You need metamask to use this web app</div>
             </>
         )
     } else {
@@ -33,7 +36,8 @@ export default function MyApp({Component, pageProps}: AppProps) {
             return (
                 <>
                     <Navbar setUserAddress={setUserAddress} userAddress={userAddress}/>
-                    <div>You need to connect to the correct network</div>
+                    <Component {...pageProps} userAddress={userAddress}/>
+                    <div className="mt-2 text-center text-lg font-medium tracking-tight text-gray-900">You need to connect to the correct network</div>
                 </>
             )
         } else {

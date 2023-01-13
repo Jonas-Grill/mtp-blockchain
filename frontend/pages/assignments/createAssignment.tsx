@@ -28,11 +28,14 @@ export default function CreateAssignment() {
             appendAssignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock).then(() => {
                 router.push("/assignments");
             }).catch((error) => {
+                console.log(error.code)
                 if (error.code === "INVALID_ARGUMENT") {
                     alert(`${error.value} is not a valid ${error.reason.substring(
                         error.reason.indexOf('="') + 2,
                         error.reason.indexOf('",')
                     )}`);
+                } else if (error.code == "-32603" || error.code == "-32000") {
+                    alert("Either you are using an invalid contract or your end block is smaller or equal to your start block!")
                 } else {
                     console.error(error);
                 }

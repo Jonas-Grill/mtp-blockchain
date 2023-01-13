@@ -5,9 +5,16 @@ import Head from "next/head";
 import Web3 from "web3";
 
 export const initBlockchain = async (web3: any) => {
-    if (window.ethereum) {
+    if (window && window.ethereum) {
         web3 = new Web3(window.ethereum);
         await window.ethereum.enable();
+
+        const chainId = await web3.eth.getChainId();
+
+        if (chainId != 1337) {
+            alert("You are using the wrong chain!")
+            web3 = undefined;
+        }
     } else if (web3) {
         web3 = new Web3(web3.currentProvider);
     } else {
