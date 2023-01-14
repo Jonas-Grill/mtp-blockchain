@@ -2,25 +2,18 @@ import Head from "next/head";
 import React, {useEffect, useState} from "react";
 import {loadSemesters, Semester} from "../semester";
 import {initBlockchain} from "../faucet";
-import {getKnowledgeCoinBalance} from "../../web3/src/entrypoints/account/faucet"
+import {isAdmin} from "../../web3/src/entrypoints/config/admin";
+import Student from "../../components/coin/Student";
+import Admin from "../../components/coin/Admin";
 
-export default function CoinOverview({ userAddress }: { userAddress: string }) {
+export default function CoinOverview({userAddress}: { userAddress: string }) {
     const [semesters, setSemesters] = useState<Semester[]>([]);
     const [selectedSemester, setSelectedSemester] = useState<string>("");
     const [web3, setWeb3] = useState<any>(undefined);
-    const [coins, setCoins] = useState<number>(0);
+    const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
 
     const getSemesterById = (id: string) => {
         return semesters.find((semester) => semester.id === id);
-    }
-
-    const getMissingCoins = () => {
-        const semester = getSemesterById(selectedSemester);
-
-        if (selectedSemester === "") return 0;
-        if (semester === undefined) return 0;
-
-        return semester.minKnowledgeCoinAmount - coins;
     }
 
     useEffect(() => {
@@ -31,11 +24,14 @@ export default function CoinOverview({ userAddress }: { userAddress: string }) {
         } else if (semesters.length <= 0) {
             loadSemesters(web3).then((result) => {
                 setSemesters(result);
-                setSelectedSemester(result[0].id);
+
+                if (result.length > 0) {
+                    setSelectedSemester(result[0].id);
+                }
             });
-        } else {
-            getKnowledgeCoinBalance(web3, userAddress).then((result) => {
-                setCoins(result);
+        } else if (userAddress) {
+            isAdmin(web3, userAddress).then((result) => {
+                setIsUserAdmin(result);
             });
         }
     }, [web3, semesters, selectedSemester, userAddress]);
@@ -56,6 +52,9 @@ export default function CoinOverview({ userAddress }: { userAddress: string }) {
                         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
                             Knowledge overview
                         </h2>
+                        <div className="mt-4 text-lg font-medium text-uni">
+                            Choose your semester:
+                        </div>
                         <fieldset>
                             <div className="mt-4 space-y-4">
                                 {semesters.map((semester) => (
@@ -64,37 +63,24 @@ export default function CoinOverview({ userAddress }: { userAddress: string }) {
                                             id={semester.id}
                                             name="semester"
                                             type="radio"
-                                            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                            className="h-4 w-4 text-uni focus:ring-transparent"
                                             checked={semester.id === selectedSemester}
                                             onChange={() => setSelectedSemester(semester.id)}
                                         />
                                         <label htmlFor="semester"
-                                               className="ml-3 block text-sm font-medium text-gray-700">
+                                               className="ml-3 block text-sm font-medium text-uni">
                                             {semester.name}
                                         </label>
                                     </div>
                                 ))}
                             </div>
                         </fieldset>
-                        <div
-                            className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-y-4 gap-x-8 py-8 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                            <div className="grid grid-cols-3 border-solid border-2 rounded-md border-uni p-2">
-                                <dt className="col-span-2 text-lg font-medium text-gray-900">Knowledge needed for
-                                    exam:
-                                </dt>
-                                <dt className="text-lg font-medium text-gray-900 text-right">{getSemesterById(selectedSemester)?.minKnowledgeCoinAmount}</dt>
-                            </div>
-                            <div className="grid grid-cols-3 border-solid border-2 rounded-md border-uni p-2">
-                                <dt className="col-span-2 text-lg font-medium text-gray-900">Your current knowledge:
-                                </dt>
-                                <dt className="text-lg font-medium text-green-600 text-right">{coins}</dt>
-                            </div>
-                            <div className="grid grid-cols-3 border-solid border-2 rounded-md border-uni p-2">
-                                <dt className="col-span-2 text-lg font-medium text-gray-900">Your missing knowledge:
-                                </dt>
-                                <dt className="text-lg font-medium text-red-600 text-right">{getMissingCoins()}</dt>
-                            </div>
-                        </div>
+                        {isUserAdmin ? (
+                            <Admin selectedSemester={selectedSemester} getSemesterById={getSemesterById} web3={web3}/>
+                        ) : (
+                            <Student selectedSemester={selectedSemester} getSemesterById={getSemesterById} web3={web3} userAddress={userAddress}/>
+                        )
+                        }
                     </div>
                 </div>
             </div>

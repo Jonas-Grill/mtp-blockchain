@@ -57,7 +57,7 @@ exports.deleteSemester = async (web3, semesterIds) => {
 
 /*----------  CHANGE  ----------*/
 
-// Set faucet gas value
+// Set semester now coin amount
 exports.setSemesterAmountKnowledgeCoins = async (web3, semesterId, minKnowledgeCoinAmount) => {
     const config = new configHandler.NOWConfig(web3)
 

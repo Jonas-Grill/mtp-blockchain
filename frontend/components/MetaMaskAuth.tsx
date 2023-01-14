@@ -48,7 +48,7 @@ export default function MetaMaskAuth({ onAddressChanged }: { onAddressChanged: (
     }, [userAddress]);
 
     return userAddress ? (
-        <div className="flex text-sm font-medium text-uni">
+        <div className="flex text-sm font-medium text-uni ml-4">
             <div className="pr-2">
                 Connected with:
             </div>
@@ -66,7 +66,7 @@ function Connect({ setUserAddress }: { setUserAddress: (address: string) => void
             const metamaskAppDeepLink = "https://metamask.app.link/dapp/" + dappUrl;
             return (
                 <a href={metamaskAppDeepLink}>
-                    <button className="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-300 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2">
+                    <button className="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-300 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white">
                         Connect to MetaMask
                     </button>
                 </a>
@@ -75,7 +75,7 @@ function Connect({ setUserAddress }: { setUserAddress: (address: string) => void
     }
 
     return (
-        <button className="group relative items-center flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-1 px-2 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2" onClick={() => connect(setUserAddress)}>
+        <button className="group relative items-center flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-1 px-2 text-sm font-medium text-uni hover:bg-uni hover:text-white" onClick={() => connect(setUserAddress)}>
             <Image
                 width="32"
                 height="32"

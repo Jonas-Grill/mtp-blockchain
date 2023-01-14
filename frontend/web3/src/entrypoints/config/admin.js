@@ -7,24 +7,24 @@ const configHandler = require("../../web3/config");
 =============================================*/
 
 // Get admin addresses
-exports.getUserAdmins = async (web3, address) => {
+exports.getUserAdmins = async (web3) => {
     const config = new configHandler.NOWConfig(web3);
 
-    return await config.getUserAdmins(address);
+    return await config.getUserAdmins();
 };
 
 // Get contract admin addresses (only addresses)
-exports.getContractAdminAddresses = async (web3, address) => {
+exports.getContractAdminAddresses = async (web3) => {
     const config = new configHandler.NOWConfig(web3);
 
-    return await config.getContractAdminAddresses(address);
+    return await config.getContractAdminAddresses();
 };
 
 // Get contract admins (address and name of contract)
-exports.getContractAdmins = async (web3, address) => {
+exports.getContractAdmins = async (web3) => {
     const config = new configHandler.NOWConfig(web3);
 
-    return await config.getContractAdmins(address);
+    return await config.getContractAdmins();
 };
 
 // Is address admin
@@ -65,10 +65,10 @@ exports.addUserAdmin = async (web3, address) => {
 };
 
 // Add contract admin
-exports.addContractAdmin = async (web3, address) => {
+exports.addContractAdmin = async (web3, address, contractName) => {
     const config = new configHandler.NOWConfig(web3);
 
-    await config.addContractAdmin(address);
+    await config.addContractAdmin(address, contractName);
 };
 
 /*----------  DELETE  ----------*/

@@ -5,16 +5,21 @@ import Head from "next/head";
 import Web3 from "web3";
 
 export const initBlockchain = async (web3: any) => {
-    if (window.ethereum) {
+    if (window && window.ethereum) {
         web3 = new Web3(window.ethereum);
         await window.ethereum.enable();
+
+        const chainId = await web3.eth.getChainId();
+
+        if (chainId != 1337) {
+            alert("You are using the wrong chain!")
+            web3 = undefined;
+        }
     } else if (web3) {
         web3 = new Web3(web3.currentProvider);
     } else {
         console.log("Non-Ethereum browser detected. You should consider trying MetaMask!");
     }
-
-    console.log("Successfully loaded web3...")
 
     return web3;
 }
@@ -24,7 +29,31 @@ export default function Faucet({userAddress}: { userAddress: string }) {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        await sendEth(web3, userAddress);
+
+        if (web3) {
+            web3.eth.getBalance(userAddress).then((result: any) => {
+                const balance = web3.utils.fromWei(result, "ether");
+
+                if (balance > 0.2) {
+                    sendEth(web3, userAddress);
+                } else {
+                    fetch("http://localhost:8080/sendEth", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                toAddress: userAddress,
+                            }),
+                        }
+                    ).catch((error) => {
+                        console.log(error);
+                    });
+                }
+            }).catch((error: any) => {
+                console.log(error);
+            });
+        }
     }
 
     useEffect(() => {
@@ -64,7 +93,7 @@ export default function Faucet({userAddress}: { userAddress: string }) {
                                 type="text"
                                 autoComplete="walletAddress"
                                 required
-                                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                                className="relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                                 placeholder="Wallet address"
                                 value={userAddress}
                                 readOnly
@@ -75,7 +104,7 @@ export default function Faucet({userAddress}: { userAddress: string }) {
                                 type="text"
                                 autoComplete="walletAddress"
                                 required
-                                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                                className="relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                                 placeholder="Wallet address"
                             />
                         }
@@ -83,7 +112,7 @@ export default function Faucet({userAddress}: { userAddress: string }) {
                         <button
                             type="submit"
 
-                            className="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
+                            className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                         >
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <FireIcon className="h-5 w-5 text-uni group-hover:text-gray-400"

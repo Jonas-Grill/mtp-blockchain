@@ -1,8 +1,90 @@
 import {AcademicCapIcon} from '@heroicons/react/20/solid'
 import Head from "next/head";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {ParsedUrlQuery} from "querystring";
+import {useRouter} from "next/router";
+import {loadSemester, Semester} from "./index";
+import {initBlockchain} from "../faucet";
+import {
+    setSemesterAmountKnowledgeCoins,
+    setSemesterName,
+    setSemesterEndBlock,
+    setSemesterStartBlock
+} from "../../web3/src/entrypoints/config/semester";
+import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 
-export default function ChangeSemester() {
+interface IParams extends ParsedUrlQuery {
+    id: string
+}
+
+export const getServerSideProps: GetServerSideProps<{ id: string | undefined }> = async (context) => {
+    const {id} = context.params as IParams;
+
+    return {
+        props: {
+            id: id
+        }
+    }
+}
+
+export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    const router = useRouter();
+
+    const [web3, setWeb3] = useState<any>();
+    const [semester, setSemester] = useState<Semester>();
+
+    const handleChangeSemester = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (web3 && semester) {
+            const data = new FormData(event.currentTarget);
+
+            const name = data.get('name') as string;
+            const startingBlock = data.get('startBlock') as string;
+            const endBlock = data.get('endBlock') as string;
+            const coinAmountForExam = data.get('coinAmountForExam') as string;
+
+            const changePromises: Promise<void>[] = [];
+
+            if (name && semester.name != name) {
+                changePromises.push(setSemesterName(web3, semester.id, name));
+            }
+            if (startingBlock && semester.startBlock != parseInt(startingBlock)) {
+                changePromises.push(setSemesterStartBlock(web3, semester.id, startingBlock));
+            }
+            if (endBlock && semester.endBlock != parseInt(endBlock)) {
+                changePromises.push(setSemesterEndBlock(web3, semester.id, endBlock));
+            }
+            if (coinAmountForExam && semester.minKnowledgeCoinAmount != parseInt(coinAmountForExam)) {
+                changePromises.push(setSemesterAmountKnowledgeCoins(web3, semester.id, coinAmountForExam));
+            }
+
+            Promise.all(changePromises).then(() => {
+                router.push('/semester');
+            }).catch((error) => {
+                if (error.code == -32603) {
+                    alert("Start block must be smaller than the smallest assignment start block!")
+                } else {
+                    alert("Something went wrong while changing the semester!")
+                    console.log(error);
+                }
+            });
+        }
+    }
+
+    useEffect(() => {
+        if (!web3) {
+            initBlockchain(web3).then((web3) => {
+                setWeb3(web3);
+            });
+        } else if (!semester && id) {
+            loadSemester(web3, id).then((semester) => {
+                setSemester(semester);
+            });
+        }
+    }, [web3])
+
+
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -20,7 +102,7 @@ export default function ChangeSemester() {
                             Change this semester
                         </h2>
                     </div>
-                    <form className="mt-8" action="http://localhost:8080/api/v1/account/send_gas" method="post">
+                    <form className="mt-8" onSubmit={handleChangeSemester}>
                         <label htmlFor="wallet-address" className="sr-only">
                             Name
                         </label>
@@ -29,8 +111,9 @@ export default function ChangeSemester() {
                             name="name"
                             type="text"
                             required
-                            className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Semester name"
+                            defaultValue={semester?.name}
                         />
                         <label htmlFor="wallet-address" className="sr-only">
                             Starting block
@@ -40,8 +123,9 @@ export default function ChangeSemester() {
                             name="startBlock"
                             type="text"
                             required
-                            className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Starting block"
+                            defaultValue={semester?.startBlock}
                         />
                         <label htmlFor="wallet-address" className="sr-only">
                             End block
@@ -51,8 +135,9 @@ export default function ChangeSemester() {
                             name="endBlock"
                             type="text"
                             required
-                            className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="End block"
+                            defaultValue={semester?.endBlock}
                         />
                         <label htmlFor="wallet-address" className="sr-only">
                             Coin amount for exam
@@ -62,14 +147,15 @@ export default function ChangeSemester() {
                             name="coinAmountForExam"
                             type="text"
                             required
-                            className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-4 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Coin amount needed for exam qualification"
+                            defaultValue={semester?.minKnowledgeCoinAmount}
                         />
 
                         <button
                             type="submit"
 
-                            className="group relative mt-3 flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
+                            className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                         >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                     <AcademicCapIcon className="h-5 w-5 text-uni group-hover:text-gray-400"

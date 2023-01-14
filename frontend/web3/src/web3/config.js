@@ -149,10 +149,10 @@ class NOWConfig {
     *
     * @param {string} _newAdmin Address of the new admin
     */
-    async addContractAdmin(_newAdmin) {
+    async addContractAdmin(_newAdmin, _contractName) {
         // Change Admin for NOWConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.addContractAdmin(_newAdmin).send({ from: await this.utils.getFromAccount(this.web3) });
+        await configStorageContract.methods.addContractAdmin(_newAdmin, _contractName).send({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
