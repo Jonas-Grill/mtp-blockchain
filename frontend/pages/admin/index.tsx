@@ -131,17 +131,25 @@ export default function Admin({userAddress}: { userAddress: string }) {
         }
     }
 
+    const zeroAddressFilter = (address: string) => {
+        return !web3.utils.toBN(address).isZero();
+    }
+
     useEffect(() => {
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
             });
         } else if (userAdmins.length <= 0) {
-            getUserAdmins(web3).then((result) => {
+            getUserAdmins(web3).then((result: string[]) => {
+                result = result.filter(zeroAddressFilter);
                 setUserAdmins(result);
             });
         } else if (contractAdmins.length <= 0) {
-            getContractAdmins(web3).then((result) => {
+            getContractAdmins(web3).then((result: string[][]) => {
+                result = result.filter((contractAdmin: string[]) => {
+                    return zeroAddressFilter(contractAdmin[1]);
+                });
                 setContractAdmins(result);
             });
         } else if (faucetBlockNoDifference <= 0) {
