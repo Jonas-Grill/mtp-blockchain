@@ -75,9 +75,11 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
             });
         } else if (semesters.length === 0) {
             loadSemesters(web3).then((result) => {
-                setSemesters(result);
+                if (result) {
+                    setSemesters(result);
+                }
             });
-        } else if (userAddress) {
+        } if (userAddress && web3) {
             isAdmin(web3, userAddress).then((result) => {
                 setIsUserAdmin(result);
             });
