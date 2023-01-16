@@ -19,7 +19,7 @@ abstract contract Assignment1Interface is ERC721URIStorage, BaseAssignment {
     function flipSaleStatus() public virtual {}
 
     // get sale status
-    function getSaleStatus() public view returns (bool) {}
+    function getSaleStatus() public view virtual returns (bool) {}
 
     // withdraw all funds to owner
     function withdraw(address payable recipient) public virtual {}
@@ -31,5 +31,5 @@ abstract contract Assignment1Interface is ERC721URIStorage, BaseAssignment {
     function getTotalSupply() public view virtual returns (uint256) {}
 
     // get IPFS hash
-    function getIPFSHash() public view returns (string memory) {}
+    function getIPFSHash() public view virtual returns (string memory) {}
 }

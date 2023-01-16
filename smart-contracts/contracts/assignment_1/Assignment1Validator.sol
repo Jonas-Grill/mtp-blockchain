@@ -10,13 +10,19 @@ import "../../contracts/BaseAssignmentValidator.sol";
 import "../../node_modules/@openzeppelin/contracts/utils/Base64.sol";
 import "../../node_modules/@openzeppelin/contracts/utils/Strings.sol";
 
+import "../../node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+
 // Give the contract a name and inherit from the base assignment validator
-contract Assignment1Validator is BaseAssignmentValidator {
+contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
     using Strings for uint256;
 
     // Import empty constructor and pass the name of the contract to the config storage contract
     constructor(address _configContractAddress)
-        BaseAssignmentValidator(_configContractAddress, "Assignment1Validator")
+        BaseAssignmentValidator(
+            _configContractAddress,
+            "SS23 Assignment 1 Validator Contract",
+            0.05 ether
+        )
     {
         // The constructor is empty
     }
@@ -24,6 +30,7 @@ contract Assignment1Validator is BaseAssignmentValidator {
     // Test the assignment
     function test(address _contractAddress)
         public
+        payable
         override(BaseAssignmentValidator)
         returns (uint256)
     {
@@ -70,7 +77,7 @@ contract Assignment1Validator is BaseAssignmentValidator {
     function testExerciseA(
         uint256 historyIndex,
         Assignment1Interface assignment_contract
-    ) public {
+    ) private {
         /*----------  EXERCISE A  ----------*/
 
         // Total supply before minting
@@ -89,36 +96,98 @@ contract Assignment1Validator is BaseAssignmentValidator {
         // Check if id is larger than 0
         if (id_a > 0) {
             exerciseAPassedCounter++;
+            appendTestResult(
+                historyIndex,
+                "Exercise A: Check if id is larger than 0",
+                true,
+                0
+            );
+        } else {
+            appendTestResult(
+                historyIndex,
+                "Exercise A: Check if id is larger than 0",
+                false,
+                0
+            );
         }
 
         // Check if the total supply is increased by 1
-        if (assignment_contract.getTotalSupply() == totalSupplyBefore + 1) {
+        if (assignment_contract.getTotalSupply() > totalSupplyBefore) {
             exerciseAPassedCounter++;
+            appendTestResult(
+                historyIndex,
+                "Exercise A: Check if the total supply is increased by 1",
+                true,
+                0
+            );
+        } else {
+            appendTestResult(
+                historyIndex,
+                "Exercise A: Check if the total supply is increased by 1",
+                false,
+                0
+            );
         }
 
         // Make sure NFT of token id is owned by the current msg.sender
         if (assignment_contract.ownerOf(id_a) == address(this)) {
             exerciseAPassedCounter++;
+            appendTestResult(
+                historyIndex,
+                "Exercise A: Make sure NFT of token id is owned by the current msg.sender",
+                true,
+                0
+            );
+        } else {
+            appendTestResult(
+                historyIndex,
+                "Exercise A: Make sure NFT of token id is owned by the current msg.sender",
+                false,
+                0
+            );
         }
 
         // Make sure the balance of the current msg.sender is increased by 1
         if (assignment_contract.balanceOf(address(this)) == balanceBefore + 1) {
             exerciseAPassedCounter++;
+            appendTestResult(
+                historyIndex,
+                "Exercise A: Make sure the balance of the current msg.sender is increased by 1",
+                true,
+                0
+            );
+        } else {
+            appendTestResult(
+                historyIndex,
+                "Exercise A: Make sure the balance of the current msg.sender is increased by 1",
+                false,
+                0
+            );
         }
 
         // If exerciseAPassedCounter == 4 --> exercise A passed
         if (exerciseAPassedCounter == 4) {
-            appendTestResult(historyIndex, "Exercise A", true, 5);
+            appendTestResult(
+                historyIndex,
+                "Exercise A: All 'Exercise A' tests are passed",
+                true,
+                5
+            );
         } else {
             // If not all tests passed, mark test as failed
-            appendTestResult(historyIndex, "Exercise A", false, 0);
+            appendTestResult(
+                historyIndex,
+                "Exercise A: Not all 'Exercise A' tests are passed",
+                false,
+                0
+            );
         }
     }
 
     function testExerciseB(
         uint256 historyIndex,
         Assignment1Interface assignment_contract
-    ) public {
+    ) private {
         /*----------  EXERCISE B  ----------*/
 
         // mint a nft and send to _address and pay 0.01 ether
@@ -136,17 +205,27 @@ contract Assignment1Validator is BaseAssignmentValidator {
 
         // Check if tokenURI equals to expectedTokenURI
         if (compare(tokenURI, expectedTokenURI) == true) {
-            appendTestResult(historyIndex, "Exercise B", true, 1);
+            appendTestResult(
+                historyIndex,
+                "Exercise B: URI is correct",
+                true,
+                1
+            );
         } else {
             // If not all tests passed, mark test as failed
-            appendTestResult(historyIndex, "Exercise B", false, 0);
+            appendTestResult(
+                historyIndex,
+                "Exercise B: URI is correct",
+                false,
+                0
+            );
         }
     }
 
     function testExerciseC(
         uint256 historyIndex,
         Assignment1Interface assignment_contract
-    ) public {
+    ) private {
         /*----------  EXERCISE C  ----------*/
 
         uint256 oldPriceC = assignment_contract.getPrice();
@@ -157,25 +236,35 @@ contract Assignment1Validator is BaseAssignmentValidator {
         uint256 newPriceC = assignment_contract.getPrice();
 
         if (newPriceC == oldPriceC + 0.0001 ether) {
-            appendTestResult(historyIndex, "Exercise C", true, 1);
+            appendTestResult(
+                historyIndex,
+                "Exercise C: Price for NFT increased by 0.0001 ether",
+                true,
+                1
+            );
         } else {
             // If not all tests passed, mark test as failed
-            appendTestResult(historyIndex, "Exercise C", false, 0);
+            appendTestResult(
+                historyIndex,
+                "Exercise C: Price for NFT increased by 0.0001 ether",
+                false,
+                0
+            );
         }
     }
 
     function testExerciseD(
         uint256 historyIndex,
         Assignment1Interface assignment_contract
-    ) public {
+    ) private {
         /*----------  EXERCISE D  ----------*/
-
-        uint256 oldPriceD = assignment_contract.getPrice();
 
         // mint a nft and send to _address and pay 0.01 ether
         uint256 idD = assignment_contract.mint{value: 0.01 ether}(
             address(this)
         );
+
+        uint256 oldPriceD = assignment_contract.getPrice();
 
         // get balance of the address(this)
         uint256 balanceBeforeD = assignment_contract.balanceOf(address(this));
@@ -191,6 +280,19 @@ contract Assignment1Validator is BaseAssignmentValidator {
         // check if balance of address(this) is decreased by 1
         if (balanceAfterD == balanceBeforeD - 1) {
             exerciseDPassedCounter++;
+            appendTestResult(
+                historyIndex,
+                "Exercise D: check if balance of address(this) is decreased by 1",
+                true,
+                0
+            );
+        } else {
+            appendTestResult(
+                historyIndex,
+                "Exercise D: check if balance of address(this) is decreased by 1",
+                false,
+                0
+            );
         }
 
         // get new price
@@ -199,21 +301,44 @@ contract Assignment1Validator is BaseAssignmentValidator {
         // check if price is decreased by 0.0001 ether
         if (newPriceD == oldPriceD - 0.0001 ether) {
             exerciseDPassedCounter++;
+            appendTestResult(
+                historyIndex,
+                "Exercise D: check if price is decreased by 0.0001 ether",
+                true,
+                0
+            );
+        } else {
+            appendTestResult(
+                historyIndex,
+                "Exercise D: check if price is decreased by 0.0001 ether",
+                false,
+                0
+            );
         }
 
         // if exerciseDPassedCounter == 2 --> exercise D passed
         if (exerciseDPassedCounter == 2) {
-            appendTestResult(historyIndex, "Exercise D", true, 1);
+            appendTestResult(
+                historyIndex,
+                "Exercise D: All 'Exercise D' tests are passed",
+                true,
+                1
+            );
         } else {
             // If not all tests passed, mark test as failed
-            appendTestResult(historyIndex, "Exercise D", false, 0);
+            appendTestResult(
+                historyIndex,
+                "Exercise D: Not all 'Exercise D' tests are passed",
+                false,
+                0
+            );
         }
     }
 
     function testExerciseE(
         uint256 historyIndex,
         Assignment1Interface assignment_contract
-    ) public {
+    ) private {
         /*----------  EXERCISE E  ----------*/
 
         // Set sale status to false
@@ -232,33 +357,60 @@ contract Assignment1Validator is BaseAssignmentValidator {
 
         // if exerciseEPassedCounter == 1 --> exercise E passed
         if (exerciseEPassedCounter == 1) {
-            appendTestResult(historyIndex, "Exercise E", true, 1);
+            appendTestResult(
+                historyIndex,
+                "Exercise E: Cannot mint when sale status is set to false",
+                true,
+                1
+            );
         } else {
             // If not all tests passed, mark test as failed
-            appendTestResult(historyIndex, "Exercise E", false, 0);
+            appendTestResult(
+                historyIndex,
+                "Exercise E: Cannot mint when sale status is set to false",
+                false,
+                0
+            );
+        }
+
+        // Set sale status to true again
+        if (assignment_contract.getSaleStatus() == false) {
+            // flip the sale status
+            assignment_contract.flipSaleStatus();
         }
     }
 
     function testExerciseF(
         uint256 historyIndex,
         Assignment1Interface assignment_contract
-    ) public {
+    ) private {
         /*----------  EXERCISE F  ----------*/
 
         // get ether balance of owner
-        uint256 ownerBalanceBeforeF = address(this).balance;
+        uint256 ownerBalanceBeforeF = msg.sender.balance;
 
         // withdraw funds to owner
         assignment_contract.withdraw(payable(assignment_contract.getOwner()));
 
         // get ether balance of owner
-        uint256 ownerBalanceAfterF = address(this).balance;
+        uint256 ownerBalanceAfterF = msg.sender.balance;
 
+        // check if ether balance of owner is increased
         if (ownerBalanceAfterF > ownerBalanceBeforeF) {
-            appendTestResult(historyIndex, "Exercise F", true, 1);
+            appendTestResult(
+                historyIndex,
+                "Exercise F: check if ether balance of owner is increased",
+                true,
+                1
+            );
         } else {
             // If not all tests passed, mark test as failed
-            appendTestResult(historyIndex, "Exercise F", false, 0);
+            appendTestResult(
+                historyIndex,
+                "Exercise F: check if ether balance of owner is increased",
+                false,
+                0
+            );
         }
     }
 

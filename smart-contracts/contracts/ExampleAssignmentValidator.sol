@@ -20,7 +20,8 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
     constructor(address _configContractAddress)
         BaseAssignmentValidator(
             _configContractAddress,
-            "ExampleAssignmentValidator" // Define the name of the contract
+            "ExampleAssignmentValidator", // Define the name of the contract
+            0
         )
     {
         // The constructor is empty
@@ -36,6 +37,7 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
      */
     function test(address _contractAddress)
         public
+        payable
         override(BaseAssignmentValidator)
         returns (uint256)
     {

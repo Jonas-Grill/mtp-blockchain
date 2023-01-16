@@ -37,8 +37,13 @@ class NOWAssignments {
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
+        const requiredEther = await this.getRequiredEther(validationContractAddress);
+
+        console.log("Required ether: " + requiredEther);
+
         await assignmentValidatorContract.methods.validateAssignment(contractAddress).send({
             from: fromAddress,
+            value: requiredEther,
             gas: 5000000
         });
 
@@ -59,9 +64,12 @@ class NOWAssignments {
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
+        const requiredEther = await this.getRequiredEther(validationContractAddress);
+
         // Submit assignment
         await assignmentValidatorContract.methods.submitAssignment(contractAddress).send({
             from: fromAddress,
+            value: requiredEther,
             gas: 5000000
         });
 
@@ -181,6 +189,24 @@ class NOWAssignments {
 
 
         return infos;
+    }
+
+    /**
+     * Get required ether to properly validate an assignment
+     * 
+     * @param {string} validationContractAddress Address of validation contract
+     * @returns Return required ether to properly validate an assignment
+     */
+    async getRequiredEther(validationContractAddress) {
+        const fromAddress = await this.utils.getFromAccount(this.web3);
+
+        const assignmentContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
+
+        var ether = await assignmentContract.methods.getRequiredEther().call({
+            from: fromAddress,
+        });
+
+        return ether;
     }
 }
 
