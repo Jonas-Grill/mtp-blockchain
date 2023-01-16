@@ -16,6 +16,8 @@ contract BaseAssignmentValidator is BaseConfig {
         string testName;
         // Test result
         bool testPassed;
+        // Points
+        uint256 points;
     }
 
     // TEST HISTORY STRUCT
@@ -141,7 +143,7 @@ contract BaseAssignmentValidator is BaseConfig {
 
         for (i = 0; i < tests.length; i++) {
             if (tests[i].testPassed == true) {
-                knowledgeCoins = knowledgeCoins + 1;
+                knowledgeCoins = knowledgeCoins + tests[i].points;
             }
         }
 
@@ -194,11 +196,13 @@ contract BaseAssignmentValidator is BaseConfig {
     function appendTestResult(
         uint256 _index,
         string memory _name,
-        bool _result
+        bool _result,
+        uint256 _points
     ) public {
-        Test memory a = Test(_name, _result);
+        Test memory a = Test(_name, _result, _points);
         a.testName = _name;
         a.testPassed = _result;
+        a.points = _points;
 
         _testHistory[_index].test.push(a);
     }
@@ -355,7 +359,7 @@ contract BaseAssignmentValidator is BaseConfig {
         }
     }
 
-    /*=====        End of Test Helper      ======*/    
+    /*=====        End of Test Helper      ======*/
 
     /*=============================================
     =               Config Helper               =

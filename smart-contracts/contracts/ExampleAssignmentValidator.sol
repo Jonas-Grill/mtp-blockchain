@@ -72,7 +72,8 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
         appendTestResult(
             historyIndex,
             "Is contract from the student",
-            checkAssignmentOwner(_contractAddress)
+            checkAssignmentOwner(_contractAddress),
+            1
         );
 
         // Test 1 - test if default value is 1998 --> will fail intentional
@@ -80,13 +81,15 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
             appendTestResult(
                 historyIndex,
                 "test if default value is 1000",
-                true
+                true,
+                1
             );
         } else {
             appendTestResult(
                 historyIndex,
                 "test if default value is 1998",
-                false
+                false,
+                0
             );
         }
 
@@ -94,9 +97,19 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
         assignment_contract.setTestValue(int256(2022));
 
         if (int256(assignment_contract.getTestValue()) == int256(2022)) {
-            appendTestResult(historyIndex, "test if setTestValue works", true);
+            appendTestResult(
+                historyIndex,
+                "test if setTestValue works",
+                true,
+                1
+            );
         } else {
-            appendTestResult(historyIndex, "test if setTestValue works", false);
+            appendTestResult(
+                historyIndex,
+                "test if setTestValue works",
+                false,
+                0
+            );
         }
 
         // Return the history index

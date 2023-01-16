@@ -5,20 +5,18 @@ pragma solidity ^0.8.17;
  * Example assignment for testing
  */
 
-import "../contracts/ExampleAssignmentInterface.sol";
-
-contract ExampleAssignment is ExampleAssignmentInterface {
+contract ExampleAssignment {
     int256 testValue;
 
     constructor() {
         testValue = 1998;
     }
 
-    function setTestValue(int256 _value) public override {
+    function setTestValue(int256 _value) public {
         testValue = _value;
     }
 
-    function getTestValue() public view override returns (int256) {
+    function getTestValue() public view returns (int256) {
         return testValue;
     }
 }

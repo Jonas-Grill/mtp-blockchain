@@ -18,6 +18,3 @@
 
 # Ignore truffle compiled
 smart-contracts/build/contracts/*
-
-# Ignore .env file
-.env
