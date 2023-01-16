@@ -1,13 +1,15 @@
-var express = require("express");
-var app = express();
+const express = require("express");
+const cors = require('cors')
+const app = express();
 
+app.use(cors())
 app.use(express.json());
 
 // require web3
-var Web3 = require('web3');
+const Web3 = require('web3');
 
 // Read arguments passed with execution of node
-var argv = require('minimist')(process.argv.slice(2));
+const argv = require('minimist')(process.argv.slice(2));
 
 // Fallback to dev .env if "--env" is "dev"
 if (argv["env"] != "prd") {
@@ -16,8 +18,8 @@ if (argv["env"] != "prd") {
 }
 
 // setup web3
-var web3Provider = new Web3.providers.HttpProvider(process.env.WEB3_PROVIDER);
-var web3 = new Web3(web3Provider);
+const web3Provider = new Web3.providers.HttpProvider(process.env.WEB3_PROVIDER);
+const web3 = new Web3(web3Provider);
 
 // Get port
 API_PORT = process.env.API_PORT
@@ -25,7 +27,7 @@ API_PORT = process.env.API_PORT
 // create sendEth endpoint
 app.post("/sendEth", async (req, res) => {
 
-    var abi = [{
+    const abi = [{
         "inputs": [
             {
                 "internalType": "address payable",

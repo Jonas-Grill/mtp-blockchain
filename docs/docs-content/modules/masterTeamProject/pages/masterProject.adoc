@@ -1,0 +1,19 @@
+= A Blockchain-based system for course submissions
+
+== Who we are
+
+We are Elias Anderlohr, Jonas Grill and Gina Weber. We are / were master students in business informatics at the University of Mannheim.
+We chose "A Blockchain-based system for course submissions" by Prof. Dr. Markus Strohmaier (Chair of Data Science in the Economic and Social Sciences) and Dr. Stefano Balietti as our Master Team Project.
+We started the project in fall semester 2022.
+The project was first launched in spring semester 2023.
+
+== What we did
+
+The basic idea of Prof. Strohmaier was to teach blockchain by using a blockchain based learning system. Therefore, basic concepts such as block numbers and smart contracts are understood through using the system.
+We implemented a frontend with Next.js and tailwindCSS. The faucet was implemented via a Node.js backend. All other logical operations are running directly on-chain.
+The chain is running on six raspberry Pi´s in the University of Mannheim which are working via a proof of authority consensus algorithm.
+Only for the submission of student ID and wallet addresses, an off-chain system such as ILIAS is used to comply to data privacy rules.
+
+== documentation
+
+If you want to learn more about our system, motivation and other interesting things, you can find the documentation which we handed in for grading in the following PDF file:

@@ -1,69 +1,47 @@
 import {AcademicCapIcon} from '@heroicons/react/20/solid'
-import {append_semester} from "../../web3/src/entrypoints/config/semester"
+import {appendSemester} from "../../web3/src/entrypoints/config/semester"
 import React, {useEffect} from "react";
-import Web3 from "web3";
-import {router} from "next/client";
 import {useRouter} from "next/router";
+import Head from "next/head";
+import {initBlockchain} from "../faucet";
 
 export default function CreateSemester() {
     const router = useRouter();
-    let web3;
+
+    const [web3, setWeb3] = React.useState<any>(undefined);
 
     const createSemester = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!web3) {
-            web3 = new Web3(window.ethereum);
+        if (web3) {
+            const data = new FormData(event.currentTarget);
+
+            const name = data.get('name');
+            const startingBlock = data.get('startBlock');
+            const endBlock = data.get('endBlock');
+            const coinAmountForExam = data.get('coinAmountForExam');
+
+            appendSemester(web3, name, startingBlock, endBlock, coinAmountForExam).then((result) => {
+                router.push('/semester');
+            });
+
         }
-
-        const data = new FormData(event.currentTarget);
-
-        const name = data.get('name');
-        const startingBlock = data.get('startBlock');
-        const endBlock = data.get('endBlock');
-        const coinAmountForExam = data.get('coinAmountForExam');
-
-        append_semester(web3, name, startingBlock, endBlock, coinAmountForExam).then((result) => {
-            const data = sessionStorage.getItem('semesterList');
-            let semesterList = [];
-
-            if (data) {
-                semesterList = JSON.parse(data);
-                semesterList.push(result.id);
-            } else {
-                semesterList.push(result.id);
-            }
-
-            sessionStorage.setItem('semesterList', JSON.stringify(semesterList));
-
-            router.push('/semester');
-        });
     }
 
     useEffect(() => {
-        window.addEventListener('load', async () => {
-            // Wait for loading completion to avoid race conditions with web3 injection timing.
-            if (window.ethereum) {
-                web3 = new Web3(window.ethereum);
-                try {
-                    // Request account access if needed
-                    await window.ethereum.enable();
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-            // Fallback to localhost; use dev console port by default...
-            else {
-                const provider = new Web3.providers.HttpProvider(process.env.RPC_URL);
-                web3 = new Web3(provider);
-                console.log('No web3 instance injected, using Local web3.');
-            }
-        });
-    }, []);
+        if (!web3) {
+            initBlockchain(web3).then((web3) => {
+                setWeb3(web3);
+            });
+        }
+    }, [web3]);
 
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <Head>
+                    <title>Create semester</title>
+                </Head>
                 <div className="w-full max-w-md space-y-8">
                     <div>
                         <img
@@ -85,7 +63,7 @@ export default function CreateSemester() {
                             name="name"
                             type="text"
                             required
-                            className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Semester name"
                         />
                         <label htmlFor="startBlock" className="sr-only">
@@ -96,7 +74,7 @@ export default function CreateSemester() {
                             name="startBlock"
                             type="text"
                             required
-                            className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Starting block"
                         />
                         <label htmlFor="endBlock" className="sr-only">
@@ -107,7 +85,7 @@ export default function CreateSemester() {
                             name="endBlock"
                             type="text"
                             required
-                            className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="End block"
                         />
                         <label htmlFor="coinAmountForExam" className="sr-only">
@@ -118,13 +96,13 @@ export default function CreateSemester() {
                             name="coinAmountForExam"
                             type="text"
                             required
-                            className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-4 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Coin amount needed for exam qualification"
                         />
 
                         <button
                             type="submit"
-                            className="group relative mt-3 flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
+                            className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                         >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                     <AcademicCapIcon className="h-5 w-5 text-uni group-hover:text-gray-400"

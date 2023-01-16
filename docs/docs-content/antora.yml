@@ -4,4 +4,6 @@ version: 0.1
 prerelease: -beta.1
 nav:
   - modules/ROOT/nav.adoc
-  - modules/metamask/nav.adoc
+  - modules/forStudents/nav.adoc
+  - modules/forLecturers/nav.adoc
+  - modules/masterTeamProject/nav.adoc

@@ -3,18 +3,20 @@
 
 You are here to learn a lot about blockchain by using blockchain!
 
-== Idea behind this exercise
-
-Learning blockchain with blockchain
-
 == How this exercise will work
 
-Getting tokens through producing good Smart Contracts
+Knowledge Base is a system based on blockchain where students can collect Knowledge - literally.
+Assignment tasks can be found in the Knowledge Base.
+Once you programmed your smart contract for one assignment, you can submit it and see the Knowledge you acquired.
+Validator contracts in the background will run tests against your code and give out Knowledge coins for the tests that passed.
+In the Coin Overview you can see the current Knowledge amount and how much more you need to qualify for the exam.
 
 == How to get qualified for the exam
 
-Get enough tokens
+You should always have enough Knowledge to successfully take an exam.
+In the case of Knowledge case, we want to make sure, that you definitely have enough Knowledge.
+For each assignment, you can earn a specific amount of Knowledge. The lecturer is able to set the Knowledge amount needed to pass the exam, which you can see in your Coin Overview.
+So basically, if you have collected enough Knowledge coins, you have enough Knowledge to take the exam.
+You can always try to reach the ultimate goal of a perfect score by getting maximum points in each assignment and doing the bonus tasks, but that is completely up to you.
 
-== What this documentation provides
-
-A lot of explanations
+Further information on how to interact with Knowledge Base are shown in the following pages of the documentation.

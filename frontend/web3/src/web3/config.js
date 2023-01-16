@@ -149,10 +149,10 @@ class NOWConfig {
     *
     * @param {string} _newAdmin Address of the new admin
     */
-    async addContractAdmin(_newAdmin) {
+    async addContractAdmin(_newAdmin, _contractName) {
         // Change Admin for NOWConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.addContractAdmin(_newAdmin).send({ from: await this.utils.getFromAccount(this.web3) });
+        await configStorageContract.methods.addContractAdmin(_newAdmin, _contractName).send({ from: await this.utils.getFromAccount(this.web3) });
     }
 
     /**
@@ -299,7 +299,7 @@ class NOWConfig {
     }
 
     /**
-     * Return all semester ids 
+     * Return all semester ids
      *
      * @returns Returns all semester ids
      */
@@ -395,7 +395,7 @@ class NOWConfig {
         const fromAddress = await this.utils.getFromAccount(this.web3);
         await configStorageContract.methods.appendAssignment(_semesterId, _name, _link, _validationContractAddress, _startBlock, _endBlock).send({ from: fromAddress });
 
-        return await configStorageContract.methods.getAssignmentCounter(_semesterId).call({ from: await this.utils.getFromAccount(this.web3) });
+        return await configStorageContract.methods.getAssignmentCounter(_semesterId).call({ from: fromAddress });
     }
 
     /**
@@ -413,7 +413,7 @@ class NOWConfig {
 
     /**
      * Return all assignment ids
-     * 
+     *
      * @param {id} _semesterId Id of the semester
      * @returns Returns all assignment ids
      */
@@ -436,7 +436,7 @@ class NOWConfig {
     }
 
     /**
-     * Check if assignment exists 
+     * Check if assignment exists
      *
      * @param {int} _semesterId Id of the semester
      * @param {int} _assignmentId Id of the assignment

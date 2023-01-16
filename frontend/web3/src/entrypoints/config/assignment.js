@@ -60,10 +60,10 @@ exports.deleteAssignment = async (web3, semesterId, assignmentId) => {
 /*----------  EDIT  ----------*/
 
 // Set assignment address
-exports.setAssignmentAddress = async (web3, senesterId, assignmentId, address) => {
+exports.setAssignmentAddress = async (web3, semesterId, assignmentId, address) => {
     const config = new configHandler.NOWConfig(web3)
 
-    await config.setAssignmentAddress(senesterId, assignmentId, address)
+    await config.setAssignmentAddress(semesterId, assignmentId, address)
 };
 
 // Set assignment link

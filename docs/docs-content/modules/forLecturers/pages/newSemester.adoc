@@ -1,0 +1,53 @@
+= How to start with a new semester
+
+This will be a step-by-step guide on how you get a new semester with new students up and running.
+
+== Log in as admin on Knowledge Base
+
+To be able to see all the admin functions to create a new semester on Knowledge Base you have to log in with your Metamask account that is registered as an admin account.
+
+== Create a new semester on Knowledge Base
+
+To create a new semester on Knowledge Base you have to go to the Semester section and click on the button "Create new semester".
+Then you are asked to type in the following information:
+
+* Type in the name of the semester.
+* Specify the starting block of the assignment. The students won´t see a time slot for the assignment but only the starting and end block. Students have to manually calculate the time slot for the assignment.
+* Specify the end block of the assignment.
+* Provide the coin amount that is needed to be qualified for the exam.
+
+== How to deploy a new validator contract
+
+If you want to create a semester with new assignments, there need to be validator contracts that check the solutions that are submitted by the students.
+To deploy such a validator contract you have to
+
+TODO
+
+== Create assignments or use existing ones on Knowledge Base
+
+If you want to add a new assignment on Knowledge Base you have to go to the section "Assignments" and press the "Add new Assignment"-Button.
+Then you are asked to type in the following information:
+
+* Select the semester you want to add the assignment to. This way you can also add an existing assignment to a new semester.
+Please keep in mind that the semester has to be created before you can add an assignment to it.
+* Type in the name of the assignment.
+* Provide the link to the assignment task. This link will lead to a pdf document which contains the instructions for the task of the assignment.
+* Insert the contract address of the contract that will validate the solutions handed in by the students. This contract should have been deployed by this point.
+* Specify the starting block of the assignment. The students won´t see a time slot for the assignment but only the starting and end block. Students have to manually calculate the time slot for the assignment.
+* Specify the end block of the assignment.
+
+== Create a survey on ILIAS
+
+To gather the needed student data and comply to the data privacy rules of the University of Mannheim you have to use ILIAS as a data source.
+To do so, you have to create a survey on ILIAS. The survey should contain the following questions:
+
+* What is your student id at University of Mannheim? (Matrikelnummer)
+* What is the public address of your Metamask wallet? (The students need to have set up a Metamask wallet before they can provide this information.)
+
+== Upload the student data to Knowledge Base
+
+Once the survey is completed, you can export the results as csv. Please copy the content from the csv. Then go to Knowledge Base to the Knowledge Overview (you still need to be signed in via an admin address).
+Then paste the content you copied from the csv in the text field. Press the Show data button.
+You will see a list of every student id with its corresponding wallet address and the Knowledge they earned.
+You may also see, whether the student has passed or failed with their current Knowledge amount.
+If you want to have a list of all students, you can export an excel-sheet via clicking the export .xls button.

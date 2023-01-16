@@ -5,7 +5,7 @@ Store some utility functions
 class NOWUtils {
     /**
      * Returns the eth amount from wei
-     * 
+     *
      * @param {int} wei
      * @returns eth
      */
@@ -15,18 +15,18 @@ class NOWUtils {
 
     /**
      * Returns the wei amount from eth
-     * 
-     * @param {float} eth 
+     *
+     * @param {float} eth
      */
     ethToWei(eth) {
         return parseFloat(eth) * Number(1000000000000000000);
     }
 
     /**
-     * Returns the object of the smart contract 
+     * Returns the object of the smart contract
      *
      * @param {string} contractName name of the json contract file without the json suffix
-     * @return json object 
+     * @return json object
      */
     getContractJson(contractName) {
 
@@ -74,8 +74,8 @@ class NOWUtils {
 
     /**
      * Returns the abi given the json file name
-     * 
-     * @param {string} contractName name of the json contract file without the json suffix 
+     *
+     * @param {string} contractName name of the json contract file without the json suffix
      * @returns json abi object
      */
     getContractAbi(contractName) {
@@ -84,8 +84,8 @@ class NOWUtils {
 
     /**
      * Returns the address of the smart contract
-     * 
-     * @param {string} contractName name of the json contract file without the json suffix     
+     *
+     * @param {string} contractName name of the json contract file without the json suffix
      * @param {int} networkId Id of the network the blockchain is running on
      * @returns contract address
      */
@@ -96,13 +96,13 @@ class NOWUtils {
     }
 
     /**
-     * Return the interface from the smart contract 
+     * Return the interface from the smart contract
      *
      * @param {web3} web3 web3 instance to connect to blockchain
      * @param {string} contractName Name of the contract to return
      * @param {string} fromAddress Address the contract should be executed from
      * @param {int} networkId Id of the network the blockchain is running on
-     * @returns Interface from the smart contract 
+     * @returns Interface from the smart contract
      */
     getContract(web3, contractName, fromAddress, networkId) {
         // faucet storage abi
@@ -118,12 +118,12 @@ class NOWUtils {
     }
 
     /**
-     * Return the assignment validator contract from the smart contract 
+     * Return the assignment validator contract from the smart contract
      *
-     * @param {web3} web3 
-     * @param {string} fromAddress 
-     * @param {string} assignmentValidatorContractAddress 
-     * @returns 
+     * @param {web3} web3
+     * @param {string} fromAddress
+     * @param {string} assignmentValidatorContractAddress
+     * @returns
      */
     getAssignmentValidatorContract(web3, fromAddress, assignmentValidatorContractAddress) {
         // faucet storage abi
@@ -136,7 +136,7 @@ class NOWUtils {
     }
 
     /**
-     * Returns the from account 
+     * Returns the from account
      *
      * @param {web3} web3 web3 instance to connect to blockchain
      * @returns the from account
@@ -158,7 +158,7 @@ class NOWUtils {
     =============================================*/
 
     /**
-     * Returns the average time for a block to mine 
+     * Returns the average time for a block to mine
      *
      * @param {web3} web3 Web3 instance to connect to blockchain
      * @returns average time for a block to mine
@@ -181,7 +181,7 @@ class NOWUtils {
     }
 
     /**
-     * Returns the current block 
+     * Returns the current block
      *
      * @param {web3} web3 Web3 instance to connect to blockchain
      * @returns Return current block
@@ -194,7 +194,7 @@ class NOWUtils {
     }
 
     /**
-     * Return current block number 
+     * Return current block number
      *
      * @param {web3} web3 Web3 instance to connect to blockchain
      * @returns Returns the current block number
@@ -205,7 +205,7 @@ class NOWUtils {
 
     /**
      * Returns the estimated timestamp of the block number
-     * 
+     *
      * @param {web3} web3 Web3 instance to connect to blockchain
      * @param {int} blockNumber Block number to be converted to timestamp
      * @returns Estimated timestamp of the block number

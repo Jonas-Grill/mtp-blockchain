@@ -1,68 +1,76 @@
 import {DocumentTextIcon} from '@heroicons/react/20/solid'
 import React, {useEffect, useState} from "react";
-import Web3 from "web3";
-import {append_assignment} from "../../web3/src/entrypoints/config/assignment";
-import {loadSemesters} from "../semester";
+import {appendAssignment} from "../../web3/src/entrypoints/config/assignment";
+import {loadSemesters, Semester} from "../semester";
 import {useRouter} from "next/router";
+import Head from "next/head";
+import {initBlockchain} from "../faucet";
 
 export default function CreateAssignment() {
     const router = useRouter();
 
-    let web3;
-
-    const [semesters, setSemesters] = useState<{ id: string, name: any }[]>([]);
+    const [web3, setWeb3] = useState<any>(undefined);
+    const [semesters, setSemesters] = useState<Semester[]>([]);
     const [selectedSemester, setSelectedSemester] = useState<string>("");
-
-    useEffect(() => {
-        loadSemesters().then((semesters) => {
-            if (semesters) {
-                setSemesters(semesters);
-                setSelectedSemester(semesters[0].id);
-            }
-
-        });
-
-        if (window.ethereum) {
-            web3 = new Web3(window.ethereum);
-            window.ethereum.enable();
-        }
-    }, []);
 
     const createAssignment = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!web3) {
-             web3 = new Web3(window.ethereum);
+        if (web3) {
+            const data = new FormData(event.currentTarget);
+
+            const name = data.get('name');
+            const link = data.get('link');
+            const contractAddress = data.get('contractAddress');
+            const startBlock = data.get('startBlock');
+            const endBlock = data.get('endBlock');
+
+            appendAssignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock).then(() => {
+                router.push("/assignments");
+            }).catch((error) => {
+                console.log(error.code)
+                if (error.code === "INVALID_ARGUMENT") {
+                    alert(`${error.value} is not a valid ${error.reason.substring(
+                        error.reason.indexOf('="') + 2,
+                        error.reason.indexOf('",')
+                    )}`);
+                } else if (error.code == "-32603" || error.code == "-32000") {
+                    alert("Either you are using an invalid contract or your end block is smaller or equal to your start block!")
+                } else {
+                    console.error(error);
+                }
+            });
         }
-
-        const data = new FormData(event.currentTarget);
-        const name = data.get('name') as string;
-        const link = data.get('link') as string;
-        const contractAddress = data.get('contractAddress') as string;
-        const startBlock = data.get('startBlock') as string;
-        const endBlock = data.get('endBlock') as string;
-
-        append_assignment(web3, selectedSemester, name, link, contractAddress, startBlock, endBlock).then((result) => {
-            const data = sessionStorage.getItem('assignmentList');
-            let assignmentList = [];
-
-            if (data) {
-                assignmentList = JSON.parse(data);
-                assignmentList.push({semester: selectedSemester, id: result.id});
-            } else {
-                assignmentList.push({semester: selectedSemester, id: result.id});
-            }
-
-            sessionStorage.setItem('assignmentList', JSON.stringify(assignmentList));
-
-            router.push('/assignments');
-        });
     }
+
+    const getSemesterById = (id: string) => {
+        return semesters.find((semester) => semester.id === id);
+    }
+
+    useEffect(() => {
+
+        if (!web3) {
+            initBlockchain(web3).then((web3) => {
+                setWeb3(web3);
+            });
+        } else {
+            loadSemesters(web3).then((result) => {
+                setSemesters(result);
+
+                if (result.length > 0) {
+                    setSelectedSemester(result[0].id);
+                }
+            });
+        }
+    }, [web3]);
 
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-                <div className="w-full max-w-md space-y-8">
+                <Head>
+                    <title>Create assignment</title>
+                </Head>
+                <div className="w-full max-w-md ">
                     <div>
                         <img
                             className="mx-auto h-12 w-auto"
@@ -73,21 +81,24 @@ export default function CreateAssignment() {
                             Create a new assignment
                         </h2>
                     </div>
-                    <form className="mt-8" onSubmit={createAssignment}>
+                    <div className="mt-4 text-lg font-medium text-uni">
+                        Choose semester:
+                    </div>
+                    <form className="mt-2" onSubmit={createAssignment}>
                         <fieldset>
-                            <div className="mt-4 space-y-4">
+                            <div className="space-y-2 mb-4">
                                 {semesters.map((semester) => (
-                                    <div className="flex items-center">
+                                    <div className="flex items-center" key={semester.id}>
                                         <input
                                             id={semester.id}
                                             name="semester"
                                             type="radio"
-                                            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                            className="h-4 w-4 text-uni focus:ring-transparent"
                                             checked={semester.id === selectedSemester}
                                             onChange={() => setSelectedSemester(semester.id)}
                                         />
                                         <label htmlFor="semester"
-                                               className="ml-3 block text-sm font-medium text-gray-700">
+                                               className="ml-3 block text-sm font-medium text-uni">
                                             {semester.name}
                                         </label>
                                     </div>
@@ -102,7 +113,7 @@ export default function CreateAssignment() {
                             name="name"
                             type="text"
                             required
-                            className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Assignment name"
                         />
                         <label htmlFor="link" className="sr-only">
@@ -113,7 +124,7 @@ export default function CreateAssignment() {
                             name="link"
                             type="text"
                             required
-                            className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Link to assignment task"
                         />
                         <label htmlFor="contractAddress" className="sr-only">
@@ -124,7 +135,7 @@ export default function CreateAssignment() {
                             name="contractAddress"
                             type="text"
                             required
-                            className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Contract address"
                         />
                         <label htmlFor="startBlock" className="sr-only">
@@ -133,9 +144,11 @@ export default function CreateAssignment() {
                         <input
                             id="startBlock"
                             name="startBlock"
-                            type="text"
+                            type="number"
+                            min={getSemesterById(selectedSemester)?.startBlock}
+                            max={getSemesterById(selectedSemester)?.endBlock}
                             required
-                            className="relative mt-3 block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Starting block"
                         />
                         <label htmlFor="endBlock" className="sr-only">
@@ -144,15 +157,16 @@ export default function CreateAssignment() {
                         <input
                             id="endBlock"
                             name="endBlock"
-                            type="text"
+                            type="number"
+                            min={getSemesterById(selectedSemester)?.startBlock}
+                            max={getSemesterById(selectedSemester)?.endBlock}
                             required
-                            className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            className="mb-4 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="End block"
                         />
                         <button
                             type="submit"
-
-                            className="group relative mt-3 flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white focus:outline-none focus:ring-2 focus:ring-uni focus:ring-offset-2"
+                            className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                         >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                     <DocumentTextIcon className="h-5 w-5 text-uni group-hover:text-gray-400"

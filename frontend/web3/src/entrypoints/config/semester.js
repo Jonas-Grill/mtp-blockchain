@@ -15,10 +15,10 @@ const utils = new utilsHelper.NOWUtils()
 =============================================*/
 
 // Get semester
-exports.getSemester = async (web3, semesterIds) => {
+exports.getSemester = async (web3, semesterId) => {
     const config = new configHandler.NOWConfig(web3)
 
-    var semester = await config.getSemester(semesterIds)
+    const semester = await config.getSemester(semesterId)
 
     return { "name": semester[0], "startBlock": semester[1], "endBlock": semester[2], "minKnowledgeCoinAmount": semester[3] };
 };
@@ -57,7 +57,7 @@ exports.deleteSemester = async (web3, semesterIds) => {
 
 /*----------  CHANGE  ----------*/
 
-// Set faucet gas value
+// Set semester now coin amount
 exports.setSemesterAmountKnowledgeCoins = async (web3, semesterId, minKnowledgeCoinAmount) => {
     const config = new configHandler.NOWConfig(web3)
 
