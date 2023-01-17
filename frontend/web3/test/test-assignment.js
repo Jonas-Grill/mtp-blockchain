@@ -183,7 +183,6 @@ describe("test", function () {
 
             const assignment = new assignmentHandler.NOWAssignments(web3);
 
-            const studentAddress = accounts[0]; // Address of the student who deployed the contract
             const exampleContractAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
             const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
 

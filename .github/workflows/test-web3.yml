@@ -1,9 +1,8 @@
 name: Run web3 tests
 on:
-  push
-  #push:
-  #  paths:
-  #    - frontend/web3/**
+  push:
+    paths:
+      - frontend/web3/**
 
 jobs:
   # Label of the container job
