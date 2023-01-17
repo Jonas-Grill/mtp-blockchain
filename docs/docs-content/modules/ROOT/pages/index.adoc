@@ -1,4 +1,4 @@
-image::now-logo.png[NOW Logo, 200, 200]
+image::now-logo.png[NOW Logo]
 
 == Welcome to the blockchain exercise on the NOW platform
 
