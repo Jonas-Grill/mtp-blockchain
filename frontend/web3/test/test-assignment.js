@@ -33,8 +33,6 @@ require('dotenv').config()
 describe("test", function () {
     describe("assignment", function () {
         it("validate assignment should create entry in test results", async function () {
-            const accounts = await ganache.getAccount()
-
             // config
             const networkId = await web3.eth.net.getId()
 
