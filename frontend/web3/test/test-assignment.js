@@ -113,12 +113,14 @@ describe("test", function () {
             if (process.env.CI) {
                 this.skip()
             }
+
             /**
              * 1. Remove submitted assignment
              * 2. Submit assignment
              * 3. Check if assignment was submitted
              * 4. Check if test results are correct
              */
+
             const accounts = await ganache.getAccount()
             const networkId = await web3.eth.net.getId()
 
