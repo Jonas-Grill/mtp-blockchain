@@ -2,7 +2,7 @@
 pragma solidity ^0.8.17;
 
 // Import ERC721URIStorage.sol
-import "../../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/tree/v4.8.1/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 // Import BaseAssignment.sol
 import "../../contracts/BaseAssignment.sol";

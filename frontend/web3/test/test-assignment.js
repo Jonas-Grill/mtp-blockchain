@@ -72,6 +72,7 @@ describe("test", function () {
             if (process.env.CI) {
                 this.skip()
             }
+
             const accounts = await ganache.getAccount()
             const networkId = await web3.eth.net.getId()
 
