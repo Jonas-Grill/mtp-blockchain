@@ -38,8 +38,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
           cache-dependency-path: "./frontend/package-lock.json"
-      - run: cd frontend && npm ci
+      - run: npm ci --prefix ./frontend "./frontend/package.json"
+      - run: npm --prefix ./smart-contracts run github
+      #- run: cd frontend && npm ci
       #- run: cd frontend && npm run build --if-present
-      - run: cd smart-contracts && npx truffle compile
-      - run: cd smart-contracts && npx truffle deploy
-      - run: cd frontend && npm run test_web3
+      #- run: cd smart-contracts && npx truffle compile
+      #- run: cd smart-contracts && npx truffle deploy
+      #- run: cd frontend && npm run test_web3
