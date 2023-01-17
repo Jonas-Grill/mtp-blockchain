@@ -16,7 +16,7 @@ const configHandler = require('../src/web3/config')
 
 
 // Parse and set rpc url
-const rpcURL = "http://localhost:8545";
+const rpcURL = "http://127.0.0.1:8545";
 const web3 = new Web3(rpcURL);
 web3.setProvider(new web3.providers.HttpProvider(rpcURL));
 
@@ -60,7 +60,7 @@ describe("test", function () {
 
             const id = await assignment.validateAssignment(exampleContractAddress, exampleValidationAddress);
 
-            const test_results = await assignment.getTestResults(id, exampleValidationAddress);
+            const test_results = await assignment.getTestResults(exampleValidationAddress, id);
 
             assert.equal(test_results.length > 0, true);
 
@@ -94,7 +94,7 @@ describe("test", function () {
 
             const id = await assignment.validateAssignment(exampleContractAddress, exampleValidationAddress);
 
-            const testResults = await assignment.getTestResults(id, exampleValidationAddress);
+            const testResults = await assignment.getTestResults(exampleValidationAddress, id);
 
             let correctTestCounter = 0
             for (var i = 0; i < testResults.length; i++) {
@@ -151,7 +151,7 @@ describe("test", function () {
 
             assert.equal(assignmentAfterSubmit.submitted, true);
 
-            const testResults = await assignment.getTestResults(assignmentAfterSubmit.testIndex, exampleValidationAddress);
+            const testResults = await assignment.getTestResults(exampleValidationAddress, assignmentAfterSubmit.testIndex);
 
             let correctTestCounter = 0
             for (var i = 0; i < testResults.length; i++) {

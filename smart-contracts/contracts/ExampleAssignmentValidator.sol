@@ -28,7 +28,7 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
     }
 
     /**
-     * The validateAssignment function is inherited from the base assignment validator
+     * The ´test´ function is inherited from the base assignment validator
      * and needs to be implemented in the child contract.
      *
      * In this function all the necessary tests are executed and the results are returned

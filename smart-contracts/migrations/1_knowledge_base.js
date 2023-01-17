@@ -9,6 +9,7 @@ const symbol = "NOW";
 
 // test 
 const exampleAssignment = artifacts.require("ExampleAssignment");
+const exampleAssignment2 = artifacts.require("ExampleAssignment2");
 const exampleAssignmentValidator = artifacts.require("ExampleAssignmentValidator");
 const exampleAssignmentValidator2 = artifacts.require("ExampleAssignmentValidator2");
 
@@ -16,7 +17,6 @@ const exampleAssignmentValidator2 = artifacts.require("ExampleAssignmentValidato
 const assignment1Validator = artifacts.require("Assignment1Validator");
 
 module.exports = async (deployer, network, account) => {
-    await deployer.deploy(exampleAssignment);
     // deployment steps
     configContract = await deployer.deploy(configStorage)
 
@@ -29,9 +29,13 @@ module.exports = async (deployer, network, account) => {
     console.log("Deploying ExampleAssignmentValidator...")
     await deployer.deploy(exampleAssignmentValidator, configStorage.address);
 
+    await deployer.deploy(exampleAssignment, exampleAssignmentValidator.address);
+
     // Assignment Validator 2
     console.log("Deploying ExampleAssignmentValidator2...")
     await deployer.deploy(exampleAssignmentValidator2, configStorage.address);
+
+    await deployer.deploy(exampleAssignment2, exampleAssignmentValidator2.address);
 
     console.log("Deploying SBCoin...")
     await deployer.deploy(SBCoin, name, symbol, configStorage.address);

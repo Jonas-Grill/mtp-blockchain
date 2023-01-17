@@ -39,8 +39,6 @@ class NOWAssignments {
 
         const requiredEther = await this.getRequiredEther(validationContractAddress);
 
-        console.log("Required ether: " + requiredEther);
-
         await assignmentValidatorContract.methods.validateAssignment(contractAddress).send({
             from: fromAddress,
             value: requiredEther,

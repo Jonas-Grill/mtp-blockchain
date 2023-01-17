@@ -7,7 +7,7 @@ pragma solidity ^0.8.17;
 
 import "../contracts/BaseAssignment.sol";
 
-contract ExampleAssignment is BaseAssignment {
+contract ExampleAssignment2 is BaseAssignment {
     int256 testValue;
 
     constructor(address validatorAddress) BaseAssignment(validatorAddress) {
