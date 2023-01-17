@@ -1,6 +1,6 @@
 <!-- Using h2 instead of h1 because npm doesn't support align=center on h1 tags -->
 <h1 align="center">
-    <img src="now.png" alt="Now" width="800">
+    <img src="now-logo.png" alt="NOW Logo" width="800">
 </h1>
 
 <h3 align="center">
