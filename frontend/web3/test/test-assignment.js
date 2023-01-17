@@ -113,6 +113,7 @@ describe("test", function () {
             if (process.env.CI) {
                 this.skip()
             }
+
             /**
              * 1. Remove submitted assignment
              * 2. Submit assignment
