@@ -10,7 +10,7 @@ import "../contracts/BaseAssignment.sol";
 contract ExampleAssignment2 is BaseAssignment {
     int256 testValue;
 
-    constructor(address validatorAddress) BaseAssignment(validatorAddress) {
+    constructor(address validator) BaseAssignment(validator) {
         testValue = 1998;
     }
 

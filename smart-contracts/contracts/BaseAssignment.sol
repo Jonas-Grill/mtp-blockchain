@@ -9,16 +9,16 @@ contract BaseAssignment {
     // METADATA STORAGE
     address public _owner; // Owner of the contract
     uint256 public _blockNumber; // Block number of the contract creation
-    address public _validatorAddress; // Address of the validator
+    address public _validator; // Address of the validator
 
-    constructor(address validatorAddress) {
+    constructor(address validator) {
         _owner = msg.sender;
         _blockNumber = block.number;
-        _validatorAddress = validatorAddress;
+        _validator = validator;
 
         // Make sure that the validator address is not default
         require(
-            _validatorAddress != address(0),
+            _validator != address(0),
             "Address of Validator Contract is not set"
         );
     }
@@ -34,8 +34,8 @@ contract BaseAssignment {
     }
 
     // Get validator contract address
-    function getValidatorAddress() public view returns (address) {
-        return _validatorAddress;
+    function getValidator() public view returns (address) {
+        return _validator;
     }
 }
 
