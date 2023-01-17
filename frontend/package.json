@@ -44,5 +44,8 @@
   },
   "browser": {
     "fs": true
+  },
+  "optionalDependencies": {
+    "fsevents": "2.1.2"
   }
 }
