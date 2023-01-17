@@ -120,7 +120,6 @@ describe("test", function () {
              * 3. Check if assignment was submitted
              * 4. Check if test results are correct
              */
-
             const accounts = await ganache.getAccount()
             const networkId = await web3.eth.net.getId()
 
