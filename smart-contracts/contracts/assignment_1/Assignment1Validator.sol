@@ -9,7 +9,6 @@ import "../../contracts/BaseAssignmentValidator.sol";
 
 import "../../node_modules/@openzeppelin/contracts/utils/Base64.sol";
 import "../../node_modules/@openzeppelin/contracts/utils/Strings.sol";
-
 import "../../node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
 // Give the contract a name and inherit from the base assignment validator
