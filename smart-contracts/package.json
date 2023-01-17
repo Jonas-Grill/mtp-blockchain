@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/Jonas-Grill/mtp-blockchain#readme",
   "dependencies": {
-    "@openzeppelin/contracts": "^4.8.0",
+    "@openzeppelin/contracts": "^4.8.1",
     "openzeppelin-solidity": "4.6.0",
     "solc": "^0.8.17",
     "truffle": "^5.7.1"

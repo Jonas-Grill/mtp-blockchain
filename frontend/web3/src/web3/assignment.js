@@ -120,7 +120,7 @@ class NOWAssignments {
      *
      * @param {string} studentAddress Address of student
      * @param {string} validationContractAddress Address of validation contract
-     * @returns 
+     * @returns Return submitted assignment
      */
     async getSubmittedAssignment(studentAddress, validationContractAddress) {
         const fromAddress = await this.utils.getFromAccount(this.web3);
