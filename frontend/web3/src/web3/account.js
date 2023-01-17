@@ -150,7 +150,7 @@ class NOWAccount {
      * Return csv of addresses which passed the semester
      *
      * IMPORT FORMAT: studentID,studentAddress
-     * OUTPUT FORMAT: studentID,studentAddress,hasPassed
+     * OUTPUT FORMAT: studentID,studentAddress,hasPassed 
      * 
      * @param {string} csv CSV string with student numbers (first row is header)
      * @param {int} semesterId Id of semester
