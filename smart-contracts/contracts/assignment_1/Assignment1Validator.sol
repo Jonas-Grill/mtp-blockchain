@@ -7,10 +7,10 @@ import "../assignment_1/Assignment1Interface.sol";
 // Import the base assignment validator contract
 import "../../contracts/BaseAssignmentValidator.sol";
 
-import "@openzeppelin/contracts/utils/Base64.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
+import "../../node_modules/@openzeppelin/contracts/utils/Base64.sol";
+import "../../node_modules/@openzeppelin/contracts/utils/Strings.sol";
 
-import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+import "../../node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
 // Give the contract a name and inherit from the base assignment validator
 contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
