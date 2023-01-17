@@ -18,6 +18,7 @@
     "@types/react-dom": "18.0.8",
     "async": "^3.2.4",
     "chai": "^4.3.6",
+    "csv-string": "^4.1.1",
     "dotenv": "^16.0.3",
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.1",

@@ -3,7 +3,6 @@ Store some account related functions
 */
 
 class NOWAccount {
-
     /**
      * Create Account class
      */
@@ -146,7 +145,73 @@ class NOWAccount {
 
         return passedStudents;
     }
-}
 
+    /**
+     * Return csv of addresses which passed the semester
+     *
+     * IMPORT FORMAT: studentID,studentAddress
+     * OUTPUT FORMAT: studentID,studentAddress,hasPassed
+     * 
+     * @param {string} csv CSV string with student numbers (first row is header)
+     * @param {int} semesterId Id of semester
+     * @returns Return csv of addresses which passed the semester (first row is header)
+     */
+    async hasStudentsPassedSemesterCSV(csv, semesterId) {
+        // Parse semester infos
+        const configHandler = require("./config.js");
+        const config = new configHandler.NOWConfig(this.web3);
+
+        const semester = config.getSemester(semesterId);
+
+        const startBlock = semester.startBlock;
+        const endBlock = semester.endBlock;
+
+        // Parse csv
+        const csvParsed = require('csv-string').parse(csv);
+
+        // remove first row
+        csvParsed.splice(0, 1);
+
+        var passedStudents = [];
+
+        // loop over array 
+        for (var i = 0; i < csvParsed.length; i++) {
+            const row = [];
+
+            const studentNumber = csvParsed[i][0].trim();
+            const studentAddress = csvParsed[i][1].trim();
+
+            const balance = await this.getKnowledgeCoinBalance(studentAddress, startBlock, endBlock);
+
+            row.push(studentNumber);
+            row.push(studentAddress);
+
+            if (balance > semester.minKnowledgeCoinAmount) {
+                row.push("passed");
+            }
+            else {
+                row.push("failed");
+            }
+
+            passedStudents.push(row);
+        }
+
+        const csvString = [
+            [
+                "Student Id",
+                "Student Address",
+                "Passed"
+            ],
+            ...passedStudents.map(item => [
+                item[0],
+                item[1],
+                item[2]
+            ])
+        ].map(e => e.join(","))
+            .join("\n");;
+
+        return csvString;
+    }
+}
 // export account class
 module.exports = { NOWAccount };
