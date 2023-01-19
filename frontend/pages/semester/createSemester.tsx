@@ -24,7 +24,7 @@ export default function CreateSemester() {
             appendSemester(web3, name, startingBlock, endBlock, coinAmountForExam).then((result) => {
                 router.push('/semester');
             }).catch((error) => {
-                console.log(error);
+                alert(error.message);
             });
 
         }

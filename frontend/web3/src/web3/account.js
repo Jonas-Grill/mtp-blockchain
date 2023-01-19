@@ -91,7 +91,9 @@ class NOWAccount {
             await this.web3.eth.net.getId()
         )
 
-        return await knowledgeCoinContract.methods.coinsInBlockNumberRange(address, startBlock, endBlock).call({ from: await this.utils.getFromAccount(this.web3) })
+        const balance = await knowledgeCoinContract.methods.coinsInBlockNumberRange(address, startBlock, endBlock).call({ from: await this.utils.getFromAccount(this.web3) })
+
+        return await knowledgeCoinContract.methods.exchangeToDecimalCoin(balance).call({ from: await this.utils.getFromAccount(this.web3) })
     }
 
     /**

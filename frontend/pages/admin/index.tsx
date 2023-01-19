@@ -44,7 +44,7 @@ export default function Admin({userAddress}: { userAddress: string }) {
         getTimestampFromBlockNumber(web3, blockNo).then((result: Date) => {
             setTimestamp(result);
         }).catch((error: Error) => {
-            console.log(error);
+            alert(error.message);
         });
     }
 
@@ -56,10 +56,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (address) {
             await addUserAdmin(web3, address).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setUserAdmins(await getUserAdmins(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }
@@ -71,10 +71,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (address) {
             await removeUserAdmin(web3, address).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setUserAdmins(await getUserAdmins(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }
@@ -88,10 +88,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (address && contract) {
             await addContractAdmin(web3, address, contract).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setContractAdmins(await getContractAdmins(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }
@@ -103,10 +103,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (address) {
             await removeContractAdmin(web3, address).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setContractAdmins(await getContractAdmins(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }
@@ -119,10 +119,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (blockNoDifference) {
             await setFaucetBlockNoDifference(web3, parseInt(blockNoDifference)).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setFaucetBlockNoDifferenceState(await getFaucetBlockNoDifference(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }
@@ -135,10 +135,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (gas) {
             await setFaucetGas(web3, parseInt(gas)).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setFaucetGasState(await getFaucetGas(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }

@@ -67,7 +67,7 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
                     }
                 });
             }).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
         }
     }

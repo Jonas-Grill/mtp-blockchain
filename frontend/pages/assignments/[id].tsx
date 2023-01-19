@@ -76,7 +76,7 @@ export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeo
                     alert("Start block must be smaller than the smallest assignment start block!")
                 } else {
                     alert("Something went wrong while changing the semester!")
-                    console.log(error);
+                    alert(error.message);
                 }
             });
         }
@@ -117,7 +117,7 @@ export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeo
                         </h2>
                     </div>
                     <form className="mt-8" onSubmit={handleChangeAssignment}>
-                        <label htmlFor="wallet-address" className="sr-only">
+                        <label htmlFor="name" className="sr-only">
                             Name
                         </label>
                         <input
@@ -129,25 +129,44 @@ export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeo
                             placeholder="Semester name"
                             defaultValue={assignment?.name}
                         />
-                        <label htmlFor="wallet-address" className="sr-only">
+                        <label htmlFor="startBlock" className="sr-only">
                             Starting block
                         </label>
                         <input
                             id="startBlock"
                             name="startBlock"
-                            type="text"
+                            type="number"
+                            min={0}
+                            max={100000000}
+                            onChange={(event) => {
+                                const value = event.target.value;
+
+                                if (value) {
+                                    const endBlock = document.getElementById('endBlock');
+                                    endBlock?.setAttribute('min', parseInt(value) + 1 + '');
+                                }
+                            }}
                             required
                             className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Starting block"
                             defaultValue={assignment?.startBlock}
                         />
-                        <label htmlFor="wallet-address" className="sr-only">
+                        <label htmlFor="endBlock" className="sr-only">
                             End block
                         </label>
                         <input
                             id="endBlock"
                             name="endBlock"
-                            type="text"
+                            type="number"
+                            min={1}
+                            onChange={(event) => {
+                                const value = event.target.value;
+
+                                if (value) {
+                                    const startBlock = document.getElementById('startBlock');
+                                    startBlock?.setAttribute('max', value);
+                                }
+                            }}
                             required
                             className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="End block"
