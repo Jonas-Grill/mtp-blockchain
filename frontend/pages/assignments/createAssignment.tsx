@@ -37,7 +37,7 @@ export default function CreateAssignment() {
                 } else if (error.code == "-32603" || error.code == "-32000") {
                     alert("Either you are using an invalid contract or your end block is smaller or equal to your start block!")
                 } else {
-                    console.error(error);
+                    console.error(error.message);
                 }
             });
         }
@@ -57,7 +57,7 @@ export default function CreateAssignment() {
             loadSemesters(web3).then((result) => {
                 setSemesters(result);
 
-                if (result.length > 0) {
+                if (result && result.length > 0) {
                     setSelectedSemester(result[0].id);
                 }
             });

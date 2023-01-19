@@ -38,7 +38,19 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                         setTestResults((results) => [...results, result]);
                     });
                 }).catch((error) => {
-                    console.log(error);
+                    if (error.code === -32603) {
+                        const message = error.message.substring(
+                            error.message.indexOf('"message"') + 2,
+                            error.message.indexOf('",')
+                        );
+
+                        alert(message.substring(
+                            message.indexOf('Error:') + 7,
+                            message.indexOf('!')
+                        ));
+                    } else {
+                        console.log(error);
+                    }
                 });
             }
         }
@@ -59,7 +71,6 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                             error.message.indexOf('"message"') + 2,
                             error.message.indexOf('",')
                         );
-                        console.log(message);
 
                         alert(message.substring(
                             message.indexOf('Error:') + 7,
@@ -91,33 +102,36 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
             });
         } else if (semesters.length <= 0) {
             loadSemesters(web3).then((semesters) => {
-                setSemesters(semesters);
-
-                if (semesters.length > 0) {
+                if (semesters && semesters.length > 0) {
+                    setSemesters(semesters);
                     setSelectedSemester(semesters[0].id);
                 }
             });
-        } else if (assignments.length <= 0) {
+        } else {
             loadAssignments(selectedSemester, web3).then((assignments) => {
                 setAssignments(assignments);
 
                 if (assignments.length > 0) {
-                    setSelectedSemester(assignments[0].id);
+                    setSelectedAssignment(assignments[0].id);
                 }
             });
-        } else if (assignment) {
+        }
+
+        if (assignment) {
             loadTestResults(web3, userAddress, assignment.validationContractAddress).then((results) => {
                 if (results) {
                     setTestResults(results);
+                } else {
+                    setTestResults([]);
                 }
             });
             getSubmittedAssignment(web3, userAddress, assignment.validationContractAddress).then((result) => {
                 if (result) {
                     setSubmittedAssignment(result);
+                } else {
+                    setSubmittedAssignment(undefined);
                 }
             });
-        } else {
-            setSelectedAssignment(assignments[0].id);
         }
     }, [web3, semesters, selectedSemester, assignments, contract, selectedAssignment]);
 

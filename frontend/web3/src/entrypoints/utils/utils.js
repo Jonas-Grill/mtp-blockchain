@@ -4,7 +4,7 @@ const utilsHandler = require("../../web3/utils")
 
 
 // Get current block number
-exports.getCurrentBlockNumer = async (web3) => {
+exports.getCurrentBlockNumber = async (web3) => {
     const utils = new utilsHandler.NOWUtils();
 
     return await utils.getCurrentBlockNumber(web3);

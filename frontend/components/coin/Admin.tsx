@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Semester} from "../../pages/semester";
 import {DocumentMagnifyingGlassIcon, FireIcon, MagnifyingGlassIcon} from "@heroicons/react/20/solid";
 import {getKnowledgeCoinBalanceInRange} from "../../web3/src/entrypoints/account/coin";
@@ -18,7 +18,7 @@ export default function Admin({
         const studentId = data.get('studentId') as string;
         const address = data.get("address") as string;
 
-        addStudent(studentId, address);
+        addStudent(address, studentId);
     }
 
     const handleMassSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,9 +46,8 @@ export default function Admin({
     const addStudent = (address: string, studentId: string) => {
         const semester = getSemesterById(selectedSemester);
 
-        if (address && semester && web3 && studentId) {
-            console.log("Student: ", address, studentId);
-            getKnowledgeCoinBalanceInRange(web3, address, semester.endBlock, semester.startBlock).then((result) => {
+        if (address && semester && web3) {
+            getKnowledgeCoinBalanceInRange(web3, address, semester.startBlock, semester.endBlock).then((result) => {
                 hasStudentPassedSemester(web3, address, semester.id).then((passed) => {
                     setStudents((students) => [...students, {
                         studentId: studentId,
@@ -67,9 +66,20 @@ export default function Admin({
 
         if (selectedSemester === "") return 0;
         if (semester === undefined) return 0;
+        if (coins >= semester.minKnowledgeCoinAmount) return 0;
 
         return semester.minKnowledgeCoinAmount - coins;
     }
+
+    useEffect(() => {
+        const oldStudents = students;
+
+        setStudents([]);
+
+        oldStudents.forEach((student) => {
+            addStudent(student.address, student.studentId);
+        });
+    }, [selectedSemester]);
 
     return (
         <>
@@ -82,11 +92,11 @@ export default function Admin({
                     name="studentId"
                     type="text"
                     autoComplete="studentId"
-                    required
+                    required={false}
                     className="relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
-                    placeholder="Student ID"
+                    placeholder="Student ID (optional)"
                 />
-                <label htmlFor="wallet-address" className="sr-only">
+                <label htmlFor="address" className="sr-only">
                     Student address
                 </label>
                 <input

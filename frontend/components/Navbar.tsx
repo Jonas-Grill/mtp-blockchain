@@ -4,7 +4,7 @@ import MetaMaskAuth from "./MetaMaskAuth";
 import {useEffect, useState} from "react";
 import Link from "next/link";
 import {isAdmin} from "../web3/src/entrypoints/config/admin"
-import {getCurrentBlockNumer} from "../web3/src/entrypoints/utils/utils"
+import {getCurrentBlockNumber} from "../web3/src/entrypoints/utils/utils"
 import {initBlockchain} from "../pages/faucet";
 
 function classNames(...classes: string[]) {
@@ -21,7 +21,7 @@ export default function Navbar({
         {name: 'Assignments', href: '/assignments', current: false, admin: false},
         {name: 'Coin overview', href: '/coinOverview', current: false, admin: false},
         {name: 'Submit assignment', href: '/submitAssignment', current: false, admin: false},
-        {name: 'Admin functions', href: '/admin', current: false, admin: false},
+        {name: 'Admin functions', href: '/admin', current: false, admin: true},
     ]
 
     const [navigation, setNavigation] = useState<{ name: string, href: string, current: boolean, admin: boolean }[]>(initialNavItems);
@@ -43,7 +43,7 @@ export default function Navbar({
             });
         }
         if (web3) {
-            getCurrentBlockNumer(web3).then((blockNumber) => {
+            getCurrentBlockNumber(web3).then((blockNumber) => {
                 setBlockNumber(blockNumber.toString());
             });
         }

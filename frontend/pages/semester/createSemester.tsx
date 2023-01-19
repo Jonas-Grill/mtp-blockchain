@@ -23,6 +23,8 @@ export default function CreateSemester() {
 
             appendSemester(web3, name, startingBlock, endBlock, coinAmountForExam).then((result) => {
                 router.push('/semester');
+            }).catch((error) => {
+                console.log(error);
             });
 
         }
@@ -72,7 +74,17 @@ export default function CreateSemester() {
                         <input
                             id="startBlock"
                             name="startBlock"
-                            type="text"
+                            type="number"
+                            min={0}
+                            max={100000000}
+                            onChange={(event) => {
+                                const value = event.target.value;
+
+                                if (value) {
+                                    const endBlock = document.getElementById('endBlock');
+                                    endBlock?.setAttribute('min', parseInt(value) + 1 + '');
+                                }
+                            }}
                             required
                             className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Starting block"
@@ -83,7 +95,16 @@ export default function CreateSemester() {
                         <input
                             id="endBlock"
                             name="endBlock"
-                            type="text"
+                            type="number"
+                            min={1}
+                            onChange={(event) => {
+                                const value = event.target.value;
+
+                                if (value) {
+                                    const startBlock = document.getElementById('startBlock');
+                                    startBlock?.setAttribute('max', value);
+                                }
+                            }}
                             required
                             className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="End block"
@@ -94,7 +115,8 @@ export default function CreateSemester() {
                         <input
                             id="coinAmountForExam"
                             name="coinAmountForExam"
-                            type="text"
+                            type="number"
+                            min={0}
                             required
                             className="mb-4 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Coin amount needed for exam qualification"
