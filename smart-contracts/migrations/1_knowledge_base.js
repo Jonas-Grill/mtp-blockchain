@@ -1,3 +1,4 @@
+
 const configStorage = artifacts.require("ConfigStorage");
 const faucetStorage = artifacts.require("FaucetStorage");
 
@@ -7,39 +8,21 @@ const SBCoin = artifacts.require("SBCoin");
 const name = "KnowledgeCoin";
 const symbol = "NOW";
 
-// test 
-const exampleAssignment = artifacts.require("ExampleAssignment");
-const exampleAssignment2 = artifacts.require("ExampleAssignment2");
-const exampleAssignmentValidator = artifacts.require("ExampleAssignmentValidator");
-const exampleAssignmentValidator2 = artifacts.require("ExampleAssignmentValidator2");
-
-// Assignment 1
-const assignment1Validator = artifacts.require("Assignment1Validator");
+// Deploy or not for testing
+const deploy = false
 
 module.exports = async (deployer, network, account) => {
-    // deployment steps
-    configContract = await deployer.deploy(configStorage)
+    if (deploy) {
+        console.log("USE ACCOUNT: " + account[0])
+        // deployment steps
+        configContract = await deployer.deploy(configStorage)
 
-    console.log("ConfigStorage deployed at " + configStorage.address)
-    console.log("Deploying FaucetStorage...")
-    // Faucet
-    await deployer.deploy(faucetStorage, configStorage.address, { from: account[0], value: "20000000000000000000" });
+        console.log("ConfigStorage deployed at " + configStorage.address)
+        console.log("Deploying FaucetStorage...")
+        // Faucet
+        await deployer.deploy(faucetStorage, configStorage.address, { from: account[0], value: "20000000000000000000" });
 
-    // Assignment Validator 1
-    console.log("Deploying ExampleAssignmentValidator...")
-    await deployer.deploy(exampleAssignmentValidator, configStorage.address);
-
-    await deployer.deploy(exampleAssignment, exampleAssignmentValidator.address);
-
-    // Assignment Validator 2
-    console.log("Deploying ExampleAssignmentValidator2...")
-    await deployer.deploy(exampleAssignmentValidator2, configStorage.address);
-
-    await deployer.deploy(exampleAssignment2, exampleAssignmentValidator2.address);
-
-    console.log("Deploying SBCoin...")
-    await deployer.deploy(SBCoin, name, symbol, configStorage.address);
-
-    // DEPLOY ASSIGNMENT 1 VALIDATOR
-    await deployer.deploy(assignment1Validator, configStorage.address);
+        console.log("Deploying SBCoin...")
+        await deployer.deploy(SBCoin, name, symbol, configStorage.address);
+    }
 };

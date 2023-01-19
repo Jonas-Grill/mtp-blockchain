@@ -27,7 +27,9 @@ contract BaseAssignmentValidator is BaseConfig {
         // contractAddress
         address contractAddress;
         // test
-        Test[] test;
+        //Test[] test;
+        uint256 testCounter;
+        mapping(uint256 => Test) test;
     }
 
     // SUBMIT STRUCT
@@ -55,7 +57,7 @@ contract BaseAssignmentValidator is BaseConfig {
     uint256 private requiredEther = 0 ether;
 
     // Test history
-    uint256 private _testHistoryCounter;
+    uint256 public _testHistoryCounter;
     mapping(uint256 => TestHistory) _testHistory;
 
     // Submitted assignments (student_address => true)
@@ -161,11 +163,11 @@ contract BaseAssignmentValidator is BaseConfig {
         uint256 knowledgeCoins = 0;
 
         uint256 i;
-        Test[] memory tests = _testHistory[historyIndex].test;
-
-        for (i = 0; i < tests.length; i++) {
-            if (tests[i].testPassed == true) {
-                knowledgeCoins = knowledgeCoins + tests[i].points;
+        for (i = 1; i <= _testHistory[historyIndex].testCounter; i++) {
+            if (_testHistory[historyIndex].test[i].testPassed == true) {
+                knowledgeCoins =
+                    knowledgeCoins +
+                    _testHistory[historyIndex].test[i].points;
             }
         }
 
@@ -200,10 +202,7 @@ contract BaseAssignmentValidator is BaseConfig {
     =============================================*/
 
     // Create test history
-    function createTestHistory(address _contractAddress)
-        public
-        returns (uint256)
-    {
+    function createTestHistory(address _contractAddress) public {
         // Only admins can create test history > security
         getConfigStorage().requireAdmin(address(this));
 
@@ -211,15 +210,13 @@ contract BaseAssignmentValidator is BaseConfig {
 
         _testHistory[index].studentAddress = msg.sender;
         _testHistory[index].contractAddress = _contractAddress;
+        _testHistory[index].testCounter = 0;
 
         _testHistoryCounter = index;
-
-        return index;
     }
 
     // Append test result to array
     function appendTestResult(
-        uint256 _index,
         string memory _name,
         bool _result,
         uint256 _points
@@ -227,12 +224,16 @@ contract BaseAssignmentValidator is BaseConfig {
         // Only admins can append test result > security
         getConfigStorage().requireAdmin(address(this));
 
+        uint256 index = _testHistory[_testHistoryCounter].testCounter + 1;
+
         Test memory a = Test(_name, _result, _points);
         a.testName = _name;
         a.testPassed = _result;
         a.points = _points;
 
-        _testHistory[_index].test.push(a);
+        _testHistory[_testHistoryCounter].test[index] = a;
+
+        _testHistory[_testHistoryCounter].testCounter = index;
     }
 
     // Return test result by id
@@ -250,7 +251,16 @@ contract BaseAssignmentValidator is BaseConfig {
         view
         returns (Test[] memory result)
     {
-        return _testHistory[_historyIndex].test;
+        Test[] memory testArray = new Test[](
+            _testHistory[_historyIndex].testCounter
+        );
+
+        uint256 i;
+        for (i = 1; i <= _testHistory[_historyIndex].testCounter; i++) {
+            testArray[i - 1] = _testHistory[_historyIndex].test[i];
+        }
+
+        return testArray;
     }
 
     /**
@@ -270,7 +280,7 @@ contract BaseAssignmentValidator is BaseConfig {
 
         uint256 i = 0;
         uint256 j = 0;
-        for (i = 0; i < _testHistoryCounter; i++) {
+        for (i = 0; i <= _testHistoryCounter; i++) {
             if (_testHistory[i].studentAddress == _address) {
                 testIndexes[j] = i;
                 j++;

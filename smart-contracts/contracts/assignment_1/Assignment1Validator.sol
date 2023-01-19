@@ -3,20 +3,19 @@ pragma solidity ^0.8.17;
 
 // Import the Assignment1Interface.sol
 import "../assignment_1/Assignment1Interface.sol";
+import "../assignment_1/Assignment1Tests.sol";
 
 // Import the base assignment validator contract
 import "../../contracts/BaseAssignmentValidator.sol";
 
-import "../../node_modules/@openzeppelin/contracts/utils/Base64.sol";
-import "../../node_modules/@openzeppelin/contracts/utils/Strings.sol";
 import "../../node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
 // Give the contract a name and inherit from the base assignment validator
 contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
-    using Strings for uint256;
+    address validatorTestsAddress;
 
     // Import empty constructor and pass the name of the contract to the config storage contract
-    constructor(address _configContractAddress)
+    constructor(address _configContractAddress, address _validatorTestsAddress)
         BaseAssignmentValidator(
             _configContractAddress,
             "SS23 Assignment 1 Validator Contract",
@@ -24,6 +23,7 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
         )
     {
         // The constructor is empty
+        validatorTestsAddress = _validatorTestsAddress;
     }
 
     // Test the assignment
@@ -39,238 +39,103 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
          *  The history entry is used to store the results of the tests.
          *  Always use this index in the further functions.
          */
-        uint256 historyIndex = createTestHistory(_contractAddress);
+        createTestHistory(_contractAddress);
 
-        // Call the contract interface which needs to be tested and store it in the variable assignment_contract
-        Assignment1Interface assignment_contract = Assignment1Interface(
+        // Call the contract interface which needs to be tested and store it in the variable assignmentContract
+        Assignment1Interface assignmentContract = Assignment1Interface(
             _contractAddress
         );
 
-        /*----------  EXERCISE A  ----------*/
-        (string memory messageA, bool resultA) = testExerciseA(
-            assignment_contract
+        // Get Assignment1Tests contract
+        Assignment1Tests validatorTests = Assignment1Tests(
+            validatorTestsAddress
         );
+
+        /*----------  EXERCISE A  ----------*/
+        (string memory messageA, bool resultA) = validatorTests.testExerciseA{
+            value: 0.01 ether
+        }(assignmentContract);
 
         if (resultA) {
             // If the test passed, add the result to the history
-            appendTestResult(historyIndex, messageA, true, 2);
+            appendTestResult(messageA, true, 2);
         } else {
             // If the test failed, add the result to the history
-            appendTestResult(historyIndex, messageA, false, 0);
+            appendTestResult(messageA, false, 0);
         }
 
         /*----------  EXERCISE B  ----------*/
 
-        (string memory messageB, bool resultB) = testExerciseB(
-            assignment_contract
-        );
+        (string memory messageB, bool resultB) = validatorTests.testExerciseB{
+            value: 0.01 ether
+        }(assignmentContract);
 
         if (resultB) {
             // If the test passed, add the result to the history
-            appendTestResult(historyIndex, messageB, true, 2);
+            appendTestResult(messageB, true, 2);
         } else {
             // If the test failed, add the result to the history
-            appendTestResult(historyIndex, messageB, false, 0);
+            appendTestResult(messageB, false, 0);
         }
 
         /*----------  EXERCISE C  ----------*/
 
-        (string memory messageC, bool resultC) = testExerciseC(
-            assignment_contract
-        );
+        (string memory messageC, bool resultC) = validatorTests.testExerciseC{
+            value: 0.01 ether
+        }(assignmentContract);
 
         if (resultC) {
             // If the test passed, add the result to the history
-            appendTestResult(historyIndex, messageC, true, 2);
+            appendTestResult(messageC, true, 2);
         } else {
             // If the test failed, add the result to the history
-            appendTestResult(historyIndex, messageC, false, 0);
+            appendTestResult(messageC, false, 0);
         }
 
         /*----------  EXERCISE D  ----------*/
 
         (string memory messageD, bool resultD) = testExerciseD(
-            assignment_contract
+            assignmentContract
         );
 
         if (resultD) {
             // If the test passed, add the result to the history
-            appendTestResult(historyIndex, messageD, true, 1);
+            appendTestResult(messageD, true, 1);
         } else {
             // If the test failed, add the result to the history
-            appendTestResult(historyIndex, messageD, false, 0);
+            appendTestResult(messageD, false, 0);
         }
 
         /*----------  EXERCISE E  ----------*/
 
         (string memory messageE, bool resultE) = testExerciseE(
-            assignment_contract
+            assignmentContract
         );
 
         if (resultE) {
             // If the test passed, add the result to the history
-            appendTestResult(historyIndex, messageE, true, 1);
+            appendTestResult(messageE, true, 1);
         } else {
             // If the test failed, add the result to the history
-            appendTestResult(historyIndex, messageE, false, 0);
+            appendTestResult(messageE, false, 0);
         }
 
         /*----------  EXERCISE F  ----------*/
 
         (string memory messageF, bool resultF) = testExerciseF(
-            assignment_contract
+            assignmentContract
         );
 
         if (resultF) {
             // If the test passed, add the result to the history
-            appendTestResult(historyIndex, messageF, true, 1);
+            appendTestResult(messageF, true, 1);
         } else {
             // If the test failed, add the result to the history
-            appendTestResult(historyIndex, messageF, false, 0);
+            appendTestResult(messageF, false, 0);
         }
 
         // Return the history index
-        return historyIndex;
-    }
-
-    function testExerciseA(Assignment1Interface assignment_contract)
-        private
-        returns (string memory, bool)
-    {
-        /*----------  EXERCISE A  ----------*/
-
-        // Total supply before minting
-        uint256 totalSupplyBefore = assignment_contract.getTotalSupply();
-
-        // Total nft of msg.sender
-        uint256 balanceBefore = assignment_contract.balanceOf(address(this));
-
-        // mint a nft and send to _address and pay 0.01 ether
-
-        try assignment_contract.mint{value: 0.01 ether}(address(this)) returns (
-            uint256 id_a
-        ) {
-            uint256 exerciseAPassedCounter = 0;
-
-            // Check if id is larger than 0
-            if (id_a > 0) {
-                exerciseAPassedCounter++;
-
-                // Check if the total supply is increased by 1
-                if (assignment_contract.getTotalSupply() > totalSupplyBefore) {
-                    exerciseAPassedCounter++;
-                } else {
-                    return (
-                        "Error (Exercise A): Total supply did not increase correctly!",
-                        false
-                    );
-                }
-
-                // Make sure NFT of token id is owned by the current msg.sender
-                if (assignment_contract.ownerOf(id_a) == address(this)) {
-                    exerciseAPassedCounter++;
-                } else {
-                    return (
-                        "Error (Exercise A): NFT owner is not correctly set!",
-                        false
-                    );
-                }
-
-                // Make sure the balance of the current msg.sender is increased by 1
-                if (
-                    assignment_contract.balanceOf(address(this)) ==
-                    balanceBefore + 1
-                ) {
-                    exerciseAPassedCounter++;
-                } else {
-                    return (
-                        "Error (Exercise A): Balance of msg.sender did not increase!",
-                        false
-                    );
-                }
-
-                // If exerciseAPassedCounter == 4 --> exercise A passed
-                if (exerciseAPassedCounter == 4) {
-                    return ("Passed (Exercise A): Exercise A passed!", true);
-                } else {
-                    // If not all tests passed, mark test as failed
-                    return (
-                        "Error (Exercise A): Some tests in Exercise A failed!",
-                        false
-                    );
-                }
-            } else {
-                return (
-                    "Error (Exercise A): Error with the mint function!",
-                    false
-                );
-            }
-        } catch {
-            // If an error occurs, mark test as failed
-            return ("Error (Exercise A): Error with the mint function!", false);
-        }
-    }
-
-    function testExerciseB(Assignment1Interface assignment_contract)
-        private
-        returns (string memory, bool)
-    {
-        /*----------  EXERCISE B  ----------*/
-
-        // mint a nft and send to _address and pay 0.01 ether
-        try assignment_contract.mint{value: 0.01 ether}(address(this)) returns (
-            uint256 id_b
-        ) {
-            if (id_b > 0) {
-                string memory tokenURI = assignment_contract.tokenURI(id_b);
-                string memory expectedTokenURI = getTokenURI(
-                    id_b,
-                    assignment_contract.getIPFSHash(),
-                    assignment_contract.getOwner(),
-                    address(this)
-                );
-
-                // Check if tokenURI equals to expectedTokenURI
-                if (compare(tokenURI, expectedTokenURI) == true) {
-                    return ("Passed (Exercise B): Exercise B passed!", true);
-                } else {
-                    return ("Error (Exercise B): TokenURI not correct!", false);
-                }
-            } else {
-                return (
-                    "Error (Exercise B): Error with the mint function!",
-                    false
-                );
-            }
-        } catch {
-            // If an error occurs, mark test as failed
-            return ("Error (Exercise B): Error with the mint function!", false);
-        }
-    }
-
-    function testExerciseC(Assignment1Interface assignment_contract)
-        private
-        returns (string memory, bool)
-    {
-        /*----------  EXERCISE C  ----------*/
-
-        try assignment_contract.getPrice() returns (uint256 oldPriceC) {
-            if (oldPriceC > 0) {
-                // mint a nft and send to _address and pay 0.01 ether
-                try assignment_contract.mint{value: 0.01 ether}(address(this)) {
-                    uint256 newPriceC = assignment_contract.getPrice();
-
-                    if (newPriceC == oldPriceC + 0.0001 ether) {
-                        return (
-                            "Passed (Exercise C): Exercise C passed!",
-                            true
-                        );
-                    }
-                } catch {}
-            } else {}
-        } catch {}
-
-        return ("Error (Exercise C): Error with methods in Exercise C!", false);
+        return _testHistoryCounter;
     }
 
     function testExerciseD(Assignment1Interface assignment_contract)
@@ -461,54 +326,4 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
             );
         }
     }
-
-    /*=============================================
-    =            HELPER            =
-    =============================================*/
-
-    function getTokenURI(
-        uint256 tokenId,
-        string memory IPFSHash,
-        address by,
-        address newOwner
-    ) public pure returns (string memory) {
-        // Build dataURI
-        bytes memory dataURI = abi.encodePacked(
-            "{",
-            '"name": "My beautiful artwork #',
-            tokenId.toString(),
-            '"', // Name of NFT with id
-            '"hash": "',
-            IPFSHash,
-            '",', // Define hash of your artwork from IPFS
-            '"by": "',
-            by,
-            '",', // Address of creator
-            '"new_owner": "',
-            newOwner,
-            '"', // Address of new owner
-            "}"
-        );
-
-        // Encode dataURI using base64 and return
-        return
-            string(
-                abi.encodePacked(
-                    "data:application/json;base64,",
-                    Base64.encode(dataURI)
-                )
-            );
-    }
-
-    function compare(string memory str1, string memory str2)
-        public
-        pure
-        returns (bool)
-    {
-        return
-            keccak256(abi.encodePacked(str1)) ==
-            keccak256(abi.encodePacked(str2));
-    }
-
-    /*=====  End of HELPER  ======*/
 }

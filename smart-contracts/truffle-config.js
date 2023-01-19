@@ -4,15 +4,25 @@ module.exports = {
       host: "127.0.0.1",
       port: 8545,
       network_id: "*"
+    },
+    dashboard: {
+      networkCheckTimeout: 120000,
     }
   },
   compilers: {
     solc: {
-      version: "^0.8.17"
+      version: "^0.8.17",
+      settings: {
+        optimizer: {
+          enabled: false,
+          runs: 2
+        },
+        viaIR: false
+      }
     }
   },
-  optimizer: {
-    enabled: true,
-    runs: 200
-  },
+  dashboard: {
+    port: 24012,
+  }
+
 };

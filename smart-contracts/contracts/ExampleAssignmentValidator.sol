@@ -47,7 +47,7 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
          *  The history entry is used to store the results of the tests.
          *  Always use this index in the further functions.
          */
-        uint256 historyIndex = createTestHistory(_contractAddress);
+        createTestHistory(_contractAddress);
 
         // Call the contract which needs to be tested and store it in the variable assignment_contract
         ExampleAssignmentInterface assignment_contract = ExampleAssignmentInterface(
@@ -60,8 +60,7 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
          *  Every test is structured as follows:
          *    ```
          *    appendTestResult(
-         *         historyIndex,
-         *         "Is contract from the student",
+         *         *         "Is contract from the student",
          *         checkAssignmentOwner(_studentAddress, _contractAddress)
          *    );
          *    ```
@@ -72,7 +71,6 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
 
         // "Is contract from the student"
         appendTestResult(
-            historyIndex,
             "Is contract from the student",
             checkAssignmentOwner(_contractAddress),
             1
@@ -80,41 +78,21 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
 
         // Test 1 - test if default value is 1998 --> will fail intentional
         if (int256(assignment_contract.getTestValue()) == int256(1000)) {
-            appendTestResult(
-                historyIndex,
-                "test if default value is 1000",
-                true,
-                1
-            );
+            appendTestResult("test if default value is 1000", true, 1);
         } else {
-            appendTestResult(
-                historyIndex,
-                "test if default value is 1998",
-                false,
-                0
-            );
+            appendTestResult("test if default value is 1998", false, 0);
         }
 
         // Test 2 - test if setTestValue works
         assignment_contract.setTestValue(int256(2022));
 
         if (int256(assignment_contract.getTestValue()) == int256(2022)) {
-            appendTestResult(
-                historyIndex,
-                "test if setTestValue works",
-                true,
-                1
-            );
+            appendTestResult("test if setTestValue works", true, 1);
         } else {
-            appendTestResult(
-                historyIndex,
-                "test if setTestValue works",
-                false,
-                0
-            );
+            appendTestResult("test if setTestValue works", false, 0);
         }
 
         // Return the history index
-        return historyIndex;
+        return _testHistoryCounter;
     }
 }
