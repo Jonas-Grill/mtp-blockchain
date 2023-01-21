@@ -1,18 +1,14 @@
 import React, {useEffect, useState} from "react";
-import {sendEth} from "../../web3/src/entrypoints/account/faucet";
 import Head from "next/head";
 import {
-    AcademicCapIcon,
+    ClockIcon,
     DocumentPlusIcon,
-    DocumentTextIcon,
     FireIcon,
     Square2StackIcon,
     UserPlusIcon
 } from "@heroicons/react/20/solid";
 import {initBlockchain} from "../faucet";
-import {loadSemesters} from "../semester";
 import {isAdmin} from "../../web3/src/entrypoints/config/admin";
-import {Assignment, loadAssignments} from "../assignments";
 import {
     addUserAdmin,
     removeUserAdmin,
@@ -26,15 +22,32 @@ import {
     setFaucetBlockNoDifference
 } from "../../web3/src/entrypoints/config/faucet-block-no-difference";
 import {getFaucetGas, setFaucetGas} from "../../web3/src/entrypoints/config/faucet-gas";
-import Link from "next/link";
+import {getFaucetBalance} from "../../web3/src/entrypoints/account/faucet";
+import {getTimestampFromBlockNumber, getCurrentBlockNumber} from "../../web3/src/entrypoints/utils/utils";
+import Web3 from "web3";
 
 export default function Admin({userAddress}: { userAddress: string }) {
     const [web3, setWeb3] = useState<any>(undefined);
     const [userAdmins, setUserAdmins] = useState<string[]>([]);
     const [contractAdmins, setContractAdmins] = useState<string[][]>([]);
     const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
-    const [faucetBlockNoDifference, setFaucetBlockNoDifferenceState] = useState<number>(0);
-    const [faucetGas, setFaucetGasState] = useState<number>(0);
+    const [faucetBlockNoDifference, setFaucetBlockNoDifferenceState] = useState<number>(-1);
+    const [faucetGas, setFaucetGasState] = useState<number>(-1);
+    const [faucetBalance, setFaucetBalanceState] = useState<number>(-1);
+    const [timestamp, setTimestamp] = useState<Date>(new Date(Date.now()));
+
+    const handleBlockNoToDate = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const data = new FormData(event.currentTarget);
+        const blockNo = parseInt(data.get('blockNo') as string);
+
+        getTimestampFromBlockNumber(web3, blockNo).then((result: Date) => {
+            setTimestamp(result);
+        }).catch((error: Error) => {
+            alert(error.message);
+        });
+    }
 
     const handleAddUserAdmin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -44,10 +57,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (address) {
             await addUserAdmin(web3, address).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setUserAdmins(await getUserAdmins(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }
@@ -59,10 +72,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (address) {
             await removeUserAdmin(web3, address).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setUserAdmins(await getUserAdmins(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }
@@ -76,10 +89,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (address && contract) {
             await addContractAdmin(web3, address, contract).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setContractAdmins(await getContractAdmins(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }
@@ -91,10 +104,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (address) {
             await removeContractAdmin(web3, address).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setContractAdmins(await getContractAdmins(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }
@@ -107,10 +120,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (blockNoDifference) {
             await setFaucetBlockNoDifference(web3, parseInt(blockNoDifference)).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setFaucetBlockNoDifferenceState(await getFaucetBlockNoDifference(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }
@@ -123,10 +136,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
 
         if (gas) {
             await setFaucetGas(web3, parseInt(gas)).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
             setFaucetGasState(await getFaucetGas(web3).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             }));
         }
     }
@@ -152,13 +165,23 @@ export default function Admin({userAddress}: { userAddress: string }) {
                 });
                 setContractAdmins(result);
             });
-        } else if (faucetBlockNoDifference <= 0) {
+        } else if (faucetBlockNoDifference < 0) {
             getFaucetBlockNoDifference(web3).then((result) => {
                 setFaucetBlockNoDifferenceState(result);
             });
-        } else if (faucetGas <= 0) {
+        } else if (faucetGas < 0) {
             getFaucetGas(web3).then((result) => {
                 setFaucetGasState(result);
+            });
+        } else if (faucetBalance < 0) {
+            getFaucetBalance(web3).then((result) => {
+                setFaucetBalanceState(result);
+            });
+        } else {
+            getCurrentBlockNumber(web3).then((result) => {
+                getTimestampFromBlockNumber(web3, result).then((result: Date) => {
+                    setTimestamp(result);
+                });
             });
         }
         if (web3 && userAddress) {
@@ -166,7 +189,7 @@ export default function Admin({userAddress}: { userAddress: string }) {
                 setIsUserAdmin(result);
             });
         }
-    }, [web3, userAdmins, contractAdmins, userAddress]);
+    }, [web3, userAdmins, contractAdmins, userAddress, faucetBlockNoDifference, faucetGas, faucetBalance]);
 
     return (
         <>
@@ -183,6 +206,36 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                     <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
                                         Admin functions
                                     </h2>
+                                    <div className="mt-2 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
+                                        <form className="pt-2 grid grid-cols-3 justify-items-start items-center mb-1"
+                                              onSubmit={handleBlockNoToDate}>
+                                            <label htmlFor="blockNo" className="sr-only">
+                                                BlockNoToDate
+                                            </label>
+                                            <input
+                                                id="blockNo"
+                                                name="blockNo"
+                                                type="number"
+                                                min={0}
+                                                required
+                                                className="col-span-2 relative block w-64 appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                                                placeholder="Block number"
+                                            />
+                                            <button
+                                                type="submit"
+                                                className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-6 text-sm font-medium text-uni hover:bg-uni hover:text-white"
+                                            >
+                                                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                                                    <ClockIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
+                                                                  aria-hidden="true"/>
+                                                </span>
+                                                To date
+                                            </button>
+                                        </form>
+                                        <div className="grid grid-cols-3 justify-items-start items-center">
+                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Block number to timestamp: {`${timestamp.toLocaleDateString()} ${timestamp.toLocaleTimeString()}`}</h3>
+                                        </div>
+                                    </div>
                                     <div className="mt-4 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
                                         <h3 className="mt-1 text-lg font-medium text-uni">User admin addresses:</h3>
                                         <div className="divide-y divide-uni">
@@ -193,7 +246,7 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                                         <h3 className="text-sm font-medium text-uni col-span-2">{userAdmin}</h3>
                                                     </div>
                                                     <button value={userAdmin} name={userAdmin} onClick={handleRemoveUserAdmin}
-                                                            className="mt-1 mb-1 ml-8 shadow shadow-uni rounded-md flex w-1/2 items-center justify-center py-3 px-8 text-center font-medium text-uni bg-gray-400 hover:bg-uni hover:text-white">
+                                                            className="mt-1 mb-1 ml-8 shadow shadow-uni rounded-md flex w-1/2 items-center justify-center py-3 px-3 text-center font-medium text-uni bg-gray-400 hover:bg-uni hover:text-white">
                                                         Delete
                                                     </button>
                                                 </div>
@@ -342,6 +395,18 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                                 Set faucet gas
                                             </button>
                                         </form>
+                                    </div>
+                                    <div className="mt-2 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
+                                        <div className="grid grid-cols-3 justify-items-start items-center">
+                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Amount of Eth in faucet
+                                                contract:</h3>
+                                            <h3 className="mt-1 text-lg font-medium text-uni ml-16">{Web3.utils.fromWei(faucetBalance.toString(), 'ether')}</h3>
+                                        </div>
+                                        <div className="grid grid-cols-3 justify-items-start items-center">
+                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Amount of Eth in faucet
+                                                API:</h3>
+                                            <h3 className="mt-1 text-lg font-medium text-uni ml-16">{faucetGas}</h3>
+                                        </div>
                                     </div>
                                 </div>
                             ) : null

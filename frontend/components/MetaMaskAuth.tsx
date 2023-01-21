@@ -36,15 +36,10 @@ async function checkIfWalletIsConnected(onConnected: (address: string) => void) 
     }
 }
 
-export default function MetaMaskAuth({ onAddressChanged }: { onAddressChanged: (address: string) => void }) {
-    const [userAddress, setUserAddress] = useState("");
-
+export default function MetaMaskAuth({ userAddress, setUserAddress }: { userAddress: string, setUserAddress: (address: string) => void }) {
     useEffect(() => {
         checkIfWalletIsConnected(setUserAddress);
-    }, []);
-
-    useEffect(() => {
-        onAddressChanged(userAddress);
+        setUserAddress(userAddress);
     }, [userAddress]);
 
     return userAddress ? (

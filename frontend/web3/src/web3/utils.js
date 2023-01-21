@@ -206,8 +206,6 @@ class NOWUtils {
         const currentBlockNumber = await this.getCurrentBlockNumber(web3);
 
         if (estimateBlockNumber > currentBlockNumber) {
-            console.log("Block number is higher than current block number");
-
             const diff = estimateBlockNumber - currentBlockNumber;
 
             const averageTime = await this.getBlockAverageTime(web3);
@@ -216,13 +214,10 @@ class NOWUtils {
 
             // parse timestamp 2023-01-06 09:45:54
             const currentBlockTimestamp = new Date(currentBlock.timestamp * 1000);
-            const estimatedTime = new Date(currentBlockTimestamp.getTime() + (1000 * (averageTime * diff)));
 
-            return estimatedTime;
+            return new Date(currentBlockTimestamp.getTime() + (1000 * (averageTime * diff)));
         }
         else {
-            console.log("Block number is lower or equal to current block number");
-
             const block = await web3.eth.getBlock(estimateBlockNumber);
 
             return new Date(block.timestamp * 1000);
