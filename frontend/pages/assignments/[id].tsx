@@ -13,7 +13,7 @@ import {
     setAssignmentLink
 } from "../../web3/src/entrypoints/config/assignment";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
-import {Semester} from "../semester";
+import {loadSemester, Semester} from "../semester";
 
 interface IParams extends ParsedUrlQuery {
     id: string
@@ -34,7 +34,7 @@ export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeo
 
     const [web3, setWeb3] = useState<any>();
     const [assignment, setAssignment] = useState<Assignment>();
-    const [semesters, setSemesters] = useState<Semester[]>([]);
+    const [semester, setSemester] = useState<Semester>();
 
     // get the current semester from query params
     const semesterId = router.query.semesterId as string;
@@ -88,8 +88,12 @@ export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeo
                 setWeb3(web3);
             });
         } else if (semesterId && id) {
-            console.log("Loading assignment " + id);
-            console.log("Semester " + semesterId);
+            loadSemester(web3, semesterId).then((semester) => {
+                if (semester) {
+                    setSemester(semester);
+                }
+            });
+
             loadAssignment(semesterId, web3, id).then((assignment) => {
                 if (assignment) {
                     setAssignment(assignment);
@@ -136,8 +140,8 @@ export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeo
                             id="startBlock"
                             name="startBlock"
                             type="number"
-                            min={0}
-                            max={100000000}
+                            min={semester?.startBlock || 0}
+                            max={(semester?.endBlock || 10000000) - 1}
                             onChange={(event) => {
                                 const value = event.target.value;
 
@@ -158,13 +162,14 @@ export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeo
                             id="endBlock"
                             name="endBlock"
                             type="number"
-                            min={1}
+                            min={(semester?.startBlock || 0) + 1}
+                            max={semester?.endBlock}
                             onChange={(event) => {
                                 const value = event.target.value;
 
                                 if (value) {
                                     const startBlock = document.getElementById('startBlock');
-                                    startBlock?.setAttribute('max', value);
+                                    startBlock?.setAttribute('max', parseInt(value) - 1 + '');
                                 }
                             }}
                             required

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Head from "next/head";
 import {
+    ClockIcon,
     DocumentPlusIcon,
     FireIcon,
     Square2StackIcon,
@@ -206,10 +207,10 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                         Admin functions
                                     </h2>
                                     <div className="mt-2 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
-                                        <form className="pt-2 grid grid-cols-3 justify-items-start items-center"
+                                        <form className="pt-2 grid grid-cols-3 justify-items-start items-center mb-1"
                                               onSubmit={handleBlockNoToDate}>
                                             <label htmlFor="blockNo" className="sr-only">
-                                                addUserAdmin
+                                                BlockNoToDate
                                             </label>
                                             <input
                                                 id="blockNo"
@@ -218,21 +219,21 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                                 min={0}
                                                 required
                                                 className="col-span-2 relative block w-64 appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
-                                                placeholder="User admin address"
+                                                placeholder="Block number"
                                             />
                                             <button
                                                 type="submit"
-                                                className="group relative flex w-full justify-end rounded-md shadow shadow-uni bg-gray-400 py-2 px-6 text-sm font-medium text-uni hover:bg-uni hover:text-white"
+                                                className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-6 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                                             >
                                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                                    <UserPlusIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
+                                                    <ClockIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
                                                                   aria-hidden="true"/>
                                                 </span>
                                                 To date
                                             </button>
                                         </form>
                                         <div className="grid grid-cols-3 justify-items-start items-center">
-                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Block number to timestamp: {`${timestamp.getDate()}.${timestamp.getMonth()}.${timestamp.getFullYear()} ${timestamp.getHours()}:${timestamp.getMinutes()}`}</h3>
+                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Block number to timestamp: {`${timestamp.toLocaleDateString()} ${timestamp.toLocaleTimeString()}`}</h3>
                                         </div>
                                     </div>
                                     <div className="mt-4 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
@@ -245,7 +246,7 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                                         <h3 className="text-sm font-medium text-uni col-span-2">{userAdmin}</h3>
                                                     </div>
                                                     <button value={userAdmin} name={userAdmin} onClick={handleRemoveUserAdmin}
-                                                            className="mt-1 mb-1 ml-8 shadow shadow-uni rounded-md flex w-1/2 items-center justify-center py-3 px-8 text-center font-medium text-uni bg-gray-400 hover:bg-uni hover:text-white">
+                                                            className="mt-1 mb-1 ml-8 shadow shadow-uni rounded-md flex w-1/2 items-center justify-center py-3 px-3 text-center font-medium text-uni bg-gray-400 hover:bg-uni hover:text-white">
                                                         Delete
                                                     </button>
                                                 </div>

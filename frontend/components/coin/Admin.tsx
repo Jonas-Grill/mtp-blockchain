@@ -145,15 +145,15 @@ export default function Admin({
             {students.map((student) => (
                 <div key={student.studentId}
                      className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-y-4 gap-x-8 py-8 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                    <div className="grid grid-cols-3 border-solid border-2 rounded-md border-uni p-2">
-                        <dt className="col-span-2 text-lg font-medium text-gray-900">Student
+                    <div className="grid grid-cols-3 shadow shadow-uni rounded-md p-2 bg-gray-300">
+                        <dt className="col-span-2 text-lg font-medium text-uni">Student
                             ID: {student.studentId}</dt>
-                        <dt className="col-span-2 text-lg font-medium text-gray-900">Student
+                        <dt className="col-span-2 text-md font-medium text-uni">Student
                             address: {student.address}</dt>
-                        <dt className="col-span-2 text-lg font-medium text-gray-900">Student coins: {student.coins}</dt>
-                        <dt className="col-span-2 text-lg font-medium text-gray-900">Student missing
+                        <dt className="col-span-2 text-lg font-medium text-uni">Student coins: {student.coins}</dt>
+                        <dt className="col-span-2 text-lg font-medium text-uni">Student missing
                             coins: {student.missingCoins}</dt>
-                        <dt className="col-span-2 text-lg font-medium text-gray-900">Student
+                        <dt className="col-span-2 text-lg font-medium text-uni">Student
                             passed: {student.passed.toString()}</dt>
                     </div>
                 </div>
