@@ -19,7 +19,7 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
         BaseAssignmentValidator(
             _configContractAddress,
             "SS23 Assignment 1 Validator Contract",
-            0.05 ether
+            0.8 ether
         )
     {
         // The constructor is empty
@@ -95,7 +95,8 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
         /*----------  EXERCISE D  ----------*/
 
         (string memory messageD, bool resultD) = testExerciseD(
-            assignmentContract
+            assignmentContract,
+            validatorTests
         );
 
         if (resultD) {
@@ -123,7 +124,8 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
         /*----------  EXERCISE F  ----------*/
 
         (string memory messageF, bool resultF) = testExerciseF(
-            assignmentContract
+            assignmentContract,
+            validatorTests
         );
 
         if (resultF) {
@@ -138,10 +140,10 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
         return _testHistoryCounter;
     }
 
-    function testExerciseD(Assignment1Interface assignment_contract)
-        private
-        returns (string memory, bool)
-    {
+    function testExerciseD(
+        Assignment1Interface assignment_contract,
+        Assignment1Tests validatorTests
+    ) private returns (string memory, bool) {
         /*----------  EXERCISE D  ----------*/
 
         // mint a nft and send to _address and pay 0.01 ether
@@ -214,16 +216,54 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
                         );
                     }
 
-                    // if exerciseDPassedCounter == 3 --> exercise D passed
-                    if (exerciseDPassedCounter == 3) {
+                    // Create new NFT
+                    uint256 newTokenId = assignment_contract.mint{
+                        value: 0.01 ether
+                    }(address(this));
+                    try
+                        validatorTests.burnTestD{value: 0.001 ether}(
+                            assignment_contract,
+                            newTokenId
+                        )
+                    {
+                        return (
+                            "Error (Exercise D): Burn function is not restricted to the owner of the NFT!",
+                            true
+                        );
+                    } catch {
+                        exerciseDPassedCounter++;
+                    }
+
+                    // if exerciseDPassedCounter == 4 --> exercise D passed
+                    if (exerciseDPassedCounter == 4) {
                         return (
                             "Passed (Exercise D): Exercise D passed!",
                             true
                         );
                     }
-                } catch {}
+                } catch Error(string memory _reason) {
+                    return (
+                        string(
+                            abi.encodePacked(
+                                "Error (Exercise D): Error with the burn function! - ",
+                                _reason
+                            )
+                        ),
+                        false
+                    );
+                }
             }
-        } catch {}
+        } catch Error(string memory _reason) {
+            return (
+                string(
+                    abi.encodePacked(
+                        "Error (Exercise D): Error with the mint function! - ",
+                        _reason
+                    )
+                ),
+                false
+            );
+        }
 
         return ("Error (Exercise D): Error in Exercise D function!", false);
     }
@@ -291,10 +331,10 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
         }
     }
 
-    function testExerciseF(Assignment1Interface assignment_contract)
-        private
-        returns (string memory, bool)
-    {
+    function testExerciseF(
+        Assignment1Interface assignment_contract,
+        Assignment1Tests validatorTests
+    ) private returns (string memory, bool) {
         /*----------  EXERCISE F  ----------*/
 
         // get ether balance of owner
@@ -309,9 +349,11 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
             // get ether balance of owner
             uint256 ownerBalanceAfterF = msg.sender.balance;
 
+            uint256 exerciseFPassedCounter = 0;
+
             // check if ether balance of owner is increased
             if (ownerBalanceAfterF > ownerBalanceBeforeF) {
-                return ("Passed (Exercise F): Exercise F passed!", true);
+                exerciseFPassedCounter++;
             } else {
                 // If not all tests passed, mark test as failed
                 return (
@@ -319,9 +361,28 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
                     false
                 );
             }
-        } catch {
+
+            // Try withdraw from not certified address
+            try validatorTests.withdrawTestF(assignment_contract) {
+                return (
+                    "Error (Exercise F): Withdraw function is not restricted to the owner!",
+                    false
+                );
+            } catch {
+                exerciseFPassedCounter++;
+            }
+
+            if (exerciseFPassedCounter == 2) {
+                return ("Passed (Exercise F): Exercise F passed!", true);
+            }
+        } catch Error(string memory _reason) {
             return (
-                "Error (Exercise F): Error with the withdraw function!",
+                string(
+                    abi.encodePacked(
+                        "Error (Exercise F): Error with the withdraw function! ",
+                        _reason
+                    )
+                ),
                 false
             );
         }

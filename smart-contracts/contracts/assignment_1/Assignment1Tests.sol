@@ -165,6 +165,22 @@ contract Assignment1Tests {
         return ("Error (Exercise C): Error with methods in Exercise C!", false);
     }
 
+    // This should fail, because not correct owner
+    function burnTestD(Assignment1Interface assingmentContract, uint256 tokenId)
+        public
+        payable
+    {
+        assingmentContract.burn(tokenId);
+    }
+
+    // This should fail, because not correct owner
+    function withdrawTestF(Assignment1Interface assingmentContract)
+        public
+        payable
+    {
+        assingmentContract.withdraw(payable(address(this)));
+    }
+
     /*=============================================
     =            HELPER            =
     =============================================*/
