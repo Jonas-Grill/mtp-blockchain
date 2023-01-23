@@ -30,7 +30,6 @@ class NOWUtils {
      */
     getContractJson(contractName) {
         const json = require(`../../../../smart-contracts/build/contracts/${contractName}.json`);
-
         return JSON.parse(JSON.stringify(json))
     }
 
