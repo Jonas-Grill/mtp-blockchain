@@ -13,21 +13,40 @@ import "../../contracts/BaseAssignmentValidator.sol";
 // Import the coin interface
 import "../assignment_2/Assignment2CoinInterface.sol";
 
+interface IRegistry {
+    function getExchange(address _exchangeAddress) external returns (address);
+}
+
 // Give the contract a name and inherit from the base assignment validator
 contract Assignment2Validator is BaseAssignmentValidator {
     address validatorTaskBAddress;
 
+    // Test Token address
+    address tokenTestAddress;
+    // Registry address
+    address registryAddress;
+
     // Import empty constructor and pass the name of the contract to the config storage contract
-    constructor(address _configContractAddress, address _validatorTaskBAddress)
+    constructor(
+        address _configContractAddress,
+        address _validatorTaskBAddress,
+        address _tokenTestAddress,
+        address _registryAddress
+    )
         BaseAssignmentValidator(
             _configContractAddress,
             "SS23 Assignment 2 Validator Contract",
-            0.03 ether
+            50000 gwei
         )
     {
         // The constructor is empty
         validatorTaskBAddress = _validatorTaskBAddress;
+
+        tokenTestAddress = _tokenTestAddress;
+        registryAddress = _registryAddress;
     }
+
+    receive() external payable {}
 
     // Test the assignment
     function test(address _contractAddress)
@@ -58,25 +77,37 @@ contract Assignment2Validator is BaseAssignmentValidator {
             // If the test passed, add the result to the history
             appendTestResult(messageA, true, 1);
 
+            // Send eth to contract if balance is 0
+            if (_contractAddress.balance == 0) {
+                assignmentContract.donateEther{value: 100 gwei}();
+            }
+
             // Create Task B validator contract
             Assignment2ValidatorTaskB validatorB = Assignment2ValidatorTaskB(
-                validatorTaskBAddress
+                payable(validatorTaskBAddress)
             );
 
-            bool success = validatorB.initContract(_contractAddress);
-            if (success) {
+            bool initContractSuccess = validatorB.initContract(
+                _contractAddress
+            );
+            if (initContractSuccess) {
                 /*----------  EXERCISE B - ADD LIQUIDITY  ----------*/
                 try
-                    validatorB.testExerciseBAddLiquidity{value: 0.01 ether}()
-                returns (string memory messageB, bool resultB) {
-                    if (resultB) {
-                        appendTestResult(messageB, true, 1);
+                    validatorB.testExerciseBAddLiquidity{value: 200 gwei}()
+                returns (string memory message, bool success) {
+                    if (success) {
+                        appendTestResult(message, true, 1);
                     } else {
-                        appendTestResult(messageB, false, 0);
+                        appendTestResult(message, false, 0);
                     }
-                } catch {
+                } catch Error(string memory _reason) {
                     appendTestResult(
-                        "EXERCISE B - ADD LIQUIDITY: Transaction failed",
+                        string(
+                            abi.encodePacked(
+                                "Error (Exercise B): ADD LIQUIDITY - ",
+                                _reason
+                            )
+                        ),
                         false,
                         0
                     );
@@ -84,18 +115,22 @@ contract Assignment2Validator is BaseAssignmentValidator {
 
                 /*----------  EXERCISE B - REMOVE LIQUIDITY  ----------*/
 
-                try validatorB.testExerciseBRemoveLiquidity() returns (
-                    string memory messageC,
-                    bool resultC
-                ) {
-                    if (resultC) {
-                        appendTestResult(messageC, true, 1);
+                try
+                    validatorB.testExerciseBRemoveLiquidity{value: 100 gwei}()
+                returns (string memory message, bool success) {
+                    if (success) {
+                        appendTestResult(message, true, 1);
                     } else {
-                        appendTestResult(messageC, false, 0);
+                        appendTestResult(message, false, 0);
                     }
-                } catch {
+                } catch Error(string memory _reason) {
                     appendTestResult(
-                        "EXERCISE B - REMOVE LIQUIDITY: Transaction failed",
+                        string(
+                            abi.encodePacked(
+                                "Error (Exercise B): REMOVE LIQUIDITY - ",
+                                _reason
+                            )
+                        ),
                         false,
                         0
                     );
@@ -104,17 +139,22 @@ contract Assignment2Validator is BaseAssignmentValidator {
                 /*----------  EXERCISE B - GET TOKEN AMOUNT  ----------*/
 
                 try validatorB.testExerciseBGetTokenAmount() returns (
-                    string memory messageF,
-                    bool resultF
+                    string memory message,
+                    bool success
                 ) {
-                    if (resultF) {
-                        appendTestResult(messageF, true, 1);
+                    if (success) {
+                        appendTestResult(message, true, 1);
                     } else {
-                        appendTestResult(messageF, false, 0);
+                        appendTestResult(message, false, 0);
                     }
-                } catch {
+                } catch Error(string memory _reason) {
                     appendTestResult(
-                        "EXERCISE B - GET TOKEN AMOUNT: Transaction failed",
+                        string(
+                            abi.encodePacked(
+                                "Error (Exercise B): GET TOKEN AMOUNT - ",
+                                _reason
+                            )
+                        ),
                         false,
                         0
                     );
@@ -122,17 +162,22 @@ contract Assignment2Validator is BaseAssignmentValidator {
 
                 /*----------  EXERCISE B - GET ETH AMOUNT  ----------*/
                 try validatorB.testExerciseBGetEthAmount() returns (
-                    string memory messageG,
-                    bool resultG
+                    string memory message,
+                    bool success
                 ) {
-                    if (resultG) {
-                        appendTestResult(messageG, true, 1);
+                    if (success) {
+                        appendTestResult(message, true, 1);
                     } else {
-                        appendTestResult(messageG, false, 0);
+                        appendTestResult(message, false, 0);
                     }
-                } catch {
+                } catch Error(string memory _reason) {
                     appendTestResult(
-                        "EXERCISE B - GET ETH AMOUNT: Transaction failed",
+                        string(
+                            abi.encodePacked(
+                                "Error (Exercise B): GET ETH AMOUNT - ",
+                                _reason
+                            )
+                        ),
                         false,
                         0
                     );
@@ -140,38 +185,64 @@ contract Assignment2Validator is BaseAssignmentValidator {
 
                 /*----------  EXERCISE B - ETH TO TOKEN  ----------*/
                 try
-                    validatorB.testExerciseBEthToToken{value: 0.01 ether}()
-                returns (string memory messageD, bool resultD) {
-                    if (resultD) {
-                        appendTestResult(messageD, true, 1);
+                    validatorB.testExerciseBEthToToken{value: 100 gwei}()
+                returns (string memory message, bool success) {
+                    if (success) {
+                        appendTestResult(message, true, 1);
                     } else {
-                        appendTestResult(messageD, false, 0);
+                        appendTestResult(message, false, 0);
                     }
-                } catch {
+                } catch Error(string memory _reason) {
                     appendTestResult(
-                        "EXERCISE B - ETH TO TOKEN: Transaction failed",
+                        string(
+                            abi.encodePacked(
+                                "Error (Exercise B): ETH TO TOKEN - ",
+                                _reason
+                            )
+                        ),
                         false,
                         0
                     );
                 }
 
                 /*----------  EXERCISE B - TOKEN TO ETH  ----------*/
-                try validatorB.testExerciseBTokenToEth() returns (
-                    string memory messageE,
-                    bool resultE
-                ) {
-                    if (resultE) {
-                        appendTestResult(messageE, true, 1);
+                try
+                    validatorB.testExerciseBTokenToEth{value: 100 gwei}()
+                returns (string memory message, bool success) {
+                    if (success) {
+                        appendTestResult(message, true, 1);
                     } else {
-                        appendTestResult(messageE, false, 0);
+                        appendTestResult(message, false, 0);
                     }
-                } catch {
+                } catch Error(string memory _reason) {
                     appendTestResult(
-                        "EXERCISE B - TOKEN TO ETH: Transaction failed",
+                        string(
+                            abi.encodePacked(
+                                "Error (Exercise B): TOKEN TO ETH - ",
+                                _reason
+                            )
+                        ),
                         false,
                         0
                     );
                 }
+
+                /*---------- EXERCISE D - TOKEN TO TOKEN ----------*/
+                (string memory messageD, bool resultD) = testExerciseD(
+                    assignmentContract
+                );
+
+                if (resultD) {
+                    appendTestResult(messageD, true, 1);
+                } else {
+                    appendTestResult(messageD, false, 0);
+                }
+            } else {
+                appendTestResult(
+                    "Error: Could not create the validator contract",
+                    false,
+                    0
+                );
             }
         } else {
             // If the test failed, add the result to the history
@@ -194,6 +265,8 @@ contract Assignment2Validator is BaseAssignmentValidator {
     {
         /*----------  EXERCISE A  ----------*/
 
+        uint256 testCounter = 0;
+
         (bool success, address tokenAddress) = catchTokenAddress(
             assignmentContract
         );
@@ -204,25 +277,29 @@ contract Assignment2Validator is BaseAssignmentValidator {
                 false
             );
         } else {
-            uint256 tokenBalanceBefore = IERC20(tokenAddress).balanceOf(
-                address(this)
+            uint256 tokenBalanceBeforeTaskB = IERC20(tokenAddress).balanceOf(
+                validatorTaskBAddress
             );
+
+            uint256 amount = 10000 gwei;
 
             try
                 Assignment2CoinInterface(tokenAddress).mint(
-                    address(this),
-                    10 ether
+                    validatorTaskBAddress,
+                    amount
                 )
             {
-                uint256 tokenBalanceAfter = IERC20(tokenAddress).balanceOf(
-                    address(this)
+                uint256 tokenBalanceAfterTaskB = IERC20(tokenAddress).balanceOf(
+                    validatorTaskBAddress
                 );
 
-                if (tokenBalanceAfter - tokenBalanceBefore == 10 ether) {
-                    return ("Exercise A: Passed!", true);
+                if (
+                    tokenBalanceAfterTaskB - tokenBalanceBeforeTaskB == amount
+                ) {
+                    testCounter++;
                 } else {
                     return (
-                        "Error (Exercise A): The token balance is not correct!",
+                        "Error (Exercise A): The token balance for the validator contract is not correct!",
                         false
                     );
                 }
@@ -233,11 +310,145 @@ contract Assignment2Validator is BaseAssignmentValidator {
                 );
             }
         }
+
+        if (testCounter == 1) {
+            return ("Exercise A: All tests passed!", true);
+        } else {
+            return ("Exercise A: Not all tests passed!", false);
+        }
+    }
+
+    /**
+     * TEST EXERCISE D
+     *
+     * - test tokenToTokenSwap function
+     */
+    function testExerciseD(Assignment2Interface assignmentContract)
+        private
+        returns (string memory, bool)
+    {
+        /*----------  EXERCISE D  ----------*/
+
+        address validatorAddress = address(this);
+        address exchange2Address = IRegistry(registryAddress).getExchange(
+            tokenTestAddress
+        );
+
+        Assignment2CoinInterface tokenStudent = Assignment2CoinInterface(
+            assignmentContract.getTokenAddress()
+        );
+
+        Assignment2CoinInterface tokenTest = Assignment2CoinInterface(
+            tokenTestAddress
+        );
+
+        Assignment2Interface exchangeTest = Assignment2Interface(
+            exchange2Address
+        );
+
+        // SWAP TOKENS
+
+        // Collect balance before
+
+        // Get student token before
+        uint256 tokenStudentBalanceBefore = tokenStudent.balanceOf(
+            validatorAddress
+        );
+
+        // Get test token before
+        uint256 tokenTestBalanceBefore = tokenTest.balanceOf(validatorAddress);
+
+        // SWAP
+
+        uint256 tokensSold = 100 gwei;
+
+        // Mint tokens for the validator
+        tokenStudent.mint(validatorAddress, 1000 gwei);
+        tokenTest.mint(validatorAddress, 1000 gwei);
+
+        // Calculate eth amount
+        uint256 tokenBought = 10 gwei;
+
+        // Set Allowance
+        tokenStudent.approve(address(assignmentContract), 1000 gwei);
+        tokenTest.approve(address(assignmentContract), 1000 gwei);
+        tokenTest.approve(address(exchangeTest), 1000 gwei);
+
+        try exchangeTest.addLiquidity{value: 10 gwei}(200 gwei) {} catch Error(
+            string memory _reason
+        ) {
+            return (
+                string(
+                    abi.encodePacked(
+                        "Error (Exercise D): addLiquidity problem - ",
+                        _reason
+                    )
+                ),
+                false
+            );
+        }
+
+        try
+            assignmentContract.tokenToTokenSwap{value: 100 gwei}(
+                tokensSold,
+                tokenBought,
+                tokenTestAddress
+            )
+        {
+            // Get student token after
+            uint256 tokenStudentBalanceAfter = tokenStudent.balanceOf(
+                validatorAddress
+            );
+
+            // Get test token after
+            uint256 tokenTestBalanceAfter = tokenTest.balanceOf(
+                validatorAddress
+            );
+
+            if (tokenStudentBalanceAfter <= tokenStudentBalanceBefore) {
+                return (
+                    "Error (Exercise D): The exchange token balance is not correct!",
+                    false
+                );
+            }
+
+            if (tokenTestBalanceAfter <= tokenTestBalanceBefore) {
+                return (
+                    "Error (Exercise D): The test token balance is not correct!",
+                    false
+                );
+            }
+        } catch Error(string memory _reason) {
+            return (
+                string(
+                    abi.encodePacked(
+                        "Error (Exercise D): TOKEN TO TOKEN - ",
+                        _reason
+                    )
+                ),
+                false
+            );
+        }
+
+        return ("Exercise D: All tests passed!", true);
     }
 
     /*=============================================
     =                    HELPER                  =
     =============================================*/
+
+    function getAmount(
+        uint256 inputAmount,
+        uint256 inputReserve,
+        uint256 outputReserve
+    ) private pure returns (uint256) {
+        uint256 inputAmountWithFee = inputAmount * 99;
+        uint256 numerator = inputAmountWithFee * outputReserve;
+        uint256 denominator = (inputReserve * 100) + inputAmountWithFee;
+
+        require(denominator > 0, "ERR_ZERO_DENOMINATOR");
+        return numerator / denominator;
+    }
 
     // Catch the token address function getTokenAddress
     function catchTokenAddress(Assignment2Interface assignmentContract)

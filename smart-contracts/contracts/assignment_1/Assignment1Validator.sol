@@ -386,5 +386,6 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
                 false
             );
         }
+        return ("Passed (Exercise F): Error!", false);
     }
 }

@@ -57,5 +57,8 @@ abstract contract Assignment2Interface is ERC20, BaseAssignment {
         uint256 _tokensSold,
         uint256 _minTokensBought,
         address _tokenAddress
-    ) public virtual {}
+    ) public payable virtual {}
+
+    // Donate ETH to the contract
+    function donateEther() public payable virtual {}
 }

@@ -4,6 +4,11 @@ pragma solidity ^0.8.17;
 // Import the Assignment1Interface.sol
 import "../assignment_2/Assignment2Interface.sol";
 
+// Import the coin interface
+import "../assignment_2/Assignment2CoinInterface.sol";
+
+import "../../node_modules/@openzeppelin/contracts/utils/Strings.sol";
+
 // Give the contract a name and inherit from the base assignment validator
 contract Assignment2ValidatorTaskB {
     Assignment2Interface assignmentContract;
@@ -14,17 +19,19 @@ contract Assignment2ValidatorTaskB {
 
     constructor() {}
 
+    receive() external payable {}
+
     function initContract(address _exchangeAddress) public returns (bool) {
         Assignment2Interface _assignmentContract = Assignment2Interface(
             _exchangeAddress
         );
 
-        (bool success, address _tokenAddres) = catchTokenAddress(
+        (bool success, address _tokenAddress) = catchTokenAddress(
             _assignmentContract
         );
 
         if (success) {
-            tokenAddress = _tokenAddres;
+            tokenAddress = _tokenAddress;
         } else {
             return false;
         }
@@ -49,35 +56,53 @@ contract Assignment2ValidatorTaskB {
         /*----------  EXERCISE B  ----------*/
 
         // Add some liquidity if reserve is empty
-        if (getReserve() == 0) {
-            try
-                assignmentContract.addLiquidity{value: 0.001 ether}(2)
-            {} catch Error(string memory _reason) {
-                return (
-                    string(
-                        abi.encodePacked(
-                            "Error (Exercise B): Error with the addLiquidity function! ",
-                            _reason
-                        )
-                    ),
-                    false
-                );
-            }
-        }
+        // Prepare test
+        // Mint 100 wei tokens to the validator address
+        Assignment2CoinInterface(tokenAddress).mint(validatorAddress, 100 gwei);
+        Assignment2CoinInterface(tokenAddress).approve(
+            exchangeAddress,
+            100 gwei
+        );
+        assignmentContract.addLiquidity{value: 0}(100 gwei);
+
+        // TEST START --->
 
         // ETH amount to send
-        uint256 testMsgValue = 0.001 ether;
+        uint256 testMsgValue = 100 gwei;
 
         // Calculate the amount of tokens to buy
-        uint256 ethReserve = exchangeAddress.balance - testMsgValue;
+        uint256 ethReserve = (exchangeAddress.balance + testMsgValue) -
+            testMsgValue;
         uint256 tokenReserve = getReserve();
         uint256 tokenAmount = (testMsgValue * tokenReserve) / ethReserve;
 
         // Token amount to buy
-        uint256 testTokenAmount = tokenAmount + 1;
+        uint256 testTokenAmount = tokenAmount;
 
-        uint256 liquidity = (assignmentContract.totalSupply() * msg.value) /
+        // Mint some tokens for the validator to add to liquidity pool
+        if (
+            testTokenAmount >
+            Assignment2CoinInterface(tokenAddress).balanceOf(validatorAddress)
+        ) {
+            Assignment2CoinInterface(tokenAddress).mint(
+                validatorAddress,
+                testTokenAmount
+            );
+        }
+
+        uint256 liquidity = (assignmentContract.totalSupply() * testMsgValue) /
             ethReserve;
+
+        // Throw error > liquidity cannot be 0
+        if (liquidity == 0) {
+            return (
+                "Error (Exercise B - addLiquidity): The liquidity is 0!",
+                false
+            );
+        }
+
+        // Set Allowance
+        IERC20(tokenAddress).approve(exchangeAddress, testTokenAmount);
 
         // Token of validatorAddress before
         uint256 tokenBalanceBefore = IERC20(tokenAddress).balanceOf(
@@ -85,7 +110,7 @@ contract Assignment2ValidatorTaskB {
         );
 
         // Exchange token before
-        uint256 exchangeTokenBalanceBefore = IERC20(exchangeAddress).balanceOf(
+        uint256 exchangeTokenBalanceBefore = assignmentContract.balanceOf(
             validatorAddress
         );
 
@@ -94,10 +119,15 @@ contract Assignment2ValidatorTaskB {
             assignmentContract.addLiquidity{value: testMsgValue}(
                 testTokenAmount
             )
-        returns (uint256 addLiquidity) {
-            if (addLiquidity != liquidity) {
+        returns (uint256 gotLiquidity) {
+            if (gotLiquidity != liquidity) {
                 return (
-                    "Error (Exercise B - addLiquidity): The liquidity is not correct!",
+                    string.concat(
+                        "Error (Exercise B - addLiquidity): The calculated liquidity is not correct! Expected: ",
+                        Strings.toString(liquidity),
+                        " Actual: ",
+                        Strings.toString(gotLiquidity)
+                    ),
                     false
                 );
             }
@@ -109,14 +139,15 @@ contract Assignment2ValidatorTaskB {
 
             if (tokenBalanceBefore - testTokenAmount != tokenBalanceAfter) {
                 return (
-                    "Error (Exercise B - addLiquidity): The token balance is not correct!",
+                    "Error (Exercise B - addLiquidity): The token balance for the validator is not correct!",
                     false
                 );
             }
 
             // Exchange token after
-            uint256 exchangeTokenBalanceAfter = IERC20(exchangeAddress)
-                .balanceOf(validatorAddress);
+            uint256 exchangeTokenBalanceAfter = assignmentContract.balanceOf(
+                validatorAddress
+            );
 
             if (
                 exchangeTokenBalanceBefore + liquidity !=
@@ -127,11 +158,19 @@ contract Assignment2ValidatorTaskB {
                     false
                 );
             }
+
+            // check if total supply increased
+            if (assignmentContract.totalSupply() == 0) {
+                return (
+                    "Error (Exercise B - addLiquidity): The total supply is 0, should be larger than 0!",
+                    false
+                );
+            }
         } catch Error(string memory _reason) {
             return (
                 string(
                     abi.encodePacked(
-                        "Error (Exercise B - addLiquidity): Error with the removeLiquidity function!",
+                        "Error (Exercise B - addLiquidity): Error with the addLiquidity function! - ",
                         _reason
                     )
                 ),
@@ -148,20 +187,38 @@ contract Assignment2ValidatorTaskB {
      */
     function testExerciseBRemoveLiquidity()
         public
+        payable
         returns (string memory, bool)
     {
+        // Prepare test
+        // Mint 100 wei tokens to the validator address
+        Assignment2CoinInterface(tokenAddress).mint(validatorAddress, 100 wei);
+        Assignment2CoinInterface(tokenAddress).approve(
+            exchangeAddress,
+            100 wei
+        );
+        assignmentContract.addLiquidity{value: 100 wei}(100 wei);
+
+        // Prepare end
+
         uint256 testRemoveAmount = 1;
 
         uint256 exchangeBalanceBefore = assignmentContract.balanceOf(
             validatorAddress
         );
-        if (exchangeBalanceBefore > 1) {
-            testRemoveAmount = exchangeBalanceBefore - 1;
-        }
 
         uint256 supply = assignmentContract.totalSupply();
+
+        if (supply == 0) {
+            return (
+                "Error (Exercise B - removeLiquidity): The total supply is 0, should be larger than 0!",
+                false
+            );
+        }
+
         uint256 ethAmount = (exchangeAddress.balance * testRemoveAmount) /
             supply;
+
         uint256 tokenAmount = (getReserve() * testRemoveAmount) / supply;
 
         // Get eth balance of validator before
@@ -169,8 +226,10 @@ contract Assignment2ValidatorTaskB {
         uint256 tokenBalanceBefore = IERC20(tokenAddress).balanceOf(
             validatorAddress
         );
+
         try assignmentContract.removeLiquidity(testRemoveAmount) {
             // Get eth balance of validator after
+
             uint256 ethBalanceAfter = validatorAddress.balance;
             uint256 tokenBalanceAfter = IERC20(tokenAddress).balanceOf(
                 validatorAddress
@@ -309,15 +368,26 @@ contract Assignment2ValidatorTaskB {
         payable
         returns (string memory, bool)
     {
-        uint256 minToken = 1;
+        uint256 msgValue = 100 gwei;
 
-        uint256 msgValue = 0.001 ether;
+        // Mint 1000 wei tokens to the exchange address
+        Assignment2CoinInterface(tokenAddress).mint(exchangeAddress, 1000 wei);
 
         uint256 expectedTokenBought = getAmount(
             msgValue,
-            exchangeAddress.balance - msgValue,
+            exchangeAddress.balance,
             getReserve()
         );
+
+        if (expectedTokenBought == 0) {
+            return (
+                "Error (Exercise B - ethToToken): The expected token bought is 0, should be larger than 0!",
+                false
+            );
+        }
+
+        // Set minToken to expectedTokenBought - 10 wei
+        uint256 minToken = expectedTokenBought - 10 wei;
 
         uint256 tokenBalanceBefore = IERC20(tokenAddress).balanceOf(
             validatorAddress
@@ -338,7 +408,7 @@ contract Assignment2ValidatorTaskB {
             return (
                 string(
                     abi.encodePacked(
-                        "Error (Exercise B - ethToToken): Error with the ethToToken function!",
+                        "Error (Exercise B - ethToToken): Error with the ethToToken function! - ",
                         _reason
                     )
                 ),
@@ -353,20 +423,34 @@ contract Assignment2ValidatorTaskB {
      * TEST EXERCISE B
      * - test tokenToEth function
      */
-    function testExerciseBTokenToEth() public returns (string memory, bool) {
-        uint256 tokenSold = 1;
-        uint256 minEth = 0.001 ether;
+    function testExerciseBTokenToEth()
+        public
+        payable
+        returns (string memory, bool)
+    {
+        uint256 tokenSold = 100 gwei;
 
         uint256 expectedEthBought = getAmount(
             tokenSold,
-            exchangeAddress.balance,
+            (exchangeAddress.balance),
             getReserve()
         );
+
+        if (expectedEthBought == 0) {
+            return (
+                "Error (Exercise B - tokenToEth): The expected ETH bought is 0!",
+                false
+            );
+        }
+
+        uint256 minEth = expectedEthBought - 1 wei;
 
         uint256 ethBalanceBefore = validatorAddress.balance;
         uint256 tokenBalanceBefore = IERC20(tokenAddress).balanceOf(
             validatorAddress
         );
+
+        IERC20(tokenAddress).approve(exchangeAddress, tokenSold);
 
         try assignmentContract.tokenToEth(tokenSold, minEth) {
             uint256 ethBalanceAfter = validatorAddress.balance;
@@ -435,6 +519,8 @@ contract Assignment2ValidatorTaskB {
         uint256 denominator = (inputReserve * 100) + inputAmountWithFee;
 
         // return (inputAmount * outputReserve) / (inputReserve + inputAmount);
+
+        require(denominator > 0, "ERR_ZERO_DENOMINATOR");
         return numerator / denominator;
     }
 
