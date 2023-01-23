@@ -13,9 +13,8 @@ import "../../contracts/BaseAssignmentValidator.sol";
 // Import the coin interface
 import "../assignment_2/Assignment2CoinInterface.sol";
 
-interface IRegistry {
-    function getExchange(address _exchangeAddress) external returns (address);
-}
+// Import the registry contract
+import "../assignment_2/Assignment2Registry.sol";
 
 // Give the contract a name and inherit from the base assignment validator
 contract Assignment2Validator is BaseAssignmentValidator {
@@ -330,9 +329,8 @@ contract Assignment2Validator is BaseAssignmentValidator {
         /*----------  EXERCISE D  ----------*/
 
         address validatorAddress = address(this);
-        address exchange2Address = IRegistry(registryAddress).getExchange(
-            tokenTestAddress
-        );
+        address exchange2Address = Assignment2Registry(registryAddress)
+            .getExchange(tokenTestAddress);
 
         Assignment2CoinInterface tokenStudent = Assignment2CoinInterface(
             assignmentContract.getTokenAddress()

@@ -7,9 +7,8 @@ import "../../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
 // Import BaseConfig.sol
 import "../../contracts/BaseConfig.sol";
 
-interface IRegistry {
-    function getExchange(address _exchangeAddress) external returns (address);
-}
+// Import the registry contract
+import "../assignment_2/Assignment2Registry.sol";
 
 contract Assignment2Exchange is ERC20, BaseConfig {
     address public tokenAddress;
@@ -209,9 +208,8 @@ contract Assignment2Exchange is ERC20, BaseConfig {
         uint256 _minTokensBought,
         address _tokenAddress
     ) public {
-        address exchangeAddress = IRegistry(registryAddress).getExchange(
-            _tokenAddress
-        );
+        address exchangeAddress = Assignment2Registry(registryAddress)
+            .getExchange(_tokenAddress);
 
         require(
             exchangeAddress != address(this) && exchangeAddress != address(0),
