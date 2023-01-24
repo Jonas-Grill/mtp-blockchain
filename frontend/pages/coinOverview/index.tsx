@@ -53,7 +53,7 @@ export default function CoinOverview({userAddress}: { userAddress: string }) {
                             Knowledge overview
                         </h2>
                         <div className="mt-4 text-lg font-medium text-uni">
-                            Choose your semester:
+                            Choose the semester:
                         </div>
                         <fieldset>
                             <div className="mt-4 space-y-4">

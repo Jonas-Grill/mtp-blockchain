@@ -11,6 +11,7 @@ import {loadSemesters, Semester} from "../semester";
 import {Assignment, loadAssignments} from "../assignments";
 import Head from "next/head";
 import {initBlockchain} from "../faucet";
+import {isAdmin} from "../../web3/src/entrypoints/config/admin";
 
 export default function SubmitAssignment({userAddress}: { userAddress: string }) {
     const [web3, setWeb3] = useState<any>(undefined);
@@ -23,6 +24,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
     const [selectedAssignment, setSelectedAssignment] = useState<string>("");
 
     const [testResults, setTestResults] = useState<string[][][]>([]);
+    const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
 
     const [submittedAssignment, setSubmittedAssignment] = useState<{ testIndex: string, studentAddress: string, contractAddress: string, knowledgeCoins: string, blockNo: string }>();
 
@@ -39,15 +41,21 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                     });
                 }).catch((error) => {
                     if (error.code === -32603) {
-                        const message = error.message.substring(
+                        let message = error.message.substring(
                             error.message.indexOf('"message"') + 2,
                             error.message.indexOf('",')
                         );
 
-                        alert(message.substring(
+                        message = message.substring(
                             message.indexOf('Error:') + 7,
                             message.indexOf('!')
-                        ));
+                        );
+
+                        if (message === "essage") {
+                            message = "Invalid contract!"
+                        }
+
+                        alert(message);
                     } else {
                         alert(error.message);
                     }
@@ -67,15 +75,21 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                     setSubmittedAssignment(result);
                 }).catch((error) => {
                     if (error.code === -32603) {
-                        const message = error.message.substring(
+                        let message = error.message.substring(
                             error.message.indexOf('"message"') + 2,
                             error.message.indexOf('",')
                         );
 
-                        alert(message.substring(
+                        message = message.substring(
                             message.indexOf('Error:') + 7,
                             message.indexOf('!')
-                        ));
+                        );
+
+                        if (message === "essage") {
+                            message = "Invalid contract!"
+                        }
+
+                        alert(message);
                     } else {
                         alert(error.message);
                     }
@@ -103,6 +117,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
         } else if (semesters.length <= 0) {
             loadSemesters(web3).then((semesters) => {
                 if (semesters && semesters.length > 0) {
+                    semesters = semesters.sort((a, b) => b.startBlock - a.startBlock);
                     setSemesters(semesters);
                     setSelectedSemester(semesters[0].id);
                 }
@@ -114,6 +129,11 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                 if (assignments.length > 0) {
                     setSelectedAssignment(assignments[0].id);
                 }
+            });
+        }
+        if (web3 && userAddress) {
+            isAdmin(web3, userAddress).then((result) => {
+                setIsUserAdmin(result);
             });
         }
 
@@ -133,7 +153,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                 }
             });
         }
-    }, [web3, semesters, selectedSemester, assignments, contract, selectedAssignment]);
+    }, [web3, semesters, selectedSemester, assignments, contract, selectedAssignment, userAddress]);
 
     return (
         <>
@@ -152,30 +172,35 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                             Hand in your assignment contract here
                         </h2>
                     </div>
-                    <label htmlFor="semester"
-                           className="text-center text-lg font-medium tracking-tight text-uni">
-                        Choose Semester
-                    </label>
-                    <fieldset>
-                        <div className="space-y-2 mb-4">
-                            {semesters.map((semester) => (
-                                <div className="flex items-center" key={semester.id}>
-                                    <input
-                                        id={semester.id}
-                                        name="semester"
-                                        type="radio"
-                                        className="h-4 w-4 text-uni focus:ring-transparent"
-                                        checked={semester.id === selectedSemester}
-                                        onChange={() => setSelectedSemester(semester.id)}
-                                    />
-                                    <label htmlFor="semester"
-                                           className="ml-3 block text-sm font-medium text-uni">
-                                        {semester.name}
-                                    </label>
-                                </div>
-                            ))}
-                        </div>
-                    </fieldset>
+                    {
+                        isUserAdmin ? (
+                            <>
+                                <label htmlFor="semester"
+                                       className="text-center text-lg font-medium tracking-tight text-uni">
+                                    Choose Semester
+                                </label>
+                                <fieldset>
+                                    <div className="space-y-2 mb-4">
+                                        {semesters.map((semester) => (
+                                            <div className="flex items-center" key={semester.id}>
+                                                <input
+                                                    id={semester.id}
+                                                    name="semester"
+                                                    type="radio"
+                                                    className="h-4 w-4 text-uni focus:ring-transparent"
+                                                    checked={semester.id === selectedSemester}
+                                                    onChange={() => setSelectedSemester(semester.id)}/>
+                                                <label htmlFor="semester"
+                                                       className="ml-3 block text-sm font-medium text-uni">
+                                                    {semester.name}
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </fieldset>
+                            </>
+                        ) : null
+                    }
                     <label htmlFor="assignment"
                            className="text-center text-lg font-medium tracking-tight text-uni">
                         Choose Assignment
@@ -206,7 +231,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                         type="text"
                         required
                         className="relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
-                        placeholder="Contract address"
+                        placeholder="Your contract address"
                         onChange={(event) => setContract(event.currentTarget.value)}
                     />
 
@@ -224,13 +249,16 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                         {
                             submittedAssignment && submittedAssignment.blockNo != "0" ? (
                                 <div className="mt-2 mb-2 grid grid-cols-3 rounded-md shadow shadow-uni p-2">
-                                    <dt className="col-span-2 text-lg font-medium text-uni">Test index: {submittedAssignment.testIndex}</dt>
-                                    <dt className="col-span-2 text-lg font-medium text-uni">Block number: {submittedAssignment.blockNo}</dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni">Test
+                                        index: {submittedAssignment.testIndex}</dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni">Block
+                                        number: {submittedAssignment.blockNo}</dt>
                                     <dt className="col-span-2 text-lg font-medium text-uni">Coins: {submittedAssignment.knowledgeCoins}</dt>
-                                    <dt className="col-span-2 text-lg font-medium text-uni">Contract address: {submittedAssignment.contractAddress}</dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni">Contract
+                                        address: {submittedAssignment.contractAddress}</dt>
                                 </div>
                             ) : (
-                                <div className="mt-1">
+                                <div className="mt-1 mb-1 ">
                                     <p className="text-uni">
                                         You have not submitted the assignment yet.
                                     </p>
@@ -256,12 +284,15 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                                     <div key={index}
                                          className="mx-auto grid max-w-2xl grid-cols-1 items-center">
                                         <details>
-                                            <summary className="text-lg font-medium text-uni">Try {index + 1 }</summary>
+                                            <summary className="text-lg font-medium text-uni">Test assignment:
+                                                Try {index + 1}</summary>
                                             {results.map((testResult, i) => (
                                                 <div key={i}
                                                      className="mt-2 mb-2 grid grid-cols-3 rounded-md shadow shadow-uni p-2">
-                                                    <dt className="col-span-2 text-lg font-medium text-uni">Test: {i}</dt>
-                                                    <dt className="col-span-2 text-lg font-medium text-uni">Test
+                                                    <dt className="col-span-2 text-lg font-medium text-uni">Validator
+                                                        contract test number: {i}</dt>
+                                                    <dt className="col-span-2 text-lg font-medium text-uni">Validator
+                                                        contract test
                                                         name: {testResult[0]}</dt>
                                                     <dt className="col-span-2 text-lg font-medium text-uni">Passed: {testResult[1]?.toString()}</dt>
                                                 </div>

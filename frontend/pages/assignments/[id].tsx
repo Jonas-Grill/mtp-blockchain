@@ -186,7 +186,7 @@ export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeo
                             type="text"
                             required
                             className="mb-4 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
-                            placeholder="validation contract address"
+                            placeholder="Validator contract address"
                             defaultValue={assignment?.validationContractAddress}
                         />
                         <label htmlFor="link" className="sr-only">

@@ -80,12 +80,15 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
         } else if (semesters.length === 0) {
             loadSemesters(web3).then((result) => {
                 if (result) {
-                    setSemesters(result);
+                    setSemesters(result.sort((a, b) => b.startBlock - a.startBlock));
                 }
             });
         }
         if (userAddress && web3) {
             isAdmin(web3, userAddress).then((result) => {
+                if (!isUserAdmin && semesters.length > 1) {
+                    setSemesters([semesters[0]])
+                }
                 setIsUserAdmin(result);
             });
         }
@@ -97,7 +100,7 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
                 <title>Semester overview</title>
             </Head>
             <div className="bg-white">
-                <div className="mx-auto max-w-2xl py-16 px-4 sm:py-0 sm:px-6 lg:max-w-7xl lg:px-8">
+                <div className="mx-auto max-w-2xl py-16 px-4 sm:py-0 sm:px-6 lg:max-w-7xl lg:px-8 mt-10">
 
                     {
                         isUserAdmin ? (
