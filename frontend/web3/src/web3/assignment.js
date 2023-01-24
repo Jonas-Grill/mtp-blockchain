@@ -163,7 +163,7 @@ class NOWAssignments {
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
-        var results = await assignmentValidatorContract.methods.hasAssignmentSubmitted(studentAddress).call({
+        const results = await assignmentValidatorContract.methods.hasAssignmentSubmitted(studentAddress).call({
             from: fromAddress,
         });
 
@@ -181,7 +181,7 @@ class NOWAssignments {
 
         const assignmentContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
-        var infos = await assignmentContract.methods.getAssignmentInfos().call({
+        const infos = await assignmentContract.methods.getAssignmentInfos().call({
             from: fromAddress,
         });
 
@@ -200,7 +200,7 @@ class NOWAssignments {
 
         const assignmentContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
-        var ether = await assignmentContract.methods.getRequiredEther().call({
+        const ether = await assignmentContract.methods.getRequiredEther().call({
             from: fromAddress,
         });
 

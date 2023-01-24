@@ -84,7 +84,7 @@ class NOWAccount {
      * @returns Balance in range
      */
     async getKnowledgeCoinBalanceInRange(address, startBlock, endBlock) {
-        var knowledgeCoinContract = this.utils.getContract(this.web3,
+        const knowledgeCoinContract = this.utils.getContract(this.web3,
             "SBCoin",
             address,
             await this.web3.eth.net.getId())
@@ -133,9 +133,9 @@ class NOWAccount {
         const startBlock = semester.startBlock;
         const endBlock = semester.endBlock;
 
-        var passedStudents = [];
+        const passedStudents = [];
 
-        for (var i = 0; i < studentAddresses.length; i++) {
+        for (let i = 0; i < studentAddresses.length; i++) {
             const balance = await this.getKnowledgeCoinBalance(studentAddresses[i], startBlock, endBlock);
 
             if (balance > semester.minKnowledgeCoinAmount) {
@@ -172,10 +172,10 @@ class NOWAccount {
         // remove first row
         csvParsed.splice(0, 1);
 
-        var passedStudents = [];
+        const passedStudents = [];
 
         // loop over array 
-        for (var i = 0; i < csvParsed.length; i++) {
+        for (let i = 0; i < csvParsed.length; i++) {
             const row = [];
 
             const studentNumber = csvParsed[i][0].trim();
