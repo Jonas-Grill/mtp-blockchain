@@ -5,7 +5,7 @@ const assignment1Validator = artifacts.require("Assignment1Validator");
 const assignment1Tests = artifacts.require("Assignment1Tests");
 
 // Deploy or not for testing
-const deploy = true
+const deploy = false
 
 module.exports = async (deployer, network, account) => {
     if (deploy) {

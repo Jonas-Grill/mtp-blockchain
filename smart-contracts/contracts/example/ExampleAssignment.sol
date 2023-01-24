@@ -5,9 +5,9 @@ pragma solidity ^0.8.17;
  * Example assignment for testing
  */
 
-import "../contracts/BaseAssignment.sol";
+import "../../contracts/BaseAssignment.sol";
 
-contract ExampleAssignment2 is BaseAssignment {
+contract ExampleAssignment is BaseAssignment {
     int256 testValue;
 
     constructor(address validator) BaseAssignment(validator) {

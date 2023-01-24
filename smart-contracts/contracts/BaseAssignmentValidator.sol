@@ -379,7 +379,7 @@ contract BaseAssignmentValidator is BaseConfig {
         BaseAssignment assignment = BaseAssignment(_contractAddress);
 
         // Get block number of assignment
-        uint256 blockNumber = assignment.getBlockNumber();
+        uint256 blockNumber = assignment.getCreationBlockNumber();
 
         // Get allowed start and end block of assignment
         uint256 startBlock = getConfigStorage()
@@ -498,6 +498,37 @@ contract BaseAssignmentValidator is BaseConfig {
      */
     function getRequiredEther() public view returns (uint256) {
         return requiredEther;
+    }
+
+    // Build error message -> simple
+    function buildErrorMessage(
+        string memory _prefix,
+        string memory _message,
+        string memory _errorMsg
+    ) public pure returns (string memory) {
+        return
+            string(abi.encodePacked(_prefix, ": ", _message, " > ", _errorMsg));
+    }
+
+    // Build error message -> extended
+    function buildErrorMessageExtended(
+        string memory _prefix,
+        string memory _message,
+        string memory _expected,
+        string memory _actual
+    ) public pure returns (string memory) {
+        return
+            string(
+                abi.encodePacked(
+                    _prefix,
+                    ": ",
+                    _message,
+                    " Expected: ",
+                    _expected,
+                    " Actual: ",
+                    _actual
+                )
+            );
     }
 
     /*=====     End of Config Helper     ======*/

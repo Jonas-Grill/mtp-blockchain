@@ -6,13 +6,13 @@ pragma solidity ^0.8.17;
  *  The imported base assignment needs to own the functions which are
  *  called by the validator
  */
-import "../contracts/ExampleAssignmentInterface.sol";
+import "../../contracts/ExampleAssignmentInterface.sol";
 
 // Import the base assignment validator contract
-import "../contracts/BaseAssignmentValidator.sol";
+import "../../contracts/BaseAssignmentValidator.sol";
 
 // Give the contract a name and inherit from the base assignment validator
-contract ExampleAssignmentValidator is BaseAssignmentValidator {
+contract ExampleAssignmentValidator2 is BaseAssignmentValidator {
     /**
      * Import empty constructor and pass the config contract address to the
      * base assignment validator constructor
@@ -20,7 +20,7 @@ contract ExampleAssignmentValidator is BaseAssignmentValidator {
     constructor(address _configContractAddress)
         BaseAssignmentValidator(
             _configContractAddress,
-            "ExampleAssignmentValidator", // Define the name of the contract
+            "ExampleAssignmentValidator2", // Define the name of the contract
             0
         )
     {

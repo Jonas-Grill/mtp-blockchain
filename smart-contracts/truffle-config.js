@@ -15,7 +15,7 @@ module.exports = {
       settings: {
         optimizer: {
           enabled: false,
-          runs: 2
+          runs: 200
         },
         viaIR: false
       }
@@ -23,6 +23,7 @@ module.exports = {
   },
   dashboard: {
     port: 24012,
-  }
+  },
+  plugins: ["truffle-contract-size"]
 
 };

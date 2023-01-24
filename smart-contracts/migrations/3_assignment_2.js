@@ -11,7 +11,7 @@ const assignment2ValidatorTaskB = artifacts.require("Assignment2ValidatorTaskB")
 
 
 // Deploy or not for testing
-const deploy = true
+const deploy = false
 
 module.exports = async (deployer, network, account) => {
     // DEPLOY ASSIGNMENT 2 VALIDATOR

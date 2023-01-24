@@ -25,7 +25,8 @@
     "@openzeppelin/contracts": "^4.8.1",
     "openzeppelin-solidity": "^4.8.1",
     "solc": "^0.8.17",
-    "truffle": "^5.7.1"
+    "truffle": "^5.7.1",
+    "truffle-contract-size": "^2.0.1"
   },
   "directories": {
     "doc": "docs",
