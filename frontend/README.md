@@ -17,7 +17,7 @@ Follow the steps to use the system locally.
 
 To use the web3 applications locally, the [Ganache](https://trufflesuite.com/ganache/) application is required. 
 
-- IP: `http://localhost:8545`
+- IP: `http://127.0.0.1:8545`
 - Chain Id: `1337`
 - MNEMONIC: `exclude curve virtual science volume siren nose crop bike again buffalo trick`
 
@@ -46,7 +46,7 @@ npm run dev
 ```
 
 ### 4. Usage
-The frontend is accessible over the `3000` Port on `localhost`.
+The frontend is accessible over the `3000` Port on `127.0.0.1`.
 
 ## KNOWN ISSUES
 

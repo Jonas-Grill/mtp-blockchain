@@ -32,14 +32,19 @@ jobs:
       - name: Upgrade NPM
         run: npm install -g npm
       - uses: actions/checkout@v3
-      - name: Run ganache-cli - using Node.js ${{ matrix.node-version }}
+      - name: Deploy contracts - using Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: "./frontend/package-lock.json"
+      - run: cd smart-contracts && npm ci
+      - run: npm --prefix ./smart-contracts run github
+      - name: Install dependencies - using Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
           cache-dependency-path: "./frontend/package-lock.json"
       - run: cd frontend && npm ci
-      #- run: cd frontend && npm run build --if-present
-      - run: cd smart-contracts && npx truffle compile
-      - run: cd smart-contracts && npx truffle deploy
       - run: cd frontend && npm run test_web3

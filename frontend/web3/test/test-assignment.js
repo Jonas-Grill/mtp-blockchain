@@ -16,7 +16,7 @@ const configHandler = require('../src/web3/config')
 
 
 // Parse and set rpc url
-const rpcURL = "http://localhost:8545";
+const rpcURL = "http://127.0.0.1:8545";
 const web3 = new Web3(rpcURL);
 web3.setProvider(new web3.providers.HttpProvider(rpcURL));
 
@@ -33,8 +33,6 @@ require('dotenv').config()
 describe("test", function () {
     describe("assignment", function () {
         it("validate assignment should create entry in test results", async function () {
-            const accounts = await ganache.getAccount()
-
             // config
             const networkId = await web3.eth.net.getId()
 
@@ -60,7 +58,7 @@ describe("test", function () {
 
             const id = await assignment.validateAssignment(exampleContractAddress, exampleValidationAddress);
 
-            const test_results = await assignment.getTestResults(id, exampleValidationAddress);
+            const test_results = await assignment.getTestResults(exampleValidationAddress, id);
 
             assert.equal(test_results.length > 0, true);
 
@@ -74,6 +72,7 @@ describe("test", function () {
             if (process.env.CI) {
                 this.skip()
             }
+
             const accounts = await ganache.getAccount()
             const networkId = await web3.eth.net.getId()
 
@@ -94,7 +93,7 @@ describe("test", function () {
 
             const id = await assignment.validateAssignment(exampleContractAddress, exampleValidationAddress);
 
-            const testResults = await assignment.getTestResults(id, exampleValidationAddress);
+            const testResults = await assignment.getTestResults(exampleValidationAddress, id);
 
             let correctTestCounter = 0
             for (var i = 0; i < testResults.length; i++) {
@@ -114,6 +113,7 @@ describe("test", function () {
             if (process.env.CI) {
                 this.skip()
             }
+
             /**
              * 1. Remove submitted assignment
              * 2. Submit assignment
@@ -151,7 +151,7 @@ describe("test", function () {
 
             assert.equal(assignmentAfterSubmit.submitted, true);
 
-            const testResults = await assignment.getTestResults(assignmentAfterSubmit.testIndex, exampleValidationAddress);
+            const testResults = await assignment.getTestResults(exampleValidationAddress, assignmentAfterSubmit.testIndex);
 
             let correctTestCounter = 0
             for (var i = 0; i < testResults.length; i++) {
@@ -183,7 +183,6 @@ describe("test", function () {
 
             const assignment = new assignmentHandler.NOWAssignments(web3);
 
-            const studentAddress = accounts[0]; // Address of the student who deployed the contract
             const exampleContractAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
             const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", networkId); // Address of the contract that is being tested
 

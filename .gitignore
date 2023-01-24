@@ -19,5 +19,5 @@
 # Ignore truffle compiled
 smart-contracts/build/contracts/*
 
-# Ignore .env file
-.env
+# ignore custom test dir from elias
+frontend/web3/src/web3/test/*
