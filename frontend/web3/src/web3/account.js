@@ -23,7 +23,7 @@ class NOWAccount {
 
     /**
      * Send eth to address
-     * 
+     *
      * @param {address} _to address to send eth to
      */
     async sendEth(_to) {
@@ -44,7 +44,7 @@ class NOWAccount {
     }
 
     /**
-     * Get balance of faucet smart contract 
+     * Get balance of faucet smart contract
      *
      * @returns faucet balance
      */
@@ -61,7 +61,7 @@ class NOWAccount {
 
     /**
      * Return amount of Knowledge Coins from address (in full coins)
-     * 
+     *
      * @param {string} address address to check for first event transaction
      * @returns amount of Knowledge Coins
      */
@@ -87,9 +87,12 @@ class NOWAccount {
         const knowledgeCoinContract = this.utils.getContract(this.web3,
             "SBCoin",
             address,
-            await this.web3.eth.net.getId())
+            await this.web3.eth.net.getId()
+        )
 
-        return await knowledgeCoinContract.methods.coinsInBlockNumberRange(address, startBlock, endBlock).call({ from: await this.utils.getFromAccount(this.web3) })
+        const balance = await knowledgeCoinContract.methods.coinsInBlockNumberRange(address, startBlock, endBlock).call({ from: await this.utils.getFromAccount(this.web3) })
+
+        return await knowledgeCoinContract.methods.exchangeToDecimalCoin(balance).call({ from: await this.utils.getFromAccount(this.web3) })
     }
 
     /**

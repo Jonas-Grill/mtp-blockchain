@@ -13,10 +13,15 @@ export default function MyApp({Component, pageProps}: AppProps) {
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
+                setUserAddress(web3.eth.accounts[0]);
             });
         } else {
-            web3.eth.getChainId().then((chainId: number) => {
-                setChainId(chainId);
+            setUserAddress(web3.eth.accounts[0]);
+
+            web3.eth.getChainId().then((result: number) => {
+                if (result !== chainId) {
+                    setChainId(result);
+                }
             }).catch((reason: any) => {
                 console.log(reason);
             });
@@ -26,7 +31,7 @@ export default function MyApp({Component, pageProps}: AppProps) {
     if (!web3) {
         return (
             <>
-                <Navbar setUserAddress={setUserAddress} userAddress={userAddress}/>
+                <Navbar setUserAddress={setUserAddress} userAddress={userAddress} web3={web3} setWeb3={setWeb3}/>
                 <Component {...pageProps} userAddress={userAddress}/>
                 <div className="mt-2 text-center text-lg font-medium tracking-tight text-gray-900">You need metamask to use this web app</div>
             </>
@@ -35,7 +40,7 @@ export default function MyApp({Component, pageProps}: AppProps) {
         if (chainId !== parseInt(process.env.NETWORK_ID || "-1")) {
             return (
                 <>
-                    <Navbar setUserAddress={setUserAddress} userAddress={userAddress}/>
+                    <Navbar setUserAddress={setUserAddress} userAddress={userAddress} web3={web3} setWeb3={setWeb3}/>
                     <Component {...pageProps} userAddress={userAddress}/>
                     <div className="mt-2 text-center text-lg font-medium tracking-tight text-gray-900">You need to connect to the correct network</div>
                 </>
@@ -43,7 +48,7 @@ export default function MyApp({Component, pageProps}: AppProps) {
         } else {
             return (
                 <>
-                    <Navbar setUserAddress={setUserAddress} userAddress={userAddress}/>
+                    <Navbar setUserAddress={setUserAddress} userAddress={userAddress} web3={web3} setWeb3={setWeb3}/>
                     <Component {...pageProps} userAddress={userAddress}/>
                 </>
             )

@@ -37,7 +37,7 @@ export default function CreateAssignment() {
                 } else if (error.code == "-32603" || error.code == "-32000") {
                     alert("Either you are using an invalid contract or your end block is smaller or equal to your start block!")
                 } else {
-                    console.error(error);
+                    console.error(error.message);
                 }
             });
         }
@@ -57,7 +57,7 @@ export default function CreateAssignment() {
             loadSemesters(web3).then((result) => {
                 setSemesters(result);
 
-                if (result.length > 0) {
+                if (result && result.length > 0) {
                     setSelectedSemester(result[0].id);
                 }
             });
@@ -147,6 +147,14 @@ export default function CreateAssignment() {
                             type="number"
                             min={getSemesterById(selectedSemester)?.startBlock}
                             max={getSemesterById(selectedSemester)?.endBlock}
+                            onChange={(event) => {
+                                const value = event.target.value;
+
+                                if (value) {
+                                    const endBlock = document.getElementById('endBlock');
+                                    endBlock?.setAttribute('min', parseInt(value) + 1 + '');
+                                }
+                            }}
                             required
                             className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Starting block"
@@ -160,6 +168,14 @@ export default function CreateAssignment() {
                             type="number"
                             min={getSemesterById(selectedSemester)?.startBlock}
                             max={getSemesterById(selectedSemester)?.endBlock}
+                            onChange={(event) => {
+                                const value = event.target.value;
+
+                                if (value) {
+                                    const startBlock = document.getElementById('startBlock');
+                                    startBlock?.setAttribute('max', value);
+                                }
+                            }}
                             required
                             className="mb-4 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="End block"

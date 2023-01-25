@@ -38,7 +38,19 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                         setTestResults((results) => [...results, result]);
                     });
                 }).catch((error) => {
-                    console.log(error);
+                    if (error.code === -32603) {
+                        const message = error.message.substring(
+                            error.message.indexOf('"message"') + 2,
+                            error.message.indexOf('",')
+                        );
+
+                        alert(message.substring(
+                            message.indexOf('Error:') + 7,
+                            message.indexOf('!')
+                        ));
+                    } else {
+                        alert(error.message);
+                    }
                 });
             }
         }
@@ -59,14 +71,13 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                             error.message.indexOf('"message"') + 2,
                             error.message.indexOf('",')
                         );
-                        console.log(message);
 
                         alert(message.substring(
                             message.indexOf('Error:') + 7,
                             message.indexOf('!')
                         ));
                     } else {
-                        console.log(error);
+                        alert(error.message);
                     }
                 });
             }
@@ -91,33 +102,36 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
             });
         } else if (semesters.length <= 0) {
             loadSemesters(web3).then((semesters) => {
-                setSemesters(semesters);
-
-                if (semesters.length > 0) {
+                if (semesters && semesters.length > 0) {
+                    setSemesters(semesters);
                     setSelectedSemester(semesters[0].id);
                 }
             });
-        } else if (assignments.length <= 0) {
+        } else {
             loadAssignments(selectedSemester, web3).then((assignments) => {
                 setAssignments(assignments);
 
                 if (assignments.length > 0) {
-                    setSelectedSemester(assignments[0].id);
+                    setSelectedAssignment(assignments[0].id);
                 }
             });
-        } else if (assignment) {
+        }
+
+        if (assignment) {
             loadTestResults(web3, userAddress, assignment.validationContractAddress).then((results) => {
                 if (results) {
                     setTestResults(results);
+                } else {
+                    setTestResults([]);
                 }
             });
             getSubmittedAssignment(web3, userAddress, assignment.validationContractAddress).then((result) => {
                 if (result) {
                     setSubmittedAssignment(result);
+                } else {
+                    setSubmittedAssignment(undefined);
                 }
             });
-        } else {
-            setSelectedAssignment(assignments[0].id);
         }
     }, [web3, semesters, selectedSemester, assignments, contract, selectedAssignment]);
 
@@ -198,39 +212,6 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
 
                     <div className="py-6">
                         <button
-                            onClick={handleTestAssignment}
-                            className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
-                        >
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <DocumentMagnifyingGlassIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
-                                                             aria-hidden="true"/>
-                            </span>
-                            Test assignment
-                        </button>
-                        <div className="mt-1 text-uni">
-                            Test results:
-                        </div>
-                        {testResults && testResults.length >= 0 ? (
-                            <>
-                                {testResults.map((results, index) => (
-                                    <div key={index}
-                                         className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-y-4 gap-x-8 py-8 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                                        Try {index}
-                                        {results.map((testResult, i) => (
-                                            <div key={i}
-                                                 className="grid grid-cols-3 rounded-md shadow shadow-uni p-2">
-                                                <dt className="col-span-2 text-lg font-medium text-uni">Test: {i}</dt>
-                                                <dt className="col-span-2 text-lg font-medium text-uni">Test
-                                                    name: {testResult[0]}</dt>
-                                                <dt className="col-span-2 text-lg font-medium text-uni">Passed: {testResult[1]?.toString()}</dt>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ))}
-                            </>
-                        ) : null
-                        }
-                        <button
                             onClick={handleSubmitAssignment}
                             className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                         >
@@ -242,11 +223,11 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                         </button>
                         {
                             submittedAssignment && submittedAssignment.blockNo != "0" ? (
-                                <div className="grid grid-cols-3 border-solid border-2 rounded-md border-uni p-2">
-                                    <dt className="col-span-2 text-lg font-medium text-gray-900">Test index: {submittedAssignment.testIndex}</dt>
-                                    <dt className="col-span-2 text-lg font-medium text-gray-900">Block number: {submittedAssignment.blockNo}</dt>
-                                    <dt className="col-span-2 text-lg font-medium text-gray-900">Coins: {submittedAssignment.knowledgeCoins}</dt>
-                                    <dt className="col-span-2 text-lg font-medium text-gray-900">Contract address: {submittedAssignment.contractAddress}</dt>
+                                <div className="mt-2 mb-2 grid grid-cols-3 rounded-md shadow shadow-uni p-2">
+                                    <dt className="col-span-2 text-lg font-medium text-uni">Test index: {submittedAssignment.testIndex}</dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni">Block number: {submittedAssignment.blockNo}</dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni">Coins: {submittedAssignment.knowledgeCoins}</dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni">Contract address: {submittedAssignment.contractAddress}</dt>
                                 </div>
                             ) : (
                                 <div className="mt-1">
@@ -256,6 +237,42 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                                 </div>
                             )
                         }
+                        <button
+                            onClick={handleTestAssignment}
+                            className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
+                        >
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                                <DocumentMagnifyingGlassIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
+                                                             aria-hidden="true"/>
+                            </span>
+                            Test assignment
+                        </button>
+                        <div className="mt-1 text-lg font-medium text-uni">
+                            Test results:
+                        </div>
+                        {testResults && testResults.length >= 0 ? (
+                            <>
+                                {testResults.map((results, index) => (
+                                    <div key={index}
+                                         className="mx-auto grid max-w-2xl grid-cols-1 items-center">
+                                        <details>
+                                            <summary className="text-lg font-medium text-uni">Try {index + 1 }</summary>
+                                            {results.map((testResult, i) => (
+                                                <div key={i}
+                                                     className="mt-2 mb-2 grid grid-cols-3 rounded-md shadow shadow-uni p-2">
+                                                    <dt className="col-span-2 text-lg font-medium text-uni">Test: {i}</dt>
+                                                    <dt className="col-span-2 text-lg font-medium text-uni">Test
+                                                        name: {testResult[0]}</dt>
+                                                    <dt className="col-span-2 text-lg font-medium text-uni">Passed: {testResult[1]?.toString()}</dt>
+                                                </div>
+                                            ))}
+                                        </details>
+                                    </div>
+                                ))}
+                            </>
+                        ) : null
+                        }
+
                     </div>
 
                 </div>

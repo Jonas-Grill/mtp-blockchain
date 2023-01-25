@@ -3,15 +3,17 @@ import Head from "next/head";
 import React, {useEffect, useState} from "react";
 import {ParsedUrlQuery} from "querystring";
 import {useRouter} from "next/router";
-import {loadSemester, Semester} from "./index";
+import {Assignment, loadAssignment} from "./index";
 import {initBlockchain} from "../faucet";
 import {
-    setSemesterAmountKnowledgeCoins,
-    setSemesterName,
-    setSemesterEndBlock,
-    setSemesterStartBlock
-} from "../../web3/src/entrypoints/config/semester";
+    setAssignmentAddress,
+    setAssignmentName,
+    setAssignmentStartBlock,
+    setAssignmentEndBlock,
+    setAssignmentLink
+} from "../../web3/src/entrypoints/config/assignment";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
+import {loadSemester, Semester} from "../semester";
 
 interface IParams extends ParsedUrlQuery {
     id: string
@@ -27,40 +29,48 @@ export const getServerSideProps: GetServerSideProps<{ id: string | undefined }> 
     }
 }
 
-export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const router = useRouter();
 
     const [web3, setWeb3] = useState<any>();
+    const [assignment, setAssignment] = useState<Assignment>();
     const [semester, setSemester] = useState<Semester>();
 
-    const handleChangeSemester = (event: React.FormEvent<HTMLFormElement>) => {
+    // get the current semester from query params
+    const semesterId = router.query.semesterId as string;
+
+    const handleChangeAssignment = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (web3 && semester) {
+        if (web3 && assignment) {
             const data = new FormData(event.currentTarget);
 
             const name = data.get('name') as string;
             const startingBlock = data.get('startBlock') as string;
             const endBlock = data.get('endBlock') as string;
-            const coinAmountForExam = data.get('coinAmountForExam') as string;
+            const address = data.get('address') as string;
+            const link = data.get('link') as string;
 
             const changePromises: Promise<void>[] = [];
 
-            if (name && semester.name != name) {
-                changePromises.push(setSemesterName(web3, semester.id, name));
+            if (name && assignment.name != name) {
+                changePromises.push(setAssignmentName(web3, semesterId, id, name));
             }
-            if (startingBlock && semester.startBlock != parseInt(startingBlock)) {
-                changePromises.push(setSemesterStartBlock(web3, semester.id, startingBlock));
+            if (startingBlock && assignment.startBlock != parseInt(startingBlock)) {
+                changePromises.push(setAssignmentStartBlock(web3, semesterId, id, startingBlock));
             }
-            if (endBlock && semester.endBlock != parseInt(endBlock)) {
-                changePromises.push(setSemesterEndBlock(web3, semester.id, endBlock));
+            if (endBlock && assignment.endBlock != parseInt(endBlock)) {
+                changePromises.push(setAssignmentEndBlock(web3, semesterId, id, endBlock));
             }
-            if (coinAmountForExam && semester.minKnowledgeCoinAmount != parseInt(coinAmountForExam)) {
-                changePromises.push(setSemesterAmountKnowledgeCoins(web3, semester.id, coinAmountForExam));
+            if (address && assignment.validationContractAddress != address) {
+                changePromises.push(setAssignmentAddress(web3, semesterId, id, address));
+            }
+            if (link && assignment.link != link) {
+                changePromises.push(setAssignmentLink(web3, semesterId, id, link));
             }
 
             Promise.all(changePromises).then(() => {
-                router.push('/semester');
+                router.push('/assignments');
             }).catch((error) => {
                 if (error.code == -32603) {
                     alert("Start block must be smaller than the smallest assignment start block!")
@@ -77,9 +87,17 @@ export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof 
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
             });
-        } else if (!semester && id) {
-            loadSemester(web3, id).then((semester) => {
-                setSemester(semester);
+        } else if (semesterId && id) {
+            loadSemester(web3, semesterId).then((semester) => {
+                if (semester) {
+                    setSemester(semester);
+                }
+            });
+
+            loadAssignment(semesterId, web3, id).then((assignment) => {
+                if (assignment) {
+                    setAssignment(assignment);
+                }
             });
         }
     }, [web3])
@@ -99,10 +117,10 @@ export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof 
                             alt="Your Company"
                         />
                         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-                            Change this semester
+                            Change this assignment
                         </h2>
                     </div>
-                    <form className="mt-8" onSubmit={handleChangeSemester}>
+                    <form className="mt-8" onSubmit={handleChangeAssignment}>
                         <label htmlFor="name" className="sr-only">
                             Name
                         </label>
@@ -113,7 +131,7 @@ export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof 
                             required
                             className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Semester name"
-                            defaultValue={semester?.name}
+                            defaultValue={assignment?.name}
                         />
                         <label htmlFor="startBlock" className="sr-only">
                             Starting block
@@ -122,8 +140,8 @@ export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof 
                             id="startBlock"
                             name="startBlock"
                             type="number"
-                            min={0}
-                            max={100000000}
+                            min={semester?.startBlock || 0}
+                            max={(semester?.endBlock || 10000000) - 1}
                             onChange={(event) => {
                                 const value = event.target.value;
 
@@ -135,6 +153,7 @@ export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof 
                             required
                             className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Starting block"
+                            defaultValue={assignment?.startBlock}
                         />
                         <label htmlFor="endBlock" className="sr-only">
                             End block
@@ -143,31 +162,44 @@ export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof 
                             id="endBlock"
                             name="endBlock"
                             type="number"
-                            min={1}
+                            min={(semester?.startBlock || 0) + 1}
+                            max={semester?.endBlock}
                             onChange={(event) => {
                                 const value = event.target.value;
 
                                 if (value) {
                                     const startBlock = document.getElementById('startBlock');
-                                    startBlock?.setAttribute('max', value);
+                                    startBlock?.setAttribute('max', parseInt(value) - 1 + '');
                                 }
                             }}
                             required
                             className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="End block"
+                            defaultValue={assignment?.endBlock}
                         />
-                        <label htmlFor="coinAmountForExam" className="sr-only">
-                            Coin amount for exam
+                        <label htmlFor="address" className="sr-only">
+                            Assignment address
                         </label>
                         <input
-                            id="coinAmountForExam"
-                            name="coinAmountForExam"
+                            id="address"
+                            name="address"
                             type="text"
-                            min={0}
                             required
                             className="mb-4 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
-                            placeholder="Coin amount needed for exam qualification"
-                            defaultValue={semester?.minKnowledgeCoinAmount}
+                            placeholder="validation contract address"
+                            defaultValue={assignment?.validationContractAddress}
+                        />
+                        <label htmlFor="link" className="sr-only">
+                            Link to assignment task
+                        </label>
+                        <input
+                            id="link"
+                            name="link"
+                            type="text"
+                            required
+                            className="mb-4 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
+                            placeholder="Link to assignment task"
+                            defaultValue={assignment?.link}
                         />
 
                         <button
@@ -179,7 +211,7 @@ export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof 
                                     <AcademicCapIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
                                                      aria-hidden="true"/>
                                 </span>
-                            Change semester
+                            Change assignment
                         </button>
                     </form>
                 </div>

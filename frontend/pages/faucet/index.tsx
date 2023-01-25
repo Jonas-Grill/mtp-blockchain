@@ -47,11 +47,11 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
                         }),
                     }
                     ).catch((error) => {
-                        console.log(error);
+                        alert(error.message);
                     });
                 }
             }).catch((error: any) => {
-                console.log(error);
+                alert(error.message);
             });
         }
     }

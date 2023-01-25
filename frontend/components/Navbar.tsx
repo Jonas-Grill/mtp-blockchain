@@ -4,7 +4,7 @@ import MetaMaskAuth from "./MetaMaskAuth";
 import {useEffect, useState} from "react";
 import Link from "next/link";
 import {isAdmin} from "../web3/src/entrypoints/config/admin"
-import {getCurrentBlockNumer} from "../web3/src/entrypoints/utils/utils"
+import {getCurrentBlockNumber} from "../web3/src/entrypoints/utils/utils"
 import {initBlockchain} from "../pages/faucet";
 
 function classNames(...classes: string[]) {
@@ -13,25 +13,28 @@ function classNames(...classes: string[]) {
 
 export default function Navbar({
                                    userAddress,
-                                   setUserAddress
-                               }: { userAddress: string, setUserAddress: (address: string) => void }) {
+                                   setUserAddress,
+                                   web3,
+                                   setWeb3
+                               }: { userAddress: string, setUserAddress: (address: string) => void, web3: any, setWeb3: (web3: any) => void }) {
     const initialNavItems = [
         {name: 'Faucet', href: '/faucet', current: false, admin: false},
         {name: 'Semester', href: '/semester', current: false, admin: false},
         {name: 'Assignments', href: '/assignments', current: false, admin: false},
         {name: 'Coin overview', href: '/coinOverview', current: false, admin: false},
         {name: 'Submit assignment', href: '/submitAssignment', current: false, admin: false},
-        {name: 'Admin functions', href: '/admin', current: false, admin: false},
+        {name: 'Admin functions', href: '/admin', current: false, admin: true},
     ]
 
     const [navigation, setNavigation] = useState<{ name: string, href: string, current: boolean, admin: boolean }[]>(initialNavItems);
-    const [web3, setWeb3] = useState<any>(undefined);
     const [blockNumber, setBlockNumber] = useState<string>("0");
 
     useEffect(() => {
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
+
+                setUserAddress(web3.eth.accounts[0]);
             });
         } else if (userAddress) {
             isAdmin(web3, userAddress).then((result) => {
@@ -43,7 +46,7 @@ export default function Navbar({
             });
         }
         if (web3) {
-            getCurrentBlockNumer(web3).then((blockNumber) => {
+            getCurrentBlockNumber(web3).then((blockNumber) => {
                 setBlockNumber(blockNumber.toString());
             });
         }
@@ -123,9 +126,7 @@ export default function Navbar({
                                         {web3 ? `Block: ${blockNumber}` : null}
                                     </div>
                                     <div>
-                                        <MetaMaskAuth onAddressChanged={function (userAddress: any) {
-                                            setUserAddress(userAddress);
-                                        }}/>
+                                        <MetaMaskAuth setUserAddress={setUserAddress} userAddress={userAddress}/>
                                     </div>
                                 </div>
 

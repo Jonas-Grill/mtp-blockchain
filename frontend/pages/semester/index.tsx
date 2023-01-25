@@ -16,25 +16,25 @@ export type Semester = {
 }
 
 export const loadSemesters = async (web3: any) => {
-   if (web3) {
-       const semesters: Semester[] = [];
-       const ids: string[] = await getSemesterIds(web3);
+    if (web3) {
+        const semesters: Semester[] = [];
+        const ids: string[] = await getSemesterIds(web3);
 
-       for (let id of ids) {
-           const semester = await getSemester(web3, id);
+        for (let id of ids) {
+            const semester = await getSemester(web3, id);
 
-           if (semester) {
-               semesters.push({
-                   id: id,
-                   name: semester.name,
-                   startBlock: semester.startBlock,
-                   endBlock: semester.endBlock,
-                   minKnowledgeCoinAmount: semester.minKnowledgeCoinAmount
-               });
-           }
-       }
-       return semesters;
-   }
+            if (semester) {
+                semesters.push({
+                    id: id,
+                    name: semester.name,
+                    startBlock: semester.startBlock,
+                    endBlock: semester.endBlock,
+                    minKnowledgeCoinAmount: semester.minKnowledgeCoinAmount
+                });
+            }
+        }
+        return semesters;
+    }
 }
 
 export const loadSemester = async (web3: any, id: string) => {
@@ -60,10 +60,14 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
         event.preventDefault();
 
         if (web3) {
-            deleteSemester(web3, event.currentTarget.name).then((result) => {
+            deleteSemester(web3, event.currentTarget.name).then(() => {
                 loadSemesters(web3).then((semesters) => {
-                    setSemesters(semesters);
+                    if (semesters) {
+                        setSemesters(semesters);
+                    }
                 });
+            }).catch((error: any) => {
+                alert(error.message);
             });
         }
     }
@@ -79,7 +83,8 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
                     setSemesters(result);
                 }
             });
-        } if (userAddress && web3) {
+        }
+        if (userAddress && web3) {
             isAdmin(web3, userAddress).then((result) => {
                 setIsUserAdmin(result);
             });
@@ -105,7 +110,8 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
                                         className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                                     >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <AcademicCapIcon className="h-5 w-5 text-uni group-hover:text-gray-400" aria-hidden="true"/>
+                                    <AcademicCapIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
+                                                     aria-hidden="true"/>
                                 </span>
                                         Add new semester
                                     </button>
@@ -122,17 +128,21 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
                                 <p className="mt-4 text-sm text-uni">Coin amount for
                                     exam: {semester.minKnowledgeCoinAmount}</p>
                                 <p className="mt-4 text-sm text-uni">Starting block: {semester.startBlock}</p>
-                                <p className="mt-4 text-sm text-uni">Starting block: {semester.endBlock}</p>
-                                <div className="flex">
-                                    <Link href={"/semester/" + semester.id}
-                                          className="rounded-md mr-2 flex w-1/2 items-center justify-center py-3 px-8 text-center font-medium text-uni bg-gray-400 hover:bg-uni hover:text-white mt-4">
-                                        Edit
-                                    </Link>
-                                    <button name={semester.id} onClick={handleDeleteSemester}
-                                            className="rounded-md flex w-1/2 items-center justify-center py-3 px-8 text-center font-medium text-uni bg-gray-400 hover:bg-uni hover:text-white mt-4">
-                                        Delete
-                                    </button>
-                                </div>
+                                <p className="mt-4 text-sm text-uni">End block: {semester.endBlock}</p>
+                                {
+                                    isUserAdmin ? (
+                                        <div className="flex">
+                                            <Link href={"/semester/" + semester.id}
+                                                  className="rounded-md mr-2 flex w-1/2 items-center justify-center py-3 px-8 text-center font-medium text-uni bg-gray-400 hover:bg-uni hover:text-white mt-4">
+                                                Edit
+                                            </Link>
+                                            <button name={semester.id} onClick={handleDeleteSemester}
+                                                    className="rounded-md flex w-1/2 items-center justify-center py-3 px-8 text-center font-medium text-uni bg-gray-400 hover:bg-uni hover:text-white mt-4">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    ) : null
+                                }
                             </div>
                         ))}
                     </div>
