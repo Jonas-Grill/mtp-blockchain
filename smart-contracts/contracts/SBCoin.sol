@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.17;
 
 error SoulBoundRestriction();
 
-import "../contracts/BaseConfig.sol";
+import "./BaseConfig.sol";
 
 contract SBCoin is BaseConfig {
     //EVENTS
@@ -45,7 +45,7 @@ contract SBCoin is BaseConfig {
         // Add smart contract to contract admin list with the name SBCoin_<coin_name>
         initAdmin(
             _configContractAddress,
-            string(abi.encodePacked("SBCoin", "_", _name))
+            string(abi.encodePacked("SBCoin", " ", _name))
         );
 
         getConfigStorage().setKnowledgeCoinContractAdress(address(this));

@@ -8,7 +8,7 @@ import "../assignment_2/Assignment2Interface.sol";
 import "../assignment_2/Assignment2ValidatorTaskB.sol";
 
 // Import the base assignment validator contract
-import "../../contracts/BaseAssignmentValidator.sol";
+import "../../contracts/BaseValidator.sol";
 
 // Import the coin interface
 import "../assignment_2/Assignment2CoinInterface.sol";
@@ -17,7 +17,7 @@ import "../assignment_2/Assignment2CoinInterface.sol";
 import "../assignment_2/Assignment2Registry.sol";
 
 // Give the contract a name and inherit from the base assignment validator
-contract Assignment2Validator is BaseAssignmentValidator {
+contract Assignment2Validator is BaseValidator {
     address validatorTaskBAddress;
 
     // Test Token address
@@ -32,7 +32,7 @@ contract Assignment2Validator is BaseAssignmentValidator {
         address _tokenTestAddress,
         address _registryAddress
     )
-        BaseAssignmentValidator(
+        BaseValidator(
             _configContractAddress,
             "SS23 Assignment 2 Validator Contract",
             50000 gwei
@@ -51,7 +51,7 @@ contract Assignment2Validator is BaseAssignmentValidator {
     function test(address _contractAddress)
         public
         payable
-        override(BaseAssignmentValidator)
+        override(BaseValidator)
         returns (uint256)
     {
         /**

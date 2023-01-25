@@ -2,7 +2,16 @@
 pragma solidity ^0.8.17;
 
 import "../contracts/BaseConfigAdmin.sol";
-import "../contracts/BaseAssignmentValidator.sol";
+
+abstract contract IBaseValidator {
+    function clearAssignmentInfos() external {}
+
+    function isAssignmentLinked() external returns (bool) {}
+
+    function setAssignmentInfos(uint256 semesterId, uint256 assignmentId)
+        external
+    {}
+}
 
 contract ConfigStorage is BaseConfigAdmin {
     // Amount of gas the user can get using the faucet
@@ -53,9 +62,7 @@ contract ConfigStorage is BaseConfigAdmin {
     /**
      * Constructor to set default config values
      */
-    constructor() {
-        initAdmin("ConfigStorage");
-
+    constructor() BaseConfigAdmin("ConfigStorage") {
         faucetGas = 2;
         faucetBlockNoDifference = 10;
 
@@ -316,9 +323,7 @@ contract ConfigStorage is BaseConfigAdmin {
             semesters[_semesterId].assignmentEndBlock = _endBlock;
         }
         // Set the assignment infos to the validator contract
-        BaseAssignmentValidator validator = BaseAssignmentValidator(
-            _validationContractAddress
-        );
+        IBaseValidator validator = IBaseValidator(_validationContractAddress);
 
         require(
             validator.isAssignmentLinked() == false,
@@ -369,9 +374,7 @@ contract ConfigStorage is BaseConfigAdmin {
         removeByValue(semesters[_semesterId].assignmentIds, _assignmentId);
 
         // Remove the infos from the assignment contract
-        BaseAssignmentValidator validator = BaseAssignmentValidator(
-            validationContractAddress
-        );
+        IBaseValidator validator = IBaseValidator(validationContractAddress);
 
         validator.clearAssignmentInfos();
 
@@ -456,9 +459,7 @@ contract ConfigStorage is BaseConfigAdmin {
             .validationContractAddress;
 
         // Remove the infos from the assignment contract
-        BaseAssignmentValidator oldValidator = BaseAssignmentValidator(
-            validationContractAddress
-        );
+        IBaseValidator oldValidator = IBaseValidator(validationContractAddress);
         oldValidator.clearAssignmentInfos();
 
         require(
@@ -467,9 +468,7 @@ contract ConfigStorage is BaseConfigAdmin {
         );
 
         // 2. SET NEW VALIDATOR CONTRACT
-        BaseAssignmentValidator newValidator = BaseAssignmentValidator(
-            _address
-        );
+        IBaseValidator newValidator = IBaseValidator(_address);
 
         newValidator.setAssignmentInfos(_semesterId, _assignmentId);
 

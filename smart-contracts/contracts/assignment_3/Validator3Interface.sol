@@ -5,7 +5,7 @@ pragma solidity ^0.8.17;
 import "../../contracts/BaseAssignment.sol";
 
 // Create contract > define Contract Name
-abstract contract Assignment3Interface is BaseAssignment {
+abstract contract Validator3Interface is BaseAssignment {
     // Get current state
     function getState() public view virtual returns (string memory) {}
 

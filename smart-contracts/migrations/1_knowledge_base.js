@@ -15,7 +15,7 @@ module.exports = async (deployer, network, account) => {
     if (deploy) {
         console.log("USE ACCOUNT: " + account[0])
         // deployment steps
-        configContract = await deployer.deploy(configStorage)
+        configContract = await deployer.deploy(configStorage, { from: account[0] })
 
         console.log("ConfigStorage deployed at " + configStorage.address)
         console.log("Deploying FaucetStorage...")
@@ -23,6 +23,6 @@ module.exports = async (deployer, network, account) => {
         await deployer.deploy(faucetStorage, configStorage.address, { from: account[0], value: "20000000000000000000" });
 
         console.log("Deploying SBCoin...")
-        await deployer.deploy(SBCoin, name, symbol, configStorage.address);
+        await deployer.deploy(SBCoin, name, symbol, configStorage.address, { from: account[0] });
     }
 };

@@ -2,14 +2,14 @@
 pragma solidity ^0.8.17;
 
 // Import the Assignment1Interface.sol
-import "../assignment_3/Assignment3Interface.sol";
+import "../assignment_3/Validator3Interface.sol";
 
 import "../../node_modules/@openzeppelin/contracts/utils/Strings.sol";
 
 // This contract acts as player B
-contract Assignment3ValidatorExtend {
+contract Validator3Helper {
     // assignment contract interface
-    Assignment3Interface assignmentContract;
+    Validator3Interface assignmentContract;
 
     constructor() {}
 
@@ -18,7 +18,7 @@ contract Assignment3ValidatorExtend {
     // Init contract
     function initContract(address _contractAddress) public {
         // Call the contract interface which needs to be tested and store it in the variable assignmentContract
-        assignmentContract = Assignment3Interface(_contractAddress);
+        assignmentContract = Validator3Interface(_contractAddress);
     }
 
     // Start function

@@ -6,17 +6,17 @@ import "../assignment_1/Assignment1Interface.sol";
 import "../assignment_1/Assignment1Tests.sol";
 
 // Import the base assignment validator contract
-import "../../contracts/BaseAssignmentValidator.sol";
+import "../../contracts/BaseValidator.sol";
 
 import "../../node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
 // Give the contract a name and inherit from the base assignment validator
-contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
+contract Assignment1Validator is BaseValidator, ERC721Holder {
     address validatorTestsAddress;
 
     // Import empty constructor and pass the name of the contract to the config storage contract
     constructor(address _configContractAddress, address _validatorTestsAddress)
-        BaseAssignmentValidator(
+        BaseValidator(
             _configContractAddress,
             "SS23 Assignment 1 Validator Contract",
             0.8 ether
@@ -30,7 +30,7 @@ contract Assignment1Validator is BaseAssignmentValidator, ERC721Holder {
     function test(address _contractAddress)
         public
         payable
-        override(BaseAssignmentValidator)
+        override(BaseValidator)
         returns (uint256)
     {
         /**

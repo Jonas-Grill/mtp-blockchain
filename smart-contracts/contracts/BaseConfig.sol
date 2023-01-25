@@ -5,7 +5,7 @@ pragma solidity ^0.8.17;
 =                 Base Config                 =
 =============================================*/
 
-import "../contracts/ConfigStorage.sol";
+import "./ConfigStorage.sol";
 
 contract BaseConfig {
     address private configContractAddress;
@@ -17,7 +17,6 @@ contract BaseConfig {
         configContractAddress = _configContractAddress;
 
         ConfigStorage configContact = getConfigStorage();
-        configContact.requireUserAdmin(msg.sender);
         configContact.addContractAdmin(address(this), _contractName);
     }
 

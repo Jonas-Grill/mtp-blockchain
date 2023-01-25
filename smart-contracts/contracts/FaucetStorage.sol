@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "../contracts/BaseConfig.sol";
+import "./BaseConfig.sol";
 
 contract FaucetStorage is BaseConfig {
     // Keep struct to allow extending to more than one value
@@ -17,7 +17,7 @@ contract FaucetStorage is BaseConfig {
     event faucetUsed(address _address, uint256 _blockNo);
 
     constructor(address _configContractAddress) payable {
-        initAdmin(_configContractAddress, string("FaucetSorage"));
+        initAdmin(_configContractAddress, "FaucetSorage");
     }
 
     /*=============================================

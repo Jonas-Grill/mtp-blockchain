@@ -18,9 +18,27 @@ contract BaseConfigAdmin {
     // Address of contract admins (e.g., validator contract, etc.)
     ContractAdmin[] private contractAdmins;
 
-    function initAdmin(string memory contractName) public {
-        addUserAdmin(msg.sender);
-        addContractAdmin(address(this), contractName);
+    constructor(string memory contractName) {
+        // Add current msg.sender as admin
+        userAdmins.push(msg.sender);
+
+        // Add current contract address(this) as contract admin
+        contractAdmins.push(ContractAdmin(contractName, address(this), true));
+    }
+
+    // Require that msg.sender is either contract or user admin
+    function requireMsgSenderAdmin() public view returns (bool) {
+        if (requireAdmin(msg.sender)) return true;
+        else return false;
+    }
+
+    function requireOriginAdmin() public view returns (bool) {
+        if (requireAdmin(tx.origin)) return true;
+        if (requireMsgSenderAdmin()) return true;
+
+        revert(
+            "Origin or msg.sender is neither an user nor an contract admin!"
+        );
     }
 
     // Require if address is either user or contract admin > with error handling
@@ -98,11 +116,15 @@ contract BaseConfigAdmin {
     }
 
     function isAdmin(address possibleAdmin) public view returns (bool) {
-        return isUserAdmin(possibleAdmin) || isContractAdmin(possibleAdmin);
+        if (isUserAdmin(possibleAdmin)) return true;
+        if (isContractAdmin(possibleAdmin)) return true;
+
+        return false;
     }
 
     // Add new admin to list
     function addUserAdmin(address userAdmin) public {
+        requireOriginAdmin();
         // Only add user admin if not already in list
         if (isUserAdmin(userAdmin) == false) userAdmins.push(userAdmin);
     }
@@ -111,6 +133,7 @@ contract BaseConfigAdmin {
     function addContractAdmin(address contractAdmin, string memory contractName)
         public
     {
+        requireOriginAdmin();
         // Only add user admin if not already in list
         if (isContractAdmin(contractAdmin) == false) {
             contractAdmins.push(
@@ -121,6 +144,7 @@ contract BaseConfigAdmin {
 
     // Remove admin from list
     function removeUserAdmin(address userAdmin) public {
+        requireOriginAdmin();
         uint256 i;
 
         for (i = 0; i < userAdmins.length; i++) {
@@ -132,6 +156,7 @@ contract BaseConfigAdmin {
 
     // Remove admin from list
     function removeContractAdmin(address contractAdmin) public {
+        requireOriginAdmin();
         uint256 i;
 
         for (i = 0; i < contractAdmins.length; i++) {
