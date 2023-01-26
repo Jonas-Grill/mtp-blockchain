@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// Import the Assignment1Interface.sol
-import "../assignment_3/Validator3Interface.sol";
+// Import the IAssignment3.sol
+import "./interface/IAssignment3.sol";
 
 // Import Helper
 import "../Helper.sol";
@@ -15,7 +15,7 @@ import "../BaseConfig.sol";
 
 contract Validator3TaskA is Helper, BaseConfig {
     // assignment contract interface
-    Validator3Interface assignmentContract;
+    IAssignment3 assignmentContract;
     Validator3Helper validator3Helper;
 
     constructor(address _configContractAddress) {
@@ -33,7 +33,7 @@ contract Validator3TaskA is Helper, BaseConfig {
         address _validator3HelperAddress
     ) public {
         // Call the contract interface which needs to be tested and store it in the variable assignmentContract
-        assignmentContract = Validator3Interface(_contractAddress);
+        assignmentContract = IAssignment3(_contractAddress);
         validator3Helper = Validator3Helper(payable(_validator3HelperAddress));
     }
 

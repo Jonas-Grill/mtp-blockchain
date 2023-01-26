@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// Import the Assignment1Interface.sol
-import "../assignment_1/Validator1Interface.sol";
+// Import the IAssignment1.sol
+import "./interface/IAssignment1.sol";
 
 // Import the base assignment validator contract
 import "../../contracts/BaseValidator.sol";
@@ -20,7 +20,7 @@ import "./Validator1TaskF.sol";
 // Give the contract a name and inherit from the base assignment validator
 contract Validator1 is BaseValidator, ERC721Holder {
     // Contract to validate
-    Validator1Interface assignmentContract;
+    IAssignment1 assignmentContract;
 
     // Task A, B, C
     Validator1TaskA validatorTaskA;
@@ -78,7 +78,7 @@ contract Validator1 is BaseValidator, ERC721Holder {
         uint256 testId = createTestHistory(_contractAddress);
 
         // Call the contract interface which needs to be tested and store it in the variable assignmentContract
-        assignmentContract = Validator1Interface(_contractAddress);
+        assignmentContract = IAssignment1(_contractAddress);
 
         /*----------  EXERCISE A  ----------*/
         validatorTaskA.initContract(

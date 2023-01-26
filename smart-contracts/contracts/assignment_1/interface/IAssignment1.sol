@@ -2,13 +2,13 @@
 pragma solidity ^0.8.17;
 
 // Import ERC721URIStorage.sol
-import "../../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "../../../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 // Import BaseAssignment.sol
-import "../../contracts/BaseAssignment.sol";
+import "../../BaseAssignment.sol";
 
 // Create contract > define Contract Name
-abstract contract Validator1Interface is ERC721URIStorage, BaseAssignment {
+abstract contract IAssignment1 is ERC721URIStorage, BaseAssignment {
     // mint a nft and send to _address
     function mint(address _address) public payable virtual returns (uint256) {}
 

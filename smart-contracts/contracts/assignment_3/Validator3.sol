@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// Import the Assignment1Interface.sol
-import "./Validator3Interface.sol";
+// Import the IAssignment3.sol
+import "./interface/IAssignment3.sol";
 
 // Import the base assignment validator contract
 import "../BaseValidator.sol";
@@ -10,7 +10,7 @@ import "../BaseValidator.sol";
 // Import the assignment validator extend contract
 import "./Validator3Helper.sol";
 
-// Import Task A and B Conctract
+// Import Task A, B, C and E Conctract
 import "./Validator3TaskA.sol";
 import "./Validator3TaskB.sol";
 import "./Validator3TaskC.sol";
@@ -19,7 +19,7 @@ import "./validator3TaskE.sol";
 // Give the contract a name and inherit from the base assignment validator
 contract Validator3 is BaseValidator {
     // Contract to validate
-    Validator3Interface assignmentContract;
+    IAssignment3 assignmentContract;
 
     // Task A, B, C and E
     Validator3TaskA validatorTaskA;
@@ -34,7 +34,6 @@ contract Validator3 is BaseValidator {
     address player1 = address(0);
     address player2 = address(0);
 
-    // Import empty constructor and pass the name of the contract to the config storage contract
     constructor(address _configContractAddress)
         BaseValidator(
             _configContractAddress,
@@ -81,7 +80,7 @@ contract Validator3 is BaseValidator {
         uint256 testId = createTestHistory(_contractAddress);
 
         // Call the contract interface which needs to be tested and store it in the variable assignmentContract
-        assignmentContract = Validator3Interface(_contractAddress);
+        assignmentContract = IAssignment3(_contractAddress);
 
         /*----------  EXERCISE A  ----------*/
 

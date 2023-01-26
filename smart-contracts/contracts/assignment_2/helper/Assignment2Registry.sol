@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// Import Assignment2Interface.sol
-import "../assignment_2/Assignment2Interface.sol";
+// Import IAssignment2.sol
+import "../interface/IAssignment2.sol";
 
 // Import BaseConfig.sol
-import "../../contracts/BaseConfig.sol";
+import "../../BaseConfig.sol";
 
 contract Assignment2Registry is BaseConfig {
     // mapping(tokenAddress => exchangeAddress) -> get exchange address by token address
@@ -15,7 +15,10 @@ contract Assignment2Registry is BaseConfig {
 
     constructor(address _configContractAddress, address testExchangeAddress) {
         // Add smart contract to contract admin list with the name SBCoin_<coin_name>
-        initAdmin(_configContractAddress, "Assignment2Registry");
+        initAdmin(
+            _configContractAddress,
+            "SS23 Assignment 2 Validator Contract - Registry"
+        );
 
         registerAMM(testExchangeAddress);
     }
@@ -27,7 +30,7 @@ contract Assignment2Registry is BaseConfig {
             "exchange already registered"
         );
 
-        Assignment2Interface exchange = Assignment2Interface(_exchangeAddress);
+        IAssignment2 exchange = IAssignment2(_exchangeAddress);
         address tokenAddress = exchange.getTokenAddress();
 
         require(tokenAddress != address(0), "invalid token address");

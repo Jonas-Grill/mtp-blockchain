@@ -2,10 +2,10 @@
 pragma solidity ^0.8.17;
 
 // Import BaseAssignment.sol
-import "../../contracts/BaseAssignment.sol";
+import "../../../contracts/BaseAssignment.sol";
 
 // Create contract > define Contract Name
-abstract contract Validator3Interface is BaseAssignment {
+abstract contract IAssignment3 is BaseAssignment {
     // Get current state
     function getState() public view virtual returns (string memory) {}
 

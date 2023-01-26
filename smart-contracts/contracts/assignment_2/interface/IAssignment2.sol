@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// Import ERC721URIStorage.sol
-import "../../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
+// Import ERC20.sol
+import "../../../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 // Import IERC20.sol
-import "../../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "../../../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // Import BaseAssignment.sol
-import "../../contracts/BaseAssignment.sol";
+import "../../BaseAssignment.sol";
 
 // Create contract > define Contract Name
-abstract contract Assignment2Interface is ERC20, BaseAssignment {
+abstract contract IAssignment2 is ERC20, BaseAssignment {
     // Get token address
     function getTokenAddress() public view virtual returns (address) {}
 

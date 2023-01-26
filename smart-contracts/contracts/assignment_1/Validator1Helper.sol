@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// Import the Validator1Interface.sol
-import "../assignment_1/Validator1Interface.sol";
+// Import the IAssignment1.sol
+import "./interface/IAssignment1.sol";
 
 import "../../node_modules/@openzeppelin/contracts/utils/Strings.sol";
 
@@ -17,7 +17,7 @@ contract Validator1Helper {
     fallback() external payable {}
 
     // This should fail, because not correct owner
-    function burnTestD(Validator1Interface assingmentContract, uint256 tokenId)
+    function burnTestD(IAssignment1 assingmentContract, uint256 tokenId)
         public
         payable
     {
@@ -25,10 +25,7 @@ contract Validator1Helper {
     }
 
     // This should fail, because not correct owner
-    function withdrawTestF(Validator1Interface assingmentContract)
-        public
-        payable
-    {
+    function withdrawTestF(IAssignment1 assingmentContract) public payable {
         assingmentContract.withdraw(payable(address(this)));
     }
 }

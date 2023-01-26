@@ -2,10 +2,10 @@
 pragma solidity ^0.8.17;
 
 // Import ERC721URIStorage.sol
-import "../../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "../../../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 // Import BaseConfig.sol
-import "../../contracts/BaseConfig.sol";
+import "../../BaseConfig.sol";
 
 contract Assignment2Coin is ERC20, BaseConfig {
     constructor(
@@ -14,7 +14,10 @@ contract Assignment2Coin is ERC20, BaseConfig {
         address _configContractAddress
     ) ERC20(name, symbol) {
         // Add smart contract to contract admin list with the name SBCoin_<coin_name>
-        initAdmin(_configContractAddress, "Assignment2Coin");
+        initAdmin(
+            _configContractAddress,
+            "SS23 Assignment 2 Validator Contract - Coin"
+        );
     }
 
     function mint(address _recipient, uint256 _amount) public {

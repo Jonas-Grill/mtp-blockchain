@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "../../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "../../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "../../../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "../../../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // Import BaseConfig.sol
-import "../../contracts/BaseConfig.sol";
+import "../../BaseConfig.sol";
 
 // Import the registry contract
-import "../assignment_2/Assignment2Registry.sol";
+import "./Assignment2Registry.sol";
 
 contract Assignment2Exchange is ERC20, BaseConfig {
     address public tokenAddress;
@@ -39,7 +39,10 @@ contract Assignment2Exchange is ERC20, BaseConfig {
         payable
         ERC20("Assignment 2 Exchange", "A2E")
     {
-        initAdmin(_configContractAddress, "Assignment2Exchange");
+        initAdmin(
+            _configContractAddress,
+            "SS23 Assignment 2 Validator Contract - Exchange"
+        );
 
         require(
             _token != address(0),
