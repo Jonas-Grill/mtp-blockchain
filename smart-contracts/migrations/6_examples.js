@@ -7,7 +7,7 @@ const exampleAssignmentValidator = artifacts.require("ExampleAssignmentValidator
 const exampleAssignmentValidator2 = artifacts.require("ExampleAssignmentValidator2");
 
 // Deploy or not for testing
-const deploy = false
+const deploy = true
 
 module.exports = async (deployer, network, account) => {
     if (deploy) {
