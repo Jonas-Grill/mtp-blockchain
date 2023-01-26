@@ -9,7 +9,7 @@ const name = "KnowledgeCoin";
 const symbol = "NOW";
 
 // Deploy or not for testing
-const deploy = true
+const deploy = false
 
 module.exports = async (deployer, network, account) => {
     if (deploy) {

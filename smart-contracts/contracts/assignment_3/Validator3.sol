@@ -28,7 +28,7 @@ contract Validator3 is BaseValidator {
     Validator3TaskE validatorTaskE;
 
     // Contract to Help act as second player
-    Validator3Helper validatorExtendAddress;
+    Validator3Helper validator3Helper;
 
     // User Addresses
     address player1 = address(0);
@@ -39,7 +39,7 @@ contract Validator3 is BaseValidator {
         BaseValidator(
             _configContractAddress,
             "SS23 Assignment 3 Validator Contract - Base",
-            50000 gwei
+            0.05 ether
         )
     {
         // Task A and Task B
@@ -48,11 +48,18 @@ contract Validator3 is BaseValidator {
         validatorTaskC = new Validator3TaskC(_configContractAddress);
         validatorTaskE = new Validator3TaskE(_configContractAddress);
 
+        // Assign contracts to the list of helper contracts
+        addHelperContracts(address(validatorTaskA));
+        addHelperContracts(address(validatorTaskB));
+        addHelperContracts(address(validatorTaskC));
+        addHelperContracts(address(validatorTaskE));
+
         // Set validator extend address
-        validatorExtendAddress = new Validator3Helper();
+        validator3Helper = new Validator3Helper();
+        addHelperContracts(address(validator3Helper));
 
         player1 = address(this);
-        player2 = address(validatorExtendAddress);
+        player2 = address(validator3Helper);
     }
 
     // Fallback function to make sure the contract can receive ether
@@ -71,7 +78,7 @@ contract Validator3 is BaseValidator {
          *  The history entry is used to store the results of the tests.
          *  Always use this index in the further functions.
          */
-        createTestHistory(_contractAddress);
+        uint256 testId = createTestHistory(_contractAddress);
 
         // Call the contract interface which needs to be tested and store it in the variable assignmentContract
         assignmentContract = Validator3Interface(_contractAddress);
@@ -81,11 +88,13 @@ contract Validator3 is BaseValidator {
         // Init Task A Contract
         validatorTaskA.initContract(
             _contractAddress,
-            address(validatorExtendAddress)
+            address(validator3Helper)
         );
 
         // Run tests
-        (string memory messageA, bool resultA) = validatorTaskA.testExerciseA();
+        (string memory messageA, bool resultA) = validatorTaskA.testExerciseA{
+            value: 0.015 ether
+        }();
         if (resultA) {
             // Add the result to the history
             appendTestResult(messageA, resultA, 5);
@@ -95,14 +104,17 @@ contract Validator3 is BaseValidator {
         }
 
         /*----------  EXERCISE B  ----------*/
+
         // Init Task A Contract
         validatorTaskB.initContract(
             _contractAddress,
-            address(validatorExtendAddress)
+            address(validator3Helper)
         );
 
         // Run tests
-        (string memory messageB, bool resultB) = validatorTaskB.testExerciseB();
+        (string memory messageB, bool resultB) = validatorTaskB.testExerciseB{
+            value: 0.01 ether
+        }();
 
         if (resultB) {
             // Add the result to the history
@@ -113,12 +125,15 @@ contract Validator3 is BaseValidator {
         }
 
         /*----------  EXERCISE C  ----------*/
+
         validatorTaskC.initContract(
             _contractAddress,
-            address(validatorExtendAddress)
+            address(validator3Helper)
         );
 
-        (string memory messageC, bool resultC) = validatorTaskC.testExerciseC();
+        (string memory messageC, bool resultC) = validatorTaskC.testExerciseC{
+            value: 0.01 ether
+        }();
 
         if (resultC) {
             // Add the result to the history
@@ -129,12 +144,15 @@ contract Validator3 is BaseValidator {
         }
 
         /*----------  EXERCISE E  ----------*/
+
         validatorTaskE.initContract(
             _contractAddress,
-            address(validatorExtendAddress)
+            address(validator3Helper)
         );
 
-        (string memory messageE, bool resultE) = validatorTaskE.testExerciseE();
+        (string memory messageE, bool resultE) = validatorTaskE.testExerciseE{
+            value: 0.01 ether
+        }();
 
         if (resultE) {
             // Add the result to the history
@@ -145,81 +163,6 @@ contract Validator3 is BaseValidator {
         }
 
         // Return the history index
-        return _testHistoryCounter;
-    }
-
-    // This function sets the game in the state that it accepts choices from account 1 or 2
-    function prepareGame() public payable returns (string memory, bool) {
-        // Get game counter
-        uint256 gameCounter = assignmentContract.getGameCounter();
-
-        // Test getState function
-        try assignmentContract.getState() returns (string memory state) {
-            // Check if the state is not "waiting"
-            if (!compareStrings(state, "waiting"))
-                return ("Error (Exercise A): Expected 'waiting' state", false);
-        } catch Error(string memory errMsg) {
-            return (
-                buildErrorMessage(
-                    "Error (Exercise A)",
-                    "Error with getState() function.",
-                    errMsg
-                ),
-                false
-            );
-        }
-
-        // Test Start
-        try assignmentContract.start{value: 0.001 ether}() returns (
-            uint256 playerId
-        ) {
-            // Check if the game id is not 0
-            if (playerId != 1)
-                return ("Error (Exercise A): The player id is wrong ", false);
-        } catch Error(string memory errMsg) {
-            return (
-                buildErrorMessage(
-                    "Error (Exercise A)",
-                    "Error with start() function.",
-                    errMsg
-                ),
-                false
-            );
-        }
-
-        // Check if that the game counter increase by 1
-        if (assignmentContract.getGameCounter() != gameCounter + 1)
-            return (
-                "Error (Exercise A): The game counter is not increased ",
-                false
-            );
-
-        // Test getState function = starting
-        if (!compareStrings(assignmentContract.getState(), "startig"))
-            return ("Error (Exercise A): The state is not 'starting'", false);
-
-        // Test join second player
-        try validatorExtendAddress.callStart{value: 0.001 ether}() returns (
-            uint256 playerId
-        ) {
-            // Check if the game id is not 0
-            if (playerId != 2)
-                return ("Error (Exercise A): The player id is wrong", false);
-        } catch Error(string memory errMsg) {
-            return (
-                buildErrorMessage(
-                    "Error (Exercise A)",
-                    "Error with start() function.",
-                    errMsg
-                ),
-                false
-            );
-        }
-
-        // Test getState function = playing
-        if (!compareStrings(assignmentContract.getState(), "playing"))
-            return ("Error (Exercise A): The state is not 'playing'", false);
-
-        return ("Prepare Game: successful.", true);
+        return testId;
     }
 }

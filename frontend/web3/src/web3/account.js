@@ -149,6 +149,7 @@ class NOWAccount {
         return passedStudents;
     }
 
+
     /**
      * Return csv of addresses which passed the semester
      *

@@ -64,12 +64,17 @@ contract BaseValidator is BaseConfig, Helper {
     // Submitted assignments (student_address => true)
     mapping(address => AssignmentSubmitted) _assignmentSubmitted;
 
+    // assigned helper contracts
+    mapping(address => bool) _assignedHelperContracts;
+
     constructor(
         address _configContractAddress,
         string memory _contractName,
         uint256 _requiredEther
     ) {
         initAdmin(_configContractAddress, _contractName);
+
+        addHelperContracts(address(this));
 
         requiredEther = _requiredEther;
 
@@ -203,7 +208,10 @@ contract BaseValidator is BaseConfig, Helper {
     =============================================*/
 
     // Create test history
-    function createTestHistory(address _contractAddress) public {
+    function createTestHistory(address _contractAddress)
+        public
+        returns (uint256)
+    {
         // Only admins can create test history > security
         getConfigStorage().requireAdmin(address(this));
 
@@ -214,6 +222,8 @@ contract BaseValidator is BaseConfig, Helper {
         _testHistory[index].testCounter = 0;
 
         _testHistoryCounter = index;
+
+        return index;
     }
 
     // Append test result to array
@@ -428,6 +438,18 @@ contract BaseValidator is BaseConfig, Helper {
     /*=============================================
     =               Config Helper               =
     =============================================*/
+
+    // Assign helper address to _assignedHelperContracts
+    function addHelperContracts(address _helperAddress) public {
+        getConfigStorage().requireAdmin(msg.sender);
+
+        _assignedHelperContracts[_helperAddress] = true;
+    }
+
+    // check if address is assigned to _assignedHelperContracts
+    function isValidator(address _helperAddress) public view returns (bool) {
+        return _assignedHelperContracts[_helperAddress];
+    }
 
     /**
      * Set assignment infos

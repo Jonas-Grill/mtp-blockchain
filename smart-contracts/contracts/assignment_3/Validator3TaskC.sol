@@ -29,7 +29,11 @@ contract Validator3TaskC is Helper, BaseConfig {
         );
     }
 
+    // Function to receive Ether. msg.data must be empty
     receive() external payable {}
+
+    // Fallback function is called when msg.data is not empty
+    fallback() external payable {}
 
     // Init contract
     function initContract(
@@ -51,6 +55,20 @@ contract Validator3TaskC is Helper, BaseConfig {
 
     // This function sets the game in the state that it accepts choices from account 1 or 2
     function prepareGame() public payable returns (string memory, bool) {
+        // Reset game
+        try assignmentContract.forceReset() {} catch Error(
+            string memory errMsg
+        ) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise C)",
+                    "Error with forceReset() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
         // Get game counter
         uint256 gameCounter = assignmentContract.getGameCounter();
 
@@ -58,11 +76,11 @@ contract Validator3TaskC is Helper, BaseConfig {
         try assignmentContract.getState() returns (string memory state) {
             // Check if the state is not "waiting"
             if (!compareStrings(state, "waiting"))
-                return ("Error (Exercise A): Expected 'waiting' state", false);
+                return ("Error (Exercise C): Expected 'waiting' state", false);
         } catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
-                    "Error (Exercise A)",
+                    "Error (Exercise C)",
                     "Error with getState() function.",
                     errMsg
                 ),
@@ -76,11 +94,11 @@ contract Validator3TaskC is Helper, BaseConfig {
         ) {
             // Check if the game id is not 0
             if (playerId != 1)
-                return ("Error (Exercise A): The player id is wrong ", false);
+                return ("Error (Exercise C): The player id is wrong ", false);
         } catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
-                    "Error (Exercise A)",
+                    "Error (Exercise C)",
                     "Error with start() function.",
                     errMsg
                 ),
@@ -91,25 +109,33 @@ contract Validator3TaskC is Helper, BaseConfig {
         // Check if that the game counter increase by 1
         if (assignmentContract.getGameCounter() != gameCounter + 1)
             return (
-                "Error (Exercise A): The game counter is not increased ",
+                "Error (Exercise C): The game counter is not increased ",
                 false
             );
 
         // Test getState function = starting
-        if (!compareStrings(assignmentContract.getState(), "startig"))
-            return ("Error (Exercise A): The state is not 'starting'", false);
+        if (!compareStrings(assignmentContract.getState(), "starting"))
+            return (
+                buildErrorMessageExtended(
+                    "Error (Exercise C)",
+                    "The state is not 'starting'",
+                    "starting",
+                    assignmentContract.getState()
+                ),
+                false
+            );
 
         // Test join second player
-        try validator3Helper.callStart{value: 0.001 ether}() returns (
-            uint256 playerId
-        ) {
+        try
+            validator3Helper.callStart{value: 0.001 ether}(assignmentContract)
+        returns (uint256 playerId) {
             // Check if the game id is not 0
             if (playerId != 2)
-                return ("Error (Exercise A): The player id is wrong", false);
+                return ("Error (Exercise C): The player id is wrong", false);
         } catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
-                    "Error (Exercise A)",
+                    "Error (Exercise C)",
                     "Error with start() function.",
                     errMsg
                 ),
@@ -119,7 +145,7 @@ contract Validator3TaskC is Helper, BaseConfig {
 
         // Test getState function = playing
         if (!compareStrings(assignmentContract.getState(), "playing"))
-            return ("Error (Exercise A): The state is not 'playing'", false);
+            return ("Error (Exercise C): The state is not 'playing'", false);
 
         return ("Prepare Game: successful.", true);
     }
@@ -148,11 +174,32 @@ contract Validator3TaskC is Helper, BaseConfig {
         payable
         returns (string memory, bool)
     {
+        // Reset game
+        try assignmentContract.forceReset() {} catch Error(
+            string memory errMsg
+        ) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise C)",
+                    "Error with forceReset() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
         // Set the max time to 1 block
         assignmentContract.setMaxTime("start", 1);
 
         // Set the "fake" block number to 1000
         assignmentContract.setBlockNumber(1000);
+
+        // make sure that block number is 1000
+        if (assignmentContract.getBlockNumber() != 1000)
+            return (
+                "Error (Exercise C - start time exceed): The block number is not 1000. Did you overwrite the inherited function?",
+                false
+            );
 
         // Get current game counter
         uint256 gameCounterBefore = assignmentContract.getGameCounter();
@@ -164,13 +211,13 @@ contract Validator3TaskC is Helper, BaseConfig {
             // Check if the game id is not 0
             if (playerId != 1)
                 return (
-                    "Error (Exercise A - start time exceed): The player id is wrong (expected 1 -> for join of player 1). Please make sure that the start function returns the correct player id.",
+                    "Error (Exercise C - start time exceed): The player id is wrong (expected 1 -> for join of player 1). Please make sure that the start function returns the correct player id.",
                     false
                 );
         } catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
-                    "Error (Exercise A - start time exceed)",
+                    "Error (Exercise C - start time exceed)",
                     "Error with start() function.",
                     errMsg
                 ),
@@ -179,9 +226,9 @@ contract Validator3TaskC is Helper, BaseConfig {
         }
 
         // Try to change the max time after game is already started
-        try assignmentContract.setMaxTime("start", 100) {
+        try assignmentContract.setMaxTime("start", 1) {
             return (
-                "Error (Exercise A - start time exceed): The setMaxTime function did not fail when trying to change the max time after the game is already started.",
+                "Error (Exercise C - start time exceed): The setMaxTime function did not fail when trying to change the max time after the game is already started.",
                 false
             );
         } catch {}
@@ -192,19 +239,19 @@ contract Validator3TaskC is Helper, BaseConfig {
         assignmentContract.setBlockNumber(1005);
 
         // Test join second player --> exepect that the game is reset and returns gameid = 1 for being the player 1
-        try validator3Helper.callStart{value: 0.001 ether}() returns (
-            uint256 playerId
-        ) {
+        try
+            validator3Helper.callStart{value: 0.001 ether}(assignmentContract)
+        returns (uint256 playerId) {
             // Check if the game id is not 0
             if (playerId != 1)
                 return (
-                    "Error (Exercise A - start time exceed): The player id is wrong (expected 2 -> for join of player 2). Please make sure that the start function returns the correct player id.",
+                    "Error (Exercise C - start time exceed): The player id is wrong. After time exceed of game in 'starting' phase expect that the game is reset and the player who wants to join is player 1.",
                     false
                 );
         } catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
-                    "Error (Exercise A - start time exceed)",
+                    "Error (Exercise C - start time exceed)",
                     "Error with start() function.",
                     errMsg
                 ),
@@ -218,18 +265,33 @@ contract Validator3TaskC is Helper, BaseConfig {
         // Game conter should be 2 larger than before
         if (gameCounterAfter != gameCounterBefore + 2)
             return (
-                "Error (Exercise A - start time exceed): The game counter is not larger than before. Please make sure that the game counter is increased by 1 when a new game is started.",
+                "Error (Exercise C - start time exceed): The game counter is not larger than before. Please make sure that the game counter is increased by 1 when a new game is started.",
                 false
             );
 
         // Set the max time back to default -> 10 blocks
+        assignmentContract.forceReset();
         assignmentContract.setMaxTime("start", 10); // TODO change default value
 
-        return ("Exercise A (start time exceed): All tests passed.", true);
+        return ("Exercise C (start time exceed): All tests passed.", true);
     }
 
     // TEST: that player 2 choice time exceed --> Expected: reset of environment
     function testPlayTimeExceed() public payable returns (string memory, bool) {
+        // Reset game
+        try assignmentContract.forceReset() {} catch Error(
+            string memory errMsg
+        ) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise C)",
+                    "Error with forceReset() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
         // Set the max time to 1 block
         assignmentContract.setMaxTime("play", 1);
 
@@ -253,7 +315,7 @@ contract Validator3TaskC is Helper, BaseConfig {
         ) {
             return (
                 buildErrorMessage(
-                    "Error (Exercise A - play time exceed)",
+                    "Error (Exercise C - play time exceed)",
                     "Error with play() function for player 1.",
                     errMsg
                 ),
@@ -268,9 +330,9 @@ contract Validator3TaskC is Helper, BaseConfig {
         // Play the game with player 2 -> expect that the game is reset and fails
         // -> because game is not started, therefore cannot use "play" function
 
-        try validator3Helper.callPlay("paper") {
+        try validator3Helper.callPlay(assignmentContract, "paper") {
             return (
-                "Error (Exercise A - play time exceed): The play function did not fail when trying to play the game after the time exceed. Expected that error is thrown, because game should not be started!",
+                "Error (Exercise C - play time exceed): The play function did not fail when trying to play the game after the time exceed. Expected that error is thrown, because game should not be started!",
                 false
             );
         } catch {}
@@ -278,13 +340,14 @@ contract Validator3TaskC is Helper, BaseConfig {
         // check that player 1 balance is <= then before (because of the refund + gas fee)
         if (player1.balance > player1BalanceBefore)
             return (
-                "Error (Exercise A - play time exceed): The player 1 balance is not smaller than before. Please make sure that the player who paid the fee gets a refund when the game is reset because of time exceed.",
+                "Error (Exercise C - play time exceed): The player 1 balance is not smaller than before. Please make sure that the player who paid the fee gets a refund when the game is reset because of time exceed.",
                 false
             );
 
         // Reset the max time to default
+        assignmentContract.forceReset();
         assignmentContract.setMaxTime("play", 10); // TODO change default value
 
-        return ("Exercise A (play time exceed): All tests passed.", true);
+        return ("Exercise C (play time exceed): All tests passed.", true);
     }
 }

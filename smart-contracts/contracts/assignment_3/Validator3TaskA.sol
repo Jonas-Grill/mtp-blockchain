@@ -43,6 +43,20 @@ contract Validator3TaskA is Helper, BaseConfig {
 
     // This function sets the game in the state that it accepts choices from account 1 or 2
     function prepareGame() public payable returns (string memory, bool) {
+        // Reset game
+        try assignmentContract.forceReset() {} catch Error(
+            string memory errMsg
+        ) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise A)",
+                    "Error with forceReset() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
         // Get game counter
         uint256 gameCounter = assignmentContract.getGameCounter();
 
@@ -68,7 +82,15 @@ contract Validator3TaskA is Helper, BaseConfig {
         ) {
             // Check if the game id is not 0
             if (playerId != 1)
-                return ("Error (Exercise A): The player id is wrong ", false);
+                return (
+                    buildErrorMessageExtended(
+                        "Error (Exercise A)",
+                        "The player id is wrong",
+                        "1",
+                        Strings.toString(playerId)
+                    ),
+                    false
+                );
         } catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
@@ -88,16 +110,32 @@ contract Validator3TaskA is Helper, BaseConfig {
             );
 
         // Test getState function = starting
-        if (!compareStrings(assignmentContract.getState(), "startig"))
-            return ("Error (Exercise A): The state is not 'starting'", false);
+        if (!compareStrings(assignmentContract.getState(), "starting"))
+            return (
+                buildErrorMessageExtended(
+                    "Error (Exercise A)",
+                    "The state is not 'starting'",
+                    "starting",
+                    assignmentContract.getState()
+                ),
+                false
+            );
 
         // Test join second player
-        try validator3Helper.callStart{value: 0.001 ether}() returns (
-            uint256 playerId
-        ) {
-            // Check if the game id is not 0
+        try
+            validator3Helper.callStart{value: 0.001 ether}(assignmentContract)
+        returns (uint256 playerId) {
+            // Check if the player id is 2
             if (playerId != 2)
-                return ("Error (Exercise A): The player id is wrong", false);
+                return (
+                    buildErrorMessageExtended(
+                        "Error (Exercise A)",
+                        "The player id is wrong",
+                        "2",
+                        Strings.toString(playerId)
+                    ),
+                    false
+                );
         } catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
@@ -139,9 +177,9 @@ contract Validator3TaskA is Helper, BaseConfig {
             return ("Error (Exercise A): The state is not 'playing'.", false);
 
         // player play "scissors" --> to loose
-        try validator3Helper.callPlay("scissors") {} catch Error(
-            string memory errMsg
-        ) {
+        try
+            validator3Helper.callPlay(assignmentContract, "scissors")
+        {} catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
                     "Error (Exercise A)",

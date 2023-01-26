@@ -29,7 +29,11 @@ contract Validator3TaskE is Helper, BaseConfig {
         );
     }
 
+    // Function to receive Ether. msg.data must be empty
     receive() external payable {}
+
+    // Fallback function is called when msg.data is not empty
+    fallback() external payable {}
 
     // Init contract
     function initContract(
@@ -51,6 +55,20 @@ contract Validator3TaskE is Helper, BaseConfig {
 
     // This function sets the game in the state that it accepts choices from account 1 or 2
     function prepareGame() public payable returns (string memory, bool) {
+        // Reset game
+        try assignmentContract.forceReset() {} catch Error(
+            string memory errMsg
+        ) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise E)",
+                    "Error with forceReset() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
         // Get game counter
         uint256 gameCounter = assignmentContract.getGameCounter();
 
@@ -58,11 +76,11 @@ contract Validator3TaskE is Helper, BaseConfig {
         try assignmentContract.getState() returns (string memory state) {
             // Check if the state is not "waiting"
             if (!compareStrings(state, "waiting"))
-                return ("Error (Exercise A): Expected 'waiting' state", false);
+                return ("Error (Exercise E): Expected 'waiting' state", false);
         } catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
-                    "Error (Exercise A)",
+                    "Error (Exercise E)",
                     "Error with getState() function.",
                     errMsg
                 ),
@@ -76,11 +94,11 @@ contract Validator3TaskE is Helper, BaseConfig {
         ) {
             // Check if the game id is not 0
             if (playerId != 1)
-                return ("Error (Exercise A): The player id is wrong ", false);
+                return ("Error (Exercise E): The player id is wrong ", false);
         } catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
-                    "Error (Exercise A)",
+                    "Error (Exercise E)",
                     "Error with start() function.",
                     errMsg
                 ),
@@ -91,25 +109,33 @@ contract Validator3TaskE is Helper, BaseConfig {
         // Check if that the game counter increase by 1
         if (assignmentContract.getGameCounter() != gameCounter + 1)
             return (
-                "Error (Exercise A): The game counter is not increased ",
+                "Error (Exercise E): The game counter is not increased ",
                 false
             );
 
         // Test getState function = starting
-        if (!compareStrings(assignmentContract.getState(), "startig"))
-            return ("Error (Exercise A): The state is not 'starting'", false);
+        if (!compareStrings(assignmentContract.getState(), "starting"))
+            return (
+                buildErrorMessageExtended(
+                    "Error (Exercise E)",
+                    "The state is not 'starting'",
+                    "starting",
+                    assignmentContract.getState()
+                ),
+                false
+            );
 
         // Test join second player
-        try validator3Helper.callStart{value: 0.001 ether}() returns (
-            uint256 playerId
-        ) {
+        try
+            validator3Helper.callStart{value: 0.001 ether}(assignmentContract)
+        returns (uint256 playerId) {
             // Check if the game id is not 0
             if (playerId != 2)
-                return ("Error (Exercise A): The player id is wrong", false);
+                return ("Error (Exercise E): The player id is wrong", false);
         } catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
-                    "Error (Exercise A)",
+                    "Error (Exercise E)",
                     "Error with start() function.",
                     errMsg
                 ),
@@ -119,7 +145,7 @@ contract Validator3TaskE is Helper, BaseConfig {
 
         // Test getState function = playing
         if (!compareStrings(assignmentContract.getState(), "playing"))
-            return ("Error (Exercise A): The state is not 'playing'", false);
+            return ("Error (Exercise E): The state is not 'playing'", false);
 
         return ("Prepare Game: successful.", true);
     }
@@ -142,6 +168,20 @@ contract Validator3TaskE is Helper, BaseConfig {
     }
 
     function testPrivateGame() public payable returns (string memory, bool) {
+        // Reset game
+        try assignmentContract.forceReset() {} catch Error(
+            string memory errMsg
+        ) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise E - private game)",
+                    "Error with forceReset() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
         // Prepare the game
         (string memory message, bool success) = prepareGame();
 
@@ -156,12 +196,26 @@ contract Validator3TaskE is Helper, BaseConfig {
             memory seedP2 = "71953ea938bd47d86a3201f0a9c622d096f52dc54ad256919f95772904e22564";
 
         // Hashed choice for player 1 using SEED_ACTION > "rock" is the used action
-        string
-            memory hashedChoiceP1 = "2640ff70045801e2f6842c9e1dee152ef80f3ed8647064253e72d2aebb2b59c5";
+        bytes32 hashedChoiceP1 = keccak256(
+            abi.encodePacked(string.concat(seedP1, "_rock"))
+        );
 
         // Hashed choice for player 2 using SEED_ACTION > "paper" is the used action
-        string
-            memory hashedChoiceP2 = "98f5ea8b823eb0a40bd47589b81f8b98687edc6e7c22279088a5d8f58178e040";
+        bytes32 hashedChoiceP2 = keccak256(
+            abi.encodePacked(string.concat(seedP2, "_paper"))
+        );
+
+        // state should be "playing"
+        if (!compareStrings(assignmentContract.getState(), "playing"))
+            return (
+                buildErrorMessageExtended(
+                    "Error (Exercise E - private game)",
+                    "The state is not 'playing'",
+                    "playing",
+                    assignmentContract.getState()
+                ),
+                false
+            );
 
         // Send playPrivate with choice "rock" for player 1
         try assignmentContract.playPrivate(hashedChoiceP1) {} catch Error(
@@ -177,10 +231,22 @@ contract Validator3TaskE is Helper, BaseConfig {
             );
         }
 
+        // state should be "playing"
+        if (!compareStrings(assignmentContract.getState(), "playing"))
+            return (
+                buildErrorMessageExtended(
+                    "Error (Exercise E - private game)",
+                    "The state is not 'playing'. After first private play state should not change.",
+                    "playing",
+                    assignmentContract.getState()
+                ),
+                false
+            );
+
         // Send playPrivate with choice "paper" for player 2
-        try validator3Helper.callPlayPrivate(hashedChoiceP2) {} catch Error(
-            string memory errMsg
-        ) {
+        try
+            validator3Helper.callPlayPrivate(assignmentContract, hashedChoiceP2)
+        {} catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
                     "Error (Exercise E - private game)",
@@ -217,9 +283,9 @@ contract Validator3TaskE is Helper, BaseConfig {
         }
 
         // Player 2 reveal his choice
-        try validator3Helper.callReveal("paper", seedP2) {} catch Error(
-            string memory errMsg
-        ) {
+        try
+            validator3Helper.callReveal(assignmentContract, "paper", seedP2)
+        {} catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
                     "Error (Exercise E - private game)",
@@ -235,18 +301,22 @@ contract Validator3TaskE is Helper, BaseConfig {
         uint256 player2BalanceAfter = player2.balance;
 
         // Check if player 1 balance is bigger than before
-        if (player1BalanceAfter <= player1BalanceBefore)
+        if (player1BalanceAfter != player1BalanceBefore)
             return (
-                "Error (Exercise E - private game): The player 1 balance is not bigger than before. Please make sure that the player who won the game gets the reward.",
+                "Error (Exercise E - private game): The balance of player 1 should not change.",
                 false
             );
 
         // Check if player 2 balance is same as before (no reward)
-        if (player2BalanceAfter != player2BalanceBefore)
+        if (player2BalanceAfter <= player2BalanceBefore)
             return (
-                "Error (Exercise E - private game): The player 2 balance did change. But the balance should be the same.",
+                "Error (Exercise E - private game): The balance of player 2 should increase because paper beats rock.",
                 false
             );
+
+        // Reset the max time to default
+        assignmentContract.forceReset();
+        assignmentContract.setMaxTime("play", 10);
 
         return ("Exercise E (private game): All tests passed.", true);
     }
@@ -256,6 +326,20 @@ contract Validator3TaskE is Helper, BaseConfig {
         payable
         returns (string memory, bool)
     {
+        // Reset game
+        try assignmentContract.forceReset() {} catch Error(
+            string memory errMsg
+        ) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise E - reveal time exceed)",
+                    "Error with forceReset() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
         // Set "fake" block to 100
         assignmentContract.setBlockNumber(100);
 
@@ -268,13 +352,18 @@ contract Validator3TaskE is Helper, BaseConfig {
         // If the game is not successfully prepared return the error message
         if (!success) return (message, false);
 
-        // Hashed choice for player 1 using SEED_ACTION > "rock" is the used action
+        // Seed used to encode the choice
         string
-            memory hashedChoiceP1 = "2640ff70045801e2f6842c9e1dee152ef80f3ed8647064253e72d2aebb2b59c5";
+            memory seedP1 = "1107d64539eb01397685f2c22ffa101ca0ad4ca5413b729508f2264cac7048d3";
+
+        string
+            memory seedP2 = "71953ea938bd47d86a3201f0a9c622d096f52dc54ad256919f95772904e22564";
+
+        // Hashed choice for player 1 using SEED_ACTION > "rock" is the used action
+        bytes32 hashedChoiceP1 = keccak256(abi.encodePacked(seedP1, "_rock"));
 
         // Hashed choice for player 2 using SEED_ACTION > "paper" is the used action
-        string
-            memory hashedChoiceP2 = "98f5ea8b823eb0a40bd47589b81f8b98687edc6e7c22279088a5d8f58178e040";
+        bytes32 hashedChoiceP2 = keccak256(abi.encodePacked(seedP2, "_paper"));
 
         // Send playPrivate with choice "rock" for player 1
         try assignmentContract.playPrivate(hashedChoiceP1) {} catch Error(
@@ -282,7 +371,7 @@ contract Validator3TaskE is Helper, BaseConfig {
         ) {
             return (
                 buildErrorMessage(
-                    "Error (Exercise E - private game)",
+                    "Error (Exercise E - reveal time exceed)",
                     "Error with playPrivate() function for player 1.",
                     errMsg
                 ),
@@ -293,17 +382,54 @@ contract Validator3TaskE is Helper, BaseConfig {
         // Get balance of player 1
         uint256 player1BalanceBefore = player1.balance;
 
-        // Set "fake" block to 105
-        assignmentContract.setBlockNumber(105);
-
         // Send playPrivate with choice "paper" for player 2
-        try validator3Helper.callPlayPrivate(hashedChoiceP2) {} catch Error(
+        try
+            validator3Helper.callPlayPrivate(assignmentContract, hashedChoiceP2)
+        {} catch Error(string memory errMsg) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise E - reveal time exceed)",
+                    "Error with playPrivate() function for player 2.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
+        // Player 1 reveal his choice
+        try assignmentContract.reveal("rock", seedP1) {} catch Error(
             string memory errMsg
         ) {
             return (
                 buildErrorMessage(
-                    "Error (Exercise E - private game)",
-                    "Error with playPrivate() function for player 2.",
+                    "Error (Exercise E - reveal time exceed)",
+                    "Error with reveal() function for player 1.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
+        // State should be revealing
+        if (compareStrings(assignmentContract.getState(), "revealing") == false)
+            return (
+                "Error (Exercise E - reveal time exceed): The state is not 'revealing'. Please make sure that the state is set to 'revealing' when both players have played privat.",
+                false
+            );
+
+        // Set "fake" block to 105
+        assignmentContract.setBlockNumber(105);
+
+        // Exceed reveal time --> second reveal should result in fail and player 1 getting all funds
+
+        // Player 2 reveal his choice
+        try
+            validator3Helper.callReveal(assignmentContract, "paper", seedP2)
+        {} catch Error(string memory errMsg) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise E - reveal time exceed)",
+                    "Error with reveal() function for player 2.",
                     errMsg
                 ),
                 false
@@ -316,9 +442,13 @@ contract Validator3TaskE is Helper, BaseConfig {
         // Check if player 1 balance increased
         if (player1BalanceAfter <= player1BalanceBefore)
             return (
-                "Error (Exercise E - private game): The player 1 balance is not bigger than before. Please make sure that the player who won the game gets the reward.",
+                "Error (Exercise E - reveal time exceed): The player 1 balance is not bigger than before. Please make sure that the player who won the game gets the reward.",
                 false
             );
+
+        // Reset the max time to default
+        assignmentContract.forceReset();
+        assignmentContract.setMaxTime("reveal", 10); // 10 blocks = 2 minutes (block = 12 seconds)
 
         return ("Exercise E (private game): All tests passed.", true);
     }

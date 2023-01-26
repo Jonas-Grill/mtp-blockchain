@@ -8,33 +8,42 @@ import "../../node_modules/@openzeppelin/contracts/utils/Strings.sol";
 
 // This contract acts as player B
 contract Validator3Helper {
-    // assignment contract interface
-    Validator3Interface assignmentContract;
-
     constructor() {}
 
+    // Function to receive Ether. msg.data must be empty
     receive() external payable {}
 
-    // Init contract
-    function initContract(address _contractAddress) public {
-        // Call the contract interface which needs to be tested and store it in the variable assignmentContract
-        assignmentContract = Validator3Interface(_contractAddress);
-    }
+    // Fallback function is called when msg.data is not empty
+    fallback() external payable {}
 
     // Start function
-    function callStart() public payable returns (uint256) {
+    function callStart(Validator3Interface assignmentContract)
+        public
+        payable
+        returns (uint256)
+    {
         return assignmentContract.start{value: msg.value}();
     }
 
-    function callPlay(string memory choice) public {
+    function callPlay(
+        Validator3Interface assignmentContract,
+        string memory choice
+    ) public payable {
         assignmentContract.play(choice);
     }
 
-    function callPlayPrivate(string memory hashedChoice) public {
+    function callPlayPrivate(
+        Validator3Interface assignmentContract,
+        bytes32 hashedChoice
+    ) public payable {
         assignmentContract.playPrivate(hashedChoice);
     }
 
-    function callReveal(string memory plainChoice, string memory seed) public {
+    function callReveal(
+        Validator3Interface assignmentContract,
+        string memory plainChoice,
+        string memory seed
+    ) public payable {
         assignmentContract.reveal(plainChoice, seed);
     }
 }

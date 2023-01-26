@@ -19,7 +19,7 @@ abstract contract Validator3Interface is BaseAssignment {
     function play(string memory choice) public virtual {}
 
     // Play private
-    function playPrivate(string memory hashedChoice) public virtual {}
+    function playPrivate(bytes32 hashedChoice) public virtual {}
 
     // Reveal private play
     function reveal(string memory plainChoice, string memory seed)
@@ -32,4 +32,7 @@ abstract contract Validator3Interface is BaseAssignment {
 
     // Check max time
     function checkMaxTime() public virtual returns (bool) {}
+
+    // Force reset the game
+    function forceReset() public virtual {}
 }
