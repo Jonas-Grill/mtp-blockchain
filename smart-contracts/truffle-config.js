@@ -33,7 +33,17 @@ module.exports = {
   },
   compilers: {
     solc: {
-      version: "^0.8.17"
+      version: "^0.8.17",
+      settings: {
+        optimizer: {
+          enabled: false,
+          runs: 2
+        },
+        viaIR: false
+      }
     }
+  },
+  dashboard: {
+    port: 24012,
   }
 };

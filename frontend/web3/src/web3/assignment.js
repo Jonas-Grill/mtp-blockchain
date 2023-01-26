@@ -37,8 +37,11 @@ class NOWAssignments {
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
+        const requiredEther = await this.getRequiredEther(validationContractAddress);
+
         await assignmentValidatorContract.methods.validateAssignment(contractAddress).send({
             from: fromAddress,
+            value: requiredEther,
             gas: 5000000
         });
 
@@ -59,9 +62,12 @@ class NOWAssignments {
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
+        const requiredEther = await this.getRequiredEther(validationContractAddress);
+
         // Submit assignment
         await assignmentValidatorContract.methods.submitAssignment(contractAddress).send({
             from: fromAddress,
+            value: requiredEther,
             gas: 5000000
         });
 
@@ -114,7 +120,7 @@ class NOWAssignments {
      *
      * @param {string} studentAddress Address of student
      * @param {string} validationContractAddress Address of validation contract
-     * @returns 
+     * @returns Return submitted assignment
      */
     async getSubmittedAssignment(studentAddress, validationContractAddress) {
         const fromAddress = await this.utils.getFromAccount(this.web3);
@@ -157,7 +163,7 @@ class NOWAssignments {
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
-        var results = await assignmentValidatorContract.methods.hasAssignmentSubmitted(studentAddress).call({
+        const results = await assignmentValidatorContract.methods.hasAssignmentSubmitted(studentAddress).call({
             from: fromAddress,
         });
 
@@ -175,12 +181,30 @@ class NOWAssignments {
 
         const assignmentContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
-        var infos = await assignmentContract.methods.getAssignmentInfos().call({
+        const infos = await assignmentContract.methods.getAssignmentInfos().call({
             from: fromAddress,
         });
 
 
         return infos;
+    }
+
+    /**
+     * Get required ether to properly validate an assignment
+     * 
+     * @param {string} validationContractAddress Address of validation contract
+     * @returns Return required ether to properly validate an assignment
+     */
+    async getRequiredEther(validationContractAddress) {
+        const fromAddress = await this.utils.getFromAccount(this.web3);
+
+        const assignmentContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
+
+        const ether = await assignmentContract.methods.getRequiredEther().call({
+            from: fromAddress,
+        });
+
+        return ether;
     }
 }
 

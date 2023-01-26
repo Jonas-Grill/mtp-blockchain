@@ -20,7 +20,8 @@ contract ExampleAssignmentValidator2 is BaseAssignmentValidator {
     constructor(address _configContractAddress)
         BaseAssignmentValidator(
             _configContractAddress,
-            "ExampleAssignmentValidator2" // Define the name of the contract
+            "ExampleAssignmentValidator2", // Define the name of the contract
+            0
         )
     {
         // The constructor is empty
@@ -36,6 +37,7 @@ contract ExampleAssignmentValidator2 is BaseAssignmentValidator {
      */
     function test(address _contractAddress)
         public
+        payable
         override(BaseAssignmentValidator)
         returns (uint256)
     {
@@ -45,7 +47,7 @@ contract ExampleAssignmentValidator2 is BaseAssignmentValidator {
          *  The history entry is used to store the results of the tests.
          *  Always use this index in the further functions.
          */
-        uint256 historyIndex = createTestHistory(_contractAddress);
+        createTestHistory(_contractAddress);
 
         // Call the contract which needs to be tested and store it in the variable assignment_contract
         ExampleAssignmentInterface assignment_contract = ExampleAssignmentInterface(
@@ -58,8 +60,7 @@ contract ExampleAssignmentValidator2 is BaseAssignmentValidator {
          *  Every test is structured as follows:
          *    ```
          *    appendTestResult(
-         *         historyIndex,
-         *         "Is contract from the student",
+         *         *         "Is contract from the student",
          *         checkAssignmentOwner(_studentAddress, _contractAddress)
          *    );
          *    ```
@@ -70,36 +71,28 @@ contract ExampleAssignmentValidator2 is BaseAssignmentValidator {
 
         // "Is contract from the student"
         appendTestResult(
-            historyIndex,
             "Is contract from the student",
-            checkAssignmentOwner(_contractAddress)
+            checkAssignmentOwner(_contractAddress),
+            1
         );
 
         // Test 1 - test if default value is 1998 --> will fail intentional
         if (int256(assignment_contract.getTestValue()) == int256(1000)) {
-            appendTestResult(
-                historyIndex,
-                "test if default value is 1000",
-                true
-            );
+            appendTestResult("test if default value is 1000", true, 1);
         } else {
-            appendTestResult(
-                historyIndex,
-                "test if default value is 1998",
-                false
-            );
+            appendTestResult("test if default value is 1998", false, 0);
         }
 
         // Test 2 - test if setTestValue works
         assignment_contract.setTestValue(int256(2022));
 
         if (int256(assignment_contract.getTestValue()) == int256(2022)) {
-            appendTestResult(historyIndex, "test if setTestValue works", true);
+            appendTestResult("test if setTestValue works", true, 1);
         } else {
-            appendTestResult(historyIndex, "test if setTestValue works", false);
+            appendTestResult("test if setTestValue works", false, 0);
         }
 
         // Return the history index
-        return historyIndex;
+        return _testHistoryCounter;
     }
 }

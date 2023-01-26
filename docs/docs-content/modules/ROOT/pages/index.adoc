@@ -1,4 +1,7 @@
-= Welcome to the blockchain exercise
+image::now-logo.png[NOW Logo]
+
+== Welcome to the blockchain exercise on the NOW platform
+
 :navtitle: Welcome
 
 You are here to learn a lot about blockchain by using blockchain!

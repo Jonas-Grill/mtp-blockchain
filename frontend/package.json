@@ -12,12 +12,14 @@
   "dependencies": {
     "@headlessui/react": "^1.7.3",
     "@heroicons/react": "^2.0.13",
+    "@openzeppelin/contracts": "^4.8.1",
     "@tailwindcss/forms": "^0.5.3",
     "@types/node": "18.11.8",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
     "async": "^3.2.4",
     "chai": "^4.3.6",
+    "csv-string": "^4.1.1",
     "dotenv": "^16.0.3",
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.1",
@@ -43,5 +45,8 @@
   },
   "browser": {
     "fs": true
+  },
+  "optionalDependencies": {
+    "fsevents": "2.1.2"
   }
 }

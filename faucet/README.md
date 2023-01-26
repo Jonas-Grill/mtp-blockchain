@@ -12,7 +12,7 @@ Follow the steps to use the system locally.
 
 To use the web3 applications locally, the [Ganache](https://trufflesuite.com/ganache/) application is required. 
 
-- IP: `http://localhost:8545`
+- IP: `http://127.0.0.1:8545`
 - Chain Id: `1337`
 - MNEMONIC: `exclude curve virtual science volume siren nose crop bike again buffalo trick`
 

@@ -9,7 +9,7 @@ const utilsHandler = require('../src/web3/utils')
 const utils = new utilsHandler.NOWUtils()
 
 // Parse and set rpc url
-const rpcURL = "http://localhost:8545";
+const rpcURL = "http://127.0.0.1:8545";
 const web3 = new Web3(rpcURL);
 web3.setProvider(new web3.providers.HttpProvider(rpcURL));
 
