@@ -7,8 +7,10 @@
     "test": "truffle test",
     "migrate": "truffle migrate",
     "compile": "truffle compile",
-    "deploy": "truffle deploy",
-    "dev": "truffle compile && truffle deploy"
+    "dev": "truffle compile && truffle deploy",
+    "dashboard": "truffle dashboard",
+    "prod": "truffle compile && truffle migrate --network unima",
+    "dash": "truffle migrate --network dashboard && truffle console --network dashboard"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,8 @@
   "homepage": "https://github.com/Jonas-Grill/mtp-blockchain#readme",
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.0",
+    "@truffle/hdwallet-provider": "^2.1.5",
+    "dotenv": "^16.0.3",
     "openzeppelin-solidity": "4.6.0",
     "solc": "^0.8.17",
     "truffle": "^5.7.1"

@@ -16,8 +16,8 @@
 *.vsix
 .vscode/launch.json
 
-# Ignore truffle compiled
-smart-contracts/build/contracts/*
-
 # Ignore .env file
 .env
+
+# Ignore truffle compiled
+smart-contracts/build/contracts/*
