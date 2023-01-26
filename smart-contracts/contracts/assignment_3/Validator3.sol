@@ -14,7 +14,7 @@ import "./Validator3Helper.sol";
 import "./Validator3TaskA.sol";
 import "./Validator3TaskB.sol";
 import "./Validator3TaskC.sol";
-import "./validator3TaskE.sol";
+import "./Validator3TaskE.sol";
 
 // Give the contract a name and inherit from the base assignment validator
 contract Validator3 is BaseValidator {
