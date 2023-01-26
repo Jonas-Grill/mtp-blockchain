@@ -8,7 +8,7 @@ import "../../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC72
 import "../../contracts/BaseAssignment.sol";
 
 // Create contract > define Contract Name
-abstract contract Assignment1Interface is ERC721URIStorage, BaseAssignment {
+abstract contract Validator1Interface is ERC721URIStorage, BaseAssignment {
     // mint a nft and send to _address
     function mint(address _address) public payable virtual returns (uint256) {}
 

@@ -21,7 +21,7 @@ contract Validator3 is BaseValidator {
     // Contract to validate
     Validator3Interface assignmentContract;
 
-    // Task A and Task B
+    // Task A, B, C and E
     Validator3TaskA validatorTaskA;
     Validator3TaskB validatorTaskB;
     Validator3TaskC validatorTaskC;
@@ -42,7 +42,7 @@ contract Validator3 is BaseValidator {
             0.05 ether
         )
     {
-        // Task A and Task B
+        // Task A, B, C and E
         validatorTaskA = new Validator3TaskA(_configContractAddress);
         validatorTaskB = new Validator3TaskB(_configContractAddress);
         validatorTaskC = new Validator3TaskC(_configContractAddress);
