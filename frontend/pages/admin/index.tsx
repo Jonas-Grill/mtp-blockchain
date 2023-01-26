@@ -25,6 +25,7 @@ import {getFaucetGas, setFaucetGas} from "../../web3/src/entrypoints/config/fauc
 import {getFaucetBalance} from "../../web3/src/entrypoints/account/faucet";
 import {getTimestampFromBlockNumber, getCurrentBlockNumber} from "../../web3/src/entrypoints/utils/utils";
 import Web3 from "web3";
+import {FAUCET_URL} from "../_app";
 
 export default function Admin({userAddress}: { userAddress: string }) {
     const [web3, setWeb3] = useState<any>(undefined);
@@ -33,7 +34,8 @@ export default function Admin({userAddress}: { userAddress: string }) {
     const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
     const [faucetBlockNoDifference, setFaucetBlockNoDifferenceState] = useState<number>(-1);
     const [faucetGas, setFaucetGasState] = useState<number>(-1);
-    const [faucetBalance, setFaucetBalanceState] = useState<number>(-1);
+    const [faucetApiBalance, setFaucetApiBalance] = useState<number>(-1);
+    const [faucetContractBalance, setFaucetContractBalance] = useState<number>(-1);
     const [timestamp, setTimestamp] = useState<Date>(new Date(Date.now()));
 
     const handleBlockNoToDate = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -138,7 +140,7 @@ export default function Admin({userAddress}: { userAddress: string }) {
             await setFaucetGas(web3, parseInt(gas)).catch((error: any) => {
                 alert(error.message);
             });
-            setFaucetGasState(await getFaucetGas(web3).catch((error: any) => {
+            setFaucetApiBalance(await getFaucetGas(web3).catch((error: any) => {
                 alert(error.message);
             }));
         }
@@ -173,9 +175,27 @@ export default function Admin({userAddress}: { userAddress: string }) {
             getFaucetGas(web3).then((result) => {
                 setFaucetGasState(result);
             });
-        } else if (faucetBalance < 0) {
+        } else if (faucetContractBalance < 0) {
             getFaucetBalance(web3).then((result) => {
-                setFaucetBalanceState(result);
+                setFaucetContractBalance(result);
+            });
+        } else if (faucetApiBalance < 0) {
+            fetch(FAUCET_URL + "/eth", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                }
+            ).then(response => {
+                if (response.status == 200) {
+                    response.json().then((result) => {
+                        setFaucetApiBalance(result.balance);
+                    });
+                } else {
+                    alert("Error: " + response.status);
+                }
+            }).catch((error) => {
+                alert(error.message);
             });
         } else {
             getCurrentBlockNumber(web3).then((result) => {
@@ -189,7 +209,7 @@ export default function Admin({userAddress}: { userAddress: string }) {
                 setIsUserAdmin(result);
             });
         }
-    }, [web3, userAdmins, contractAdmins, userAddress, faucetBlockNoDifference, faucetGas, faucetBalance]);
+    }, [web3, userAdmins, contractAdmins, userAddress, faucetBlockNoDifference, faucetGas, faucetApiBalance, faucetContractBalance]);
 
     return (
         <>
@@ -206,7 +226,8 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                     <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
                                         Admin functions
                                     </h2>
-                                    <div className="mt-2 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
+                                    <div
+                                        className="mt-2 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
                                         <form className="pt-2 grid grid-cols-3 justify-items-start items-center mb-1"
                                               onSubmit={handleBlockNoToDate}>
                                             <label htmlFor="blockNo" className="sr-only">
@@ -227,16 +248,18 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                             >
                                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                                     <ClockIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
-                                                                  aria-hidden="true"/>
+                                                               aria-hidden="true"/>
                                                 </span>
                                                 To date
                                             </button>
                                         </form>
                                         <div className="grid grid-cols-3 justify-items-start items-center">
-                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Block number to timestamp: {`${timestamp.toLocaleDateString()} ${timestamp.toLocaleTimeString()}`}</h3>
+                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Block number to
+                                                timestamp: {`${timestamp.toLocaleDateString()} ${timestamp.toLocaleTimeString()}`}</h3>
                                         </div>
                                     </div>
-                                    <div className="mt-4 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
+                                    <div
+                                        className="mt-4 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
                                         <h3 className="mt-1 text-lg font-medium text-uni">User admin addresses:</h3>
                                         <div className="divide-y divide-uni">
                                             {userAdmins.map((userAdmin) => (
@@ -245,7 +268,8 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                                     <div className="col-span-2">
                                                         <h3 className="text-sm font-medium text-uni col-span-2">{userAdmin}</h3>
                                                     </div>
-                                                    <button value={userAdmin} name={userAdmin} onClick={handleRemoveUserAdmin}
+                                                    <button value={userAdmin} name={userAdmin}
+                                                            onClick={handleRemoveUserAdmin}
                                                             className="mt-1 mb-1 ml-8 shadow shadow-uni rounded-md flex w-1/2 items-center justify-center py-3 px-3 text-center font-medium text-uni bg-gray-400 hover:bg-uni hover:text-white">
                                                         Delete
                                                     </button>
@@ -277,7 +301,8 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                             </button>
                                         </form>
                                     </div>
-                                    <div className="mt-2 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
+                                    <div
+                                        className="mt-2 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
                                         <h3 className="mt-1 text-lg font-medium text-uni">Contract admin addresses:</h3>
                                         <div className="divide-y divide-uni">
                                             {contractAdmins.map((contractAdmin) => (
@@ -326,8 +351,9 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                                 className="group relative flex w-full justify-end rounded-md shadow shadow-uni bg-gray-400 py-2 px-2 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                                             >
                                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                                    <DocumentPlusIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
-                                                                      aria-hidden="true"/>
+                                                    <DocumentPlusIcon
+                                                        className="h-5 w-5 text-uni group-hover:text-gray-400"
+                                                        aria-hidden="true"/>
                                                 </span>
                                                 Add contract admin
                                             </button>
@@ -358,8 +384,9 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                                 className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                                             >
                                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                                    <Square2StackIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
-                                                              aria-hidden="true"/>
+                                                    <Square2StackIcon
+                                                        className="h-5 w-5 text-uni group-hover:text-gray-400"
+                                                        aria-hidden="true"/>
                                                 </span>
                                                 Set difference
                                             </button>
@@ -367,14 +394,13 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                     </div>
                                     <div className="mt-2 shadow shadow-uni bg-gray-300 rounded-md p-2">
                                         <div className="grid grid-cols-3 justify-items-start items-center">
-                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Current faucet
-                                                gas:</h3>
+                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Ether per faucet request:</h3>
                                             <h3 className="mt-1 text-lg font-medium text-uni ml-16">{faucetGas}</h3>
                                         </div>
                                         <form className="mt-2 grid grid-cols-3 justify-items-start items-center"
                                               onSubmit={handleSetFaucetGas}>
                                             <label htmlFor="gas" className="sr-only">
-                                                gasAmount
+                                                Ether per faucet request
                                             </label>
                                             <input
                                                 id="gas"
@@ -382,7 +408,7 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                                 type="text"
                                                 required
                                                 className="col-span-2 relative block w-64 appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
-                                                placeholder="gas amount"
+                                                placeholder="Amount"
                                             />
                                             <button
                                                 type="submit"
@@ -390,22 +416,25 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                             >
                                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                                     <FireIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
-                                                            aria-hidden="true"/>
+                                                              aria-hidden="true"/>
                                                 </span>
                                                 Set faucet gas
                                             </button>
                                         </form>
                                     </div>
-                                    <div className="mt-2 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
+                                    <div
+                                        className="mt-2 shadow shadow-uni bg-gray-300 rounded-md p-2 divide-uni divide-y">
                                         <div className="grid grid-cols-3 justify-items-start items-center">
-                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Amount of Eth in faucet
+                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Amount of Eth
+                                                in faucet
                                                 contract:</h3>
-                                            <h3 className="mt-1 text-lg font-medium text-uni ml-16">{Web3.utils.fromWei(faucetBalance.toString(), 'ether')}</h3>
+                                            <h3 className="mt-1 text-lg font-medium text-uni ml-16">{Web3.utils.fromWei(faucetContractBalance.toString(), 'ether')}</h3>
                                         </div>
                                         <div className="grid grid-cols-3 justify-items-start items-center">
-                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Amount of Eth in faucet
+                                            <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Amount of Eth
+                                                in faucet
                                                 API:</h3>
-                                            <h3 className="mt-1 text-lg font-medium text-uni ml-16">{faucetGas}</h3>
+                                            <h3 className="mt-1 text-lg font-medium text-uni ml-16">{faucetApiBalance}</h3>
                                         </div>
                                     </div>
                                 </div>
