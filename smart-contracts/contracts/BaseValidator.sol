@@ -49,6 +49,14 @@ contract BaseValidator is BaseConfig, Helper {
         bool submitted;
     }
 
+    // Contract creation block number tracker
+    mapping(address => uint256) _assignmentCreationBlockNumber;
+    // This tracks the block number if a conract references the Validator contract address
+
+    // Contract msg sender tracker
+    mapping(address => address) _assignmentOwner;
+    // Left is the contract address (msg.sender), right is the tx.origin address
+
     // Info about the assignment is has in the ConfigStorage
     uint256 _semesterId;
     uint256 _assignmentId;
@@ -102,16 +110,13 @@ contract BaseValidator is BaseConfig, Helper {
         // Make sure the assignment is linked to a semester
         require(
             isAssignmentLinked() == true,
-            "Assignment Error: Assignment is not linked to a semester! Please contract the Admin asap!"
+            "Assignment Error: Assignment is not linked to a semester! Please contract an Admin asap!"
         );
 
         // Make sure the person who is checking the assignment is the owner of the contract or an admin
         require(
-            BaseAssignment(_contractAddress).getOwner() == msg.sender ||
-                getConfigStorage().isAdmin(
-                    BaseAssignment(_contractAddress).getOwner()
-                ) ==
-                true,
+            getAssignmentOwner(_contractAddress) == tx.origin ||
+                getConfigStorage().isAdmin(msg.sender) == true,
             "Assignment Error: Only the owner of the contract or an admin can validate this assignment!"
         );
 
@@ -321,9 +326,7 @@ contract BaseValidator is BaseConfig, Helper {
         view
         returns (bool)
     {
-        BaseAssignment assignment = BaseAssignment(_contractAddress);
-
-        if (assignment.getOwner() == msg.sender) {
+        if (getAssignmentOwner(_contractAddress) == msg.sender) {
             return true;
         } else {
             return false;
@@ -387,10 +390,10 @@ contract BaseValidator is BaseConfig, Helper {
         view
         returns (bool)
     {
-        BaseAssignment assignment = BaseAssignment(_contractAddress);
-
         // Get block number of assignment
-        uint256 blockNumber = assignment.getCreationBlockNumber();
+        uint256 blockNumber = getAssignmentCreationBlockNumber(
+            _contractAddress
+        );
 
         // Get allowed start and end block of assignment
         uint256 startBlock = getConfigStorage()
@@ -431,6 +434,40 @@ contract BaseValidator is BaseConfig, Helper {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Set block number of contract creation
+     */
+    function setAssignmentCreationBlockNumber() public {
+        if (_assignmentCreationBlockNumber[msg.sender] == 0) {
+            _assignmentCreationBlockNumber[msg.sender] = block.number;
+        }
+    }
+
+    function getAssignmentCreationBlockNumber(address _address)
+        public
+        view
+        returns (uint256)
+    {
+        return _assignmentCreationBlockNumber[_address];
+    }
+
+    /**
+     * Set admin address
+     */
+    function setAssignmentOwner() public {
+        if (_assignmentOwner[msg.sender] == address(0)) {
+            _assignmentOwner[msg.sender] = tx.origin;
+        }
+    }
+
+    function getAssignmentOwner(address _address)
+        public
+        view
+        returns (address)
+    {
+        return _assignmentOwner[_address];
     }
 
     /*=====        End of Test Helper      ======*/

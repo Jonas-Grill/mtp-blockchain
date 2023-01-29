@@ -40,6 +40,12 @@ contract Validator4TaskA is Helper, BaseConfig {
             return (test1Message, false);
         }
 
+        // TEST 3: Signatures are not same
+        (string memory test3Message, bool test3Result) = testSignatures();
+        if (!test3Result) {
+            return (test3Message, false);
+        }
+
         return ("Exercise A: All tests passed.", true);
     }
 
@@ -260,5 +266,20 @@ contract Validator4TaskA is Helper, BaseConfig {
 
         // return success
         return ("Exercise A: All tests passed.", true);
+    }
+
+    function testSignatures() public payable returns (string memory, bool) {
+        bytes memory signature0 = assignmentContract.getSignature(0);
+        bytes memory signature1 = assignmentContract.getSignature(1);
+
+        // Check if signatures are not the same
+        if (keccak256(signature0) == keccak256(signature1)) {
+            return (
+                "Error (Exercise A - Signature): The signatures are the same. Please override the index 0 with a different signature.",
+                false
+            );
+        }
+
+        return ("Exercise A (Signature): All tests passed.", true);
     }
 }

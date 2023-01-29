@@ -31,11 +31,6 @@ contract BaseAssignment {
         return _owner;
     }
 
-    // Get block number of the contract
-    function getCreationBlockNumber() public view returns (uint256) {
-        return _blockNumber;
-    }
-
     // Get validator contract address
     function getValidator() public view returns (address) {
         return _validator;

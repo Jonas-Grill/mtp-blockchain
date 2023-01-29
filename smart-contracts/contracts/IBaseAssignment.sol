@@ -9,9 +9,6 @@ abstract contract IBaseAssignment {
     // Get owner of the contract
     function getOwner() public virtual returns (address) {}
 
-    // Get block number of the contract
-    function getCreationBlockNumber() public virtual returns (uint256) {}
-
     // Get the current block number (for test purposes)
     function getBlockNumber() public virtual returns (uint256) {}
 

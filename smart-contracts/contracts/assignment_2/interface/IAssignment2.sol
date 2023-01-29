@@ -8,10 +8,10 @@ import "../../../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "../../../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // Import BaseAssignment.sol
-import "../../BaseAssignment.sol";
+import "../../IBaseAssignment.sol";
 
 // Create contract > define Contract Name
-abstract contract IAssignment2 is ERC20, BaseAssignment {
+abstract contract IAssignment2 is ERC20, IBaseAssignment {
     // Get token address
     function getTokenAddress() public view virtual returns (address) {}
 

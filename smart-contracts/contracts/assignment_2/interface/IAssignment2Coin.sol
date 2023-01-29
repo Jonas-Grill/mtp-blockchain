@@ -5,9 +5,9 @@ pragma solidity ^0.8.17;
 import "../../../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 // Import BaseAssignment.sol
-import "../../BaseAssignment.sol";
+import "../../IBaseAssignment.sol";
 
 // Create contract > define Contract Name
-abstract contract IAssignment2Coin is ERC20, BaseAssignment {
+abstract contract IAssignment2Coin is ERC20, IBaseAssignment {
     function mint(address _recipient, uint256 _amount) public virtual;
 }

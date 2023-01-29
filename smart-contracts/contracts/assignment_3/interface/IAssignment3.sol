@@ -2,10 +2,10 @@
 pragma solidity ^0.8.17;
 
 // Import BaseAssignment.sol
-import "../../../contracts/BaseAssignment.sol";
+import "../../IBaseAssignment.sol";
 
 // Create contract > define Contract Name
-abstract contract IAssignment3 is BaseAssignment {
+abstract contract IAssignment3 is IBaseAssignment {
     // Get current state
     function getState() public view virtual returns (string memory) {}
 
