@@ -6,7 +6,7 @@ pragma solidity ^0.8.17;
 =============================================*/
 
 import "../contracts/BaseConfig.sol";
-import "../contracts/BaseAssignment.sol";
+import "../contracts/IBaseAssignment.sol";
 import "../contracts/SBCoin.sol";
 import "../contracts/Helper.sol";
 
@@ -151,7 +151,7 @@ contract BaseValidator is BaseConfig, Helper {
 
         // Make sure the student is the owner of the contract
         require(
-            BaseAssignment(_contractAddress).getOwner() == msg.sender,
+            IBaseAssignment(_contractAddress).getOwner() == msg.sender,
             "Assignment Error: Only the owner of the contract can submit this assignment!"
         );
 
