@@ -1,13 +1,14 @@
 const configStorage = artifacts.require("ConfigStorage");
 
-// Assignment 1
-const validator1 = artifacts.require("Validator1");
+// Assignment 3
+const validator3 = artifacts.require("Validator3");
 
 // Deploy or not for testing
 const deploy = true
 
 module.exports = async (deployer, network, account) => {
     if (deploy) {
-        await deployer.deploy(validator1, configStorage.address);
+        // DEPLOY ASSIGNMENT 3 VALIDATOR
+        await deployer.deploy(validator3, configStorage.address);
     }
 };
