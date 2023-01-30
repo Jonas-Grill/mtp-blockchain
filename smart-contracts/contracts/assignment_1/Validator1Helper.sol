@@ -26,6 +26,6 @@ contract Validator1Helper {
 
     // This should fail, because not correct owner
     function withdrawTestF(IAssignment1 assingmentContract) public payable {
-        assingmentContract.withdraw(payable(address(this)));
+        assingmentContract.withdraw(address(assingmentContract).balance);
     }
 }

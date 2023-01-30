@@ -10,7 +10,7 @@ import "../Helper.sol";
 // import "BaseConfig.sol";
 import "../BaseConfig.sol";
 
-contract Validator4TaskC is Helper, BaseConfig {
+contract Validator3TaskC is Helper, BaseConfig {
     // assignment contract interface
     IAssignment3 assignmentContract;
 
