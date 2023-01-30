@@ -52,13 +52,15 @@ contract FaucetStorage is BaseConfig {
 
         // Send the gas
 
+        // Register the faucet usage
+        addFaucetUsage(_address, currentBlockNumber);
+
         (bool success, ) = _address.call{value: faucetGas}(
             "Ether sent successfully!"
         );
 
-        if (success) {
-            // Register the faucet usage
-            addFaucetUsage(_address, currentBlockNumber);
+        if (!success) {
+            revert("Transfer failed.");
         }
 
         // Make sure the transfer was successful
