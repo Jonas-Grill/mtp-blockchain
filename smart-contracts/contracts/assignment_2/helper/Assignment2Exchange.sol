@@ -46,7 +46,7 @@ contract Assignment2Exchange is ERC20, BaseConfig {
 
         require(
             _token != address(0),
-            "Assignment 2 Registry: invalid token address"
+            "Assignment 2 Exchange: invalid token address"
         );
         tokenAddress = _token;
         registryAddress = msg.sender;
@@ -76,7 +76,7 @@ contract Assignment2Exchange is ERC20, BaseConfig {
             uint256 tokenAmount = (msg.value * tokenReserve) / ethReserve;
             require(
                 _tokenAmount >= tokenAmount,
-                "Assignment 2 Registry: insufficient token amount"
+                "Assignment 2 Exchange: insufficient token amount"
             );
 
             // Calculate the liquidity
@@ -97,11 +97,11 @@ contract Assignment2Exchange is ERC20, BaseConfig {
         payable
         returns (uint256, uint256)
     {
-        require(_amount > 0, "Assignment 2 Registry: invalid amount");
+        require(_amount > 0, "Assignment 2 Exchange: invalid amount");
 
         uint256 ethReserve = address(this).balance;
 
-        require(ethReserve > 0, "Assignment 2 Registry: Eth amount is 0");
+        require(ethReserve > 0, "Assignment 2 Exchange: Eth amount is 0");
 
         uint256 supply = totalSupply();
         uint256 ethAmount = (ethReserve * _amount) / supply;
@@ -133,7 +133,7 @@ contract Assignment2Exchange is ERC20, BaseConfig {
     ) private pure returns (uint256) {
         require(
             inputReserve > 0 && outputReserve > 0,
-            "Assignment 2 Registry: invalid reserves"
+            "Assignment 2 Exchange: invalid reserves"
         );
 
         uint256 inputAmountWithFee = inputAmount * 99;
@@ -144,7 +144,7 @@ contract Assignment2Exchange is ERC20, BaseConfig {
     }
 
     function getTokenAmount(uint256 _ethSold) public view returns (uint256) {
-        require(_ethSold > 0, "Assignment 2 Registry: ethSold cannot be zero");
+        require(_ethSold > 0, "Assignment 2 Exchange: ethSold cannot be zero");
         uint256 tokenReserve = getReserve();
         return getAmount(_ethSold, address(this).balance, tokenReserve);
     }
@@ -152,7 +152,7 @@ contract Assignment2Exchange is ERC20, BaseConfig {
     function getEthAmount(uint256 _tokenSold) public view returns (uint256) {
         require(
             _tokenSold > 0,
-            "Assignment 2 Registry: tokenSold cannot be zero"
+            "Assignment 2 Exchange: tokenSold cannot be zero"
         );
         uint256 tokenReserve = getReserve();
         return getAmount(_tokenSold, tokenReserve, address(this).balance);
@@ -171,7 +171,7 @@ contract Assignment2Exchange is ERC20, BaseConfig {
 
         require(
             tokensBought >= _minTokens,
-            "Assignment 2 Registry: insufficient output amount"
+            "Assignment 2 Exchange: insufficient output amount"
         );
         IERC20(tokenAddress).approve(recipient, tokensBought);
         IERC20(tokenAddress).transfer(recipient, tokensBought);
@@ -193,7 +193,7 @@ contract Assignment2Exchange is ERC20, BaseConfig {
 
         require(
             ethBought >= _minEth,
-            "Assignment 2 Registry: insufficient output amount"
+            "Assignment 2 Exchange: insufficient output amount"
         );
 
         IERC20(tokenAddress).transferFrom(
@@ -216,7 +216,7 @@ contract Assignment2Exchange is ERC20, BaseConfig {
 
         require(
             exchangeAddress != address(this) && exchangeAddress != address(0),
-            "Assignment 2 Registry: invalid exchange address"
+            "Assignment 2 Exchange: invalid exchange address"
         );
 
         uint256 tokenReserve = getReserve();

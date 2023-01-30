@@ -56,7 +56,7 @@ contract Validator2TaskB is Helper, BaseConfig {
             tokenAddress = _tokenAddress;
         } catch {
             return (
-                "Error (Exercise A): Error with the getTokenAddress() function.",
+                "Error (Exercise B): Error with the getTokenAddress() function.",
                 false
             );
         }
@@ -64,7 +64,7 @@ contract Validator2TaskB is Helper, BaseConfig {
         // check that token address is no address(0)
         if (tokenAddress == address(0)) {
             return (
-                "Error (Exercise A): The token address is address(0).",
+                "Error (Exercise B): The token address is address(0).",
                 false
             );
         }
@@ -101,7 +101,7 @@ contract Validator2TaskB is Helper, BaseConfig {
         (string memory message6, bool success6) = testTokenToEth(tokenAddress);
         if (!success6) return (message6, false);
 
-        return ("Error (Exercise A): All tests passed!", true);
+        return ("Exercise B: All tests passed!", true);
     }
 
     /**

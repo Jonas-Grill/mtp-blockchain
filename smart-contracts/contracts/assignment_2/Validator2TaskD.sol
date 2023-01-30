@@ -26,6 +26,9 @@ contract Validator2TaskD is Helper, BaseConfig {
     // Address of test token contract
     address tokenTestAddress;
 
+    // Address of exchange contract/ student contract
+    address exchangeAddress;
+
     constructor(address _configContractAddress) {
         initAdmin(
             _configContractAddress,
@@ -49,6 +52,10 @@ contract Validator2TaskD is Helper, BaseConfig {
 
         // Set test token address
         tokenTestAddress = _testToken;
+
+        // Set exchange address
+
+        exchangeAddress = _contractAddress;
     }
 
     /**
@@ -92,7 +99,11 @@ contract Validator2TaskD is Helper, BaseConfig {
         tokenTest.mint(validatorAddress, 1000 gwei);
 
         // Calculate eth amount
-        uint256 tokenBought = 10 gwei;
+        uint256 tokensBought = getAmount(
+            10 gwei,
+            address(assignmentContract).balance - 10 gwei,
+            getReserve(tokenTestAddress)
+        );
 
         // Set Allowance
         tokenStudent.approve(address(assignmentContract), 1000 gwei);
@@ -116,7 +127,7 @@ contract Validator2TaskD is Helper, BaseConfig {
         try
             assignmentContract.tokenToTokenSwap{value: 100 gwei}(
                 tokensSold,
-                tokenBought,
+                tokensBought + 1,
                 tokenTestAddress
             )
         {
@@ -157,4 +168,29 @@ contract Validator2TaskD is Helper, BaseConfig {
 
         return ("Exercise D: All tests passed!", true);
     }
+
+    /*=============================================
+    =                    HELPER                  =
+    =============================================*/
+
+    function getReserve(address tokenAddress) public view returns (uint256) {
+        return IERC20(tokenAddress).balanceOf(exchangeAddress);
+    }
+
+    function getAmount(
+        uint256 inputAmount,
+        uint256 inputReserve,
+        uint256 outputReserve
+    ) private pure returns (uint256) {
+        uint256 inputAmountWithFee = inputAmount * 99;
+        uint256 numerator = inputAmountWithFee * outputReserve;
+        uint256 denominator = (inputReserve * 100) + inputAmountWithFee;
+
+        // return (inputAmount * outputReserve) / (inputReserve + inputAmount);
+
+        require(denominator > 0, "ERR_ZERO_DENOMINATOR");
+        return numerator / denominator;
+    }
+
+    /*=====          End of HELPER        ======*/
 }
