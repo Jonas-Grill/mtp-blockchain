@@ -83,6 +83,8 @@ export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeo
     }
 
     useEffect(() => {
+        console.log("ChangeAssignment useEffect");
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);

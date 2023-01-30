@@ -57,6 +57,8 @@ export default function Faucet({userAddress}: { userAddress: string }) {
     }
 
     useEffect(() => {
+        console.log("Faucet useEffect");
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);

@@ -48,16 +48,16 @@ export default function CreateAssignment() {
     }
 
     useEffect(() => {
+        console.log("CreateAssignment useEffect");
 
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
             });
         } else {
-            loadSemesters(web3).then((result) => {
-                setSemesters(result);
-
+            loadSemesters(web3, true).then((result) => {
                 if (result && result.length > 0) {
+                    setSemesters(result);
                     setSelectedSemester(result[0].id);
                 }
             });

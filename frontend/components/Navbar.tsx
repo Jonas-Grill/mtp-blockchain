@@ -30,6 +30,8 @@ export default function Navbar({
     const [blockNumber, setBlockNumber] = useState<string>("0");
 
     useEffect(() => {
+        console.log("Navbar useEffect");
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);

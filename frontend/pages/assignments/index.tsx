@@ -6,7 +6,7 @@ import {DocumentTextIcon} from "@heroicons/react/20/solid";
 import {initBlockchain} from "../faucet";
 import {loadSemesters, Semester} from "../semester";
 import {isAdmin} from "../../web3/src/entrypoints/config/admin";
-import {getSemester} from "../../web3/src/entrypoints/config/semester";
+import {getCurrentBlockNumber} from "../../web3/src/entrypoints/utils/utils";
 
 export type Assignment = {
     id: string,
@@ -17,7 +17,7 @@ export type Assignment = {
     endBlock: number,
 }
 
-export const loadAssignments = async (semesterId: string, web3: any) => {
+export const loadAssignments = async (semesterId: string, web3: any, isAdmin: boolean) => {
     const ids: string[] = await getAssignmentIds(web3, semesterId);
     const assignments: Assignment[] = [];
 
@@ -36,7 +36,12 @@ export const loadAssignments = async (semesterId: string, web3: any) => {
         }
     }
 
-    return assignments;
+    if (isAdmin) {
+        return assignments.sort((a, b) => b.startBlock - a.startBlock);
+    } else {
+        const currentBlockNumber = await getCurrentBlockNumber(web3);
+        return assignments.filter(assignment => assignment.endBlock > currentBlockNumber && assignment.startBlock < currentBlockNumber).sort((a, b) => b.startBlock - a.startBlock);
+    }
 }
 
 export const loadAssignment = async (semesterId: string, web3: any, id: string) => {
@@ -67,7 +72,7 @@ export default function AssignmentOverview({userAddress}: { userAddress: string 
 
         if (web3) {
             deleteAssignment(web3, selectedSemester, event.currentTarget.name).then((result) => {
-                loadAssignments(selectedSemester, web3).then((assignments) => {
+                loadAssignments(selectedSemester, web3, isUserAdmin).then((assignments) => {
                     setAssignments(assignments);
                 });
             });
@@ -75,33 +80,39 @@ export default function AssignmentOverview({userAddress}: { userAddress: string 
     }
 
     useEffect(() => {
+        console.log("AssignmentOverview useEffect");
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
             });
         } else if (semesters.length <= 0) {
-            loadSemesters(web3).then((result) => {
-                if (result) {
-                    result = result.sort((a, b) => b.startBlock - a.startBlock);
-
+            loadSemesters(web3, isUserAdmin).then((result) => {
+                if (result && result.length > 0) {
                     setSemesters(result);
-
-                    if (result && result.length > 0) {
-                        setSelectedSemester(result[0].id);
-                    }
+                    setSelectedSemester(result[0].id);
                 }
             });
         } else {
-            loadAssignments(selectedSemester, web3).then((result) => {
+            loadAssignments(selectedSemester, web3, isUserAdmin).then((result) => {
                 setAssignments(result);
             });
         }
         if (web3 && userAddress) {
             isAdmin(web3, userAddress).then((result) => {
-                setIsUserAdmin(result);
+                if (result !== isUserAdmin) {
+                    setIsUserAdmin(result);
+
+                    loadSemesters(web3, result).then((result) => {
+                        if (result && result.length > 0) {
+                            setSemesters(result);
+                            setSelectedSemester(result[0].id);
+                        }
+                    });
+                }
             });
         }
-    }, [web3, semesters, selectedSemester, userAddress]);
+    }, [web3, semesters, selectedSemester, userAddress, isUserAdmin]);
 
     return (
         <div className="flex-col">
@@ -162,6 +173,7 @@ export default function AssignmentOverview({userAddress}: { userAddress: string 
                                 <h3 className="mt-1 text-lg font-medium text-uni">Assignment: {assignment.name}</h3>
                                 <p className="mt-4 text-xs text-uni">Validator contract
                                     address: {assignment.validationContractAddress}</p>
+                                <p className="mt-2 text-xs text-uni">Semester: {semesters.filter(semester => semester.id === selectedSemester)[0].name}</p>
                                 <p className="mt-2 text-xs text-uni">Assignment link: {assignment.link}</p>
                                 <p className="mt-2 text-xs text-uni">Start block: {assignment.startBlock}</p>
                                 <p className="mt-2 text-xs text-uni">End block: {assignment.endBlock}</p>

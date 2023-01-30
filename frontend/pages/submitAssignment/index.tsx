@@ -14,7 +14,6 @@ import {initBlockchain} from "../faucet";
 import {isAdmin} from "../../web3/src/entrypoints/config/admin";
 import { Fragment, useRef} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 export default function SubmitAssignment({userAddress}: { userAddress: string }) {
     const [web3, setWeb3] = useState<any>(undefined);
@@ -122,34 +121,50 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
     }
 
     useEffect(() => {
-        const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
+        console.log("SubmitAssignment useEffect");
 
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
             });
         } else if (semesters.length <= 0) {
-            loadSemesters(web3).then((semesters) => {
+            loadSemesters(web3, isUserAdmin).then((semesters) => {
                 if (semesters && semesters.length > 0) {
-                    semesters = semesters.sort((a, b) => b.startBlock - a.startBlock);
                     setSemesters(semesters);
                     setSelectedSemester(semesters[0].id);
                 }
             });
         } else {
-            loadAssignments(selectedSemester, web3).then((assignments) => {
-                setAssignments(assignments);
+            loadAssignments(selectedSemester, web3, isUserAdmin).then((result) => {
+                // Only update if the result is different
+                if ((result && result.length > 0) || assignments.length > 0) {
+                    if (result.length !== assignments.length || result[0].id !== assignments[0].id) {
+                        setAssignments(result);
 
-                if (assignments.length > 0) {
-                    setSelectedAssignment(assignments[0].id);
+                        if (result && result.length > 0 && result[0].id !== selectedAssignment) {
+                            setSelectedAssignment(result[0].id);
+                        }
+                    }
                 }
             });
         }
+
         if (web3 && userAddress) {
             isAdmin(web3, userAddress).then((result) => {
-                setIsUserAdmin(result);
+                if (result !== isUserAdmin) {
+                    setIsUserAdmin(result);
+
+                    loadSemesters(web3, result).then((semesters) => {
+                        if (semesters && semesters.length > 0) {
+                            setSemesters(semesters);
+                            setSelectedSemester(semesters[0].id);
+                        }
+                    });
+                }
             });
         }
+
+        const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
 
         if (assignment) {
             loadTestResults(web3, userAddress, assignment.validationContractAddress).then((results) => {
@@ -167,7 +182,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                 }
             });
         }
-    }, [web3, semesters, selectedSemester, assignments, contract, selectedAssignment, userAddress]);
+    }, [web3, semesters, selectedSemester, assignments, selectedAssignment, userAddress, isUserAdmin]);
 
     return (
         <>

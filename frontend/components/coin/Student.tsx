@@ -16,6 +16,8 @@ export default function Student({selectedSemester, getSemesterById, web3, userAd
     }
 
     useEffect(() => {
+        console.log("Student useEffect");
+
         const semester = getSemesterById(selectedSemester);
 
         if (semester) {

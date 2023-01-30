@@ -72,6 +72,8 @@ export default function Admin({
     }
 
     useEffect(() => {
+        console.log("Admin useEffect");
+
         const oldStudents = students;
 
         setStudents([]);
