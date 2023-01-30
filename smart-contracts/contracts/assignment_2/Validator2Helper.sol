@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// Import the IAssignment3.sol
-import "./interface/IAssignment3.sol";
+// Import the IAssignment2.sol
+import "./interface/IAssignment2.sol";
 
 import "../../node_modules/@openzeppelin/contracts/utils/Strings.sol";
 
 // This contract acts as player B
-contract Validator3Helper {
+contract Validator2Helper {
     constructor() {}
 
     // Function to receive Ether. msg.data must be empty
@@ -17,7 +17,7 @@ contract Validator3Helper {
     fallback() external payable {}
 
     // Start function
-    function callStart(IAssignment3 assignmentContract)
+    function callStart(IAssignment2 assignmentContract)
         public
         payable
         returns (uint256)
@@ -25,7 +25,7 @@ contract Validator3Helper {
         return assignmentContract.start{value: msg.value}();
     }
 
-    function callPlay(IAssignment3 assignmentContract, string memory choice)
+    function callPlay(IAssignment2 assignmentContract, string memory choice)
         public
         payable
     {
@@ -33,14 +33,14 @@ contract Validator3Helper {
     }
 
     function callPlayPrivate(
-        IAssignment3 assignmentContract,
+        IAssignment2 assignmentContract,
         bytes32 hashedChoice
     ) public payable {
         assignmentContract.playPrivate(hashedChoice);
     }
 
     function callReveal(
-        IAssignment3 assignmentContract,
+        IAssignment2 assignmentContract,
         string memory plainChoice,
         string memory seed
     ) public payable {

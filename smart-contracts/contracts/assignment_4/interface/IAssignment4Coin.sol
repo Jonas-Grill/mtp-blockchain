@@ -8,6 +8,6 @@ import "../../../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "../../IBaseAssignment.sol";
 
 // Create contract > define Contract Name
-abstract contract IAssignment2Coin is ERC20, IBaseAssignment {
+abstract contract IAssignment4Coin is ERC20, IBaseAssignment {
     function mint(address _recipient, uint256 _amount) public virtual;
 }

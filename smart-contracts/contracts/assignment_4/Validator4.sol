@@ -1,43 +1,85 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// Import the IAssignment3.sol
+// Import the Interfaces
 import "./interface/IAssignment4.sol";
+import "./interface/IAssignment4Coin.sol";
+
+// Import the registry contract to use as Interface
+import "./helper/Assignment4Registry.sol";
+
+// Import the exchange
+import "./helper/Assignment4Exchange.sol";
+
+// Import the Coin
+import "./helper/Assignment4Coin.sol";
 
 // Import the base assignment validator contract
 import "../BaseValidator.sol";
 
-// Import Task A, B, C and E Conctract
+// Import Task A, B, C, D
 import "./Validator4TaskA.sol";
 import "./Validator4TaskB.sol";
-import "./Validator4TaskC.sol";
+import "./Validator4TaskD.sol";
 
 // Give the contract a name and inherit from the base assignment validator
 contract Validator4 is BaseValidator {
     // Contract to validate
     IAssignment4 assignmentContract;
 
-    // Task A, B, C and E
+    // Task A, B, C and D
     Validator4TaskA validatorTaskA;
     Validator4TaskB validatorTaskB;
-    Validator4TaskC validatorTaskC;
+    Validator4TaskD validatorTaskD;
+
+    // Registry contract
+    Assignment4Registry registryContract;
+
+    // Coin contract
+    Assignment4Coin coinContract;
+
+    // Exchange contract
+    Assignment4Exchange exchangeContract;
 
     constructor(address _configContractAddress)
+        payable
         BaseValidator(
             _configContractAddress,
             "SS23 Assignment 4 Validator Contract - Base",
-            5 gwei
+            20000 gwei
         )
     {
-        // Task A, B, C and E
+        // Task A, B, C and D
         validatorTaskA = new Validator4TaskA(_configContractAddress);
         validatorTaskB = new Validator4TaskB(_configContractAddress);
-        validatorTaskC = new Validator4TaskC(_configContractAddress);
+        validatorTaskD = new Validator4TaskD(_configContractAddress);
 
         // Assign contracts to the list of helper contracts
         addHelperContracts(address(validatorTaskA));
         addHelperContracts(address(validatorTaskB));
-        addHelperContracts(address(validatorTaskC));
+        addHelperContracts(address(validatorTaskD));
+
+        // Create a new coin contract
+        coinContract = new Assignment4Coin(
+            "SS23 Coin - Assignment 2",
+            "SS23",
+            _configContractAddress
+        );
+        addHelperContracts(address(coinContract));
+
+        // Create a new exchange contract
+        exchangeContract = new Assignment4Exchange{value: 2000 gwei}(
+            address(coinContract),
+            _configContractAddress
+        );
+        addHelperContracts(address(exchangeContract));
+
+        // Create a new registry contract
+        registryContract = new Assignment4Registry(
+            _configContractAddress,
+            address(exchangeContract)
+        );
+        addHelperContracts(address(registryContract));
     }
 
     // Fallback function to make sure the contract can receive ether
@@ -50,103 +92,92 @@ contract Validator4 is BaseValidator {
         override(BaseValidator)
         returns (uint256)
     {
-        /**
-         *  Create a new history entry in the smart contract
-         *
-         *  The history entry is used to store the results of the tests.
-         *  Always use this index in the further functions.
-         */
         uint256 testId = createTestHistory(_contractAddress);
 
         // Call the contract interface which needs to be tested and store it in the variable assignmentContract
         assignmentContract = IAssignment4(_contractAddress);
 
+        // Prepare and donate ether
+        if (!donateEther()) {
+            // Add the result to the history
+            appendTestResult("Error with donate ether function", false, 0);
+            return testId;
+        }
+
         /*----------  EXERCISE A  ----------*/
 
-        // Init Task A Contract
+        // Init the task A contract
         validatorTaskA.initContract(_contractAddress);
 
         // Run tests
-        try validatorTaskA.testExerciseA{value: 1 gwei}() returns (
-            string memory messageA,
-            bool resultA
-        ) {
-            if (resultA) {
-                // Add the result to the history
-                appendTestResult(messageA, resultA, 5);
-            } else {
-                // Add the result to the history
-                appendTestResult(messageA, false, 0);
-            }
-        } catch Error(string memory reason) {
-            appendTestResult(
-                buildErrorMessage(
-                    "Error (Exercise A)",
-                    "Error with tests in Exercise A.",
-                    reason
-                ),
-                false,
-                0
-            );
+        (string memory messageA, bool successA) = validatorTaskA.testExerciseA{
+            value: 0 ether
+        }();
+        if (successA) {
+            // Add the result to the history
+            appendTestResult(messageA, true, 5);
+        } else {
+            // Add the result to the history
+            appendTestResult(messageA, false, 0);
         }
 
         /*----------  EXERCISE B  ----------*/
 
-        // Init Task A Contract
+        // Init the task B contract
         validatorTaskB.initContract(_contractAddress);
 
         // Run tests
-        try validatorTaskB.testExerciseB{value: 1 gwei}() returns (
-            string memory messageB,
-            bool resultB
-        ) {
-            if (resultB) {
-                // Add the result to the history
-                appendTestResult(messageB, resultB, 5);
-            } else {
-                // Add the result to the history
-                appendTestResult(messageB, false, 0);
-            }
-        } catch Error(string memory reason) {
-            appendTestResult(
-                buildErrorMessage(
-                    "Error (Exercise B)",
-                    "Error with tests in Exercise B.",
-                    reason
-                ),
-                false,
-                0
-            );
+        (string memory messageB, bool successB) = validatorTaskB.testExerciseB{
+            value: 1000 gwei
+        }();
+        if (successB) {
+            // Add the result to the history
+            appendTestResult(messageB, true, 5);
+        } else {
+            // Add the result to the history
+            appendTestResult(messageB, false, 0);
         }
 
-        /*----------  EXERCISE C  ----------*/
+        /*----------  EXERCISE D  ----------*/
 
-        validatorTaskC.initContract(_contractAddress);
+        // Init the task D contract
+        validatorTaskD.initContract(
+            _contractAddress,
+            address(registryContract),
+            address(coinContract)
+        );
 
-        try validatorTaskC.testExerciseC{value: 1 gwei}() returns (
-            string memory messageC,
-            bool resultC
-        ) {
-            if (resultC) {
-                // Add the result to the history
-                appendTestResult(messageC, resultC, 5);
-            } else {
-                // Add the result to the history
-                appendTestResult(messageC, false, 0);
-            }
-        } catch Error(string memory reason) {
-            appendTestResult(
-                buildErrorMessage(
-                    "Error (Exercise C)",
-                    "Error with tests in Exercise C.",
-                    reason
-                ),
-                false,
-                0
-            );
+        // Run tests
+        (string memory messageD, bool successD) = validatorTaskD.testExerciseD{
+            value: 200 gwei
+        }();
+
+        if (successD) {
+            // Add the result to the history
+            appendTestResult(messageD, true, 5);
+        } else {
+            // Add the result to the history
+            appendTestResult(messageD, false, 0);
         }
 
-        // Return the history index
         return testId;
     }
+
+    /*=============================================
+    =                    HELPER                  =
+    =============================================*/
+
+    // Donate ether to the contract if the balance is 0
+    function donateEther() public payable returns (bool) {
+        if (address(assignmentContract).balance == 0) {
+            try assignmentContract.donateEther{value: 100 gwei}() {
+                return true;
+            } catch {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /*=====          End of HELPER        ======*/
 }

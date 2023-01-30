@@ -22,7 +22,7 @@ abstract contract IAssignment1 is ERC721URIStorage, IBaseAssignment {
     function getSaleStatus() public view virtual returns (bool) {}
 
     // withdraw all funds to owner
-    function withdraw(address payable recipient) public virtual {}
+    function withdraw(uint256 amount) public virtual {}
 
     // get current price
     function getPrice() public view virtual returns (uint256) {}

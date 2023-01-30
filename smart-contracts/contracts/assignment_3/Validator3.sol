@@ -7,14 +7,10 @@ import "./interface/IAssignment3.sol";
 // Import the base assignment validator contract
 import "../BaseValidator.sol";
 
-// Import the assignment validator extend contract
-import "./Validator3Helper.sol";
-
 // Import Task A, B, C and E Conctract
 import "./Validator3TaskA.sol";
 import "./Validator3TaskB.sol";
 import "./Validator3TaskC.sol";
-import "./Validator3TaskE.sol";
 
 // Give the contract a name and inherit from the base assignment validator
 contract Validator3 is BaseValidator {
@@ -25,40 +21,23 @@ contract Validator3 is BaseValidator {
     Validator3TaskA validatorTaskA;
     Validator3TaskB validatorTaskB;
     Validator3TaskC validatorTaskC;
-    Validator3TaskE validatorTaskE;
-
-    // Contract to Help act as second player
-    Validator3Helper validator3Helper;
-
-    // User Addresses
-    address player1 = address(0);
-    address player2 = address(0);
 
     constructor(address _configContractAddress)
         BaseValidator(
             _configContractAddress,
             "SS23 Assignment 3 Validator Contract - Base",
-            0.05 ether
+            5 gwei
         )
     {
         // Task A, B, C and E
         validatorTaskA = new Validator3TaskA(_configContractAddress);
         validatorTaskB = new Validator3TaskB(_configContractAddress);
         validatorTaskC = new Validator3TaskC(_configContractAddress);
-        validatorTaskE = new Validator3TaskE(_configContractAddress);
 
         // Assign contracts to the list of helper contracts
         addHelperContracts(address(validatorTaskA));
         addHelperContracts(address(validatorTaskB));
         addHelperContracts(address(validatorTaskC));
-        addHelperContracts(address(validatorTaskE));
-
-        // Set validator extend address
-        validator3Helper = new Validator3Helper();
-        addHelperContracts(address(validator3Helper));
-
-        player1 = address(this);
-        player2 = address(validator3Helper);
     }
 
     // Fallback function to make sure the contract can receive ether
@@ -85,80 +64,86 @@ contract Validator3 is BaseValidator {
         /*----------  EXERCISE A  ----------*/
 
         // Init Task A Contract
-        validatorTaskA.initContract(
-            _contractAddress,
-            address(validator3Helper)
-        );
+        validatorTaskA.initContract(_contractAddress);
 
         // Run tests
-        (string memory messageA, bool resultA) = validatorTaskA.testExerciseA{
-            value: 0.015 ether
-        }();
-        if (resultA) {
-            // Add the result to the history
-            appendTestResult(messageA, resultA, 5);
-        } else {
-            // Add the result to the history
-            appendTestResult(messageA, false, 0);
+        try validatorTaskA.testExerciseA{value: 1 gwei}() returns (
+            string memory messageA,
+            bool resultA
+        ) {
+            if (resultA) {
+                // Add the result to the history
+                appendTestResult(messageA, resultA, 5);
+            } else {
+                // Add the result to the history
+                appendTestResult(messageA, false, 0);
+            }
+        } catch Error(string memory reason) {
+            appendTestResult(
+                buildErrorMessage(
+                    "Error (Exercise A)",
+                    "Error with tests in Exercise A.",
+                    reason
+                ),
+                false,
+                0
+            );
         }
 
         /*----------  EXERCISE B  ----------*/
 
         // Init Task A Contract
-        validatorTaskB.initContract(
-            _contractAddress,
-            address(validator3Helper)
-        );
+        validatorTaskB.initContract(_contractAddress);
 
         // Run tests
-        (string memory messageB, bool resultB) = validatorTaskB.testExerciseB{
-            value: 0.01 ether
-        }();
-
-        if (resultB) {
-            // Add the result to the history
-            appendTestResult(messageB, resultB, 2);
-        } else {
-            // Add the result to the history
-            appendTestResult(messageB, false, 0);
+        try validatorTaskB.testExerciseB{value: 1 gwei}() returns (
+            string memory messageB,
+            bool resultB
+        ) {
+            if (resultB) {
+                // Add the result to the history
+                appendTestResult(messageB, resultB, 5);
+            } else {
+                // Add the result to the history
+                appendTestResult(messageB, false, 0);
+            }
+        } catch Error(string memory reason) {
+            appendTestResult(
+                buildErrorMessage(
+                    "Error (Exercise B)",
+                    "Error with tests in Exercise B.",
+                    reason
+                ),
+                false,
+                0
+            );
         }
 
         /*----------  EXERCISE C  ----------*/
 
-        validatorTaskC.initContract(
-            _contractAddress,
-            address(validator3Helper)
-        );
+        validatorTaskC.initContract(_contractAddress);
 
-        (string memory messageC, bool resultC) = validatorTaskC.testExerciseC{
-            value: 0.01 ether
-        }();
-
-        if (resultC) {
-            // Add the result to the history
-            appendTestResult(messageC, resultC, 3);
-        } else {
-            // Add the result to the history
-            appendTestResult(messageC, false, 0);
-        }
-
-        /*----------  EXERCISE E  ----------*/
-
-        validatorTaskE.initContract(
-            _contractAddress,
-            address(validator3Helper)
-        );
-
-        (string memory messageE, bool resultE) = validatorTaskE.testExerciseE{
-            value: 0.01 ether
-        }();
-
-        if (resultE) {
-            // Add the result to the history
-            appendTestResult(messageE, resultE, 5);
-        } else {
-            // Add the result to the history
-            appendTestResult(messageE, false, 0);
+        try validatorTaskC.testExerciseC{value: 1 gwei}() returns (
+            string memory messageC,
+            bool resultC
+        ) {
+            if (resultC) {
+                // Add the result to the history
+                appendTestResult(messageC, resultC, 5);
+            } else {
+                // Add the result to the history
+                appendTestResult(messageC, false, 0);
+            }
+        } catch Error(string memory reason) {
+            appendTestResult(
+                buildErrorMessage(
+                    "Error (Exercise C)",
+                    "Error with tests in Exercise C.",
+                    reason
+                ),
+                false,
+                0
+            );
         }
 
         // Return the history index

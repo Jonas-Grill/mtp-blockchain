@@ -1,17 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// Import IERC20.sol
-import "../../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
 // Import the IAssignment2.sol
 import "./interface/IAssignment2.sol";
 
-// Import coin interface
-import "./interface/IAssignment2Coin.sol";
-
 // Import Helper
 import "../Helper.sol";
+
+// Import the assignment validator extend contract
+import "./Validator2Helper.sol";
 
 // import "BaseConfig.sol";
 import "../BaseConfig.sol";
@@ -19,12 +16,11 @@ import "../BaseConfig.sol";
 contract Validator2TaskB is Helper, BaseConfig {
     // assignment contract interface
     IAssignment2 assignmentContract;
+    Validator2Helper validatorHelper;
 
-    // Address of the validator contract for task A
-    address validatorAddress;
-
-    // Address of exchange contract/ student contract
-    address exchangeAddress;
+    // Player addresses
+    address player1 = address(0);
+    address player2 = address(0);
 
     constructor(address _configContractAddress) {
         initAdmin(
@@ -33,568 +29,300 @@ contract Validator2TaskB is Helper, BaseConfig {
         );
     }
 
+    // Function to receive Ether. msg.data must be empty
     receive() external payable {}
 
+    // Fallback function is called when msg.data is not empty
+    fallback() external payable {}
+
     // Init contract
-    function initContract(address _contractAddress) public {
+    function initContract(
+        address _contractAddress,
+        address _validatorHelperAddress
+    ) public {
         // Call the contract interface which needs to be tested and store it in the variable assignmentContract
         assignmentContract = IAssignment2(_contractAddress);
-
-        // Set Address for convenience
-        validatorAddress = address(this);
-        exchangeAddress = address(_contractAddress);
-    }
-
-    function testExerciseB() public payable returns (string memory, bool) {
-        // Prepare
-
-        address tokenAddress = address(0);
-
-        try assignmentContract.getTokenAddress() returns (
-            address _tokenAddress
-        ) {
-            tokenAddress = _tokenAddress;
-        } catch {
-            return (
-                "Error (Exercise B): Error with the getTokenAddress() function.",
-                false
-            );
-        }
-
-        // check that token address is no address(0)
-        if (tokenAddress == address(0)) {
-            return (
-                "Error (Exercise B): The token address is address(0).",
-                false
-            );
-        }
-
-        // TEST 1: Test AddLiquidity function
-        (string memory message1, bool success1) = testAddLiquidity(
-            tokenAddress
-        );
-        if (!success1) return (message1, false);
-
-        // TEST 2: Test RemoveLiquidity function
-        (string memory message2, bool success2) = testRemoveLiquidity(
-            tokenAddress
-        );
-        if (!success2) return (message2, false);
-
-        // TEST 3: Test Swap function
-        (string memory message3, bool success3) = testGetTokenAmount(
-            tokenAddress
-        );
-        if (!success3) return (message3, false);
-
-        // TEST 4: Test Get Eth Amount function
-        (string memory message4, bool success4) = testGetEthAmount(
-            tokenAddress
-        );
-        if (!success4) return (message4, false);
-
-        // TEST 5: Test Eth to Token Swap function
-        (string memory message5, bool success5) = testEthToToken(tokenAddress);
-        if (!success5) return (message5, false);
-
-        // TEST 6: Test Token to Eth Swap function
-        (string memory message6, bool success6) = testTokenToEth(tokenAddress);
-        if (!success6) return (message6, false);
-
-        return ("Exercise B: All tests passed!", true);
-    }
-
-    /**
-     * TEST EXERCISE B
-     * - test addLiquidity function
-     */
-    function testAddLiquidity(address tokenAddress)
-        public
-        payable
-        returns (string memory, bool)
-    {
-        /*----------  EXERCISE B  ----------*/
-
-        // Add some liquidity if reserve is empty
-        // Prepare test
-        // Mint 100 wei tokens to the validator address
-        IAssignment2Coin(tokenAddress).mint(validatorAddress, 100 gwei);
-        IAssignment2Coin(tokenAddress).approve(exchangeAddress, 100 gwei);
-
-        try assignmentContract.addLiquidity{value: 0}(100 gwei) {
-            // Check if the liquidity is added
-            if (assignmentContract.totalSupply() == 0) {
-                return (
-                    "Error (Exercise B - addLiquidity): The liquidity is 0!",
-                    false
-                );
-            }
-        } catch {
-            return (
-                "Error (Exercise B - addLiquidity): Error with the addLiquidity() function.",
-                false
-            );
-        }
-
-        // TEST START --->
-
-        // throw error if the reserve is empty
-        if (exchangeAddress.balance == 0) {
-            return (
-                "Error (Exercise B - addLiquidity): the eth balance of the exchange is empty!",
-                false
-            );
-        }
-
-        // ETH amount to send
-        uint256 testMsgValue = 100 gwei;
-
-        // Calculate the amount of tokens to buy
-        uint256 ethReserve = (exchangeAddress.balance + testMsgValue) -
-            testMsgValue;
-        uint256 tokenReserve = getReserve(tokenAddress);
-        uint256 tokenAmount = (testMsgValue * tokenReserve) / ethReserve;
-
-        // Token amount to buy
-        uint256 testTokenAmount = tokenAmount;
-
-        // Mint some tokens for the validator to add to liquidity pool
-        if (
-            testTokenAmount >
-            IAssignment2Coin(tokenAddress).balanceOf(validatorAddress)
-        ) {
-            IAssignment2Coin(tokenAddress).mint(
-                validatorAddress,
-                testTokenAmount
-            );
-        }
-
-        uint256 liquidity = (assignmentContract.totalSupply() * testMsgValue) /
-            ethReserve;
-
-        // Throw error > liquidity cannot be 0
-        if (liquidity == 0) {
-            return (
-                "Error (Exercise B - addLiquidity): The expected liquidity is 0. Add some funds to the exchange to ensure testing works!",
-                false
-            );
-        }
-
-        // Set Allowance
-        IERC20(tokenAddress).approve(exchangeAddress, testTokenAmount);
-
-        // Token of validatorAddress before
-        uint256 tokenBalanceBefore = IERC20(tokenAddress).balanceOf(
-            validatorAddress
-        );
-
-        // Exchange token before
-        uint256 exchangeTokenBalanceBefore = assignmentContract.balanceOf(
-            validatorAddress
-        );
-
-        // addLiquidity function
-        try
-            assignmentContract.addLiquidity{value: testMsgValue}(
-                testTokenAmount
-            )
-        returns (uint256 gotLiquidity) {
-            if (gotLiquidity != liquidity) {
-                return (
-                    string.concat(
-                        "Error (Exercise B - addLiquidity): The calculated liquidity is not correct! Expected: ",
-                        Strings.toString(liquidity),
-                        " Actual: ",
-                        Strings.toString(gotLiquidity)
-                    ),
-                    false
-                );
-            }
-
-            // Token of validatorAddress after
-            uint256 tokenBalanceAfter = IERC20(tokenAddress).balanceOf(
-                validatorAddress
-            );
-
-            if (tokenBalanceBefore - testTokenAmount != tokenBalanceAfter) {
-                return (
-                    "Error (Exercise B - addLiquidity): The token balance for the validator is not correct!",
-                    false
-                );
-            }
-
-            // Exchange token after
-            uint256 exchangeTokenBalanceAfter = assignmentContract.balanceOf(
-                validatorAddress
-            );
-
-            if (
-                exchangeTokenBalanceBefore + liquidity !=
-                exchangeTokenBalanceAfter
-            ) {
-                return (
-                    "Error (Exercise B - addLiquidity): The exchange token balance is not correct!",
-                    false
-                );
-            }
-
-            // check if total supply increased
-            if (assignmentContract.totalSupply() == 0) {
-                return (
-                    "Error (Exercise B - addLiquidity): The total supply is 0, should be larger than 0!",
-                    false
-                );
-            }
-        } catch Error(string memory _reason) {
-            return (
-                buildErrorMessage(
-                    "Error (Exercise B - addLiquidity)",
-                    "Error with the addLiquidity function!",
-                    _reason
-                ),
-                false
-            );
-        }
-
-        return ("Exercise B (addLiquidity): Passed!", true);
-    }
-
-    /**
-     * TEST EXERCISE B
-     * - test removeLiquidity function
-     */
-    function testRemoveLiquidity(address tokenAddress)
-        public
-        payable
-        returns (string memory, bool)
-    {
-        // Prepare test
-        // Mint 100 wei tokens to the validator address
-        IAssignment2Coin(tokenAddress).mint(validatorAddress, 100 wei);
-        IAssignment2Coin(tokenAddress).approve(exchangeAddress, 100 wei);
-        assignmentContract.addLiquidity{value: 100 wei}(100 wei);
-
-        // Prepare end
-
-        uint256 testRemoveAmount = 1;
-
-        uint256 exchangeBalanceBefore = assignmentContract.balanceOf(
-            validatorAddress
-        );
-
-        uint256 supply = assignmentContract.totalSupply();
-
-        if (supply == 0) {
-            return (
-                "Error (Exercise B - removeLiquidity): The total supply is 0, should be larger than 0!",
-                false
-            );
-        }
-
-        uint256 ethAmount = (exchangeAddress.balance * testRemoveAmount) /
-            supply;
-
-        uint256 tokenAmount = (getReserve(tokenAddress) * testRemoveAmount) /
-            supply;
-
-        // Get eth balance of validator before
-        uint256 ethBalanceBefore = validatorAddress.balance;
-        uint256 tokenBalanceBefore = IERC20(tokenAddress).balanceOf(
-            validatorAddress
-        );
-
-        try assignmentContract.removeLiquidity(testRemoveAmount) {
-            // Get eth balance of validator after
-
-            uint256 ethBalanceAfter = validatorAddress.balance;
-            uint256 tokenBalanceAfter = IERC20(tokenAddress).balanceOf(
-                validatorAddress
-            );
-            uint256 exchangeBalanceAfter = assignmentContract.balanceOf(
-                validatorAddress
-            );
-
-            if (
-                exchangeBalanceBefore - testRemoveAmount != exchangeBalanceAfter
-            ) {
-                return (
-                    "Error (Exercise B - removeLiquidity): Burning of the exchange token did not work properly!",
-                    false
-                );
-            }
-
-            if (ethBalanceBefore + ethAmount != ethBalanceAfter) {
-                return (
-                    "Error (Exercise B - removeLiquidity): The ETH balance is not correct!",
-                    false
-                );
-            }
-
-            if (tokenBalanceBefore + tokenAmount != tokenBalanceAfter) {
-                return (
-                    "Error (Exercise B - removeLiquidity): The token balance is not correct!",
-                    false
-                );
-            }
-        } catch Error(string memory _reason) {
-            return (
-                string(
-                    abi.encodePacked(
-                        "Error (Exercise B - removeLiquidity): Error with the removeLiquidity function!",
-                        _reason
-                    )
-                ),
-                false
-            );
-        }
-
-        return ("Exercise B (removeLiquidity): Passed!", true);
-    }
-
-    /**
-     * TEST EXERCISE B
-     * - test getTokenAmount function
-     */
-    function testGetTokenAmount(address tokenAddress)
-        public
-        payable
-        returns (string memory, bool)
-    {
-        // ethSold
-        uint256 ethSold = 0.001 ether;
-
-        uint256 expectedTokenAmount = getAmount(
-            ethSold,
-            exchangeAddress.balance,
-            getReserve(tokenAddress)
-        );
-
-        try assignmentContract.getTokenAmount(ethSold) returns (
-            uint256 realTokenAmount
-        ) {
-            if (expectedTokenAmount != realTokenAmount) {
-                return (
-                    "Error (Exercise B - getTokenAmount): The token amount is not correct!",
-                    false
-                );
-            }
-        } catch Error(string memory _reason) {
-            return (
-                string(
-                    abi.encodePacked(
-                        "Error (Exercise B - getTokenAmount): Error with the getTokenAmount function!",
-                        _reason
-                    )
-                ),
-                false
-            );
-        }
-
-        return ("Exercise B (getTokenAmount): Passed!", true);
-    }
-
-    /**
-     * TEST EXERCISE B
-     * - test getEthAmount function
-     */
-    function testGetEthAmount(address tokenAddress)
-        public
-        payable
-        returns (string memory, bool)
-    {
-        // tokenSold
-        uint256 tokenSold = 1;
-
-        uint256 expectedEthAmount = getAmount(
-            tokenSold,
-            getReserve(tokenAddress),
-            exchangeAddress.balance
-        );
-
-        try assignmentContract.getEthAmount(tokenSold) returns (
-            uint256 realEthAmount
-        ) {
-            if (expectedEthAmount != realEthAmount) {
-                return (
-                    "Error (Exercise B - getEthAmount): The ETH amount is not correct!",
-                    false
-                );
-            }
-        } catch Error(string memory _reason) {
-            return (
-                string(
-                    abi.encodePacked(
-                        "Error (Exercise B - getEthAmount): Error with the getEthAmount function!",
-                        _reason
-                    )
-                ),
-                false
-            );
-        }
-
-        return ("Exercise B (getEthAmount): Passed!", true);
-    }
-
-    /**
-     * TEST EXERCISE B
-     * - test ethToToken function
-     */
-    function testEthToToken(address tokenAddress)
-        public
-        payable
-        returns (string memory, bool)
-    {
-        uint256 msgValue = 100 gwei;
-
-        // Mint 1000 wei tokens to the exchange address
-        IAssignment2Coin(tokenAddress).mint(exchangeAddress, 1000 wei);
-
-        uint256 expectedTokenBought = getAmount(
-            msgValue,
-            exchangeAddress.balance,
-            getReserve(tokenAddress)
-        );
-
-        if (expectedTokenBought == 0) {
-            return (
-                "Error (Exercise B - ethToToken): The expected token bought is 0, should be larger than 0!",
-                false
-            );
-        }
-
-        // Set minToken to expectedTokenBought - 10 wei
-        uint256 minToken = expectedTokenBought - 10 wei;
-
-        uint256 tokenBalanceBefore = IERC20(tokenAddress).balanceOf(
-            validatorAddress
-        );
-
-        try assignmentContract.ethToToken{value: msgValue}(minToken) {
-            uint256 tokenBalanceAfter = IERC20(tokenAddress).balanceOf(
-                validatorAddress
-            );
-
-            if (tokenBalanceBefore + expectedTokenBought != tokenBalanceAfter) {
-                return (
-                    "Error (Exercise B - ethToToken): The token balance is not correct!",
-                    false
-                );
-            }
-        } catch Error(string memory _reason) {
-            return (
-                string(
-                    abi.encodePacked(
-                        "Error (Exercise B - ethToToken): Error with the ethToToken function! - ",
-                        _reason
-                    )
-                ),
-                false
-            );
-        }
-
-        return ("Exercise B (ethToToken): Passed!", true);
-    }
-
-    /**
-     * TEST EXERCISE B
-     * - test tokenToEth function
-     */
-    function testTokenToEth(address tokenAddress)
-        public
-        payable
-        returns (string memory, bool)
-    {
-        uint256 tokenSold = 100 gwei;
-
-        uint256 expectedEthBought = getAmount(
-            tokenSold,
-            (exchangeAddress.balance),
-            getReserve(tokenAddress)
-        );
-
-        if (expectedEthBought == 0) {
-            return (
-                "Error (Exercise B - tokenToEth): The expected ETH bought is 0!",
-                false
-            );
-        }
-
-        if (expectedEthBought >= exchangeAddress.balance) {
-            return (
-                "Error (Exercise B - tokenToEth): The validator address does not have enough ETH!",
-                false
-            );
-        }
-
-        if (tokenSold >= IERC20(tokenAddress).balanceOf(validatorAddress)) {
-            IAssignment2Coin(tokenAddress).mint(validatorAddress, tokenSold);
-        }
-
-        uint256 minEth = expectedEthBought - 1 wei;
-
-        uint256 ethBalanceBefore = validatorAddress.balance;
-        uint256 tokenBalanceBefore = IERC20(tokenAddress).balanceOf(
-            validatorAddress
-        );
-
-        IERC20(tokenAddress).approve(exchangeAddress, tokenSold);
-
-        try assignmentContract.tokenToEth(tokenSold, minEth) {
-            uint256 ethBalanceAfter = validatorAddress.balance;
-            uint256 tokenBalanceAfter = IERC20(tokenAddress).balanceOf(
-                validatorAddress
-            );
-
-            if (tokenBalanceBefore - tokenSold != tokenBalanceAfter) {
-                return (
-                    "Error (Exercise B - tokenToEth): The token balance is not correct!",
-                    false
-                );
-            }
-
-            if (ethBalanceBefore + expectedEthBought != ethBalanceAfter) {
-                return (
-                    "Error (Exercise B - tokenToEth): The ETH balance is not correct!",
-                    false
-                );
-            }
-        } catch Error(string memory _reason) {
-            return (
-                string(
-                    abi.encodePacked(
-                        "Error (Exercise B - tokenToEth): Error with the tokenToEth function!",
-                        _reason
-                    )
-                ),
-                false
-            );
-        }
-
-        return ("Exercise B (tokenToEth): Passed!", true);
+        validatorHelper = Validator2Helper(payable(_validatorHelperAddress));
+
+        // Get player addresses
+        player1 = address(this);
+        player2 = address(_validatorHelperAddress);
     }
 
     /*=============================================
-    =                    HELPER                  =
+    =                   HELPER                  =
     =============================================*/
 
-    function getReserve(address tokenAddress) public view returns (uint256) {
-        return IERC20(tokenAddress).balanceOf(exchangeAddress);
+    // This function sets the game in the state that it accepts choices from account 1 or 2
+    function prepareGame() public payable returns (string memory, bool) {
+        // Reset game
+        try assignmentContract.forceReset() {} catch Error(
+            string memory errMsg
+        ) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise B)",
+                    "Error with forceReset() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
+        // Get game counter
+        uint256 gameCounter = assignmentContract.getGameCounter();
+
+        // Test getState function
+        try assignmentContract.getState() returns (string memory state) {
+            // Check if the state is not "waiting"
+            if (!compareStrings(state, "waiting"))
+                return ("Error (Exercise B): Expected 'waiting' state", false);
+        } catch Error(string memory errMsg) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise B)",
+                    "Error with getState() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
+        // Test Start
+        try assignmentContract.start{value: 0.001 ether}() returns (
+            uint256 playerId
+        ) {
+            // Check if the game id is not 0
+            if (playerId != 1)
+                return ("Error (Exercise B): The player id is wrong ", false);
+        } catch Error(string memory errMsg) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise B)",
+                    "Error with start() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
+        // Check if that the game counter increase by 1
+        if (assignmentContract.getGameCounter() != gameCounter + 1)
+            return (
+                "Error (Exercise B): The game counter is not increased ",
+                false
+            );
+
+        // Test getState function = starting
+        if (!compareStrings(assignmentContract.getState(), "starting"))
+            return (
+                buildErrorMessageExtended(
+                    "Error (Exercise B)",
+                    "The state is not 'starting'",
+                    "starting",
+                    assignmentContract.getState()
+                ),
+                false
+            );
+
+        // Test join second player
+        try
+            validatorHelper.callStart{value: 0.001 ether}(assignmentContract)
+        returns (uint256 playerId) {
+            // Check if the game id is not 0
+            if (playerId != 2)
+                return ("Error (Exercise B): The player id is wrong", false);
+        } catch Error(string memory errMsg) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise B)",
+                    "Error with start() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
+        // Test getState function = playing
+        if (!compareStrings(assignmentContract.getState(), "playing"))
+            return ("Error (Exercise B): The state is not 'playing'", false);
+
+        return ("Prepare Game: successful.", true);
     }
 
-    function getAmount(
-        uint256 inputAmount,
-        uint256 inputReserve,
-        uint256 outputReserve
-    ) private pure returns (uint256) {
-        uint256 inputAmountWithFee = inputAmount * 99;
-        uint256 numerator = inputAmountWithFee * outputReserve;
-        uint256 denominator = (inputReserve * 100) + inputAmountWithFee;
+    /*=============================================
+    =                   TASK B                    =
+    =============================================*/
 
-        // return (inputAmount * outputReserve) / (inputReserve + inputAmount);
+    function testExerciseB() public payable returns (string memory, bool) {
+        // Test edge cases
 
-        require(denominator > 0, "ERR_ZERO_DENOMINATOR");
-        return numerator / denominator;
+        // TEST 1: send 0.0001 ether to the contract --> Expected: fail
+        (string memory message1, bool success1) = testNotEnoughFee();
+        if (!success1) return (message1, false);
+
+        // TEST 2: test game draw: expected no balance change after second guess
+        (string memory message2, bool success2) = testGameDraw();
+        if (!success2) return (message2, false);
+
+        // TEST 3: test player 1 win: expected player 1 balance increase
+        (string memory message3, bool success3) = testWin();
+        if (!success3) return (message3, false);
+
+        return ("Exercise B: All tests passed.", true);
     }
 
-    /*=====          End of HELPER        ======*/
+    // Test edge cases: play normal game and expect player 1 to win and get all the fees invested
+    function testWin() public payable returns (string memory, bool) {
+        // Prepare the game
+        (string memory message, bool success) = prepareGame();
+
+        // If the game is not successfully prepared return the error message
+        if (!success) return (message, false);
+
+        // Get balance of player1 & player2 before the game
+        uint256 player1BalanceBefore = player1.balance;
+        uint256 player2BalanceBefore = player2.balance;
+
+        // Test play game -> player 1 wins using paper
+        try assignmentContract.play("paper") {} catch Error(
+            string memory errMsg
+        ) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise B)",
+                    "Error with play() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
+        // Test play game -> player 2 looses using rock
+        try validatorHelper.callPlay(assignmentContract, "rock") {} catch Error(
+            string memory errMsg
+        ) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise B)",
+                    "Error with play() function.",
+                    errMsg
+                ),
+                false
+            );
+        }
+
+        // State should be waiting
+        if (!compareStrings(assignmentContract.getState(), "waiting"))
+            return (
+                buildErrorMessageExtended(
+                    "Error (Exercise B)",
+                    "The state is not 'waiting'",
+                    "waiting",
+                    assignmentContract.getState()
+                ),
+                false
+            );
+
+        // This should result in player 1 winning the game because "paper beats rock"
+
+        // Get balance of player1 & player2 after the game
+        uint256 player1BalanceAfter = player1.balance;
+        uint256 player2BalanceAfter = player2.balance;
+
+        // Check if the player 1 balance is higher than before
+        if (player1BalanceAfter <= player1BalanceBefore)
+            return (
+                buildErrorMessage(
+                    "Error (Exercise B)",
+                    "The player 1 balance is not higher than before. ",
+                    string.concat(
+                        Strings.toString(player1BalanceAfter),
+                        " should be higher than ",
+                        Strings.toString(player1BalanceBefore)
+                    )
+                ),
+                false
+            );
+
+        // Check if the player 2 balance is same as before (already paid the fee > so neither win nor loose)
+        if (player2BalanceAfter != player2BalanceBefore)
+            return (
+                "Error (Exercise B): The player 2 balance is not lower than before. Please make sure that the player 2 balance does not change.",
+                false
+            );
+
+        return ("Exercise B (Win Game): All tests passed.", true);
+    }
+
+    // Test edge cases: send 0.0001 ether to the contract --> Expected: fail
+    function testNotEnoughFee() public payable returns (string memory, bool) {
+        // Reset game
+        try assignmentContract.forceReset() {} catch {}
+
+        // Send only 0.0001 ether to the contract --> Expected: fail
+        try assignmentContract.start{value: 0.0001 ether}() {
+            return (
+                "Error (Exercise B): The startGame function did not fail when sending 0.0001 ether to the contract.",
+                false
+            );
+        } catch {}
+
+        return ("Exercise B (Not Enough Fee): All tests passed.", true);
+    }
+
+    // Test edge cases: test game draw: expected no balance change after second guess
+    function testGameDraw() public payable returns (string memory, bool) {
+        // Prepare the game
+        (string memory message, bool success) = prepareGame();
+
+        // If the game is not successfully prepared return the error message
+        if (!success) return (message, false);
+
+        // Get balance of player1 & player2 before the game
+        uint256 player1BalanceBefore = player1.balance;
+        uint256 player2BalanceBefore = player2.balance;
+
+        // player play "rock" --> Expected: to win
+        try assignmentContract.play("rock") {} catch {
+            return (
+                "Error (Exercise B - Game Draw): Error with play() function.",
+                false
+            );
+        }
+
+        // player play "rock" --> to loose
+        try validatorHelper.callPlay(assignmentContract, "rock") {} catch Error(
+            string memory errMsg
+        ) {
+            return (
+                buildErrorMessage(
+                    "Error (Exercise B - Game Draw)",
+                    "Error with play() function for player 2",
+                    errMsg
+                ),
+                false
+            );
+        }
+
+        // Get balance of player1 & player2 after the game
+        uint256 player1BalanceAfter = player1.balance;
+        uint256 player2BalanceAfter = player2.balance;
+
+        // Check if the player 1 balance is the same as before
+        if (player1BalanceAfter != player1BalanceBefore)
+            return (
+                "Error (Exercise B - Game Draw): The player 1 balance is not the same as before. Please make sure that the player 1 balance does not change when the game is a draw.",
+                false
+            );
+
+        // Check if the player 2 balance is same as before
+        if (player2BalanceAfter != player2BalanceBefore)
+            return (
+                "Error (Exercise B - Game Draw): The player 2 balance is not the same as before. Please make sure that the player 2 balance does not change when the game is a draw.",
+                false
+            );
+
+        return ("Exercise B (Game Draw): All tests passed.", true);
+    }
 }

@@ -47,20 +47,17 @@ contract Validator1TaskF is Helper, BaseConfig {
         /*----------  EXERCISE F  ----------*/
 
         // get ether balance of owner
-        uint256 ownerBalanceBeforeF = (assignmentContract.getOwner()).balance;
+        uint256 senderBalanceBeforeF = address(this).balance;
 
         // withdraw funds to owner
-        try
-            assignmentContract.withdraw(payable(assignmentContract.getOwner()))
-        {
+        try assignmentContract.withdraw(address(assignmentContract).balance) {
             // get ether balance of owner
-            uint256 ownerBalanceAfterF = (assignmentContract.getOwner())
-                .balance;
+            uint256 senderBalanceAfterF = address(this).balance;
 
             uint256 exerciseFPassedCounter = 0;
 
             // check if ether balance of owner is increased
-            if (ownerBalanceAfterF > ownerBalanceBeforeF) {
+            if (senderBalanceAfterF > senderBalanceBeforeF) {
                 exerciseFPassedCounter++;
             } else {
                 // If not all tests passed, mark test as failed

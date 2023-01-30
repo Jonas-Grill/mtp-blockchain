@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// Import the IAssignment2.sol
-import "./interface/IAssignment2.sol";
+// Import the IAssignment4.sol
+import "./interface/IAssignment4.sol";
 
 // Import the coin interface
-import "./interface/IAssignment2Coin.sol";
+import "./interface/IAssignment4Coin.sol";
 
 // Import the registry to use as interface
-import "./helper/Assignment2Registry.sol";
+import "./helper/Assignment4Registry.sol";
 
 // Import Helper
 import "../Helper.sol";
@@ -16,9 +16,9 @@ import "../Helper.sol";
 // import "BaseConfig.sol";
 import "../BaseConfig.sol";
 
-contract Validator2TaskD is Helper, BaseConfig {
+contract Validator4TaskD is Helper, BaseConfig {
     // assignment contract interface
-    IAssignment2 assignmentContract;
+    IAssignment4 assignmentContract;
 
     // Address of registry contract
     address registryAddress;
@@ -32,7 +32,7 @@ contract Validator2TaskD is Helper, BaseConfig {
     constructor(address _configContractAddress) {
         initAdmin(
             _configContractAddress,
-            "SS23 Assignment 2 Validator Contract - Task D"
+            "SS23 Assignment 4 Validator Contract - Task D"
         );
     }
 
@@ -45,7 +45,7 @@ contract Validator2TaskD is Helper, BaseConfig {
         address _testToken
     ) public {
         // Call the contract interface which needs to be tested and store it in the variable assignmentContract
-        assignmentContract = IAssignment2(_contractAddress);
+        assignmentContract = IAssignment4(_contractAddress);
 
         // Set registry address
         registryAddress = _registryAddress;
@@ -67,16 +67,16 @@ contract Validator2TaskD is Helper, BaseConfig {
         /*----------  EXERCISE D  ----------*/
 
         address validatorAddress = address(this);
-        address exchange2Address = Assignment2Registry(registryAddress)
+        address exchange2Address = Assignment4Registry(registryAddress)
             .getExchange(tokenTestAddress);
 
-        IAssignment2Coin tokenStudent = IAssignment2Coin(
+        IAssignment4Coin tokenStudent = IAssignment4Coin(
             assignmentContract.getTokenAddress()
         );
 
-        IAssignment2Coin tokenTest = IAssignment2Coin(tokenTestAddress);
+        IAssignment4Coin tokenTest = IAssignment4Coin(tokenTestAddress);
 
-        IAssignment2 exchangeTest = IAssignment2(exchange2Address);
+        IAssignment4 exchangeTest = IAssignment4(exchange2Address);
 
         // SWAP TOKENS
 

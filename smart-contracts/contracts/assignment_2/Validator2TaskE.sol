@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// Import the IAssignment3.sol
-import "./interface/IAssignment3.sol";
+// Import the IAssignment2.sol
+import "./interface/IAssignment2.sol";
 
 // Import Helper
 import "../Helper.sol";
 
 // Import the assignment validator extend contract
-import "./Validator3Helper.sol";
+import "./Validator2Helper.sol";
 
 // import "BaseConfig.sol";
 import "../BaseConfig.sol";
 
-contract Validator3TaskE is Helper, BaseConfig {
+contract Validator2TaskE is Helper, BaseConfig {
     // assignment contract interface
-    IAssignment3 assignmentContract;
-    Validator3Helper validator3Helper;
+    IAssignment2 assignmentContract;
+    Validator2Helper validatorHelper;
 
     // Player addresses
     address player1 = address(0);
@@ -25,7 +25,7 @@ contract Validator3TaskE is Helper, BaseConfig {
     constructor(address _configContractAddress) {
         initAdmin(
             _configContractAddress,
-            "SS23 Assignment 3 Validator Contract - Task E"
+            "SS23 Assignment 2 Validator Contract - Task E"
         );
     }
 
@@ -38,15 +38,15 @@ contract Validator3TaskE is Helper, BaseConfig {
     // Init contract
     function initContract(
         address _contractAddress,
-        address _validator3HelperAddress
+        address _validatorHelperAddress
     ) public {
         // Call the contract interface which needs to be tested and store it in the variable assignmentContract
-        assignmentContract = IAssignment3(_contractAddress);
-        validator3Helper = Validator3Helper(payable(_validator3HelperAddress));
+        assignmentContract = IAssignment2(_contractAddress);
+        validatorHelper = Validator2Helper(payable(_validatorHelperAddress));
 
         // Get player addresses
         player1 = address(this);
-        player2 = address(_validator3HelperAddress);
+        player2 = address(_validatorHelperAddress);
     }
 
     /*=============================================
@@ -127,7 +127,7 @@ contract Validator3TaskE is Helper, BaseConfig {
 
         // Test join second player
         try
-            validator3Helper.callStart{value: 0.001 ether}(assignmentContract)
+            validatorHelper.callStart{value: 0.001 ether}(assignmentContract)
         returns (uint256 playerId) {
             // Check if the game id is not 0
             if (playerId != 2)
@@ -245,7 +245,7 @@ contract Validator3TaskE is Helper, BaseConfig {
 
         // Send playPrivate with choice "paper" for player 2
         try
-            validator3Helper.callPlayPrivate(assignmentContract, hashedChoiceP2)
+            validatorHelper.callPlayPrivate(assignmentContract, hashedChoiceP2)
         {} catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
@@ -284,7 +284,7 @@ contract Validator3TaskE is Helper, BaseConfig {
 
         // Player 2 reveal his choice
         try
-            validator3Helper.callReveal(assignmentContract, "paper", seedP2)
+            validatorHelper.callReveal(assignmentContract, "paper", seedP2)
         {} catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
@@ -384,7 +384,7 @@ contract Validator3TaskE is Helper, BaseConfig {
 
         // Send playPrivate with choice "paper" for player 2
         try
-            validator3Helper.callPlayPrivate(assignmentContract, hashedChoiceP2)
+            validatorHelper.callPlayPrivate(assignmentContract, hashedChoiceP2)
         {} catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(
@@ -424,7 +424,7 @@ contract Validator3TaskE is Helper, BaseConfig {
 
         // Player 2 reveal his choice
         try
-            validator3Helper.callReveal(assignmentContract, "paper", seedP2)
+            validatorHelper.callReveal(assignmentContract, "paper", seedP2)
         {} catch Error(string memory errMsg) {
             return (
                 buildErrorMessage(

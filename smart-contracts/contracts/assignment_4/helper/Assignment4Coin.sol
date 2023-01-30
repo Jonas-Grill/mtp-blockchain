@@ -7,7 +7,7 @@ import "../../../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
 // Import BaseConfig.sol
 import "../../BaseConfig.sol";
 
-contract Assignment2Coin is ERC20, BaseConfig {
+contract Assignment4Coin is ERC20, BaseConfig {
     constructor(
         string memory name,
         string memory symbol,
@@ -16,14 +16,14 @@ contract Assignment2Coin is ERC20, BaseConfig {
         // Add smart contract to contract admin list with the name SBCoin_<coin_name>
         initAdmin(
             _configContractAddress,
-            "SS23 Assignment 2 Validator Contract - Coin"
+            "SS23 Assignment 4 Validator Contract - Coin"
         );
     }
 
     function mint(address _recipient, uint256 _amount) public {
         require(
             getConfigStorage().isAdmin(msg.sender),
-            "Assignment2Coin: only admin can burn!"
+            "Assignment4Coin: only admin can burn!"
         );
 
         _mint(_recipient, _amount);
