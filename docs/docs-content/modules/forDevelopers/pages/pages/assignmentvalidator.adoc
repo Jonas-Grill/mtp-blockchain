@@ -1,0 +1,46 @@
+
+= Assignment Validator 
+
+Here is an explanation of the concept of the assignment validators. 
+
+The job of the assignment validator is to check the validity of the assignment. The contract is doing this by interacting with the assignment of the student and calling different functions and checking the return values or the change of the state of the contract.
+
+Each assignment validator, for convenience sake we call it _validator_, is pack of different contracts. 
+
+image::validator_example.png[]
+
+Contracts in the:
+
+* **/helper** directory are contracts that are used by the validator to check the validity of the assignment. They usually create components like an exchange of registry which are used by the validator or students.
+
+* **/interface** directory are contracts that store the interface of the assignment. They are used by the validator to call the functions of the assignment. The student needs to name his functions in the same way as written in the interface and also define the input and output parameters in the same way.
+
+* base directory contains the validator contracts. The contract without any suffix e.g. _Validator2.sol_ is the main validator contract. The other contracts e.g. _Validator2TaskC.sol_ are used to check single tasks, for this file it only checks tasks which where requested in _Task C_ of the assignment. The vase validator is organizing the calls to the task validators and is also responsible for the payment of the student.
+
+== Process
+
+The student calls the `test(address)` function using the react frontent. He passes his assignment contract address. The validator than runs various tests on this contract. For each passed task the student receives a certain amount of predefined tokens. **No subpoints can be paid out**. The student can call the `test(address)` function as often as he wants. Each test gets registered and stored in a mapping. The result of the test can be accessed via the test id. This allows the student to see which tasks he passed and which not. The student can also see the reason why a task was not passed.
+
+If the student is happy with the result he can call the `submit(address)` function. This function will test the assignment again and than pays the student the tokens he earned. The student can only call this function once. After the student called this function the validator will not accept any more submit for this assignment.
+
+The contract needs to be:
+
+* Deployed and submitted in block range of the assignment
+* The student needs to be the owner of the contract
+* No other submission is registered for this assignment by the `msg.sender`
+
+**IMPORTANT:** 
+
+* The student always needs to call the `test(address)` and `submit(address)` function by their own. Because the system checks if the `msg.sender` is the owner of the contract. Furhter the `msg.sender` receives the tokens. Ensure to not try to submit an assignment via another contract.
+
+* The owner of the contract is trackd by the `BaseAssignment.sol` contract. The `BaseAssignment.sol` is inherited by the validator. To set the owner the function `setAssignmentOwner` takes the `msg.sender` as the contract address and the `tx.origin` as the owner. So here the `setAssignmentOwner` **must be called by the student contract**. If the student is using a proxy contract the `setAssignmentOwner` function will log the wrong contract address. This will result in the fact that the student cannot submit the assignment.
+
+* It is only possible to once set the block creation and contract admin.
+
+== Security
+
+To ensure that the student who submits the assignment is really the owner of the contract. Each student needs to inherit his assignment from the `BaseAssignment.sol` contract. This contract stores calls the corresponding validator contract and stores the _owner_ and _block number_ of creation. By storing the owner and the block number of creation we can ensure that the student is the owner of the contract and that the student is not trying to submit an assignment which is too old. Further the student cannot change the values.
+
+== Admin
+
+It is possible to remove an already submitted Assignment by calling the `removeSubmittedAssignment(address)` function. This function is of course restricted to user or contract admins. The function will remove the assignment from the mapping and the student can submit the assignment again. BUT the student will also lose the tokens he already earned (`burn` function used).

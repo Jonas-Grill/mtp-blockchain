@@ -1,0 +1,8 @@
+= Knowledge Base - Smart contracts
+
+The Knowledge Base runs completely on-chain and consists out of different smart contracts which interact with each other.
+
+* link:configstorage.adoc[ConfigStorage.sol]
+* link:sbcoin.adoc[SBCoin.sol]
+* link:faucetstorage.adoc[FaucetStorage.sol]
+* link:assignmentvalidator.adoc[Assignment Validator]
