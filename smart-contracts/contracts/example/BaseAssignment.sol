@@ -1,14 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-interface IBaseValidator {
-    function isValidator(address _address) external view returns (bool);
-
-    // INIT FUNCTIONS FOR VALIDATION
-    function setAssignmentCreationBlockNumber() external;
-
-    function setAssignmentOwner() external;
-}
+import "../BaseValidator.sol";
 
 /*=============================================
 =                 BaseAssignment                 =
@@ -33,8 +26,8 @@ contract BaseAssignment {
         );
 
         // Register contract in validator
-        IBaseValidator(_validator).setAssignmentCreationBlockNumber();
-        IBaseValidator(_validator).setAssignmentOwner();
+        BaseValidator(_validator).setAssignmentCreationBlockNumber();
+        BaseValidator(_validator).setAssignmentOwner();
     }
 
     // Get owner of the contract
@@ -52,14 +45,14 @@ contract BaseAssignment {
     function isValidator(address _address) public view returns (bool) {
         require(_validator != address(0), "Validator address is not set");
 
-        if (IBaseValidator(_validator).isValidator(_address)) return true;
+        if (BaseValidator(_validator).isValidator(_address)) return true;
         else return false;
     }
 
     // Set the "current" block number (for test purposes)
     function setBlockNumber(uint256 blockNumber) public {
         require(
-            IBaseValidator(_validator).isValidator(msg.sender),
+            BaseValidator(_validator).isValidator(msg.sender),
             "BaseAssignment: setBlockNumber: Only validator can call this function"
         );
 
@@ -81,7 +74,7 @@ contract BaseAssignment {
         uint256 ethAmount
     ) public {
         require(
-            IBaseValidator(_validator).isValidator(msg.sender) ||
+            BaseValidator(_validator).isValidator(msg.sender) ||
                 msg.sender == _owner,
             "BaseAssignment: addSignature: Only validator or owner can call this function"
         );
@@ -96,7 +89,7 @@ contract BaseAssignment {
 
     function getSignature(uint256 index) public view returns (bytes memory) {
         require(
-            IBaseValidator(_validator).isValidator(msg.sender) ||
+            BaseValidator(_validator).isValidator(msg.sender) ||
                 msg.sender == _owner,
             "BaseAssignment: getSignature: Only validator or owner can call this function"
         );
@@ -110,7 +103,7 @@ contract BaseAssignment {
         returns (uint256)
     {
         require(
-            IBaseValidator(_validator).isValidator(msg.sender) ||
+            BaseValidator(_validator).isValidator(msg.sender) ||
                 msg.sender == _owner,
             "BaseAssignment: getSignatureEthAmount: Only validator or owner can call this function"
         );
