@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>How to add a new admin address :: Antora Docs</title>
+    <title>FaucetStorage.sol :: Antora Docs</title>
     <meta name="generator" content="Antora 3.1.2">
-    <link rel="stylesheet" href="../../../_/css/site.css">
-    <script>var uiRootPath = '../../../_'</script>
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+    <script>var uiRootPath = '../../../../_'</script>
   </head>
   <body class="article">
 <header class="header">
@@ -24,12 +24,12 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../index.html">MTP-Blockchain</a></h3>
+    <h3 class="title"><a href="../../index.html">MTP-Blockchain</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../index.html">index.adoc</a>
+    <a class="nav-link" href="../../index.html">index.adoc</a>
   </li>
 </ul>
   </li>
@@ -38,7 +38,7 @@
     <span class="nav-text">Master Team Project</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../masterTeamProject/masterProject.html">A Blockchain-based system for course submissions</a>
+    <a class="nav-link" href="../../masterTeamProject/masterProject.html">A Blockchain-based system for course submissions</a>
   </li>
 </ul>
   </li>
@@ -47,10 +47,10 @@
     <span class="nav-text">For Students</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../forStudents/guide.html">Guide for Knowledge Base</a>
+    <a class="nav-link" href="../../forStudents/guide.html">Guide for Knowledge Base</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../forStudents/metamask.html">Metamask Setup</a>
+    <a class="nav-link" href="../../forStudents/metamask.html">Metamask Setup</a>
   </li>
 </ul>
   </li>
@@ -59,13 +59,13 @@
     <span class="nav-text">For Lecturers</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="raspberry.html">Raspberry Pi Setup</a>
+    <a class="nav-link" href="../../forLecturers/raspberry.html">Raspberry Pi Setup</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="newSemester.html">Start a new semester</a>
+    <a class="nav-link" href="../../forLecturers/newSemester.html">Start a new semester</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="addAdminAddress.html">Add admin address</a>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forLecturers/addAdminAddress.html">Add admin address</a>
   </li>
 </ul>
   </li>
@@ -77,7 +77,7 @@
     <a class="nav-link" href="#frontent.adoc">Frontend &amp; Blockchain interaction</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../forDevelopers/smartcontracts.html">Knowledge Base - Smart contracts</a>
+    <a class="nav-link" href="../smartcontracts.html">Knowledge Base - Smart contracts</a>
   </li>
 </ul>
   </li>
@@ -91,10 +91,10 @@
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="../index.html">MTP-Blockchain</a>
+      <a class="title" href="../../index.html">MTP-Blockchain</a>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="../index.html">0.1-beta.1</a>
+          <a href="../../index.html">0.1-beta.1</a>
         </li>
       </ul>
     </li>
@@ -106,12 +106,11 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../index.html" class="home-link"></a>
+  <a href="../../index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="../index.html">MTP-Blockchain</a></li>
-    <li>For Lecturers</li>
-    <li><a href="addAdminAddress.html">Add admin address</a></li>
+    <li><a href="../../index.html">MTP-Blockchain</a></li>
+    <li><a href="faucetstorage.html"><code>FaucetStorage.sol</code></a></li>
   </ul>
 </nav>
 </div>
@@ -120,9 +119,15 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">How to add a new admin address</h1>
+<h1 class="page"><code>FaucetStorage.sol</code></h1>
 <div class="paragraph">
-<p>TODO</p>
+<p>The <code>FaucetStorage.sol</code> smart contract is the contract which allows students to request ETH. To mock a real system and create an artifical value for ETH. ETH can only be requested after a certain block time. This block difference can be modified in the <code>ConfigStorage.sol</code>.</p>
+</div>
+<div class="paragraph">
+<p>All the functions of the contract are described in the comments to the code. The contract is written in Solidity language and compiled with the help of the <code>solc</code> compiler.</p>
+</div>
+<div class="paragraph">
+<p>Every student can request ETH from the contract. The contract will check if the student has already requested ETH in the defined block difference range. If not the contract will send ETH to the student and store the block number of the transaction. If the student has already requested ETH in the defined block difference range, the contract will not send ETH to the student.</p>
 </div>
 </article>
   </div>
@@ -132,7 +137,7 @@
   <p>This page was built using the Antora default UI.</p>
   <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
 </footer>
-<script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
-<script async src="../../../_/js/vendor/highlight.js"></script>
+<script id="site-script" src="../../../../_/js/site.js" data-ui-root-path="../../../../_"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
   </body>
 </html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Assignment Validator :: Antora Docs</title>
+    <meta name="generator" content="Antora 3.1.2">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+    <script>var uiRootPath = '../../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a>MTP-Blockchain</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="documentation.yml-mtp-blockchain" data-version="0.1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">MTP-Blockchain</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../index.html">index.adoc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Master Team Project</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../masterTeamProject/masterProject.html">A Blockchain-based system for course submissions</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Students</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forStudents/guide.html">Guide for Knowledge Base</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forStudents/metamask.html">Metamask Setup</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Lecturers</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forLecturers/raspberry.html">Raspberry Pi Setup</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forLecturers/newSemester.html">Start a new semester</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forLecturers/addAdminAddress.html">Add admin address</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Developers</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="#frontent.adoc">Frontend &amp; Blockchain interaction</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../smartcontracts.html">Knowledge Base - Smart contracts</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">MTP-Blockchain</span>
+    <span class="version">0.1-beta.1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../../index.html">MTP-Blockchain</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">0.1-beta.1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">MTP-Blockchain</a></li>
+    <li><a href="assignmentvalidator.html">Assignment Validator</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Assignment Validator</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here is an explanation of the concept of the assignment validators.</p>
+</div>
+<div class="paragraph">
+<p>The job of the assignment validator is to check the validity of the assignment. The contract is doing this by interacting with the assignment of the student and calling different functions and checking the return values or the change of the state of the contract.</p>
+</div>
+<div class="paragraph">
+<p>Each assignment validator, for convenience sake we call it <em>validator</em>, is pack of different contracts.</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="validator_example.png" alt="validator example">
+</div>
+</div>
+<div class="paragraph">
+<p>Contracts in the:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>/helper</strong> directory are contracts that are used by the validator to check the validity of the assignment. They usually create components like an exchange of registry which are used by the validator or students.</p>
+</li>
+<li>
+<p><strong>/interface</strong> directory are contracts that store the interface of the assignment. They are used by the validator to call the functions of the assignment. The student needs to name his functions in the same way as written in the interface and also define the input and output parameters in the same way.</p>
+</li>
+<li>
+<p>base directory contains the validator contracts. The contract without any suffix e.g. <em>Validator2.sol</em> is the main validator contract. The other contracts e.g. <em>Validator2TaskC.sol</em> are used to check single tasks, for this file it only checks tasks which where requested in <em>Task C</em> of the assignment. The vase validator is organizing the calls to the task validators and is also responsible for the payment of the student.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_process"><a class="anchor" href="#_process"></a>Process</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The student calls the <code>test(address)</code> function using the react frontent. He passes his assignment contract address. The validator than runs various tests on this contract. For each passed task the student receives a certain amount of predefined tokens. <strong>No subpoints can be paid out</strong>. The student can call the <code>test(address)</code> function as often as he wants. Each test gets registered and stored in a mapping. The result of the test can be accessed via the test id. This allows the student to see which tasks he passed and which not. The student can also see the reason why a task was not passed.</p>
+</div>
+<div class="paragraph">
+<p>If the student is happy with the result he can call the <code>submit(address)</code> function. This function will test the assignment again and than pays the student the tokens he earned. The student can only call this function once. After the student called this function the validator will not accept any more submit for this assignment.</p>
+</div>
+<div class="paragraph">
+<p>The contract needs to be:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Deployed and submitted in block range of the assignment</p>
+</li>
+<li>
+<p>The student needs to be the owner of the contract</p>
+</li>
+<li>
+<p>No other submission is registered for this assignment by the <code>msg.sender</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>IMPORTANT:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The student always needs to call the <code>test(address)</code> and <code>submit(address)</code> function by their own. Because the system checks if the <code>msg.sender</code> is the owner of the contract. Furhter the <code>msg.sender</code> receives the tokens. Ensure to not try to submit an assignment via another contract.</p>
+</li>
+<li>
+<p>The owner of the contract is trackd by the <code>BaseAssignment.sol</code> contract. The <code>BaseAssignment.sol</code> is inherited by the validator. To set the owner the function <code>setAssignmentOwner</code> takes the <code>msg.sender</code> as the contract address and the <code>tx.origin</code> as the owner. So here the <code>setAssignmentOwner</code> <strong>must be called by the student contract</strong>. If the student is using a proxy contract the <code>setAssignmentOwner</code> function will log the wrong contract address. This will result in the fact that the student cannot submit the assignment.</p>
+</li>
+<li>
+<p>It is only possible to once set the block creation and contract admin.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_security"><a class="anchor" href="#_security"></a>Security</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To ensure that the student who submits the assignment is really the owner of the contract. Each student needs to inherit his assignment from the <code>BaseAssignment.sol</code> contract. This contract stores calls the corresponding validator contract and stores the <em>owner</em> and <em>block number</em> of creation. By storing the owner and the block number of creation we can ensure that the student is the owner of the contract and that the student is not trying to submit an assignment which is too old. Further the student cannot change the values.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_admin"><a class="anchor" href="#_admin"></a>Admin</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is possible to remove an already submitted Assignment by calling the <code>removeSubmittedAssignment(address)</code> function. This function is of course restricted to user or contract admins. The function will remove the assignment from the mapping and the student can submit the assignment again. BUT the student will also lose the tokens he already earned (<code>burn</code> function used).</p>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script id="site-script" src="../../../../_/js/site.js" data-ui-root-path="../../../../_"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

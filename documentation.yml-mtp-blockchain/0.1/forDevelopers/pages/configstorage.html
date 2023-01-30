@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ConfigStorage.sol :: Antora Docs</title>
+    <meta name="generator" content="Antora 3.1.2">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+    <script>var uiRootPath = '../../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a>MTP-Blockchain</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="documentation.yml-mtp-blockchain" data-version="0.1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">MTP-Blockchain</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../index.html">index.adoc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Master Team Project</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../masterTeamProject/masterProject.html">A Blockchain-based system for course submissions</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Students</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forStudents/guide.html">Guide for Knowledge Base</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forStudents/metamask.html">Metamask Setup</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Lecturers</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forLecturers/raspberry.html">Raspberry Pi Setup</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forLecturers/newSemester.html">Start a new semester</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forLecturers/addAdminAddress.html">Add admin address</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Developers</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="#frontent.adoc">Frontend &amp; Blockchain interaction</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../smartcontracts.html">Knowledge Base - Smart contracts</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">MTP-Blockchain</span>
+    <span class="version">0.1-beta.1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../../index.html">MTP-Blockchain</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">0.1-beta.1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">MTP-Blockchain</a></li>
+    <li><a href="configstorage.html"><code>ConfigStorage.sol</code></a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page"><code>ConfigStorage.sol</code></h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The system differentiated between two types of admins:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>User Admin</strong> - The user admin can be a professor, teaching assistant or system admin. User admins can change the configuration of the system and add and remove admins.</p>
+</li>
+<li>
+<p><strong>Contract Admin</strong> - The contract admin are contracts that need special permissions to interact with the Knowledge Base. Usually all contracts that are part of the Knowledge Base are contract admins.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This role management system is used to ensure that only trusted users or contracts can access or change the configuration data of the Knowledge Base. This is especially important for the <code>SBCoin.sol</code> and validator smart contract. Because only admins should be allowed to transfer <em>Knowledge Coins</em>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_parameters"><a class="anchor" href="#_parameters"></a>Parameters</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>ConfigStorage.sol</code> smart contract stores the configuration data in various parameters. The parameters are used to store the configuration data in a more efficient way. The parameters are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>uint128 faucetGas;</code> - The amount of gas the faucet can send to a user.</p>
+</li>
+<li>
+<p><code>uint128 faucetBlockNoDifference;</code> - The amount of blocks need to be passed before the faucet can be used again.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_inherited_parameters_from_baseconfigadmin_sol"><a class="anchor" href="#_inherited_parameters_from_baseconfigadmin_sol"></a>Inherited parameters from <code>BaseConfigAdmin.sol</code></h3>
+<div class="paragraph">
+<p>The <code>ConfigStorage.sol</code> smart contract inherits the following parameters from the <code>BaseConfigAdmin.sol</code> smart contract:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>address[] private admins;</code> - Stores the addresses of the admins.</p>
+</li>
+<li>
+<p><code>ContractAdmin[] private contractAdmins;</code> - Stores the contract admins.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mappings"><a class="anchor" href="#_mappings"></a>Mappings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>ConfigStorage.sol</code> smart contract stores the configuration data in various mappings. The mappings are used to store the configuration data in a more efficient way. The mappings are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mapping(uint256 &#8658; NOWSemester) semesters;</code> - Stores the semesters of the Knowledge Base. The key of the mapping is the semester ID. The value of the mapping is a <code>NOWSemester</code> struct.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_structs"><a class="anchor" href="#_structs"></a>Structs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>ConfigStorage.sol</code> smart contract stores the configuration data in various structs. The structs are used to store the configuration data in a more efficient way. The structs are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>struct NOWSemester {&#8230;&#8203;}</code> - Stores the data of a semester. The struct contains the following parameters:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>struct NOWSemester {
+    string name; // Name of the semester (e.g. SS22)
+    uint256 startBlock; // First block which counts towards this semester
+    uint256 endBlock; // Last block which counts towards this semester
+    uint256 minKnowledgeCoinAmount; // Amount of knowledge Coins needed to take exam
+    uint256 assignmentCounter; // Assignment counter
+    uint256[] assignmentIds; // Assignment Ids
+    mapping(uint256 =&gt; NOWAssignments) assignments; // Assigned assignments
+    // TEMP VARIABLES
+    uint256 assignmentStartBlock; // Temp var to keep track of lowest start block of all assignments
+    uint256 assignmentEndBlock; // Temp var to keep track of highest end block of all assignments
+}</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>struct NOWAssignment {&#8230;&#8203;}</code> - Stores the data of an assignment. The struct contains the following parameters:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>struct NOWAssignments {
+    string name; // Name of the assignment
+    string link; // Link to the assignment
+    address validationContractAddress; // Address to the validation contract
+    uint256 startBlock; // First block which counts towards this assignment
+    uint256 endBlock; // Last block which counts towards this assignment
+}</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_inhertited_structs_from_baseconfigadmin_sol"><a class="anchor" href="#_inhertited_structs_from_baseconfigadmin_sol"></a>Inhertited structs from <code>BaseConfigAdmin.sol</code></h3>
+<div class="paragraph">
+<p>The <code>ConfigStorage.sol</code> smart contract inherits the following structs from the <code>BaseConfigAdmin.sol</code> smart contract:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>struct ContractAdmin {&#8230;&#8203;}</code> - Stores the data of an admin. The struct contains the following parameters:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>struct ContractAdmin {
+    string contractName; // Name of contract
+    address contractAddress; // Address of contract
+    bool isContractAdmin; // Is contract admin
+}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_functions"><a class="anchor" href="#_functions"></a>Functions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>ConfigStorage.sol</code> smart contract contains various functions. The paramaters, mappings and structs are used in the functions and can be setted or getted. For detailed descriptions of the functions, please see the comments in the <code>ConfigStorage.sol</code> smart contract.</p>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script id="site-script" src="../../../../_/js/site.js" data-ui-root-path="../../../../_"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

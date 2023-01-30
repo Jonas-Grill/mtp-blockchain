@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>SBCoin.sol :: Antora Docs</title>
+    <meta name="generator" content="Antora 3.1.2">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+    <script>var uiRootPath = '../../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a>MTP-Blockchain</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="documentation.yml-mtp-blockchain" data-version="0.1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">MTP-Blockchain</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../index.html">index.adoc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Master Team Project</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../masterTeamProject/masterProject.html">A Blockchain-based system for course submissions</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Students</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forStudents/guide.html">Guide for Knowledge Base</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forStudents/metamask.html">Metamask Setup</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Lecturers</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forLecturers/raspberry.html">Raspberry Pi Setup</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forLecturers/newSemester.html">Start a new semester</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../forLecturers/addAdminAddress.html">Add admin address</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Developers</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="#frontent.adoc">Frontend &amp; Blockchain interaction</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../smartcontracts.html">Knowledge Base - Smart contracts</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">MTP-Blockchain</span>
+    <span class="version">0.1-beta.1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../../index.html">MTP-Blockchain</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">0.1-beta.1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">MTP-Blockchain</a></li>
+    <li><a href="sbcoin.html"><code>SBCoin.sol</code></a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page"><code>SBCoin.sol</code></h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>All the functions of the contract are described in the comments to the code. The contract is written in Solidity language and compiled with the help of the <code>solc</code> compiler.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_security"><a class="anchor" href="#_security"></a>Security</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All minting, transfer or burning functions are restricted to user or contract admins. This ensures that only the contract owner can mint new coins and that only the contract owner or the contract admin can transfer coins to other users. So students cannot send coins to each other to cheat the system.</p>
+</div>
+<div class="paragraph">
+<p>To ensure that students cannot reuse the Knowledge Coins from a previous semester, the Knowledge Coins are bounded to a block range. So students can only use the Knowledge Coins they received in the current semester for qualifying themselves for the current semester exam. This is done by the <code>mint</code> function. The <code>mint</code> function can only be called by user or contract admins and sends the amount of Knowledge Coins to the student&#8217;s address and logs the amount with the current block number.</p>
+</div>
+<div class="paragraph">
+<p>The <code>burn</code> function can burn Knowledge Coins from the student&#8217;s address. This function is also restricted to user or contract admins. Coins are burned by transfering them to a 0x0 address using the <code>_transfer</code> function.</p>
+</div>
+<div class="paragraph">
+<p>The basic <code>_transfer</code> and <code>_approve</code> functions can only be called by user or contract admins. The <code>_transfer</code> function is used to transfer Knowledge Coins from one address to another. The <code>_approve</code> function is used to approve another address to spend a certain amount of Knowledge Coins from the sender&#8217;s address.</p>
+</div>
+<div class="paragraph">
+<p>The <code>_transfer</code> function also keeps track of the change of coins for the block number restriction.</p>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script id="site-script" src="../../../../_/js/site.js" data-ui-root-path="../../../../_"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
