@@ -38,7 +38,7 @@ contract Validator2 is BaseValidator {
         BaseValidator(
             _configContractAddress,
             "SS23 Assignment 2 Validator Contract - Base",
-            0.05 ether
+            0.12 ether
         )
     {
         // Task A, B, C and E
@@ -90,18 +90,27 @@ contract Validator2 is BaseValidator {
             address(validator2Helper)
         );
 
-        // Run tests
-        (string memory messageA, bool resultA) = validatorTaskA.testExerciseA{
-            value: 0.015 ether
-        }();
-        if (resultA) {
-            // Add the result to the history
-            appendTestResult(messageA, resultA, 5);
+        if (
+            hasFunction(address(validatorTaskA), "testExerciseA()", 0.015 ether)
+        ) {
+            // Run tests
+            (string memory messageA, bool resultA) = validatorTaskA
+                .testExerciseA{value: 0.015 ether}();
+            if (resultA) {
+                // Add the result to the history
+                appendTestResult(messageA, resultA, 5);
+            } else {
+                // Add the result to the history
+                appendTestResult(messageA, false, 0);
+            }
         } else {
             // Add the result to the history
-            appendTestResult(messageA, false, 0);
+            appendTestResult(
+                "Exercise A: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
-
         /*----------  EXERCISE B  ----------*/
 
         // Init Task A Contract
@@ -110,17 +119,27 @@ contract Validator2 is BaseValidator {
             address(validator2Helper)
         );
 
-        // Run tests
-        (string memory messageB, bool resultB) = validatorTaskB.testExerciseB{
-            value: 0.01 ether
-        }();
+        if (
+            hasFunction(address(validatorTaskB), "testExerciseB()", 0.01 ether)
+        ) {
+            // Run tests
+            (string memory messageB, bool resultB) = validatorTaskB
+                .testExerciseB{value: 0.01 ether}();
 
-        if (resultB) {
-            // Add the result to the history
-            appendTestResult(messageB, resultB, 2);
+            if (resultB) {
+                // Add the result to the history
+                appendTestResult(messageB, resultB, 2);
+            } else {
+                // Add the result to the history
+                appendTestResult(messageB, false, 0);
+            }
         } else {
             // Add the result to the history
-            appendTestResult(messageB, false, 0);
+            appendTestResult(
+                "Exercise B: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
 
         /*----------  EXERCISE C  ----------*/
@@ -130,16 +149,26 @@ contract Validator2 is BaseValidator {
             address(validator2Helper)
         );
 
-        (string memory messageC, bool resultC) = validatorTaskC.testExerciseC{
-            value: 0.01 ether
-        }();
+        if (
+            hasFunction(address(validatorTaskC), "testExerciseC()", 0.01 ether)
+        ) {
+            (string memory messageC, bool resultC) = validatorTaskC
+                .testExerciseC{value: 0.01 ether}();
 
-        if (resultC) {
-            // Add the result to the history
-            appendTestResult(messageC, resultC, 3);
+            if (resultC) {
+                // Add the result to the history
+                appendTestResult(messageC, resultC, 3);
+            } else {
+                // Add the result to the history
+                appendTestResult(messageC, false, 0);
+            }
         } else {
             // Add the result to the history
-            appendTestResult(messageC, false, 0);
+            appendTestResult(
+                "Exercise C: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
 
         /*----------  EXERCISE E  ----------*/
@@ -149,16 +178,26 @@ contract Validator2 is BaseValidator {
             address(validator2Helper)
         );
 
-        (string memory messageE, bool resultE) = validatorTaskE.testExerciseE{
-            value: 0.01 ether
-        }();
+        if (
+            hasFunction(address(validatorTaskE), "testExerciseE()", 0.01 ether)
+        ) {
+            (string memory messageE, bool resultE) = validatorTaskE
+                .testExerciseE{value: 0.01 ether}();
 
-        if (resultE) {
-            // Add the result to the history
-            appendTestResult(messageE, resultE, 5);
+            if (resultE) {
+                // Add the result to the history
+                appendTestResult(messageE, resultE, 5);
+            } else {
+                // Add the result to the history
+                appendTestResult(messageE, false, 0);
+            }
         } else {
             // Add the result to the history
-            appendTestResult(messageE, false, 0);
+            appendTestResult(
+                "Exercise E: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
 
         // Return the history index

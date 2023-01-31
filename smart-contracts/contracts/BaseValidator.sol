@@ -470,6 +470,33 @@ contract BaseValidator is BaseConfig, Helper {
         return _assignmentOwner[_address];
     }
 
+    function hasFunction(
+        address _addr,
+        string memory functionName,
+        uint256 ethValue
+    ) public payable returns (bool) {
+        bytes4 FUNC_SELECTOR = bytes4(
+            keccak256(abi.encodePacked(functionName))
+        );
+
+        bool success;
+        bytes memory data = abi.encodeWithSelector(FUNC_SELECTOR);
+
+        assembly {
+            success := call(
+                gas(), // gas remaining
+                _addr, // destination address
+                ethValue, // no ether
+                add(data, 32), // input buffer (starts after the first 32 bytes in the `data` array)
+                mload(data), // input length (loaded from the first 32 bytes in the `data` array)
+                0, // output buffer
+                0 // output length
+            )
+        }
+
+        return success;
+    }
+
     /*=====        End of Test Helper      ======*/
 
     /*=============================================

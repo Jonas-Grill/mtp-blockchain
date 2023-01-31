@@ -38,7 +38,7 @@ contract Validator1 is BaseValidator, ERC721Holder {
         BaseValidator(
             _configContractAddress,
             "SS23 Assignment 1 Validator Contract - Base",
-            0.8 ether
+            0.2 ether
         )
     {
         // Task A, B, C, D, E, F
@@ -86,16 +86,25 @@ contract Validator1 is BaseValidator, ERC721Holder {
             address(validator1Helper)
         );
 
-        (string memory messageA, bool resultA) = validatorTaskA.testExerciseA{
-            value: 0.01 ether
-        }();
+        if (
+            hasFunction(address(validatorTaskA), "testExerciseA()", 0.01 ether)
+        ) {
+            (string memory messageA, bool resultA) = validatorTaskA
+                .testExerciseA{value: 0.01 ether}();
 
-        if (resultA) {
-            // If the test passed, add the result to the history
-            appendTestResult(messageA, true, 2);
+            if (resultA) {
+                // If the test passed, add the result to the history
+                appendTestResult(messageA, true, 2);
+            } else {
+                // If the test failed, add the result to the history
+                appendTestResult(messageA, false, 0);
+            }
         } else {
-            // If the test failed, add the result to the history
-            appendTestResult(messageA, false, 0);
+            appendTestResult(
+                "Exercise A: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
 
         /*----------  EXERCISE B  ----------*/
@@ -104,16 +113,25 @@ contract Validator1 is BaseValidator, ERC721Holder {
             address(validator1Helper)
         );
 
-        (string memory messageB, bool resultB) = validatorTaskB.testExerciseB{
-            value: 0.01 ether
-        }();
+        if (
+            hasFunction(address(validatorTaskB), "testExerciseB()", 0.01 ether)
+        ) {
+            (string memory messageB, bool resultB) = validatorTaskB
+                .testExerciseB{value: 0.01 ether}();
 
-        if (resultB) {
-            // If the test passed, add the result to the history
-            appendTestResult(messageB, true, 2);
+            if (resultB) {
+                // If the test passed, add the result to the history
+                appendTestResult(messageB, true, 2);
+            } else {
+                // If the test failed, add the result to the history
+                appendTestResult(messageB, false, 0);
+            }
         } else {
-            // If the test failed, add the result to the history
-            appendTestResult(messageB, false, 0);
+            appendTestResult(
+                "Exercise B: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
 
         /*----------  EXERCISE C  ----------*/
@@ -122,16 +140,25 @@ contract Validator1 is BaseValidator, ERC721Holder {
             address(validator1Helper)
         );
 
-        (string memory messageC, bool resultC) = validatorTaskC.testExerciseC{
-            value: 0.01 ether
-        }();
+        if (
+            hasFunction(address(validatorTaskC), "testExerciseC()", 0.01 ether)
+        ) {
+            (string memory messageC, bool resultC) = validatorTaskC
+                .testExerciseC{value: 0.01 ether}();
 
-        if (resultC) {
-            // If the test passed, add the result to the history
-            appendTestResult(messageC, true, 2);
+            if (resultC) {
+                // If the test passed, add the result to the history
+                appendTestResult(messageC, true, 2);
+            } else {
+                // If the test failed, add the result to the history
+                appendTestResult(messageC, false, 0);
+            }
         } else {
-            // If the test failed, add the result to the history
-            appendTestResult(messageC, false, 0);
+            appendTestResult(
+                "Exercise C: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
 
         /*----------  EXERCISE D  ----------*/
@@ -140,16 +167,25 @@ contract Validator1 is BaseValidator, ERC721Holder {
             address(validator1Helper)
         );
 
-        (string memory messageD, bool resultD) = validatorTaskD.testExerciseD{
-            value: 0.05 ether
-        }();
+        if (
+            hasFunction(address(validatorTaskD), "testExerciseD()", 0.05 ether)
+        ) {
+            (string memory messageD, bool resultD) = validatorTaskD
+                .testExerciseD{value: 0.05 ether}();
 
-        if (resultD) {
-            // If the test passed, add the result to the history
-            appendTestResult(messageD, true, 1);
+            if (resultD) {
+                // If the test passed, add the result to the history
+                appendTestResult(messageD, true, 1);
+            } else {
+                // If the test failed, add the result to the history
+                appendTestResult(messageD, false, 0);
+            }
         } else {
-            // If the test failed, add the result to the history
-            appendTestResult(messageD, false, 0);
+            appendTestResult(
+                "Exercise D: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
 
         /*----------  EXERCISE E  ----------*/
@@ -158,16 +194,25 @@ contract Validator1 is BaseValidator, ERC721Holder {
             address(validator1Helper)
         );
 
-        (string memory messageE, bool resultE) = validatorTaskE.testExerciseE{
-            value: 0.01 ether
-        }();
+        if (
+            hasFunction(address(validatorTaskE), "testExerciseE()", 0.01 ether)
+        ) {
+            (string memory messageE, bool resultE) = validatorTaskE
+                .testExerciseE{value: 0.01 ether}();
 
-        if (resultE) {
-            // If the test passed, add the result to the history
-            appendTestResult(messageE, true, 1);
+            if (resultE) {
+                // If the test passed, add the result to the history
+                appendTestResult(messageE, true, 1);
+            } else {
+                // If the test failed, add the result to the history
+                appendTestResult(messageE, false, 0);
+            }
         } else {
-            // If the test failed, add the result to the history
-            appendTestResult(messageE, false, 0);
+            appendTestResult(
+                "Exercise E: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
 
         /*----------  EXERCISE F  ----------*/
@@ -176,16 +221,24 @@ contract Validator1 is BaseValidator, ERC721Holder {
             address(validator1Helper)
         );
 
-        (string memory messageF, bool resultF) = validatorTaskF.testExerciseF();
+        if (hasFunction(address(validatorTaskF), "testExerciseF()", 0 ether)) {
+            (string memory messageF, bool resultF) = validatorTaskF
+                .testExerciseF();
 
-        if (resultF) {
-            // If the test passed, add the result to the history
-            appendTestResult(messageF, true, 1);
+            if (resultF) {
+                // If the test passed, add the result to the history
+                appendTestResult(messageF, true, 1);
+            } else {
+                // If the test failed, add the result to the history
+                appendTestResult(messageF, false, 0);
+            }
         } else {
-            // If the test failed, add the result to the history
-            appendTestResult(messageF, false, 0);
+            appendTestResult(
+                "Exercise F: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
-
         // Return the history index
         return testId;
     }

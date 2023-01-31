@@ -271,7 +271,7 @@ contract Validator2TaskC is Helper, BaseConfig {
 
         // Set the max time back to default -> 10 blocks
         assignmentContract.forceReset();
-        assignmentContract.setMaxTime("start", 10); // TODO change default value
+        assignmentContract.setMaxTime("start", 10);
 
         return ("Exercise C (start time exceed): All tests passed.", true);
     }
@@ -346,7 +346,7 @@ contract Validator2TaskC is Helper, BaseConfig {
 
         // Reset the max time to default
         assignmentContract.forceReset();
-        assignmentContract.setMaxTime("play", 10); // TODO change default value
+        assignmentContract.setMaxTime("play", 10);
 
         return ("Exercise C (play time exceed): All tests passed.", true);
     }

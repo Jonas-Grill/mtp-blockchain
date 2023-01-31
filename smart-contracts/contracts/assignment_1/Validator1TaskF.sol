@@ -49,8 +49,17 @@ contract Validator1TaskF is Helper, BaseConfig {
         // get ether balance of owner
         uint256 senderBalanceBeforeF = address(this).balance;
 
+        uint256 toWithdraw = 100 wei;
+
+        if (address(assignmentContract).balance < toWithdraw) {
+            return (
+                "Error (Exercise F): Not enough funds in the contract!",
+                false
+            );
+        }
+
         // withdraw funds to owner
-        try assignmentContract.withdraw(address(assignmentContract).balance) {
+        try assignmentContract.withdraw(toWithdraw) {
             // get ether balance of owner
             uint256 senderBalanceAfterF = address(this).balance;
 
