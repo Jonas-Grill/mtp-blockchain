@@ -26,7 +26,7 @@ contract Validator3 is BaseValidator {
         BaseValidator(
             _configContractAddress,
             "SS23 Assignment 3 Validator Contract - Base",
-            5 gwei
+            6 gwei
         )
     {
         // Task A, B, C and E
@@ -66,25 +66,33 @@ contract Validator3 is BaseValidator {
         // Init Task A Contract
         validatorTaskA.initContract(_contractAddress);
 
-        // Run tests
-        try validatorTaskA.testExerciseA{value: 1 gwei}() returns (
-            string memory messageA,
-            bool resultA
-        ) {
-            if (resultA) {
-                // Add the result to the history
-                appendTestResult(messageA, resultA, 5);
-            } else {
-                // Add the result to the history
-                appendTestResult(messageA, false, 0);
+        if (hasFunction(address(validatorTaskA), "testExerciseA()", 1 gwei)) {
+            // Run tests
+            try validatorTaskA.testExerciseA{value: 1 gwei}() returns (
+                string memory messageA,
+                bool resultA
+            ) {
+                if (resultA) {
+                    // Add the result to the history
+                    appendTestResult(messageA, resultA, 7);
+                } else {
+                    // Add the result to the history
+                    appendTestResult(messageA, false, 0);
+                }
+            } catch Error(string memory reason) {
+                appendTestResult(
+                    buildErrorMessage(
+                        "Error (Exercise A)",
+                        "Error with tests in Exercise A.",
+                        reason
+                    ),
+                    false,
+                    0
+                );
             }
-        } catch Error(string memory reason) {
+        } else {
             appendTestResult(
-                buildErrorMessage(
-                    "Error (Exercise A)",
-                    "Error with tests in Exercise A.",
-                    reason
-                ),
+                "Exercise A: Some of the required functions are not correctly implemented. Validation not possible!",
                 false,
                 0
             );
@@ -95,25 +103,33 @@ contract Validator3 is BaseValidator {
         // Init Task A Contract
         validatorTaskB.initContract(_contractAddress);
 
-        // Run tests
-        try validatorTaskB.testExerciseB{value: 1 gwei}() returns (
-            string memory messageB,
-            bool resultB
-        ) {
-            if (resultB) {
-                // Add the result to the history
-                appendTestResult(messageB, resultB, 5);
-            } else {
-                // Add the result to the history
-                appendTestResult(messageB, false, 0);
+        if (hasFunction(address(validatorTaskB), "testExerciseB()", 1 gwei)) {
+            // Run tests
+            try validatorTaskB.testExerciseB{value: 1 gwei}() returns (
+                string memory messageB,
+                bool resultB
+            ) {
+                if (resultB) {
+                    // Add the result to the history
+                    appendTestResult(messageB, resultB, 2);
+                } else {
+                    // Add the result to the history
+                    appendTestResult(messageB, false, 0);
+                }
+            } catch Error(string memory reason) {
+                appendTestResult(
+                    buildErrorMessage(
+                        "Error (Exercise B)",
+                        "Error with tests in Exercise B.",
+                        reason
+                    ),
+                    false,
+                    0
+                );
             }
-        } catch Error(string memory reason) {
+        } else {
             appendTestResult(
-                buildErrorMessage(
-                    "Error (Exercise B)",
-                    "Error with tests in Exercise B.",
-                    reason
-                ),
+                "Exercise B: Some of the required functions are not correctly implemented. Validation not possible!",
                 false,
                 0
             );
@@ -123,24 +139,32 @@ contract Validator3 is BaseValidator {
 
         validatorTaskC.initContract(_contractAddress);
 
-        try validatorTaskC.testExerciseC{value: 1 gwei}() returns (
-            string memory messageC,
-            bool resultC
-        ) {
-            if (resultC) {
-                // Add the result to the history
-                appendTestResult(messageC, resultC, 5);
-            } else {
-                // Add the result to the history
-                appendTestResult(messageC, false, 0);
+        if (hasFunction(address(validatorTaskC), "testExerciseC()", 1 gwei)) {
+            try validatorTaskC.testExerciseC{value: 1 gwei}() returns (
+                string memory messageC,
+                bool resultC
+            ) {
+                if (resultC) {
+                    // Add the result to the history
+                    appendTestResult(messageC, resultC, 3);
+                } else {
+                    // Add the result to the history
+                    appendTestResult(messageC, false, 0);
+                }
+            } catch Error(string memory reason) {
+                appendTestResult(
+                    buildErrorMessage(
+                        "Error (Exercise C)",
+                        "Error with tests in Exercise C.",
+                        reason
+                    ),
+                    false,
+                    0
+                );
             }
-        } catch Error(string memory reason) {
+        } else {
             appendTestResult(
-                buildErrorMessage(
-                    "Error (Exercise C)",
-                    "Error with tests in Exercise C.",
-                    reason
-                ),
+                "Exercise C: Some of the required functions are not correctly implemented. Validation not possible!",
                 false,
                 0
             );

@@ -42,7 +42,7 @@ class NOWAssignments {
         await assignmentValidatorContract.methods.validateAssignment(contractAddress).send({
             from: fromAddress,
             value: requiredEther,
-            gas: 5000000
+            gas: 8000000
         });
 
         return await assignmentValidatorContract.methods.getHistoryCounter().call({
@@ -68,7 +68,7 @@ class NOWAssignments {
         await assignmentValidatorContract.methods.submitAssignment(contractAddress).send({
             from: fromAddress,
             value: requiredEther,
-            gas: 5000000
+            gas: 8000000
         });
 
         // Return submitted assignment
@@ -147,7 +147,6 @@ class NOWAssignments {
 
         await assignmentValidatorContract.methods.removeSubmittedAssignment(studentAddress).send({
             from: fromAddress,
-            gas: 5000000
         });
     }
 

@@ -24,6 +24,9 @@ contract Validator1TaskF is Helper, BaseConfig {
     IAssignment1 assignmentContract;
     Validator1Helper validator1Helper;
 
+    // Correct eth sending used
+    bool private correctEthSendingUsed = false;
+
     constructor(address _configContractAddress) {
         initAdmin(
             _configContractAddress,
@@ -31,7 +34,16 @@ contract Validator1TaskF is Helper, BaseConfig {
         );
     }
 
-    receive() external payable {}
+    receive() external payable {
+        uint256 test = 10;
+        if (test == 10) test++;
+
+        if (test == 11) test++;
+
+        if (test == 12 && test + 1 == 13) test++;
+
+        correctEthSendingUsed = true;
+    }
 
     // Init contract
     function initContract(
@@ -41,6 +53,7 @@ contract Validator1TaskF is Helper, BaseConfig {
         // Call the contract interface which needs to be tested and store it in the variable assignmentContract
         assignmentContract = IAssignment1(_contractAddress);
         validator1Helper = Validator1Helper(payable(_validator1HelperAddress));
+        correctEthSendingUsed = false;
     }
 
     function testExerciseF() public payable returns (string memory, bool) {
@@ -49,12 +62,30 @@ contract Validator1TaskF is Helper, BaseConfig {
         // get ether balance of owner
         uint256 senderBalanceBeforeF = address(this).balance;
 
+        uint256 toWithdraw = 100 wei;
+
+        if (address(assignmentContract).balance < toWithdraw) {
+            return (
+                "Error (Exercise F): Not enough funds in the contract!",
+                false
+            );
+        }
+
         // withdraw funds to owner
-        try assignmentContract.withdraw(address(assignmentContract).balance) {
+        try assignmentContract.withdraw(toWithdraw) {
             // get ether balance of owner
             uint256 senderBalanceAfterF = address(this).balance;
 
             uint256 exerciseFPassedCounter = 0;
+
+            if (!correctEthSendingUsed) {
+                return (
+                    "Error (Exercise F): Correct ether sending not used!",
+                    false
+                );
+            } else {
+                exerciseFPassedCounter++;
+            }
 
             // check if ether balance of owner is increased
             if (senderBalanceAfterF > senderBalanceBeforeF) {
@@ -77,7 +108,7 @@ contract Validator1TaskF is Helper, BaseConfig {
                 exerciseFPassedCounter++;
             }
 
-            if (exerciseFPassedCounter == 2) {
+            if (exerciseFPassedCounter == 3) {
                 return ("Passed (Exercise F): Exercise F passed!", true);
             }
         } catch Error(string memory _reason) {

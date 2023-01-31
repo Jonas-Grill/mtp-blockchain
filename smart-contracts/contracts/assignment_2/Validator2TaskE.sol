@@ -168,20 +168,6 @@ contract Validator2TaskE is Helper, BaseConfig {
     }
 
     function testPrivateGame() public payable returns (string memory, bool) {
-        // Reset game
-        try assignmentContract.forceReset() {} catch Error(
-            string memory errMsg
-        ) {
-            return (
-                buildErrorMessage(
-                    "Error (Exercise E - private game)",
-                    "Error with forceReset() function.",
-                    errMsg
-                ),
-                false
-            );
-        }
-
         // Prepare the game
         (string memory message, bool success) = prepareGame();
 

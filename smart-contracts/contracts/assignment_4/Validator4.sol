@@ -109,16 +109,23 @@ contract Validator4 is BaseValidator {
         // Init the task A contract
         validatorTaskA.initContract(_contractAddress);
 
-        // Run tests
-        (string memory messageA, bool successA) = validatorTaskA.testExerciseA{
-            value: 0 ether
-        }();
-        if (successA) {
-            // Add the result to the history
-            appendTestResult(messageA, true, 5);
+        if (hasFunction(address(validatorTaskA), "testExerciseA()", 0 ether)) {
+            // Run tests
+            (string memory messageA, bool successA) = validatorTaskA
+                .testExerciseA{value: 0 ether}();
+            if (successA) {
+                // Add the result to the history
+                appendTestResult(messageA, true, 1);
+            } else {
+                // Add the result to the history
+                appendTestResult(messageA, false, 0);
+            }
         } else {
-            // Add the result to the history
-            appendTestResult(messageA, false, 0);
+            appendTestResult(
+                "Exercise A: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
 
         /*----------  EXERCISE B  ----------*/
@@ -126,17 +133,30 @@ contract Validator4 is BaseValidator {
         // Init the task B contract
         validatorTaskB.initContract(_contractAddress);
 
-        // Run tests
-        (string memory messageB, bool successB) = validatorTaskB.testExerciseB{
-            value: 1000 gwei
-        }();
-        if (successB) {
-            // Add the result to the history
-            appendTestResult(messageB, true, 5);
+        if (
+            hasFunction(address(validatorTaskB), "testExerciseB()", 1000 gwei)
+        ) {
+            // Run tests
+            (string memory messageB, bool successB) = validatorTaskB
+                .testExerciseB{value: 1000 gwei}();
+            if (successB) {
+                // Add the result to the history
+                appendTestResult(messageB, true, 8);
+            } else {
+                // Add the result to the history
+                appendTestResult(messageB, false, 0);
+            }
         } else {
-            // Add the result to the history
-            appendTestResult(messageB, false, 0);
+            appendTestResult(
+                "Exercise B: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
+
+        /*----------  EXERCISE C  ----------*/
+
+        appendTestResult("Exercise C: All tests passed.", true, 1);
 
         /*----------  EXERCISE D  ----------*/
 
@@ -147,17 +167,24 @@ contract Validator4 is BaseValidator {
             address(coinContract)
         );
 
-        // Run tests
-        (string memory messageD, bool successD) = validatorTaskD.testExerciseD{
-            value: 200 gwei
-        }();
+        if (hasFunction(address(validatorTaskD), "testExerciseD()", 200 gwei)) {
+            // Run tests
+            (string memory messageD, bool successD) = validatorTaskD
+                .testExerciseD{value: 200 gwei}();
 
-        if (successD) {
-            // Add the result to the history
-            appendTestResult(messageD, true, 5);
+            if (successD) {
+                // Add the result to the history
+                appendTestResult(messageD, true, 5);
+            } else {
+                // Add the result to the history
+                appendTestResult(messageD, false, 0);
+            }
         } else {
-            // Add the result to the history
-            appendTestResult(messageD, false, 0);
+            appendTestResult(
+                "Exercise D: Some of the required functions are not correctly implemented. Validation not possible!",
+                false,
+                0
+            );
         }
 
         return testId;
