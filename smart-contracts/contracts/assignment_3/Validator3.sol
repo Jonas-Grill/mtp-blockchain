@@ -74,7 +74,7 @@ contract Validator3 is BaseValidator {
             ) {
                 if (resultA) {
                     // Add the result to the history
-                    appendTestResult(messageA, resultA, 5);
+                    appendTestResult(messageA, resultA, 7);
                 } else {
                     // Add the result to the history
                     appendTestResult(messageA, false, 0);
@@ -111,7 +111,7 @@ contract Validator3 is BaseValidator {
             ) {
                 if (resultB) {
                     // Add the result to the history
-                    appendTestResult(messageB, resultB, 5);
+                    appendTestResult(messageB, resultB, 2);
                 } else {
                     // Add the result to the history
                     appendTestResult(messageB, false, 0);
@@ -146,7 +146,7 @@ contract Validator3 is BaseValidator {
             ) {
                 if (resultC) {
                     // Add the result to the history
-                    appendTestResult(messageC, resultC, 5);
+                    appendTestResult(messageC, resultC, 3);
                 } else {
                     // Add the result to the history
                     appendTestResult(messageC, false, 0);

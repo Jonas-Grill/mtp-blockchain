@@ -94,7 +94,7 @@ contract Validator1 is BaseValidator, ERC721Holder {
 
             if (resultA) {
                 // If the test passed, add the result to the history
-                appendTestResult(messageA, true, 2);
+                appendTestResult(messageA, true, 3);
             } else {
                 // If the test failed, add the result to the history
                 appendTestResult(messageA, false, 0);
@@ -121,7 +121,7 @@ contract Validator1 is BaseValidator, ERC721Holder {
 
             if (resultB) {
                 // If the test passed, add the result to the history
-                appendTestResult(messageB, true, 2);
+                appendTestResult(messageB, true, 3);
             } else {
                 // If the test failed, add the result to the history
                 appendTestResult(messageB, false, 0);
@@ -148,7 +148,7 @@ contract Validator1 is BaseValidator, ERC721Holder {
 
             if (resultC) {
                 // If the test passed, add the result to the history
-                appendTestResult(messageC, true, 2);
+                appendTestResult(messageC, true, 1);
             } else {
                 // If the test failed, add the result to the history
                 appendTestResult(messageC, false, 0);

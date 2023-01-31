@@ -157,7 +157,7 @@ contract Validator2 is BaseValidator {
 
             if (resultC) {
                 // Add the result to the history
-                appendTestResult(messageC, resultC, 3);
+                appendTestResult(messageC, resultC, 2);
             } else {
                 // Add the result to the history
                 appendTestResult(messageC, false, 0);
@@ -170,6 +170,10 @@ contract Validator2 is BaseValidator {
                 0
             );
         }
+
+        /*----------  EXERCISE D  ----------*/
+
+        appendTestResult("Exercise D: All tests passed.", true, 1);
 
         /*----------  EXERCISE E  ----------*/
 

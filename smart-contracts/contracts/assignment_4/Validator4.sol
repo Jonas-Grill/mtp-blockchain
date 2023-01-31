@@ -115,7 +115,7 @@ contract Validator4 is BaseValidator {
                 .testExerciseA{value: 0 ether}();
             if (successA) {
                 // Add the result to the history
-                appendTestResult(messageA, true, 5);
+                appendTestResult(messageA, true, 1);
             } else {
                 // Add the result to the history
                 appendTestResult(messageA, false, 0);
@@ -141,7 +141,7 @@ contract Validator4 is BaseValidator {
                 .testExerciseB{value: 1000 gwei}();
             if (successB) {
                 // Add the result to the history
-                appendTestResult(messageB, true, 5);
+                appendTestResult(messageB, true, 8);
             } else {
                 // Add the result to the history
                 appendTestResult(messageB, false, 0);
@@ -153,6 +153,10 @@ contract Validator4 is BaseValidator {
                 0
             );
         }
+
+        /*----------  EXERCISE C  ----------*/
+
+        appendTestResult("Exercise C: All tests passed.", true, 1);
 
         /*----------  EXERCISE D  ----------*/
 
