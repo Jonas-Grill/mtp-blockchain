@@ -234,7 +234,7 @@ contract Validator1 is BaseValidator, ERC721Holder {
             }
         } else {
             appendTestResult(
-                "Exercise F: Some of the required functions are not correctly implemented. Validation not possible!",
+                "Exercise F: Some of the required functions are not correctly implemented or wrong ETH sending method used. Validation not possible!",
                 false,
                 0
             );
