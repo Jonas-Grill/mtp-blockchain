@@ -10,6 +10,8 @@ export default function MyApp({Component, pageProps}: AppProps) {
     const [chainId, setChainId] = useState(0);
 
     useEffect(() => {
+        console.log("App useEffect");
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);

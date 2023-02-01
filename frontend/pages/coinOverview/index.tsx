@@ -17,21 +17,32 @@ export default function CoinOverview({userAddress}: { userAddress: string }) {
     }
 
     useEffect(() => {
+        console.log("CoinOverview useEffect");
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
             });
         } else if (semesters.length <= 0) {
-            loadSemesters(web3).then((result) => {
-                setSemesters(result);
+            loadSemesters(web3, isUserAdmin).then((result) => {
 
-                if (result.length > 0) {
+                if (result && result.length > 0) {
+                    setSemesters(result);
                     setSelectedSemester(result[0].id);
                 }
             });
         } else if (userAddress) {
             isAdmin(web3, userAddress).then((result) => {
-                setIsUserAdmin(result);
+                if (result !== isUserAdmin) {
+                    setIsUserAdmin(result);
+
+                    loadSemesters(web3, result).then((result) => {
+                        if (result && result.length > 0) {
+                            setSemesters(result);
+                            setSelectedSemester(result[0].id);
+                        }
+                    });
+                }
             });
         }
     }, [web3, semesters, selectedSemester, userAddress]);
@@ -53,7 +64,7 @@ export default function CoinOverview({userAddress}: { userAddress: string }) {
                             Knowledge overview
                         </h2>
                         <div className="mt-4 text-lg font-medium text-uni">
-                            Choose your semester:
+                            Choose the semester:
                         </div>
                         <fieldset>
                             <div className="mt-4 space-y-4">

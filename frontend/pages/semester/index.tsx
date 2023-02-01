@@ -5,6 +5,7 @@ import Head from "next/head";
 import {AcademicCapIcon} from "@heroicons/react/20/solid";
 import {initBlockchain} from "../faucet";
 import {isAdmin} from "../../web3/src/entrypoints/config/admin";
+import {getCurrentBlockNumber} from "../../web3/src/entrypoints/utils/utils";
 
 // Export semester type
 export type Semester = {
@@ -15,7 +16,7 @@ export type Semester = {
     minKnowledgeCoinAmount: number
 }
 
-export const loadSemesters = async (web3: any) => {
+export const loadSemesters = async (web3: any, isAdmin: boolean) => {
     if (web3) {
         const semesters: Semester[] = [];
         const ids: string[] = await getSemesterIds(web3);
@@ -33,7 +34,13 @@ export const loadSemesters = async (web3: any) => {
                 });
             }
         }
-        return semesters;
+
+        if (isAdmin) {
+            return semesters.sort((a, b) => b.startBlock - a.startBlock);
+        } else {
+            const currentBlockNumber = await getCurrentBlockNumber(web3);
+            return semesters.filter(semester => semester.endBlock > currentBlockNumber && semester.startBlock < currentBlockNumber).sort((a, b) => b.startBlock - a.startBlock);
+        }
     }
 }
 
@@ -61,7 +68,7 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
 
         if (web3) {
             deleteSemester(web3, event.currentTarget.name).then(() => {
-                loadSemesters(web3).then((semesters) => {
+                loadSemesters(web3, isUserAdmin).then((semesters) => {
                     if (semesters) {
                         setSemesters(semesters);
                     }
@@ -73,23 +80,27 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
     }
 
     useEffect(() => {
+        console.log("Semester overview useEffect");
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
             });
-        } else if (semesters.length === 0) {
-            loadSemesters(web3).then((result) => {
+        } else {
+            loadSemesters(web3, isUserAdmin).then((result) => {
                 if (result) {
-                    setSemesters(result);
+                    setSemesters(result.sort((a, b) => b.startBlock - a.startBlock));
                 }
             });
         }
         if (userAddress && web3) {
             isAdmin(web3, userAddress).then((result) => {
-                setIsUserAdmin(result);
+                if (result && result !== isUserAdmin) {
+                    setIsUserAdmin(result);
+                }
             });
         }
-    }, [web3, semesters, userAddress]);
+    }, [web3, userAddress, isUserAdmin]);
 
     return (
         <div className="flex-col">
@@ -97,7 +108,7 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
                 <title>Semester overview</title>
             </Head>
             <div className="bg-white">
-                <div className="mx-auto max-w-2xl py-16 px-4 sm:py-0 sm:px-6 lg:max-w-7xl lg:px-8">
+                <div className="mx-auto max-w-2xl py-16 px-4 sm:py-0 sm:px-6 lg:max-w-7xl lg:px-8 mt-10">
 
                     {
                         isUserAdmin ? (

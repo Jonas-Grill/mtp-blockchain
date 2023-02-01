@@ -72,6 +72,8 @@ export default function Admin({
     }
 
     useEffect(() => {
+        console.log("Admin useEffect");
+
         const oldStudents = students;
 
         setStudents([]);
@@ -83,7 +85,10 @@ export default function Admin({
 
     return (
         <>
-            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            <div className="mt-4 text-md font-medium text-uni">
+                For one student, enter the student ID (optional) and the student's wallet address:
+            </div>
+            <form className="space-y-3" onSubmit={handleSubmit}>
                 <label htmlFor="wallet-address" className="sr-only">
                     Student ID
                 </label>
@@ -120,7 +125,10 @@ export default function Admin({
                     Check Knowledge of this address
                 </button>
             </form>
-            <form className="mt-8 space-y-6" onSubmit={handleMassSubmit}>
+            <div className="mt-4 text-md font-medium text-uni">
+                For multiple students, please provide a csv file with the following format: studentId,walletAddress
+            </div>
+            <form className="mt-3 space-y-3" onSubmit={handleMassSubmit}>
                 <input
                     id="csv"
                     name="csv"
