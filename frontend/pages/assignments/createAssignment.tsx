@@ -48,13 +48,14 @@ export default function CreateAssignment() {
     }
 
     useEffect(() => {
+        console.log("CreateAssignment useEffect");
 
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
             });
         } else {
-            loadSemesters(web3).then((result) => {
+            loadSemesters(web3, true).then((result) => {
                if (result && result.length > 0) {
                    setSemesters(result);
                    setSelectedSemester(result[0].id);
@@ -135,7 +136,7 @@ export default function CreateAssignment() {
                             type="text"
                             required
                             className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
-                            placeholder="Contract address"
+                            placeholder="Validator contract address"
                         />
                         <label htmlFor="startBlock" className="sr-only">
                             Starting block

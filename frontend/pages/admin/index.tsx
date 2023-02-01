@@ -151,6 +151,8 @@ export default function Admin({userAddress}: { userAddress: string }) {
     }
 
     useEffect(() => {
+        console.log("Admin page useEffect");
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);

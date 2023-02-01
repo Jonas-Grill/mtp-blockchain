@@ -88,7 +88,7 @@ class NOWUtils {
      */
     getAssignmentValidatorContract(web3, fromAddress, assignmentValidatorContractAddress) {
         // faucet storage abi
-        const abi = this.getContractAbi("BaseAssignmentValidator")
+        const abi = this.getContractAbi("BaseValidator")
 
         console.log("assignmentValidatorContractAddress", assignmentValidatorContractAddress)
         // Get faucetStorageContract using logged in web3 address

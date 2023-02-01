@@ -71,6 +71,8 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
     }
 
     useEffect(() => {
+        console.log("Faucet useEffect");
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
@@ -92,7 +94,7 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
                             alt="Uni Mannheim Logo"
                         />
                         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-                            Get your gas now
+                            Get your ETH now
                         </h2>
                     </div>
                     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

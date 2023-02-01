@@ -73,11 +73,13 @@ export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof 
     }
 
     useEffect(() => {
+        console.log("ChangeSemester useEffect");
+
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
             });
-        } else if (!semester && id) {
+        } else if (id) {
             loadSemester(web3, id).then((semester) => {
                 setSemester(semester);
             });
@@ -123,7 +125,6 @@ export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof 
                             name="startBlock"
                             type="number"
                             min={0}
-                            max={100000000}
                             onChange={(event) => {
                                 const value = event.target.value;
 
@@ -135,6 +136,7 @@ export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof 
                             required
                             className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="Starting block"
+                            defaultValue={semester?.startBlock}
                         />
                         <label htmlFor="endBlock" className="sr-only">
                             End block
@@ -155,6 +157,7 @@ export default function ChangeSemester({id}: InferGetServerSidePropsType<typeof 
                             required
                             className="mb-2 relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-uni focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
                             placeholder="End block"
+                            defaultValue={semester?.endBlock}
                         />
                         <label htmlFor="coinAmountForExam" className="sr-only">
                             Coin amount for exam

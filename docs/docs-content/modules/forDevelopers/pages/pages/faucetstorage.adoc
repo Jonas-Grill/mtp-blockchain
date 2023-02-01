@@ -1,0 +1,8 @@
+
+= `FaucetStorage.sol`
+
+The `FaucetStorage.sol` smart contract is the contract which allows students to request ETH. To mock a real system and create an artifical value for ETH. ETH can only be requested after a certain block time. This block difference can be modified in the `ConfigStorage.sol`.
+
+All the functions of the contract are described in the comments to the code. The contract is written in Solidity language and compiled with the help of the `solc` compiler.
+
+Every student can request ETH from the contract. The contract will check if the student has already requested ETH in the defined block difference range. If not the contract will send ETH to the student and store the block number of the transaction. If the student has already requested ETH in the defined block difference range, the contract will not send ETH to the student.

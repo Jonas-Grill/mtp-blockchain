@@ -1,4 +1,4 @@
-import {ArrowUpTrayIcon, DocumentMagnifyingGlassIcon} from '@heroicons/react/20/solid'
+import {ArrowUpTrayIcon, DocumentMagnifyingGlassIcon, ExclamationCircleIcon} from '@heroicons/react/24/outline'
 import React, {useEffect, useState} from "react";
 import {
     getTestIndexes,
@@ -11,10 +11,16 @@ import {loadSemesters, Semester} from "../semester";
 import {Assignment, loadAssignments} from "../assignments";
 import Head from "next/head";
 import {initBlockchain} from "../faucet";
+import {isAdmin} from "../../web3/src/entrypoints/config/admin";
+import { Fragment, useRef} from 'react'
+import { Dialog, Transition } from '@headlessui/react'
 
 export default function SubmitAssignment({userAddress}: { userAddress: string }) {
     const [web3, setWeb3] = useState<any>(undefined);
     const [contract, setContract] = useState<string>("");
+
+    const [open, setOpen] = useState(false)
+    const cancelButtonRef = useRef(null)
 
     const [semesters, setSemesters] = useState<Semester[]>([]);
     const [selectedSemester, setSelectedSemester] = useState<string>("");
@@ -23,11 +29,20 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
     const [selectedAssignment, setSelectedAssignment] = useState<string>("");
 
     const [testResults, setTestResults] = useState<string[][][]>([]);
+    const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
 
     const [submittedAssignment, setSubmittedAssignment] = useState<{ testIndex: string, studentAddress: string, contractAddress: string, knowledgeCoins: string, blockNo: string }>();
 
     const handleTestAssignment = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
+
+        if (contract === "") {
+            alert("Please enter your contract address")
+            return
+        } else if (!web3.utils.isAddress(contract)) {
+            alert("Please enter a valid contract address")
+            return
+        }
 
         if (web3) {
             const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
@@ -39,15 +54,21 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                     });
                 }).catch((error) => {
                     if (error.code === -32603) {
-                        const message = error.message.substring(
+                        let message = error.message.substring(
                             error.message.indexOf('"message"') + 2,
                             error.message.indexOf('",')
                         );
 
-                        alert(message.substring(
+                        message = message.substring(
                             message.indexOf('Error:') + 7,
                             message.indexOf('!')
-                        ));
+                        );
+
+                        if (message === "essage") {
+                            message = "Invalid contract!"
+                        }
+
+                        alert(message);
                     } else {
                         alert(error.message);
                     }
@@ -67,15 +88,21 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                     setSubmittedAssignment(result);
                 }).catch((error) => {
                     if (error.code === -32603) {
-                        const message = error.message.substring(
+                        let message = error.message.substring(
                             error.message.indexOf('"message"') + 2,
                             error.message.indexOf('",')
                         );
 
-                        alert(message.substring(
+                        message = message.substring(
                             message.indexOf('Error:') + 7,
                             message.indexOf('!')
-                        ));
+                        );
+
+                        if (message === "essage") {
+                            message = "Invalid contract!"
+                        }
+
+                        alert(message);
                     } else {
                         alert(error.message);
                     }
@@ -94,28 +121,50 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
     }
 
     useEffect(() => {
-        const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
+        console.log("SubmitAssignment useEffect");
 
         if (!web3) {
             initBlockchain(web3).then((web3) => {
                 setWeb3(web3);
             });
         } else if (semesters.length <= 0) {
-            loadSemesters(web3).then((semesters) => {
+            loadSemesters(web3, isUserAdmin).then((semesters) => {
                 if (semesters && semesters.length > 0) {
                     setSemesters(semesters);
                     setSelectedSemester(semesters[0].id);
                 }
             });
         } else {
-            loadAssignments(selectedSemester, web3).then((assignments) => {
-                setAssignments(assignments);
+            loadAssignments(selectedSemester, web3, isUserAdmin).then((result) => {
+                // Only update if the result is different
+                if ((result && result.length > 0) || assignments.length > 0) {
+                    if (result.length !== assignments.length || result[0].id !== assignments[0].id) {
+                        setAssignments(result);
 
-                if (assignments.length > 0) {
-                    setSelectedAssignment(assignments[0].id);
+                        if (result && result.length > 0 && result[0].id !== selectedAssignment) {
+                            setSelectedAssignment(result[0].id);
+                        }
+                    }
                 }
             });
         }
+
+        if (web3 && userAddress) {
+            isAdmin(web3, userAddress).then((result) => {
+                if (result !== isUserAdmin) {
+                    setIsUserAdmin(result);
+
+                    loadSemesters(web3, result).then((semesters) => {
+                        if (semesters && semesters.length > 0) {
+                            setSemesters(semesters);
+                            setSelectedSemester(semesters[0].id);
+                        }
+                    });
+                }
+            });
+        }
+
+        const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
 
         if (assignment) {
             loadTestResults(web3, userAddress, assignment.validationContractAddress).then((results) => {
@@ -133,7 +182,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                 }
             });
         }
-    }, [web3, semesters, selectedSemester, assignments, contract, selectedAssignment]);
+    }, [web3, semesters, selectedSemester, assignments, selectedAssignment, userAddress, isUserAdmin]);
 
     return (
         <>
@@ -152,30 +201,102 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                             Hand in your assignment contract here
                         </h2>
                     </div>
-                    <label htmlFor="semester"
-                           className="text-center text-lg font-medium tracking-tight text-uni">
-                        Choose Semester
-                    </label>
-                    <fieldset>
-                        <div className="space-y-2 mb-4">
-                            {semesters.map((semester) => (
-                                <div className="flex items-center" key={semester.id}>
-                                    <input
-                                        id={semester.id}
-                                        name="semester"
-                                        type="radio"
-                                        className="h-4 w-4 text-uni focus:ring-transparent"
-                                        checked={semester.id === selectedSemester}
-                                        onChange={() => setSelectedSemester(semester.id)}
-                                    />
-                                    <label htmlFor="semester"
-                                           className="ml-3 block text-sm font-medium text-uni">
-                                        {semester.name}
-                                    </label>
+                    <Transition.Root show={open} as={Fragment}>
+                        <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0"
+                                enterTo="opacity-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                            </Transition.Child>
+
+                            <div className="fixed inset-0 z-10 overflow-y-auto">
+                                <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                                    <Transition.Child
+                                        as={Fragment}
+                                        enter="ease-out duration-300"
+                                        enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                        enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                        leave="ease-in duration-200"
+                                        leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                        leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                    >
+                                        <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                                <div className="sm:flex sm:items-start">
+                                                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-300 sm:mx-0 sm:h-10 sm:w-10">
+                                                        <ExclamationCircleIcon className="h-6 w-6 text-uni" aria-hidden="true" />
+                                                    </div>
+                                                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                                        <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-uni">
+                                                            Submit assignment
+                                                        </Dialog.Title>
+                                                        <div className="mt-2">
+                                                            <p className="text-sm text-gray-600">
+                                                                Are you sure you want to submit your assignment?
+                                                                You can only submit once. This action cannot be undone.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                                <button
+                                                    type="button"
+                                                    className="inline-flex w-full justify-center rounded-md bg-gray-300 px-4 py-2 text-base font-medium text-uni hover:bg-uni hover:text-white focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
+                                                    onClick={handleSubmitAssignment}
+                                                >
+                                                    Submit
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="mt-3 inline-flex w-full justify-center rounded-md bg-gray-300 px-4 py-2 text-base font-medium text-uni hover:bg-uni hover:text-white focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                                    onClick={() => setOpen(false)}
+                                                    ref={cancelButtonRef}
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </Dialog.Panel>
+                                    </Transition.Child>
                                 </div>
-                            ))}
-                        </div>
-                    </fieldset>
+                            </div>
+                        </Dialog>
+                    </Transition.Root>
+                    {
+                        isUserAdmin ? (
+                            <>
+                                <label htmlFor="semester"
+                                       className="text-center text-lg font-medium tracking-tight text-uni">
+                                    Choose Semester
+                                </label>
+                                <fieldset>
+                                    <div className="space-y-2 mb-4">
+                                        {semesters.map((semester) => (
+                                            <div className="flex items-center" key={semester.id}>
+                                                <input
+                                                    id={semester.id}
+                                                    name="semester"
+                                                    type="radio"
+                                                    className="h-4 w-4 text-uni focus:ring-transparent"
+                                                    checked={semester.id === selectedSemester}
+                                                    onChange={() => setSelectedSemester(semester.id)}/>
+                                                <label htmlFor="semester"
+                                                       className="ml-3 block text-sm font-medium text-uni">
+                                                    {semester.name}
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </fieldset>
+                            </>
+                        ) : null
+                    }
                     <label htmlFor="assignment"
                            className="text-center text-lg font-medium tracking-tight text-uni">
                         Choose Assignment
@@ -206,13 +327,22 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                         type="text"
                         required
                         className="relative block w-full appearance-none rounded-md shadow shadow-uni px-3 py-2 text-uni placeholder-gray-500 focus:z-10 focus:border-uni focus:outline-none focus:ring-uni sm:text-sm"
-                        placeholder="Contract address"
+                        placeholder="Your contract address"
                         onChange={(event) => setContract(event.currentTarget.value)}
                     />
 
                     <div className="py-6">
                         <button
-                            onClick={handleSubmitAssignment}
+                            onClick={() => {
+                                if (contract === "") {
+                                    alert("Please enter your contract address")
+                                    return
+                                } else if (!web3.utils.isAddress(contract)) {
+                                    alert("Please enter a valid contract address")
+                                    return
+                                }
+                                setOpen(true)
+                            }}
                             className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                         >
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -224,13 +354,16 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                         {
                             submittedAssignment && submittedAssignment.blockNo != "0" ? (
                                 <div className="mt-2 mb-2 grid grid-cols-3 rounded-md shadow shadow-uni p-2">
-                                    <dt className="col-span-2 text-lg font-medium text-uni">Test index: {submittedAssignment.testIndex}</dt>
-                                    <dt className="col-span-2 text-lg font-medium text-uni">Block number: {submittedAssignment.blockNo}</dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni">Test
+                                        index: {submittedAssignment.testIndex}</dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni">Block
+                                        number: {submittedAssignment.blockNo}</dt>
                                     <dt className="col-span-2 text-lg font-medium text-uni">Coins: {submittedAssignment.knowledgeCoins}</dt>
-                                    <dt className="col-span-2 text-lg font-medium text-uni">Contract address: {submittedAssignment.contractAddress}</dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni">Contract
+                                        address: {submittedAssignment.contractAddress}</dt>
                                 </div>
                             ) : (
-                                <div className="mt-1">
+                                <div className="mt-1 mb-1 ">
                                     <p className="text-uni">
                                         You have not submitted the assignment yet.
                                     </p>
@@ -256,12 +389,15 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                                     <div key={index}
                                          className="mx-auto grid max-w-2xl grid-cols-1 items-center">
                                         <details>
-                                            <summary className="text-lg font-medium text-uni">Try {index + 1 }</summary>
+                                            <summary className="text-lg font-medium text-uni">Test assignment:
+                                                Try {index + 1}</summary>
                                             {results.map((testResult, i) => (
                                                 <div key={i}
                                                      className="mt-2 mb-2 grid grid-cols-3 rounded-md shadow shadow-uni p-2">
-                                                    <dt className="col-span-2 text-lg font-medium text-uni">Test: {i}</dt>
-                                                    <dt className="col-span-2 text-lg font-medium text-uni">Test
+                                                    <dt className="col-span-2 text-lg font-medium text-uni">Validator
+                                                        contract test number: {i}</dt>
+                                                    <dt className="col-span-2 text-lg font-medium text-uni">Validator
+                                                        contract test
                                                         name: {testResult[0]}</dt>
                                                     <dt className="col-span-2 text-lg font-medium text-uni">Passed: {testResult[1]?.toString()}</dt>
                                                 </div>

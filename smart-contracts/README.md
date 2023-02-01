@@ -64,7 +64,7 @@ Three contract are used for this:
     - Admin related functions
 2. `BaseAssignment`
     - Base functions that every assignment contract (from the students) needs
-3. `BaseAssignmentValidator`
+3. `BaseValidator`
     - Base functions that every assignment validator contract (from the instructor) needs
 
 
@@ -95,7 +95,7 @@ An example interface file can be viewed here [`ExampleAssignmentInterface.sol`](
 
 #### Part 2 - Assignment Validator contract
 
-Secondly, the instructor needs to create the necessary validation contract. To ensure that each validation contract follow the same guidelines as the other the validation smart contract needs to inherit the `BaseAssignmentValidator` contract. This base contract, offers an interface every assignment validator contract needs.
+Secondly, the instructor needs to create the necessary validation contract. To ensure that each validation contract follow the same guidelines as the other the validation smart contract needs to inherit the `BaseValidator` contract. This base contract, offers an interface every assignment validator contract needs.
 
 An example usage of the smart contract can be seen in the [`ExampleAssignmentValidator.sol`](/smart-contracts/contracts/ExampleAssignmentValidator.sol) file.
 

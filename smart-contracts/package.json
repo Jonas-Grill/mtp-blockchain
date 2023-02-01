@@ -29,7 +29,8 @@
     "@truffle/hdwallet-provider": "^2.1.5",
     "dotenv": "^16.0.3",
     "solc": "^0.8.17",
-    "truffle": "^5.7.1"
+    "truffle": "^5.7.1",
+    "truffle-contract-size": "^2.0.1"
   },
   "directories": {
     "doc": "docs",
