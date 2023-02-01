@@ -436,7 +436,7 @@ export default function Admin({userAddress}: { userAddress: string }) {
                                             <h3 className="mt-1 text-lg font-medium text-uni col-span-2">Amount of Eth
                                                 in faucet
                                                 API:</h3>
-                                            <h3 className="mt-1 text-lg font-medium text-uni ml-16">{faucetApiBalance}</h3>
+                                            <h3 className="mt-1 text-sm font-medium text-uni ml-16 break-all">{faucetApiBalance}</h3>
                                         </div>
                                     </div>
                                 </div>
