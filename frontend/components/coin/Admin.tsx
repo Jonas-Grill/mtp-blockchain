@@ -46,6 +46,14 @@ export default function Admin({
     const addStudent = (address: string, studentId: string) => {
         const semester = getSemesterById(selectedSemester);
 
+        if (address === "") {
+            alert(`Contract address for ${studentId} is empty`);
+            return;
+        } else if (!web3.utils.isAddress(address)) {
+            alert(`Contract address for ${studentId} is invalid`);
+            return;
+        }
+
         if (address && semester && web3) {
             getKnowledgeCoinBalanceInRange(web3, address, semester.startBlock, semester.endBlock).then((result) => {
                 hasStudentPassedSemester(web3, address, semester.id).then((passed) => {
