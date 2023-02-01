@@ -24,6 +24,7 @@ export default function Navbar({
         {name: 'Coin overview', href: '/coinOverview', current: false, admin: false},
         {name: 'Submit assignment', href: '/submitAssignment', current: false, admin: false},
         {name: 'Admin functions', href: '/admin', current: false, admin: true},
+        {name: 'Sign', href: '/sign', current: false, admin: false},
     ]
 
     const [navigation, setNavigation] = useState<{ name: string, href: string, current: boolean, admin: boolean }[]>(initialNavItems);
