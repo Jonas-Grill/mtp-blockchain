@@ -30,6 +30,28 @@ export default function Navbar({
     const [navigation, setNavigation] = useState<{ name: string, href: string, current: boolean, admin: boolean }[]>(initialNavItems);
     const [blockNumber, setBlockNumber] = useState<string>("0");
 
+    const updateBlockNumber = async () => {
+        while (web3) {
+            const block = await getCurrentBlockNumber(web3).catch((e) => {
+                console.error(e);
+                return "0";
+            });
+
+            if (block === "0") {
+                if (web3) {
+                    await new Promise(r => setTimeout(r, 12000));
+                } else {
+                    return;
+                }
+            } else if (block === blockNumber) {
+                await new Promise(r => setTimeout(r, 1000));
+            } else {
+                setBlockNumber(block);
+                await new Promise(r => setTimeout(r, 10000));
+            }
+        }
+    }
+
     useEffect(() => {
         console.log("Navbar useEffect");
 
@@ -49,9 +71,7 @@ export default function Navbar({
             });
         }
         if (web3) {
-            getCurrentBlockNumber(web3).then((blockNumber) => {
-                setBlockNumber(blockNumber.toString());
-            });
+            updateBlockNumber();
         }
     }, [web3, userAddress]);
 
