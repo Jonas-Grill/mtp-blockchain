@@ -33,18 +33,28 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
 
     const [submittedAssignment, setSubmittedAssignment] = useState<{ testIndex: string, studentAddress: string, contractAddress: string, knowledgeCoins: string, blockNo: string }>();
 
+
+    const validateTestAndSubmitConditions = () => {
+        if (contract === "") {
+            alert("Please enter your contract address")
+            return false
+        } else if (!web3.utils.isAddress(contract)) {
+            alert("Please enter a valid contract address")
+            return false
+        } else if (selectedAssignment === "") {
+            alert("Please select an assignment")
+            return false
+        } else if (selectedSemester === "") {
+            alert("Please select a semester")
+            return false
+        }
+        return true
+    }
+
     const handleTestAssignment = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
-        if (contract === "") {
-            alert("Please enter your contract address")
-            return
-        } else if (!web3.utils.isAddress(contract)) {
-            alert("Please enter a valid contract address")
-            return
-        }
-
-        if (web3) {
+        if (web3 && validateTestAndSubmitConditions()) {
             const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
 
             if (assignment) {
@@ -80,7 +90,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
     const handleSubmitAssignment = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
-        if (web3) {
+        if (web3 && validateTestAndSubmitConditions()) {
             const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
 
             if (assignment) {
@@ -334,14 +344,9 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                     <div className="py-6">
                         <button
                             onClick={() => {
-                                if (contract === "") {
-                                    alert("Please enter your contract address")
-                                    return
-                                } else if (!web3.utils.isAddress(contract)) {
-                                    alert("Please enter a valid contract address")
-                                    return
+                                if (validateTestAndSubmitConditions()) {
+                                    setOpen(true);
                                 }
-                                setOpen(true)
                             }}
                             className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                         >

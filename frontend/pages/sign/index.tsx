@@ -52,7 +52,7 @@ export default function Sign({userAddress}: { userAddress: string }) {
     }
 
     useEffect(() => {
-        console.log("Faucet useEffect");
+        console.log("Sign useEffect");
 
         if (!web3) {
             initBlockchain(web3).then((web3) => {
