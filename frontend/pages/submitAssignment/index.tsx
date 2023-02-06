@@ -79,8 +79,12 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                         }
 
                         alert(message);
+                        console.log(error);
                     } else {
-                        alert(error.message);
+                        console.log(error);
+                        alert("Something went wrong! Did you enter the correct contract address?\n" +
+                            "Did you implement all the required functions?\n" +
+                            "Did you name the functions correctly?\n");
                     }
                 });
             }

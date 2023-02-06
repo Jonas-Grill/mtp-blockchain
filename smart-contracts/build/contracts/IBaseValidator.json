@@ -40,7 +40,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"clearAssignmentInfos\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"isAssignmentLinked\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"semesterId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"assignmentId\",\"type\":\"uint256\"}],\"name\":\"setAssignmentInfos\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ConfigStorage.sol\":\"IBaseValidator\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/BaseConfigAdmin.sol\":{\"keccak256\":\"0x3ca891a26ba6672d5ff447cc2278f1b5e33f7d9b51397c71b538cca6e6f0738d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9d484decf53a223c64173bdeadc54d0b5f228190b9e080cd5985ae48c86e3062\",\"dweb:/ipfs/QmQRwfvRjXv1YcoKe4Akun5zvVCoFht4FegtR7fAfwPZ89\"]},\"project:/contracts/ConfigStorage.sol\":{\"keccak256\":\"0x7da04c803883ab7a63c94074a8b981037c4a5414663e65791383435d1bfb90c6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1fe63af3cef944b16bf7de5278b89e23bdc664050dba91d153bd2ea014d4c02f\",\"dweb:/ipfs/QmdEogQDY3VCTke9d2xorzZP6ipWA9jbWzwEBZYDhzHHE6\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.18+commit.87f61d96\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"clearAssignmentInfos\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"isAssignmentLinked\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"semesterId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"assignmentId\",\"type\":\"uint256\"}],\"name\":\"setAssignmentInfos\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ConfigStorage.sol\":\"IBaseValidator\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/BaseConfigAdmin.sol\":{\"keccak256\":\"0x3ca891a26ba6672d5ff447cc2278f1b5e33f7d9b51397c71b538cca6e6f0738d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9d484decf53a223c64173bdeadc54d0b5f228190b9e080cd5985ae48c86e3062\",\"dweb:/ipfs/QmQRwfvRjXv1YcoKe4Akun5zvVCoFht4FegtR7fAfwPZ89\"]},\"project:/contracts/ConfigStorage.sol\":{\"keccak256\":\"0x7da04c803883ab7a63c94074a8b981037c4a5414663e65791383435d1bfb90c6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1fe63af3cef944b16bf7de5278b89e23bdc664050dba91d153bd2ea014d4c02f\",\"dweb:/ipfs/QmdEogQDY3VCTke9d2xorzZP6ipWA9jbWzwEBZYDhzHHE6\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -570,6 +570,8 @@
                 },
                 "typeName": {
                   "id": 1660,
+                  "keyName": "",
+                  "keyNameLocation": "-1:-1:-1",
                   "keyType": {
                     "id": 1657,
                     "name": "uint256",
@@ -586,6 +588,8 @@
                     "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_NOWAssignments_$1686_storage_$",
                     "typeString": "mapping(uint256 => struct ConfigStorage.NOWAssignments)"
                   },
+                  "valueName": "",
+                  "valueNameLocation": "-1:-1:-1",
                   "valueType": {
                     "id": 1659,
                     "nodeType": "UserDefinedTypeName",
@@ -1035,6 +1039,8 @@
             },
             "typeName": {
               "id": 1696,
+              "keyName": "",
+              "keyNameLocation": "-1:-1:-1",
               "keyType": {
                 "id": 1693,
                 "name": "uint256",
@@ -1051,6 +1057,8 @@
                 "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_NOWSemester_$1666_storage_$",
                 "typeString": "mapping(uint256 => struct ConfigStorage.NOWSemester)"
               },
+              "valueName": "",
+              "valueNameLocation": "-1:-1:-1",
               "valueType": {
                 "id": 1695,
                 "nodeType": "UserDefinedTypeName",
@@ -2744,7 +2752,7 @@
                       "nodeType": "MemberAccess",
                       "src": "4612:16:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_array$_t_uint256_$dyn_storage_ptr_$_t_uint256_$returns$__$bound_to$_t_array$_t_uint256_$dyn_storage_ptr_$",
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_array$_t_uint256_$dyn_storage_ptr_$_t_uint256_$returns$__$attached_to$_t_array$_t_uint256_$dyn_storage_ptr_$",
                         "typeString": "function (uint256[] storage pointer,uint256)"
                       }
                     },
@@ -7895,7 +7903,7 @@
                       "nodeType": "MemberAccess",
                       "src": "10360:41:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_array$_t_uint256_$dyn_storage_ptr_$_t_uint256_$returns$__$bound_to$_t_array$_t_uint256_$dyn_storage_ptr_$",
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_array$_t_uint256_$dyn_storage_ptr_$_t_uint256_$returns$__$attached_to$_t_array$_t_uint256_$dyn_storage_ptr_$",
                         "typeString": "function (uint256[] storage pointer,uint256)"
                       }
                     },
@@ -17139,7 +17147,7 @@
                       "nodeType": "MemberAccess",
                       "src": "20738:7:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_arraypop_nonpayable$_t_array$_t_uint256_$dyn_storage_ptr_$returns$__$bound_to$_t_array$_t_uint256_$dyn_storage_ptr_$",
+                        "typeIdentifier": "t_function_arraypop_nonpayable$_t_array$_t_uint256_$dyn_storage_ptr_$returns$__$attached_to$_t_array$_t_uint256_$dyn_storage_ptr_$",
                         "typeString": "function (uint256[] storage pointer)"
                       }
                     },
@@ -17264,11 +17272,11 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
+    "version": "0.8.18+commit.87f61d96.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-02-01T15:34:30.259Z",
+  "updatedAt": "2023-02-05T15:34:49.013Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

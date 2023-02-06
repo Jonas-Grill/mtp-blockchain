@@ -8,6 +8,8 @@ const deploy = true
 
 module.exports = async (deployer, network, account) => {
     if (deploy) {
-        await deployer.deploy(validator1, configStorage.address);
+        console.log("Deploying Validator1: ", configStorage.address);
+
+        await deployer.deploy(validator1, configStorage.address, { from: account[0] });
     }
 };

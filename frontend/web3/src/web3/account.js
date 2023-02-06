@@ -19,6 +19,7 @@ class NOWAccount {
         this.utils = new utilsHandler.NOWUtils()
 
         this.web3 = _web3;
+        this.web3.eth.handleRevert = true;
     }
 
     /**

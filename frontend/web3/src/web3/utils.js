@@ -2,6 +2,8 @@
 Store some utility functions
 */
 
+const {TransactionConfig} = require("web3-core");
+
 class NOWUtils {
     /**
      * Returns the eth amount from wei
@@ -107,8 +109,7 @@ class NOWUtils {
         try {
             const address = await web3.eth.requestAccounts();
             return address[0];
-        }
-        catch (error) {
+        } catch (error) {
             const address = await web3.eth.getAccounts();
             return address[0];
         }
@@ -194,8 +195,32 @@ class NOWUtils {
         }
     }
 
+    async handleRevert (err, web3) {
+        const txHash = err.receipt.transactionHash
+
+        const tx = await web3.eth.getTransaction(txHash)
+
+        // if (result && result.message) {
+        //     throw new Error("Why?: "+ result.message)
+        // }
+
+        return await web3.eth.call(tx, tx.blockNumber).catch((err) => {
+            const errString = err.toString()
+
+            return JSON.parse(err.toString().substring(
+                errString.indexOf('{'),
+                errString.indexOf('}') + 1
+            )).message
+        })
+    }
+
     /*=====     End of BLOCK HELPER        ======*/
 
+    async getRevertReason(tx, receipt, web3) {
+        if (receipt && receipt.status === '0x0') {
+            return await web3.eth.call(tx, tx.blockNumber);
+        }
+    }
 }
 
 // export unima class
