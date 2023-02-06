@@ -196,7 +196,7 @@ contract BaseValidator is BaseConfig, Helper {
         bool lateSubmission = false;
         // If assignment is submitted after the endblock with 1 day buffer and before 7 days buffer, reduce knowledge coins by 15%
         if (block.number >= endBlock + endBuffer && block.number <= endBlock + endBufferExtend) {
-            knowledgeCoins = knowledgeCoins * 0.85;
+            knowledgeCoins = knowledgeCoins * 85 / 100;
             lateSubmission = true;
         }
 
