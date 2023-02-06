@@ -131,7 +131,7 @@ class NOWAssignments {
             from: fromAddress,
         });
 
-        return { "testIndex": results[0], "studentAddress": results[1], "contractAddress": results[2], "knowledgeCoins": results[3], "blockNo": results[4], "submitted": results[5] };
+        return { "testIndex": results[0], "studentAddress": results[1], "contractAddress": results[2], "knowledgeCoins": results[3], "blockNo": results[4], "submitted": results[5], "lateSubmission": results[6] };
     }
 
     /**

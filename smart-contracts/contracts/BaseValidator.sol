@@ -47,6 +47,8 @@ contract BaseValidator is BaseConfig, Helper {
         uint256 blockNo;
         // submitted
         bool submitted;
+        // late submission
+        bool lateSubmission;
     }
 
     // Contract creation block number tracker
@@ -64,6 +66,10 @@ contract BaseValidator is BaseConfig, Helper {
 
     // Required ether which is required to properly submit or validate the assignment
     uint256 private requiredEther = 0 ether;
+
+    // Default value
+    uint endBuffer = 7200; // 1 day
+    uint endBufferExtend = 7200 * 7; // 7 days
 
     // Test history
     uint256 public _testHistoryCounter;
@@ -181,6 +187,18 @@ contract BaseValidator is BaseConfig, Helper {
                     _testHistory[historyIndex].test[i].points;
             }
         }
+        
+        uint256 endBlock = getConfigStorage()
+            .getAssignment(_semesterId, _assignmentId)
+            .endBlock;
+
+
+        bool lateSubmission = false;
+        // If assignment is submitted after the endblock with 1 day buffer and before 7 days buffer, reduce knowledge coins by 15%
+        if (block.number >= endBlock + endBuffer && block.number <= endBlock + endBufferExtend) {
+            knowledgeCoins = knowledgeCoins * 0.85;
+            lateSubmission = true;
+        }
 
         // Get knowledge coin contract
         SBCoin knowledgeCoin = SBCoin(
@@ -200,7 +218,8 @@ contract BaseValidator is BaseConfig, Helper {
             _contractAddress,
             knowledgeCoins,
             block.number,
-            true
+            true,
+            lateSubmission
         );
 
         return historyIndex;
@@ -404,7 +423,7 @@ contract BaseValidator is BaseConfig, Helper {
             .endBlock;
 
         // Check if block number is in range
-        if (blockNumber >= startBlock && blockNumber <= endBlock) {
+        if (blockNumber >= startBlock && blockNumber <= endBlock + endBufferExtend) {
             return true;
         } else {
             return false;
@@ -429,7 +448,7 @@ contract BaseValidator is BaseConfig, Helper {
             .endBlock;
 
         // Check if block number is in range
-        if (blockNumber >= startBlock && blockNumber <= endBlock) {
+        if (blockNumber >= startBlock && blockNumber <= endBlock + endBufferExtend) {
             return true;
         } else {
             return false;
