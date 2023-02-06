@@ -94,7 +94,7 @@ export default function Admin({
     return (
         <>
             <div className="mt-4 text-md font-medium text-uni">
-                For one student, enter the student ID (optional) and the student's wallet address:
+                For one student, enter the student ID (optional) and the students wallet address:
             </div>
             <form className="space-y-3" onSubmit={handleSubmit}>
                 <label htmlFor="wallet-address" className="sr-only">

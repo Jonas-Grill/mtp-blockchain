@@ -14,6 +14,7 @@ export default function Sign({userAddress}: { userAddress: string }) {
             const text = (event.target as any).text.value;
 
             // sign hashed message
+            // @ts-ignore
             const signature = await ethereum.request({
                 method: "personal_sign",
                 params: [text, userAddress],

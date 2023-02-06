@@ -211,7 +211,7 @@ export default function Admin({userAddress}: { userAddress: string }) {
                 setIsUserAdmin(result);
             });
         }
-    }, [web3, userAdmins, contractAdmins, userAddress, faucetBlockNoDifference, faucetGas, faucetApiBalance, faucetContractBalance]);
+    }, [web3, userAdmins, contractAdmins, userAddress, faucetBlockNoDifference, faucetGas, faucetApiBalance, faucetContractBalance, zeroAddressFilter]);
 
     return (
         <>
