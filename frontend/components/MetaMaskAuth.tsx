@@ -6,11 +6,13 @@ function isMobileDevice() {
 }
 
 async function connect(onConnected: (address: string) => void) {
+    // @ts-ignore
     if (!window.ethereum) {
         alert("Get MetaMask!");
         return;
     }
 
+    // @ts-ignore
     const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
     });
@@ -19,7 +21,9 @@ async function connect(onConnected: (address: string) => void) {
 }
 
 async function checkIfWalletIsConnected(onConnected: (address: string) => void) {
+    // @ts-ignore
     if (window.ethereum) {
+        // @ts-ignore
         const accounts = await window.ethereum.request({
             method: "eth_accounts",
         });

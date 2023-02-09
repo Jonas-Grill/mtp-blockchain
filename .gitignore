@@ -16,8 +16,11 @@
 *.vsix
 .vscode/launch.json
 
+# Ignore .env file
+.env
+
 # Ignore truffle compiled
-smart-contracts/build/contracts/*
+#smart-contracts/build/contracts/*
 
 # ignore custom test dir from elias
 frontend/web3/src/web3/test/*

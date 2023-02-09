@@ -25,7 +25,6 @@ export default function CoinOverview({userAddress}: { userAddress: string }) {
             });
         } else if (semesters.length <= 0) {
             loadSemesters(web3, isUserAdmin).then((result) => {
-
                 if (result && result.length > 0) {
                     setSemesters(result);
                     setSelectedSemester(result[0].id);
@@ -89,7 +88,8 @@ export default function CoinOverview({userAddress}: { userAddress: string }) {
                         {isUserAdmin ? (
                             <Admin selectedSemester={selectedSemester} getSemesterById={getSemesterById} web3={web3}/>
                         ) : (
-                            <Student selectedSemester={selectedSemester} getSemesterById={getSemesterById} web3={web3} userAddress={userAddress}/>
+                            <Student selectedSemester={selectedSemester} getSemesterById={getSemesterById} web3={web3}
+                                     userAddress={userAddress}/>
                         )
                         }
                     </div>

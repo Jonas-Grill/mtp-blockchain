@@ -3,10 +3,14 @@ import { sendEth } from '../../web3/src/entrypoints/account/faucet'
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Web3 from "web3";
+import {FAUCET_URL} from "../_app";
 
 export const initBlockchain = async (web3: any) => {
+    // @ts-ignore
     if (window && window.ethereum) {
+        // @ts-ignore
         web3 = new Web3(window.ethereum);
+        // @ts-ignore
         await window.ethereum.enable();
 
         const chainId = await web3.eth.getChainId();
@@ -35,18 +39,28 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
                 const balance = web3.utils.fromWei(result, "ether");
 
                 if (balance > 0.2) {
-                    sendEth(web3, userAddress);
+                    sendEth(web3, userAddress).then((result: any) => {
+                        alert("Gas sent!");
+                    }).catch((error: any) => {
+                        alert(error.message);
+                    });
                 } else {
-                    fetch("http://127.0.0.1:8080/sendEth", {
+                    fetch(FAUCET_URL + "/sendEth", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            toAddress: userAddress,
+                            "toAddress": userAddress
                         }),
                     }
-                    ).catch((error) => {
+                    ).then(response => {
+                        if (response.status == 200) {
+                            alert("Gas sent!");
+                        } else {
+                            alert("Error: " + response.status);
+                        }
+                    }).catch((error) => {
                         alert(error.message);
                     });
                 }

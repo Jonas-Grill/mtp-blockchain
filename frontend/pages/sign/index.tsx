@@ -14,6 +14,7 @@ export default function Sign({userAddress}: { userAddress: string }) {
             const text = (event.target as any).text.value;
 
             // sign hashed message
+            // @ts-ignore
             const signature = await ethereum.request({
                 method: "personal_sign",
                 params: [text, userAddress],
@@ -52,7 +53,7 @@ export default function Sign({userAddress}: { userAddress: string }) {
     }
 
     useEffect(() => {
-        console.log("Faucet useEffect");
+        console.log("Sign useEffect");
 
         if (!web3) {
             initBlockchain(web3).then((web3) => {
