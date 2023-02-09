@@ -182,8 +182,8 @@ class NOWAccount {
         for (let i = 0; i < csvParsed.length; i++) {
             const row = [];
 
-            const studentNumber = csvParsed[i][0].trim();
-            const studentAddress = csvParsed[i][1].trim();
+            const studentNumber = csvParsed[i][5].trim();
+            const studentAddress = csvParsed[i][6].trim();
 
             const balance = await this.getKnowledgeCoinBalance(studentAddress, startBlock, endBlock);
 
