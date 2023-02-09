@@ -94,6 +94,8 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
     const handleSubmitAssignment = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
+        setOpen(false)
+
         if (web3 && validateTestAndSubmitConditions()) {
             const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
 
@@ -183,6 +185,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
         if (assignment) {
             loadTestResults(web3, userAddress, assignment.validationContractAddress).then((results) => {
                 if (results) {
+                    console.log("loadTestResults", results);
                     setTestResults(results);
                 } else {
                     setTestResults([]);
@@ -363,8 +366,6 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                         {
                             submittedAssignment && submittedAssignment.blockNo != "0" ? (
                                 <div className="mt-2 mb-2 grid grid-cols-3 rounded-md shadow shadow-uni p-2">
-                                    <dt className="col-span-2 text-lg font-medium text-uni">Test
-                                        index: {submittedAssignment.testIndex}</dt>
                                     <dt className="col-span-2 text-lg font-medium text-uni">Block
                                         number: {submittedAssignment.blockNo}</dt>
                                     <dt className="col-span-2 text-lg font-medium text-uni">Coins: {submittedAssignment.knowledgeCoins}</dt>
@@ -405,9 +406,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                                                      className="mt-2 mb-2 grid grid-cols-3 rounded-md shadow shadow-uni p-2">
                                                     <dt className="col-span-2 text-lg font-medium text-uni">Validator
                                                         contract test number: {i}</dt>
-                                                    <dt className="col-span-2 text-lg font-medium text-uni">Validator
-                                                        contract test
-                                                        name: {testResult[0]}</dt>
+                                                    <dt className="col-span-2 text-lg font-medium text-uni">{testResult[0]}</dt>
                                                     <dt className="col-span-2 text-lg font-medium text-uni">Passed: {testResult[1]?.toString()}</dt>
                                                 </div>
                                             ))}

@@ -39,12 +39,23 @@ class NOWAssignments {
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
         const requiredEther = await this.getRequiredEther(validationContractAddress);
+        let revertReason;
 
-        await assignmentValidatorContract.methods.validateAssignment(contractAddress).send({
+        await assignmentValidatorContract.methods.validateAssignment(contractAddress)
+            .send({
             from: fromAddress,
             value: requiredEther,
             gas: 8000000
+        }).catch((error) => {
+            revertReason = this.utils.handleRevert(error, this.web3);
         });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
 
         return await assignmentValidatorContract.methods.getHistoryCounter().call({
             from: fromAddress,
@@ -53,7 +64,7 @@ class NOWAssignments {
 
     /**
      * Submit assignment
-     * 
+     *
      * @param {string} contractAddress Contract address
      * @param {string} validationContractAddress Address of validation contract
      * @returns Return submitted assignment
@@ -64,13 +75,24 @@ class NOWAssignments {
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
 
         const requiredEther = await this.getRequiredEther(validationContractAddress);
+        let revertReason;
 
         // Submit assignment
-        await assignmentValidatorContract.methods.submitAssignment(contractAddress).send({
+        await assignmentValidatorContract.methods.submitAssignment(contractAddress)
+            .send({
             from: fromAddress,
             value: requiredEther,
             gas: 8000000
+        }).catch((error) => {
+            revertReason = this.utils.handleRevert(error, this.web3);
         });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
 
         // Return submitted assignment
         return await assignmentValidatorContract.methods.getSubmittedAssignment(fromAddress).call({
@@ -80,7 +102,7 @@ class NOWAssignments {
 
     /**
      * Get all test history indexes of student
-     * 
+     *
      * @param {string} studentAddress Student address
      * @param {string} validationContractAddress Address of validation contract
      * @returns Return array of all test indexes
@@ -98,7 +120,7 @@ class NOWAssignments {
     }
 
     /**
-     * Get test results by id 
+     * Get test results by id
      *
      * @param {int} id Id of the test
      * @param {string} validationContractAddress Address of validation contract
@@ -136,7 +158,7 @@ class NOWAssignments {
     }
 
     /**
-     * Remove submitted assignment 
+     * Remove submitted assignment
      *
      * @param {string} studentAddress Address of student
      * @param {string} validationContractAddress Address of validation contract
@@ -145,14 +167,25 @@ class NOWAssignments {
         const fromAddress = await this.utils.getFromAccount(this.web3);
 
         const assignmentValidatorContract = this.utils.getAssignmentValidatorContract(this.web3, fromAddress, validationContractAddress);
+        let revertReason;
 
-        await assignmentValidatorContract.methods.removeSubmittedAssignment(studentAddress).send({
+        await assignmentValidatorContract.methods.removeSubmittedAssignment(studentAddress)
+            .send({
             from: fromAddress,
-        });
+        }).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
-     * Check if a student has already submitted an assignment 
+     * Check if a student has already submitted an assignment
      *
      * @param {string} studentAddress Address of student
      * @param {string} validationContractAddress Address of validation contract
@@ -171,7 +204,7 @@ class NOWAssignments {
     }
 
     /**
-     * Get assignment infos 
+     * Get assignment infos
      *
      * @param {string} validationContractAddress Address of validation contract
      * @returns Return assignment infos
@@ -191,7 +224,7 @@ class NOWAssignments {
 
     /**
      * Get required ether to properly validate an assignment
-     * 
+     *
      * @param {string} validationContractAddress Address of validation contract
      * @returns Return required ether to properly validate an assignment
      */

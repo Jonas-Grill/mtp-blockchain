@@ -40,8 +40,19 @@ class NOWAccount {
         faucetStorageContract.options.gas = block.gasLimit
 
         const fromAddress = await this.utils.getFromAccount(this.web3);
+        let revertReason;
 
-        await faucetStorageContract.methods.sendEth(_to).send({ from: fromAddress })
+        await faucetStorageContract.methods.sendEth(_to)
+            .send({ from: fromAddress }).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -155,8 +166,8 @@ class NOWAccount {
      * Return csv of addresses which passed the semester
      *
      * IMPORT FORMAT: studentID,studentAddress
-     * OUTPUT FORMAT: studentID,studentAddress,hasPassed 
-     * 
+     * OUTPUT FORMAT: studentID,studentAddress,hasPassed
+     *
      * @param {string} csv CSV string with student numbers (first row is header)
      * @param {int} semesterId Id of semester
      * @returns Return csv of addresses which passed the semester (first row is header)
@@ -179,7 +190,7 @@ class NOWAccount {
 
         const passedStudents = [];
 
-        // loop over array 
+        // loop over array
         for (let i = 0; i < csvParsed.length; i++) {
             const row = [];
 

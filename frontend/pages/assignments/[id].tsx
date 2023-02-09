@@ -142,14 +142,14 @@ export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeo
                             id="startBlock"
                             name="startBlock"
                             type="number"
-                            min={semester?.startBlock || 0}
-                            max={(semester?.endBlock || 10000000) - 1}
+                            min={parseInt(semester?.startBlock + "" || "0") || 0}
+                            max={parseInt(semester?.endBlock + "" || "10000000") - 1}
                             onChange={(event) => {
                                 const value = event.target.value;
 
                                 if (value) {
                                     const endBlock = document.getElementById('endBlock');
-                                    endBlock?.setAttribute('min', parseInt(value) + 1 + '');
+                                    endBlock?.setAttribute('min', (parseInt(value) + 1) + '');
                                 }
                             }}
                             required
@@ -164,14 +164,14 @@ export default function ChangeAssignment({id}: InferGetServerSidePropsType<typeo
                             id="endBlock"
                             name="endBlock"
                             type="number"
-                            min={(semester?.startBlock || 0) + 1}
+                            min={parseInt(semester?.startBlock + "" || "0") + 1}
                             max={semester?.endBlock}
                             onChange={(event) => {
                                 const value = event.target.value;
 
                                 if (value) {
                                     const startBlock = document.getElementById('startBlock');
-                                    startBlock?.setAttribute('max', parseInt(value) - 1 + '');
+                                    startBlock?.setAttribute('max', (parseInt(value) - 1) + '');
                                 }
                             }}
                             required
