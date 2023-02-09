@@ -25,6 +25,7 @@ export default function Navbar({
         {name: 'Submit assignment', href: '/submitAssignment', current: false, admin: false},
         {name: 'Admin functions', href: '/admin', current: false, admin: true},
         {name: 'Sign', href: '/sign', current: false, admin: false},
+        {name: 'About', href: '/about', current: false, admin: false},
     ]
 
     const [navigation, setNavigation] = useState<{ name: string, href: string, current: boolean, admin: boolean }[]>(initialNavItems);
