@@ -166,7 +166,7 @@ export default function AssignmentOverview({userAddress}: { userAddress: string 
                         ) : null
                     }
                     <div
-                        className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                        className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         {assignments.map((assignment) => (
                             <div className="mt-2 shadow shadow-uni bg-gray-300 rounded-md p-2 w-auto"
                                  key={assignment.id}>
