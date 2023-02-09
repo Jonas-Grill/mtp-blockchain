@@ -157,7 +157,7 @@ export default function CreateAssignment() {
                             name="endBlock"
                             type="number"
                             min={getSemesterById(selectedSemester)?.startBlock}
-                            // max={getSemesterById(selectedSemester)?.endBlock}
+                            max={getSemesterById(selectedSemester)?.endBlock}
                             onChange={(event) => {
                                 const value = event.target.value;
 
