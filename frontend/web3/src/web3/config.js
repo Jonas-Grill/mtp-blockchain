@@ -97,7 +97,19 @@ class NOWConfig {
      */
     async setFaucetGas(_faucetGas) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.setFaucetGas(_faucetGas).send({from: await this.utils.getFromAccount(this.web3)});
+        let revertReason;
+
+        await configStorageContract.methods.setFaucetGas(_faucetGas)
+            .send({from: await this.utils.getFromAccount(this.web3)}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -127,7 +139,19 @@ class NOWConfig {
      */
     async setFaucetBlockNoDifference(blockNoDifference) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.setFaucetBlockNoDifference(blockNoDifference).send({from: await this.utils.getFromAccount(this.web3)});
+        let revertReason;
+
+        await configStorageContract.methods.setFaucetBlockNoDifference(blockNoDifference)
+            .send({from: await this.utils.getFromAccount(this.web3)}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
 
@@ -143,7 +167,19 @@ class NOWConfig {
     async addUserAdmin(_newAdmin) {
         // Change Admin for NOWConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.addUserAdmin(_newAdmin).send({from: await this.utils.getFromAccount(this.web3)});
+        let revertReason;
+
+        await configStorageContract.methods.addUserAdmin(_newAdmin)
+            .send({from: await this.utils.getFromAccount(this.web3)}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -154,7 +190,18 @@ class NOWConfig {
     async addContractAdmin(_newAdmin, _contractName) {
         // Change Admin for NOWConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.addContractAdmin(_newAdmin, _contractName).send({from: await this.utils.getFromAccount(this.web3)});
+        let revertReason;
+        await configStorageContract.methods.addContractAdmin(_newAdmin, _contractName)
+            .send({from: await this.utils.getFromAccount(this.web3)}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -165,7 +212,19 @@ class NOWConfig {
     async removeUserAdmin(_admin) {
         // Change Admin for NOWConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.removeUserAdmin(_admin).send({from: await this.utils.getFromAccount(this.web3)});
+        let revertReason;
+
+        await configStorageContract.methods.removeUserAdmin(_admin)
+            .send({from: await this.utils.getFromAccount(this.web3)}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -176,7 +235,19 @@ class NOWConfig {
     async removeContractAdmin(_admin) {
         // Change Admin for NOWConfigStorage Contract
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.removeContractAdmin(_admin).send({from: await this.utils.getFromAccount(this.web3)});
+        let revertReason;
+
+        await configStorageContract.methods.removeContractAdmin(_admin)
+            .send({from: await this.utils.getFromAccount(this.web3)}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -260,7 +331,19 @@ class NOWConfig {
      */
     async setFaucetBlockNoDifference(_faucetBlockNoDifference) {
         const configStorageContract = await this.getConfigStorage()
-        await configStorageContract.methods.setFaucetBlockNoDifference(_faucetBlockNoDifference).send({from: await this.utils.getFromAccount(this.web3)});
+        let revertReason;
+
+        await configStorageContract.methods.setFaucetBlockNoDifference(_faucetBlockNoDifference)
+            .send({from: await this.utils.getFromAccount(this.web3)}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /*=====  End of Faucet Block Difference  ======*/
@@ -282,8 +365,19 @@ class NOWConfig {
     async appendSemester(_name, _startBlock, _endBlock, _minKnowledgeCoinAmount) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
+        let revertReason;
 
-        await configStorageContract.methods.appendSemester(_name, _startBlock, _endBlock, _minKnowledgeCoinAmount).send({from: fromAddress});
+        await configStorageContract.methods.appendSemester(_name, _startBlock, _endBlock, _minKnowledgeCoinAmount)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
 
         return await configStorageContract.methods.getSemesterCounter().call({from: await this.utils.getFromAccount(this.web3)});
     }
@@ -320,7 +414,19 @@ class NOWConfig {
     async deleteSemester(_id) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        return await configStorageContract.methods.deleteSemester(_id).send({from: fromAddress});
+        let revertReason;
+
+        return await configStorageContract.methods.deleteSemester(_id)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /*----------  Setter  ----------*/
@@ -334,7 +440,19 @@ class NOWConfig {
     async setSemesterName(id, name) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        await configStorageContract.methods.setSemesterName(id, name).send({from: fromAddress});
+        let revertReason;
+
+        await configStorageContract.methods.setSemesterName(id, name)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -346,7 +464,19 @@ class NOWConfig {
     async setSemesterStartBlock(id, startBlock) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        await configStorageContract.methods.setSemesterStartBlock(id, startBlock).send({from: fromAddress});
+        let revertReason;
+
+        await configStorageContract.methods.setSemesterStartBlock(id, startBlock)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -358,7 +488,19 @@ class NOWConfig {
     async setSemesterEndBlock(id, endBlock) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        await configStorageContract.methods.setSemesterEndBlock(id, endBlock).send({from: fromAddress});
+        let revertReason;
+
+        await configStorageContract.methods.setSemesterEndBlock(id, endBlock)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -370,7 +512,19 @@ class NOWConfig {
     async setSemesterAmountKnowledgeCoins(id, minKnowledgeCoinAmount) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        await configStorageContract.methods.setSemesterMinKnowledgeCoinAmount(id, minKnowledgeCoinAmount).send({from: fromAddress});
+        let revertReason;
+
+        await configStorageContract.methods.setSemesterMinKnowledgeCoinAmount(id, minKnowledgeCoinAmount)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /*============  End of Semester NOWConfig  =============*/
@@ -446,7 +600,19 @@ class NOWConfig {
     async deleteAssignment(_semesterId, _assignmentId) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        await configStorageContract.methods.deleteAssignment(_semesterId, _assignmentId).send({from: fromAddress});
+        let revertReason;
+
+        await configStorageContract.methods.deleteAssignment(_semesterId, _assignmentId)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -475,7 +641,19 @@ class NOWConfig {
     async setAssignmentName(_semesterId, _assignmentId, name) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        await configStorageContract.methods.setAssignmentName(_semesterId, _assignmentId, name).send({from: fromAddress});
+        let revertReason;
+
+        await configStorageContract.methods.setAssignmentName(_semesterId, _assignmentId, name)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -488,7 +666,19 @@ class NOWConfig {
     async setAssignmentLink(_semesterId, _assignmentId, link) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        await configStorageContract.methods.setAssignmentLink(_semesterId, _assignmentId, link).send({from: fromAddress});
+        let revertReason;
+
+        await configStorageContract.methods.setAssignmentLink(_semesterId, _assignmentId, link)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -501,7 +691,19 @@ class NOWConfig {
     async setAssignmentAddress(_semesterId, _assignmentId, address) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        await configStorageContract.methods.setAssignmentAddress(_semesterId, _assignmentId, address).send({from: fromAddress});
+        let revertReason;
+
+        await configStorageContract.methods.setAssignmentAddress(_semesterId, _assignmentId, address)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -514,7 +716,19 @@ class NOWConfig {
     async setAssignmentStartBlock(_semesterId, _assignmentId, _startBlock) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        await configStorageContract.methods.setAssignmentStartBlock(_semesterId, _assignmentId, _startBlock).send({from: fromAddress});
+        let revertReason;
+
+        await configStorageContract.methods.setAssignmentStartBlock(_semesterId, _assignmentId, _startBlock)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /**
@@ -527,7 +741,19 @@ class NOWConfig {
     async setAssignmentEndBlock(_semesterId, _assignmentId, _endBlock) {
         const configStorageContract = await this.getConfigStorage()
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        await configStorageContract.methods.setAssignmentEndBlock(_semesterId, _assignmentId, _endBlock).send({from: fromAddress});
+        let revertReason;
+
+        await configStorageContract.methods.setAssignmentEndBlock(_semesterId, _assignmentId, _endBlock)
+            .send({from: fromAddress}).catch((error) => {
+                revertReason = this.utils.handleRevert(error, this.web3);
+            });
+
+        revertReason = await revertReason;
+
+        if (revertReason) {
+            console.log(revertReason);
+            throw new Error(revertReason);
+        };
     }
 
     /*=====  End of Assignment NOWConfig  ======*/
