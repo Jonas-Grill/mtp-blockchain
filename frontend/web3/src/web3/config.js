@@ -395,7 +395,7 @@ class NOWConfig {
         const configStorageContract = await this.getConfigStorage()
         configStorageContract.handleRevert = false;
         const fromAddress = await this.utils.getFromAccount(this.web3);
-        let revertReason = null;
+        let revertReason;
 
         const tx = await configStorageContract.methods.appendAssignment(_semesterId, _name, _link, _validationContractAddress, _startBlock, _endBlock)
             .send({from: fromAddress}).catch((error) => {
