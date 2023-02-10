@@ -9,7 +9,7 @@ With MetaMask users can easily access their Ethereum wallet through a browser ex
 
 === MetaMask Setup
 
-First you need to head to the MetaMask website: https://metamask.io/.
+First you need to head to the MetaMask website: https://metamask.io/[Metamask].
 Now you need to click on the "Install MetaMask for Chrome" button, which is shown in the following picture:
 
 image::Metamask1.png[]
