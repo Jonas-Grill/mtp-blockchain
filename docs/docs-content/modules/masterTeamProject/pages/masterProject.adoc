@@ -14,6 +14,6 @@ We implemented a frontend with Next.js and tailwindCSS. The faucet was implement
 The chain is running on six raspberry Pi´s in the University of Mannheim which are working via a proof of authority consensus algorithm.
 Only for the submission of student ID and wallet addresses, an off-chain system such as ILIAS is used to comply to data privacy rules.
 
-== documentation
+== Documentation
 
 If you want to learn more about our system, motivation and other interesting things, you can find the documentation which we handed in for grading in the following PDF file:
