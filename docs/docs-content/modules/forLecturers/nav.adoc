@@ -4,4 +4,4 @@
 ** xref:frontendFaucetRaspberrySetup.adoc[Frontend & Faucet Raspberry Pi setup]
 ** xref:minerRPCRaspberrySetup.adoc[Miner Node & RPC Node Raspberry Pi setup]
 * xref:newSemester.adoc[Start a new semester]
-* xref:addAdminAddress.adoc[Add admin address]
+* xref:adminFunctions.adoc[Admin functions]

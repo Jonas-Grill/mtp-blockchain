@@ -61,6 +61,13 @@ Don´t forget, that the contract address changes every time you deploy a new ver
 Only when you press the submit button, the contract will give out the Knowledge amount you got.
 You can only submit once and can not undo a submission!
 The results of your submission are shown below the submit button.
+Because a lot of traffic is expected around the deadlines, try to submit your code early, so that you can get your submission in a block before the deadline.
+To further reduce the problems with the deadline, you can submit your code up to 24 hours after the deadline and still get 100% of the Knowledge for the assignment.
+If you submit your code after this buffer of 24 hours but within the next 5 days, you will get 85% of the Knowledge you achieved for the assignment.
+After that, you will not get any Knowledge for the assignment anymore.
+Here is a little visualisation of that:
+
+image::guide3.png[]
 
 Be careful, you can only submit or test a contract address from the public address that deployed it.
 

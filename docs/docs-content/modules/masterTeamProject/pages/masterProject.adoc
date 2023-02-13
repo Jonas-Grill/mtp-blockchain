@@ -9,11 +9,25 @@ The project was first launched in spring semester 2023.
 
 == What we did
 
-The basic idea of Prof. Strohmaier was to teach blockchain by using a blockchain based learning system. Therefore, basic concepts such as block numbers and smart contracts are understood through using the system.
-We implemented a frontend with Next.js and tailwindCSS. The faucet was implemented via a Node.js backend. All other logical operations are running directly on-chain.
-The chain is running on six raspberry Pi´s in the University of Mannheim which are working via a proof of authority consensus algorithm.
+The basic idea of Prof. Strohmaier was to teach blockchain by using a blockchain based learning system.
+Therefore, basic concepts such as block numbers and smart contracts are understood through using the system.
+We implemented a frontend with Next.js and tailwindCSS. The faucet for first Eth distribution was implemented via a Node.js backend.
+All other logical operations are running directly on-chain.
 Only for the submission of student ID and wallet addresses, an off-chain system such as ILIAS is used to comply to data privacy rules.
+But ILIAS is not directly connected to the Knowledge base.
 
-== Documentation
+The chain is running on six raspberry Pi´s in the University of Mannheim which are working via a proof of authority consensus algorithm.
+The Pi´s fulfill different roles in the system. So we need ones that are able to mine blocks, RPC nodes, some that run the frontend and some that run the faucet API.
+The used currency is Knowledge (NOW), which is a token based on the ERC20 standard, but modified to be a soulbound token.
 
-If you want to learn more about our system, motivation and other interesting things, you can find the documentation which we handed in for grading in the following PDF file:
+If you want to learn more about the things that were mentioned above, listen to the lecture of Prof. Strohmaier or dive into the rapidly growing blockchain world online.
+
+== The Knowledge base system
+
+As already mentioned, the system is based on a blockchain, and we did almost everything by ourselves.
+But here is a quick overview of the system:
+
+image::architecture.png[]
+
+== Tests
+
