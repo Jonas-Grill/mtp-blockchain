@@ -176,10 +176,18 @@ class NOWAccount {
         const configHandler = require("./config.js");
         const config = new configHandler.NOWConfig(this.web3);
 
-        const semester = config.getSemester(semesterId);
+        const semester = await config.getSemester(semesterId);
 
         const startBlock = semester.startBlock;
         const endBlock = semester.endBlock;
+
+        const assignmentIds = await config.getAssignmentIds(semesterId);
+        
+        const assignments = [];
+
+        for (let i = 0; i < assignmentIds.length; i++) {
+            assignments.push(await config.getAssignment(semesterId, assignmentIds[i]));
+        }
 
         // Parse csv
         const csvParsed = require('csv-string').parse(csv);
@@ -193,35 +201,46 @@ class NOWAccount {
         for (let i = 0; i < csvParsed.length; i++) {
             const row = [];
 
-            const studentNumber = csvParsed[i][5].trim();
-            const studentAddress = csvParsed[i][6].trim();
+            const studentNumber = csvParsed[i][6].trim();
+            const studentAddress = csvParsed[i][5].trim();
 
             const balance = await this.getKnowledgeCoinBalance(studentAddress, startBlock, endBlock);
 
             row.push(studentNumber);
             row.push(studentAddress);
 
+            // loop over assignments and push points to passedStudents array
+            for (let j = 0; j < assignments.length; j++) {
+                const assignment = assignments[j];
+                const buffer = 6 * 7200;
+                const assignmentBalance = await this.getKnowledgeCoinBalance(studentAddress, assignment.startBlock, assignment.endBlock + buffer);
+
+                row.push(assignmentBalance);
+            }
+
             if (balance > semester.minKnowledgeCoinAmount) {
-                row.push("passed");
+                row.push("ALLOWED");
             }
             else {
-                row.push("failed");
+                row.push("NOT ALLOWED");
             }
 
             passedStudents.push(row);
         }
+        
+        // Create header
+        const header = ["Student Id", "Student Address"];
 
+        for (let i = 0; i < assignments.length; i++) {
+            header.push(assignments[i].name);
+        }
+
+        header.push("Allowed to take exam?");
+        
+        // Create csv string
         const csvString = [
-            [
-                "Student Id",
-                "Student Address",
-                "Passed"
-            ],
-            ...passedStudents.map(item => [
-                item[0],
-                item[1],
-                item[2]
-            ])
+            header,
+            ...passedStudents.map(item => item)
         ].map(e => e.join(","))
             .join("\n");;
 

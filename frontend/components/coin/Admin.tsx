@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Semester} from "../../pages/semester";
 import {DocumentMagnifyingGlassIcon, FireIcon, MagnifyingGlassIcon} from "@heroicons/react/20/solid";
 import {getKnowledgeCoinBalanceInRange} from "../../web3/src/entrypoints/account/coin";
-import {hasStudentPassedSemester} from "../../web3/src/entrypoints/account/exam";
+import {hasStudentPassedSemester, hasStudentsPassedSemesterCSV} from "../../web3/src/entrypoints/account/exam";
 
 export default function Admin({
                                   selectedSemester,
@@ -28,17 +28,13 @@ export default function Admin({
         const csv = data.get('csv') as File;
 
         csv.text().then((text) => {
-            const lines = text.split("\n");
-
-            //remove header if present
-            //header is present if it doesn't start with a number
-            if (isNaN(parseInt(lines[0].split(",")[0]))) {
-                lines.shift();
-            }
-
-            lines.forEach((line) => {
-                const [studentId, address] = line.split(",");
-                addStudent(address.trim(), studentId.trim());
+            hasStudentsPassedSemesterCSV(web3, text, selectedSemester).then((result) => {            
+                const element = document.createElement("a");
+                const file = new Blob([result], {type: 'text/plain'});
+                element.href = URL.createObjectURL(file);
+                element.download = "students.txt";
+                document.body.appendChild(element); // Required for this to work in FireFox
+                element.click();
             });
         });
     }
@@ -93,7 +89,11 @@ export default function Admin({
 
     return (
         <>
+            <div className="mt-5 text-lg font-medium text-uni">
+                            Check a single Student:
+                        </div>
             <div className="mt-4 text-md font-medium text-uni">
+            
                 For one student, enter the student ID (optional) and the students wallet address:
             </div>
             <form className="space-y-3" onSubmit={handleSubmit}>
@@ -133,8 +133,29 @@ export default function Admin({
                     Check Knowledge of this address
                 </button>
             </form>
+            <hr className="mt-4"/>
+            <div className="mt-5 text-lg font-medium text-uni">
+                            Check multiple Students:
+                        </div>
             <div className="mt-4 text-md font-medium text-uni">
-                For multiple students, please provide a csv file with the following format: studentId,walletAddress
+                For multiple students, please provide a csv file where the sixth column (6th) is the wallets address and the seventh column (7th) is the student ID.
+                <br></br><br></br>
+                <button 
+                    type="button"
+                    className="group relative flex justify-center rounded-md shadow shadow-uni py-1 px-3 text-sm font-medium text-uni hover:bg-uni hover:text-white"
+                    onClick={() => {
+                        const element = document.createElement("a");
+                        const file = new Blob([`"Nachname";"Vorname";"Benutzername";"Bearbeitungsdauer";"Umfrage beendet";"What is your crypto address?";"What is your matriculation number at Uni Mannheim"
+"Mustermann";"Max";"mmsuter";"12";"06. Feb 2023, 15:11";"0xFf9AE49627e512312c519dF0439156d4635f626C";"1234567"`], {type: 'text/plain'});
+                        element.href = URL.createObjectURL(file);
+                        element.download = "students.csv";
+                        document.body.appendChild(element); // Required for this to work in FireFox
+                        element.click();
+                    }}
+                >
+                    Download CSV example
+                </button>
+                <br></br>
             </div>
             <form className="mt-3 space-y-3" onSubmit={handleMassSubmit}>
                 <input
