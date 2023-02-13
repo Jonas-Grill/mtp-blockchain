@@ -30,6 +30,7 @@ contract SBCoin is BaseConfig {
 
     //TIME VALIDATION STORAGE
     mapping(address => mapping(uint256 => int256)) private _timeStamps;
+    mapping(address => uint256[]) private _usedBlockNumbers;
 
     //CONSTRUCTOR
     constructor(
@@ -130,6 +131,7 @@ contract SBCoin is BaseConfig {
         }
 
         _timeStamps[to][block.number] = int256(amount);
+        _usedBlockNumbers[to].push(block.number);
 
         emit Transfer(address(0), to, amount);
 
@@ -143,9 +145,17 @@ contract SBCoin is BaseConfig {
         uint256 endBlock
     ) public view returns (uint256) {
         int256 amount = 0;
-        for (uint256 i = startBlock; i <= endBlock; i++) {
-            amount += _timeStamps[account][i];
+        
+        // loop over _usedBlockNumbers[to] uint array
+        for (uint256 i = 0; i < _usedBlockNumbers[account].length; i++) {
+            uint blockNumber = _usedBlockNumbers[account][i];
+
+            if (blockNumber >= startBlock && blockNumber <= endBlock)
+            {
+                amount += _timeStamps[account][blockNumber];
+            }
         }
+
         return amount > 0 ? uint256(amount) : 0;
     }
 
@@ -184,7 +194,10 @@ contract SBCoin is BaseConfig {
         }
 
         _timeStamps[from][block.number] = -int256(amount);
+        _usedBlockNumbers[from].push(block.number);
+
         _timeStamps[to][block.number] = int256(amount);
+        _usedBlockNumbers[to].push(block.number);
 
         emit Transfer(from, to, amount);
     }

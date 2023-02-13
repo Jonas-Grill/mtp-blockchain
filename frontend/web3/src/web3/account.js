@@ -101,9 +101,9 @@ class NOWAccount {
             await this.web3.eth.net.getId()
         )
 
-        const balance = await knowledgeCoinContract.methods.coinsInBlockNumberRange(address, startBlock, endBlock).call({ from: await this.utils.getFromAccount(this.web3) })
+        const balance = await knowledgeCoinContract.methods.coinsInBlockNumberRange(address, startBlock, endBlock).call({ from: await this.utils.getFromAccount(this.web3), gas: 12000000 })
 
-        return await knowledgeCoinContract.methods.exchangeToDecimalCoin(balance).call({ from: await this.utils.getFromAccount(this.web3) })
+        return await knowledgeCoinContract.methods.exchangeToDecimalCoin(balance).call({ from: await this.utils.getFromAccount(this.web3), gas: 12000000 })
     }
 
     /**
@@ -117,14 +117,14 @@ class NOWAccount {
         const configHandler = require("./config.js");
         const config = new configHandler.NOWConfig(this.web3);
 
-        const semester = config.getSemester(semesterId);
+        const semester = await config.getSemester(semesterId);
 
         const startBlock = semester.startBlock;
         const endBlock = semester.endBlock;
 
-        const balance = await this.getKnowledgeCoinBalance(studentAddress, startBlock, endBlock);
+        const balance = await this.getKnowledgeCoinBalanceInRange(studentAddress, startBlock, endBlock);
 
-        if (balance > semester.minKnowledgeCoinAmount) {
+        if (balance >= semester.minKnowledgeCoinAmount) {
             return true;
         } else {
             return false;
@@ -142,7 +142,7 @@ class NOWAccount {
         const configHandler = require("./config.js");
         const config = new configHandler.NOWConfig(this.web3);
 
-        const semester = config.getSemester(semesterId);
+        const semester = await config.getSemester(semesterId);
 
         const startBlock = semester.startBlock;
         const endBlock = semester.endBlock;
@@ -150,7 +150,7 @@ class NOWAccount {
         const passedStudents = [];
 
         for (let i = 0; i < studentAddresses.length; i++) {
-            const balance = await this.getKnowledgeCoinBalance(studentAddresses[i], startBlock, endBlock);
+            const balance = await this.getKnowledgeCoinBalanceInRange(studentAddresses[i], startBlock, endBlock);
 
             if (balance > semester.minKnowledgeCoinAmount) {
                 passedStudents.push(studentAddresses[i]);
@@ -164,9 +164,6 @@ class NOWAccount {
     /**
      * Return csv of addresses which passed the semester
      *
-     * IMPORT FORMAT: studentID,studentAddress
-     * OUTPUT FORMAT: studentID,studentAddress,hasPassed
-     *
      * @param {string} csv CSV string with student numbers (first row is header)
      * @param {int} semesterId Id of semester
      * @returns Return csv of addresses which passed the semester (first row is header)
@@ -177,12 +174,12 @@ class NOWAccount {
         const config = new configHandler.NOWConfig(this.web3);
 
         const semester = await config.getSemester(semesterId);
-
+        
         const startBlock = semester.startBlock;
         const endBlock = semester.endBlock;
 
         const assignmentIds = await config.getAssignmentIds(semesterId);
-        
+        console.log(assignmentIds);
         const assignments = [];
 
         for (let i = 0; i < assignmentIds.length; i++) {
@@ -204,7 +201,7 @@ class NOWAccount {
             const studentNumber = csvParsed[i][6].trim();
             const studentAddress = csvParsed[i][5].trim();
 
-            const balance = await this.getKnowledgeCoinBalance(studentAddress, startBlock, endBlock);
+            const balance = await this.getKnowledgeCoinBalanceInRange(studentAddress, startBlock, endBlock);
 
             row.push(studentNumber);
             row.push(studentAddress);
@@ -213,12 +210,12 @@ class NOWAccount {
             for (let j = 0; j < assignments.length; j++) {
                 const assignment = assignments[j];
                 const buffer = 6 * 7200;
-                const assignmentBalance = await this.getKnowledgeCoinBalance(studentAddress, assignment.startBlock, assignment.endBlock + buffer);
+                const assignmentBalance = await this.getKnowledgeCoinBalanceInRange(studentAddress, assignment.startBlock, assignment.endBlock + buffer);
 
                 row.push(assignmentBalance);
             }
 
-            if (balance > semester.minKnowledgeCoinAmount) {
+            if (balance >= semester.minKnowledgeCoinAmount) {
                 row.push("ALLOWED");
             }
             else {
@@ -227,7 +224,7 @@ class NOWAccount {
 
             passedStudents.push(row);
         }
-        
+
         // Create header
         const header = ["Student Id", "Student Address"];
 
@@ -236,7 +233,7 @@ class NOWAccount {
         }
 
         header.push("Allowed to take exam?");
-        
+
         // Create csv string
         const csvString = [
             header,

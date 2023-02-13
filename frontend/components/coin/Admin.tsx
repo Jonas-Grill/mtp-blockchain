@@ -184,14 +184,12 @@ export default function Admin({
                      className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-y-4 gap-x-8 py-8 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                     <div className="grid grid-cols-3 shadow shadow-uni rounded-md p-2 bg-gray-300">
                         <dt className="col-span-2 text-lg font-medium text-uni">Student
-                            ID: {student.studentId}</dt>
+                            ID: <b>{student.studentId}</b></dt>
                         <dt className="col-span-2 text-md font-medium text-uni">Student
-                            address: {student.address}</dt>
-                        <dt className="col-span-2 text-lg font-medium text-uni">Student coins: {student.coins}</dt>
-                        <dt className="col-span-2 text-lg font-medium text-uni">Student missing
-                            coins: {student.missingCoins}</dt>
-                        <dt className="col-span-2 text-lg font-medium text-uni">Student
-                            passed: {student.passed.toString()}</dt>
+                            address: <b>{student.address}</b></dt>
+                        <dt className="col-span-2 text-lg font-medium text-uni">NOW coins: <b>{student.coins} </b></dt>
+                        <dt className="col-span-2 text-lg font-medium text-uni">Missing NOW coins: <b>{student.missingCoins}</b></dt>
+                        <dt className="col-span-2 text-lg font-medium text-uni" style={{color: student.passed.toString() === "true" ? "green" : "red"}}>Passed: <b>{student.passed.toString()}</b></dt>
                     </div>
                 </div>
             ))}
