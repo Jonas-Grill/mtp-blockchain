@@ -22,7 +22,6 @@ class NOWAssignments {
         this.utils = new utilsHandler.NOWUtils()
 
         this.web3 = _web3
-        this.web3.eth.handleRevert = true;
     }
 
 
@@ -45,7 +44,7 @@ class NOWAssignments {
             .send({
             from: fromAddress,
             value: requiredEther,
-            gas: 8000000
+            gas: 12000000
         }).catch((error) => {
             revertReason = this.utils.handleRevert(error, this.web3);
         });
@@ -82,7 +81,7 @@ class NOWAssignments {
             .send({
             from: fromAddress,
             value: requiredEther,
-            gas: 8000000
+            gas: 12000000
         }).catch((error) => {
             revertReason = this.utils.handleRevert(error, this.web3);
         });
@@ -92,7 +91,7 @@ class NOWAssignments {
         if (revertReason) {
             console.log(revertReason);
             throw new Error(revertReason);
-        };
+        }
 
         // Return submitted assignment
         return await assignmentValidatorContract.methods.getSubmittedAssignment(fromAddress).call({

@@ -12,8 +12,8 @@ import {Assignment, loadAssignments} from "../assignments";
 import Head from "next/head";
 import {initBlockchain} from "../faucet";
 import {isAdmin} from "../../web3/src/entrypoints/config/admin";
-import { Fragment, useRef} from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import {Fragment, useRef} from 'react'
+import {Dialog, Transition} from '@headlessui/react'
 
 export default function SubmitAssignment({userAddress}: { userAddress: string }) {
     const [web3, setWeb3] = useState<any>(undefined);
@@ -57,35 +57,19 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
         if (web3 && validateTestAndSubmitConditions()) {
             const assignment = assignments.find(assignment => assignment.id === selectedAssignment);
 
+            console.log("assignment", assignment?.validationContractAddress);
+
             if (assignment) {
                 validateAssignment(web3, contract, assignment.validationContractAddress).then((result) => {
                     getTestResults(web3, assignment.validationContractAddress, result).then((result) => {
                         setTestResults((results) => [...results, result]);
                     });
                 }).catch((error) => {
-                    if (error.code === -32603) {
-                        let message = error.message.substring(
-                            error.message.indexOf('"message"') + 2,
-                            error.message.indexOf('",')
-                        );
+                    alert(error.message);
+                    alert("Something went wrong! Did you enter the correct contract address?\n" +
+                        "Did you implement all the required functions?\n" +
+                        "Did you name the functions correctly?\n");
 
-                        message = message.substring(
-                            message.indexOf('Error:') + 7,
-                            message.indexOf('!')
-                        );
-
-                        if (message === "essage") {
-                            message = "Invalid contract!"
-                        }
-
-                        alert(message);
-                        console.log(error);
-                    } else {
-                        console.log(error);
-                        alert("Something went wrong! Did you enter the correct contract address?\n" +
-                            "Did you implement all the required functions?\n" +
-                            "Did you name the functions correctly?\n");
-                    }
                 });
             }
         }
@@ -103,25 +87,10 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                 submitAssignment(web3, contract, assignment.validationContractAddress).then((result) => {
                     setSubmittedAssignment(result);
                 }).catch((error) => {
-                    if (error.code === -32603) {
-                        let message = error.message.substring(
-                            error.message.indexOf('"message"') + 2,
-                            error.message.indexOf('",')
-                        );
-
-                        message = message.substring(
-                            message.indexOf('Error:') + 7,
-                            message.indexOf('!')
-                        );
-
-                        if (message === "essage") {
-                            message = "Invalid contract!"
-                        }
-
-                        alert(message);
-                    } else {
-                        alert(error.message);
-                    }
+                    alert(error.message);
+                    alert("Something went wrong! Did you enter the correct contract address?\n" +
+                        "Did you implement all the required functions?\n" +
+                        "Did you name the functions correctly?\n");
                 });
             }
         }
@@ -185,7 +154,6 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
         if (assignment) {
             loadTestResults(web3, userAddress, assignment.validationContractAddress).then((results) => {
                 if (results) {
-                    console.log("loadTestResults", results);
                     setTestResults(results);
                 } else {
                     setTestResults([]);
@@ -229,11 +197,12 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                                 leaveFrom="opacity-100"
                                 leaveTo="opacity-0"
                             >
-                                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"/>
                             </Transition.Child>
 
                             <div className="fixed inset-0 z-10 overflow-y-auto">
-                                <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                                <div
+                                    className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                                     <Transition.Child
                                         as={Fragment}
                                         enter="ease-out duration-300"
@@ -243,14 +212,18 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                     >
-                                        <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                        <Dialog.Panel
+                                            className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                                 <div className="sm:flex sm:items-start">
-                                                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-300 sm:mx-0 sm:h-10 sm:w-10">
-                                                        <ExclamationCircleIcon className="h-6 w-6 text-uni" aria-hidden="true" />
+                                                    <div
+                                                        className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-300 sm:mx-0 sm:h-10 sm:w-10">
+                                                        <ExclamationCircleIcon className="h-6 w-6 text-uni"
+                                                                               aria-hidden="true"/>
                                                     </div>
                                                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                                        <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-uni">
+                                                        <Dialog.Title as="h3"
+                                                                      className="text-lg font-medium leading-6 text-uni">
                                                             Submit assignment
                                                         </Dialog.Title>
                                                         <div className="mt-2">

@@ -92,7 +92,6 @@ class NOWUtils {
         // faucet storage abi
         const abi = this.getContractAbi("BaseValidator")
 
-        console.log("assignmentValidatorContractAddress", assignmentValidatorContractAddress)
         // Get faucetStorageContract using logged in web3 address
         return new web3.eth.Contract(abi, assignmentValidatorContractAddress, {
             from: fromAddress
@@ -199,10 +198,6 @@ class NOWUtils {
         const txHash = err.receipt.transactionHash
 
         const tx = await web3.eth.getTransaction(txHash)
-
-        // if (result && result.message) {
-        //     throw new Error("Why?: "+ result.message)
-        // }
 
         return await web3.eth.call(tx, tx.blockNumber).catch((err) => {
             const errString = err.toString()
