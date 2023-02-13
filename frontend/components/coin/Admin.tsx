@@ -189,7 +189,7 @@ export default function Admin({
                             address: <b>{student.address}</b></dt>
                         <dt className="col-span-2 text-lg font-medium text-uni">NOW coins: <b>{student.coins} </b></dt>
                         <dt className="col-span-2 text-lg font-medium text-uni">Missing NOW coins: <b>{student.missingCoins}</b></dt>
-                        <dt className="col-span-2 text-lg font-medium text-uni" style={{color: student.passed.toString() === "true" ? "green" : "red"}}>Passed: <b>{student.passed.toString()}</b></dt>
+                        <dt className="col-span-2 text-lg font-medium text-uni">Passed: <b style={{color: student.passed.toString() === "true" ? "green" : "red"}}>{student.passed.toString()}</b></dt>
                     </div>
                 </div>
             ))}
