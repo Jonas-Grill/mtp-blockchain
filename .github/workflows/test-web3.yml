@@ -38,7 +38,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
           cache-dependency-path: "./frontend/package-lock.json"
-      - run: cd smart-contracts && npm ci
+      - run: cd smart-contracts && npm i
       - run: npm --prefix ./smart-contracts run github
       - name: Install dependencies - using Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -46,5 +46,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
           cache-dependency-path: "./frontend/package-lock.json"
-      - run: cd frontend && npm ci
+      - run: cd frontend && npm i
       - run: cd frontend && npm run test_web3
