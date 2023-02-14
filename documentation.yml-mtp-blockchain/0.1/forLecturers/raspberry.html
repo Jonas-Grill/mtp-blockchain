@@ -29,7 +29,7 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../index.html">index.adoc</a>
+    <a class="nav-link" href="../index.html">Home</a>
   </li>
 </ul>
   </li>
@@ -59,13 +59,25 @@
     <span class="nav-text">For Lecturers</span>
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="raspberry.html">Raspberry Pi Setup</a>
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="raspberry.html">Raspberry Pi setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="basicRaspberrySetup.html">Basic Raspberry Pi setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="frontendFaucetRaspberrySetup.html">Frontend &amp; Faucet Raspberry Pi setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="minerRPCRaspberrySetup.html">Miner Node &amp; RPC Node Raspberry Pi setup</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="newSemester.html">Start a new semester</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="addAdminAddress.html">Add admin address</a>
+    <a class="nav-link" href="adminFunctions.html">Admin functions</a>
   </li>
 </ul>
   </li>
@@ -74,7 +86,7 @@
     <span class="nav-text">For Developers</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="#frontent.adoc">Frontend &amp; Blockchain interaction</a>
+    <a class="nav-link" href="../forDevelopers/frontend.html">Frontend &amp; Blockchain interaction</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../forDevelopers/smartcontracts.html">Knowledge Base - Smart contracts</a>
@@ -111,7 +123,7 @@
   <ul>
     <li><a href="../index.html">MTP-Blockchain</a></li>
     <li>For Lecturers</li>
-    <li><a href="raspberry.html">Raspberry Pi Setup</a></li>
+    <li><a href="raspberry.html">Raspberry Pi setup</a></li>
   </ul>
 </nav>
 </div>
@@ -170,337 +182,31 @@ The following steps will guide you through the installation process.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_installing_the_imager_on_a_sd_card"><a class="anchor" href="#_installing_the_imager_on_a_sd_card"></a>Installing the imager on a SD card</h2>
+<h2 id="_possible_pi_purposes_and_combinations"><a class="anchor" href="#_possible_pi_purposes_and_combinations"></a>Possible Pi purposes and combinations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To install the Raspberry Pi OS on the Pi´s you need to have the Raspberry Pi imager installed on your PC.
-For this, visit the website: <a href="https://www.raspberrypi.com/software/" class="bare">https://www.raspberrypi.com/software/</a>. Here you can choose the right download according to your operating system:</p>
+<p>Pi´s can be used for the following purposes:</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/Raspberry1.png" alt="Raspberry1">
-</div>
-</div>
-<div class="paragraph">
-<p>Once downloaded you see a screen like this:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/Raspberry2.png" alt="Raspberry2">
-</div>
-</div>
-<div class="paragraph">
-<p>You then need to put your SD card in your SD card reader.
-Then you need to select the OS you want to install on your Pi´s, which is the following:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/Raspberry3.png" alt="Raspberry3">
-</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Miner</p>
+</li>
+<li>
+<p>RPC node</p>
+</li>
+<li>
+<p>Frontend</p>
+</li>
+<li>
+<p>Faucet</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Then you need to select the SD card you put in your SD card reader.
-When you have done this, you can click on the "Write" button to start the installation process.
-After some time, the imager will tell you that the installation was successful, and you can remove the SD card from the SD card reader.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_setting_up_the_raspberry_pi_hardware"><a class="anchor" href="#_setting_up_the_raspberry_pi_hardware"></a>Setting up the Raspberry Pi hardware</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Please follow the instructions on how to put the Raspberry Pi together which are in the packaging of the Pi. A picture of all the possible connection points is shown here:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/Raspberry4.png" alt="Raspberry4">
-</div>
-</div>
-<div class="paragraph">
-<p>After you have put the Pi together, you need to connect the Pi to the fitting power supply. You will also need to plug in the micro HDMI cable to the Pi and connect it to a display.
-You will also need to connect the Pi to an ethernet cable if you choose this over a WiFi-Connection.
-You eventually also need to plug in a USB keyboard and mouse to interact with the Pi.
-Lastly you can insert the SD card in the SD card slot of the Raspberry Pi. Please keep in mind to insert it in the right way, so that the gold contacts are facing the Pi.
-Once all of this is done you can start the software setup process of your Raspberry Pi.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_setting_up_the_raspberry_pi_software"><a class="anchor" href="#_setting_up_the_raspberry_pi_software"></a>Setting up the Raspberry Pi software</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>When you turn on your Raspberry Pi with all the things plugged in as described in the step before, you will see a welcome screen. Then you have to press "Next".</p>
-</div>
-<div class="paragraph">
-<p>Then you have to set the country, by choosing "Germany" for the country. Language should then automatically be set to "German" and Timezone to "Berlin". If not, please change it manually.
-Please check the box for "Use English Language". Then press "Next".</p>
-</div>
-<div class="paragraph">
-<p>You are then asked to create a user by providing a username and password. This information is given to the admin/lecturer beforehand. Then press "Next".</p>
-</div>
-<div class="paragraph">
-<p>Now you can set up the screen if it us not shown correctly. You can either switch the toggle and click "Next" or if the screen is shown correctly just press "Next".</p>
-</div>
-<div class="paragraph">
-<p>If you have decided for a Wifi-Connection, you now have to select your Wifi-Network and press "Next". Then you need to provide the WiFi-Password and press "Next".</p>
-</div>
-<div class="paragraph">
-<p>Once done, you are asked to update the software. Please press "Next" to do this. This eventually takes a while.</p>
-</div>
-<div class="paragraph">
-<p>After this is completed you see the setup Complete screen, and you have to press "Restart". The Raspberry Pi will now restart, and you will see the desktop of the Pi.</p>
-</div>
-<div class="paragraph">
-<p>You now have to click on the raspberry icon in the top left corner and select "Preferences" and then "Raspberry Pi Configuration". Then you have to select "Interfaces" and enable "SSH". Then press "OK".
-Also in the configuration window, go to Localisation and set the keyboard layout to "German". Then press "OK".</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_preparation_to_create_the_node"><a class="anchor" href="#_preparation_to_create_the_node"></a>Preparation to create the node</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Now you need to open the terminal in the top left corner. Keep in mind, that you can only paste something in the terminal by rightlick and selecting "Paste" with the mouse and not by CTRL+V.
-Please enter the following</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>ifconfig</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter. You will see a lot of information about your Pi.
-In the wlan0 (for WiFi) / eth0 (for ethernet connection) section you will see the IP-Address of your Pi after "inet". Please write this down, as you will need it later.</p>
-</div>
-<div class="sect2">
-<h3 id="_installing_go"><a class="anchor" href="#_installing_go"></a>Installing GO</h3>
-<div class="paragraph">
-<p>Now you need to install GO on your Pi. To do this, please open the browser on the Pi in the top left corner. Then enter the following link: <a href="https://go.dev/dl/" class="bare">https://go.dev/dl/</a>.
-You will see a Downloads page. Choose the go1.19.5 version and download go1.19.5.linux-armv6l.tar.gz.
-Please put the downloaded file on your desktop.</p>
-</div>
-<div class="paragraph">
-<p>Once done, open the terminal and type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>cd Desktop/</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter.</p>
-</div>
-<div class="paragraph">
-<p>Then type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sudo rm -rf /usr/local/go &amp;&amp; sudo tar -C /usr/local -xzf go1.19.5.linux-armv6l.tar.gz</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter.</p>
-</div>
-<div class="paragraph">
-<p>Then type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>cd ..</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter.</p>
-</div>
-<div class="paragraph">
-<p>Then type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>nano .profile</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter.</p>
-</div>
-<div class="paragraph">
-<p>Then scroll down to the bottom of the file and add the following lines:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>export PATH=$PATH:/usr/local/go/bin
-export GOPATH=$HOME/go</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press CTRL+S and then CTRL+X.</p>
-</div>
-<div class="paragraph">
-<p>Then type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sudo reboot now</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter. The Pi will now reboot.</p>
-</div>
-<div class="paragraph">
-<p>Once the Pi is rebooted, you need to open the terminal again and type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>go version</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter. You should see the version of go you installed. If not, please repeat the steps above. If it is correct, you can continue.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_installing_geth"><a class="anchor" href="#_installing_geth"></a>Installing geth</h3>
-<div class="paragraph">
-<p>Now you need to install geth on your Pi. To do this, please open the terminal and type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>go install github.com/ethereum/go-ethereum/cmd/geth@latest</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter.</p>
-</div>
-<div class="paragraph">
-<p>Then type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>nano .profile</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter.</p>
-</div>
-<div class="paragraph">
-<p>Then scroll down to the bottom of the file and add the following line under the lines you already added for GO:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>export PATH=$PATH:$GOPATH/bin</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press CTRL+S and then CTRL+X.</p>
-</div>
-<div class="paragraph">
-<p>Then type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sudo reboot now</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter. The Pi will now reboot.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_installing_the_node_setup_files"><a class="anchor" href="#_installing_the_node_setup_files"></a>Installing the node setup files</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Insert the USB stick in the Pi. You will see a "Removable medium is inserted" screen and need to press "OK".
-You then see all the files on the USB stick. Please navigate to /media/unima/[name of USB-Stick]/pis/pi [number of Pi you want to set up].
-In there you will see a "nodes" folder. Please copy the folder to /home/unima.
-In /home/unima/nodes you should see a folder "node[number of Pi]", a "config.toml", a "genesis.json" and a "start_node_[number of Pi].sh".</p>
-</div>
-<div class="paragraph">
-<p>Now open the terminal and type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>cd nodes/</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter.</p>
-</div>
-<div class="paragraph">
-<p>Then type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>nano config.toml</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter.</p>
-</div>
-<div class="paragraph">
-<p>Now scroll down to the [Node] segment and look at the IP-Address behind HTTPHost. This should be the same as the IP-Address you looked up in the beginning. If not, please adjust it.
-Then press CTRL+S and CTRL+X.</p>
-</div>
-<div class="paragraph">
-<p>Now type the following:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sh start_node[number of Pi].sh</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press CTRL+C.
-You will again see a lot of information. You need to copy the enode. The enode is shown in quotation marks after "self=".</p>
-</div>
-<div class="paragraph">
-<p>Then open the filesystem of the USB-Stick again, and open the "enodes.json". There you need to replace the line of the Pi you want to set up. The lines are sorted according to number starting on top with Pi number 1.
-So for example, if you want to add the enode of Pi 6 you need to replace the last line in the "enodes.json".
-Now scroll to the right and change the number after the "@" and before the ":" to the IP-Address you looked up in the beginning. Once typed in, copy everything between the square brackets.
-Then press CTRL+S and close the window. You can now remove the USB-Stick.</p>
-</div>
-<div class="paragraph">
-<p>Please do all the steps before for every Pi you want to set up, so that the list of enodes in the "enode.json" is complete and up-to-date.
-Then you can go on with the following steps for each Pi.</p>
-</div>
-<div class="paragraph">
-<p>Go back to the terminal and type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>nano config.toml</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter. Then scroll down to [Node.P2P]. After "StaticNodes = [" paste the enodes you copied.
-Comma and quotation marks are kept, but empty lines need to be removed. Then press CTRL+S and CTRL+X.</p>
-</div>
-<div class="paragraph">
-<p>The Raspberry Pi is now all set to be a node.</p>
-</div>
-<div class="paragraph">
-<p>Start the node by typing in the terminal:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>cd nodes/</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter.</p>
-</div>
-<div class="paragraph">
-<p>Then type:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sh start_node[number of Pi].sh</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter. Your node is now running.
-Once every node is set up accordingly and running, the blockchain is running.</p>
+<p>A Pi can either be a miner or an RPC node, but not both at the same time. This is because of security issues.
+The frontend can run on every node, but it makes sense to run it on an RPC node, because it is the only node that grants access to the network.
+The faucet should not be on the same Pi as the RPC node, because it needs an unlocked account to send ether to the users. This is a security issue.</p>
 </div>
 </div>
 </div>

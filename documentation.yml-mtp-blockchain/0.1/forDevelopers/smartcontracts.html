@@ -29,7 +29,7 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../index.html">index.adoc</a>
+    <a class="nav-link" href="../index.html">Home</a>
   </li>
 </ul>
   </li>
@@ -59,13 +59,25 @@
     <span class="nav-text">For Lecturers</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../forLecturers/raspberry.html">Raspberry Pi Setup</a>
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../forLecturers/raspberry.html">Raspberry Pi setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../forLecturers/basicRaspberrySetup.html">Basic Raspberry Pi setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../forLecturers/frontendFaucetRaspberrySetup.html">Frontend &amp; Faucet Raspberry Pi setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../forLecturers/minerRPCRaspberrySetup.html">Miner Node &amp; RPC Node Raspberry Pi setup</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../forLecturers/newSemester.html">Start a new semester</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../forLecturers/addAdminAddress.html">Add admin address</a>
+    <a class="nav-link" href="../forLecturers/adminFunctions.html">Admin functions</a>
   </li>
 </ul>
   </li>
@@ -74,7 +86,7 @@
     <span class="nav-text">For Developers</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="#frontent.adoc">Frontend &amp; Blockchain interaction</a>
+    <a class="nav-link" href="frontend.html">Frontend &amp; Blockchain interaction</a>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="smartcontracts.html">Knowledge Base - Smart contracts</a>
@@ -242,7 +254,7 @@
 </div>
 </div>
 <div class="sect3">
-<h4 id="_inhertited_structs_from_baseconfigadmin_sol"><a class="anchor" href="#_inhertited_structs_from_baseconfigadmin_sol"></a>Inhertited structs from <code>BaseConfigAdmin.sol</code></h4>
+<h4 id="_inherited_structs_from_baseconfigadmin_sol"><a class="anchor" href="#_inherited_structs_from_baseconfigadmin_sol"></a>Inherited structs from <code>BaseConfigAdmin.sol</code></h4>
 <div class="paragraph">
 <p>The <code>ConfigStorage.sol</code> smart contract inherits the following structs from the <code>BaseConfigAdmin.sol</code> smart contract:</p>
 </div>
@@ -276,7 +288,7 @@
 <h2 id="_sbcoin_sol"><a class="anchor" href="#_sbcoin_sol"></a><code>SBCoin.sol</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The <code>SBCoin.sol</code> smart contract is the contract which stores the <em>Knowledge Coin</em> in short <em>NOW</em>. This coin is the main currency of the Knolwedge Base system and the payment students receive for successfully passing tests on their submitted assignments.</p>
+<p>The <code>SBCoin.sol</code> smart contract is the contract which stores the <em>Knowledge Coin</em> in short <em>NOW</em>. This coin is the main currency of the Knowledge Base system and the payment students receive for successfully passing tests on their submitted assignments.</p>
 </div>
 <div class="paragraph">
 <p>All the functions of the contract are described in the comments to the code. The contract is written in Solidity language and compiled with the help of the <code>solc</code> compiler.</p>
@@ -290,7 +302,7 @@
 <p>To ensure that students cannot reuse the Knowledge Coins from a previous semester, the Knowledge Coins are bounded to a block range. So students can only use the Knowledge Coins they received in the current semester for qualifying themselves for the current semester exam. This is done by the <code>mint</code> function. The <code>mint</code> function can only be called by user or contract admins and sends the amount of Knowledge Coins to the student&#8217;s address and logs the amount with the current block number.</p>
 </div>
 <div class="paragraph">
-<p>The <code>burn</code> function can burn Knowledge Coins from the student&#8217;s address. This function is also restricted to user or contract admins. Coins are burned by transfering them to a 0x0 address using the <code>_transfer</code> function.</p>
+<p>The <code>burn</code> function can burn Knowledge Coins from the student&#8217;s address. This function is also restricted to user or contract admins. Coins are burned by transferring them to a 0x0 address using the <code>_transfer</code> function.</p>
 </div>
 <div class="paragraph">
 <p>The basic <code>_transfer</code> and <code>_approve</code> functions can only be called by user or contract admins. The <code>_transfer</code> function is used to transfer Knowledge Coins from one address to another. The <code>_approve</code> function is used to approve another address to spend a certain amount of Knowledge Coins from the sender&#8217;s address.</p>
@@ -305,7 +317,7 @@
 <h2 id="_faucetstorage_sol"><a class="anchor" href="#_faucetstorage_sol"></a><code>FaucetStorage.sol</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The <code>FaucetStorage.sol</code> smart contract is the contract which allows students to request ETH. To mock a real system and create an artifical value for ETH. ETH can only be requested after a certain block time. This block difference can be modified in the <code>ConfigStorage.sol</code>.</p>
+<p>The <code>FaucetStorage.sol</code> smart contract is the contract which allows students to request ETH. To mock a real system and create an artificial value for ETH. ETH can only be requested after a certain block time. This block difference can be modified in the <code>ConfigStorage.sol</code>.</p>
 </div>
 <div class="paragraph">
 <p>All the functions of the contract are described in the comments to the code. The contract is written in Solidity language and compiled with the help of the <code>solc</code> compiler.</p>
@@ -325,11 +337,11 @@
 <p>The job of the assignment validator is to check the validity of the assignment. The contract is doing this by interacting with the assignment of the student and calling different functions and checking the return values or the change of the state of the contract.</p>
 </div>
 <div class="paragraph">
-<p>Each assignment validator, for convenience sake we call it <em>validator</em>, is pack of different contracts.</p>
+<p>Each assignment validator, for convenience we call it <em>validator</em>, is pack of different contracts.</p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<img src="validator_example.png" alt="validator example">
+<img src="_images/validator_example.png" alt="validator example">
 </div>
 </div>
 <div class="paragraph">
@@ -351,10 +363,10 @@
 <div class="sect2">
 <h3 id="_process"><a class="anchor" href="#_process"></a>Process</h3>
 <div class="paragraph">
-<p>The student calls the <code>test(address)</code> function using the react frontent. He passes his assignment contract address. The validator than runs various tests on this contract. For each passed task the student receives a certain amount of predefined tokens. <strong>No subpoints can be paid out</strong>. The student can call the <code>test(address)</code> function as often as he wants. Each test gets registered and stored in a mapping. The result of the test can be accessed via the test id. This allows the student to see which tasks he passed and which not. The student can also see the reason why a task was not passed.</p>
+<p>The student calls the <code>test(address)</code> function using the React frontend. He passes his assignment contract address. The validator than runs various tests on this contract. For each passed task the student receives a certain amount of predefined tokens. <strong>No subpoints can be paid out</strong>. The student can call the <code>test(address)</code> function as often as he wants. Each test gets registered and stored in a mapping. The result of the test can be accessed via the test id. This allows the student to see which tasks he passed and which not. The student can also see the reason why a task was not passed.</p>
 </div>
 <div class="paragraph">
-<p>If the student is happy with the result he can call the <code>submit(address)</code> function. This function will test the assignment again and than pays the student the tokens he earned. The student can only call this function once. After the student called this function the validator will not accept any more submit for this assignment.</p>
+<p>If the student is happy with the result he can call the <code>submit(address)</code> function. This function will test the assignment again and then pays the student the tokens he earned. The student can only call this function once. After the student called this function the validator will not accept any more submit for this assignment.</p>
 </div>
 <div class="paragraph">
 <p>The contract needs to be:</p>

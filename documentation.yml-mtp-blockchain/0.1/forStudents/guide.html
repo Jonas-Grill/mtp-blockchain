@@ -29,7 +29,7 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../index.html">index.adoc</a>
+    <a class="nav-link" href="../index.html">Home</a>
   </li>
 </ul>
   </li>
@@ -59,13 +59,25 @@
     <span class="nav-text">For Lecturers</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../forLecturers/raspberry.html">Raspberry Pi Setup</a>
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../forLecturers/raspberry.html">Raspberry Pi setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../forLecturers/basicRaspberrySetup.html">Basic Raspberry Pi setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../forLecturers/frontendFaucetRaspberrySetup.html">Frontend &amp; Faucet Raspberry Pi setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../forLecturers/minerRPCRaspberrySetup.html">Miner Node &amp; RPC Node Raspberry Pi setup</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../forLecturers/newSemester.html">Start a new semester</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../forLecturers/addAdminAddress.html">Add admin address</a>
+    <a class="nav-link" href="../forLecturers/adminFunctions.html">Admin functions</a>
   </li>
 </ul>
   </li>
@@ -74,7 +86,7 @@
     <span class="nav-text">For Developers</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="#frontent.adoc">Frontend &amp; Blockchain interaction</a>
+    <a class="nav-link" href="../forDevelopers/frontend.html">Frontend &amp; Blockchain interaction</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../forDevelopers/smartcontracts.html">Knowledge Base - Smart contracts</a>
@@ -124,8 +136,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you are reading this, you already found our GitHub repository.
-Knowledge Base is based on that repository, but can also be found via this link: TODO</p>
+<p>If you are reading this, you already found our GitHub repository, which Knowledge Base is hosted on.</p>
 </div>
 <div class="paragraph">
 <p>When you first enter Knowledge Base you see a screen like this:</p>
@@ -136,7 +147,12 @@ Knowledge Base is based on that repository, but can also be found via this link:
 </div>
 </div>
 <div class="paragraph">
-<p>So you have a Faucet, Assignment Overview, Coin Overview, Submit assignment and Connect to Metamask button.</p>
+<p>So you have a Faucet, Semester, Assignment, Coin Overview, Submit assignment, Admin functions, Sign, About and Connect to Metamask button.
+The admin functions buttons will disappear, once you are logged in with your Metamask wallet, because this is for administrators only.
+A visualisation of how your screen will look like, once you are logged in, can be found in the next section.</p>
+</div>
+<div class="paragraph">
+<p>In this guide, you get a step-by-step instruction on how to use Knowledge Base. If you want a shorter version, you can scroll down to the end of this page to look at a flow chart of the process.</p>
 </div>
 </div>
 </div>
@@ -147,7 +163,12 @@ Knowledge Base is based on that repository, but can also be found via this link:
 <p>To use Knowledge Base, you need to have a metamask Wallet and login with your wallet address in Knowledge Base.
 To do so, please read the documentation <a href="metamask.html" class="xref page">Metamask Setup</a>, because this is a whole other process.
 To log in on Knowledge Base, you need to press the Connect to Metamask button and type in your password. Then press the unlock button.
-Now you should see your public address in the top right corner instead of the Connect to Metamask button.</p>
+Now you should see your public address in the top right corner instead of the Connect to Metamask button and the whole page should look like this:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/guide2.png" alt="guide2">
+</div>
 </div>
 </div>
 </div>
@@ -165,15 +186,23 @@ Keep in mind, that if you do not take the survey in time, the lecturer can´t se
 <h2 id="_step_3_get_gas"><a class="anchor" href="#_step_3_get_gas"></a>Step 3: Get gas</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Once you are logged in with your Metamask wallet, you can go to the faucet and get gas.
-You need gas to make transactions on the blockchain as you might have already learned in the lecture.
-So just type in your wallet address and press the Get gas button to - you guessed it - get gas.
-You can only use the faucet multiple times but only every once in a while because it has a cool down to stop motivated students from limit testing the Raspberry Pi´s.</p>
+<p>Once you are logged in with your Metamask wallet, you can go to the faucet and get Eth.
+You need Eth to make transactions on the blockchain as you might have already learned in the lecture.
+So just type in your wallet address and press the Get Eth button to - you guessed it - get Eth.
+You can use the faucet multiple times but only every once in a while because it has a cool down to stop motivated students from limit testing the Raspberry Pi´s.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_step_4_assignments_for_the_semester"><a class="anchor" href="#_step_4_assignments_for_the_semester"></a>Step 4: Assignments for the semester</h2>
+<h2 id="_step_4_semester_overview"><a class="anchor" href="#_step_4_semester_overview"></a>Step 4: Semester overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the Semester Overview you see the semesters you are currently in and the block range for the semester.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_5_assignments_for_the_semester"><a class="anchor" href="#_step_5_assignments_for_the_semester"></a>Step 5: Assignments for the semester</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In the Assignment Overview you see all the assignment tasks which you have to complete in the semester.
@@ -185,27 +214,76 @@ With your calculated due date and the task you are ready to write some code.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_step_5_submitting_your_assignments"><a class="anchor" href="#_step_5_submitting_your_assignments"></a>Step 5: Submitting your assignments</h2>
+<h2 id="_step_6_submittingtesting_your_assignments"><a class="anchor" href="#_step_6_submittingtesting_your_assignments"></a>Step 6: Submitting/testing your assignments</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>At Submit assignment, you can hand in your code. You need gas for those steps, so make sure, that you used the faucet before. For this you have to deploy your solution on the blockchain. Then you can see the contract address of your code.
+<p>At Submit assignment, you can hand in your code. You need Eth for those steps, so make sure, that you used the faucet before.
+To submit or test, you have to deploy your solution on the blockchain. Then you can see the contract address of your code.
 In Knowledge Base, when you provide that contract address, in the background there is a smart contract or validator contract, that tests your code.
 The validator contract consists of a number of tests. According to the number of tests passed you achieve your Knowledge from the validator contract directly to your personal wallet, which may take a second.</p>
 </div>
 <div class="paragraph">
-<p>You can also test your code to see, how much Knowledge you would get for the current state of the code.
-You can test as often as you want.</p>
+<p>You can test your code to see, how much Knowledge you would get for the current state of the code.
+You can also see the test results under the test button, to see, which tests you passed and which you failed.
+You can test as often as you want, but you have to deploy the changed code again to test it again.
+Don´t forget, that the contract address changes every time you deploy a new version of your code.</p>
 </div>
 <div class="paragraph">
 <p>Only when you press the submit button, the contract will give out the Knowledge amount you got.
-You can only submit once and can not undo a submission!</p>
+You can only submit once and can not undo a submission!
+The results of your submission are shown below the submit button.
+Because a lot of traffic is expected around the deadlines, try to submit your code early, so that you can get your submission in a block before the deadline.
+To further reduce the problems with the deadline, you can submit your code up to 24 hours after the deadline and still get 100% of the Knowledge for the assignment.
+If you submit your code after this buffer of 24 hours but within the next 5 days, you will get 85% of the Knowledge you achieved for the assignment.
+After that, you will not get any Knowledge for the assignment anymore.
+Here is a little visualisation of that:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/guide3.png" alt="guide3">
+</div>
 </div>
 <div class="paragraph">
 <p>Be careful, you can only submit or test a contract address from the public address that deployed it.</p>
 </div>
 <div class="paragraph">
-<p>You can see your Knowledge in your Metamask wallet or in the Coin Overview.
+<p>You can see your Knowledge in the Coin Overview.
 In the Coin Overview you also see how much Knowledge is needed to qualify for the exam and how much Knowledge you still need for the qualification.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sign_tab"><a class="anchor" href="#_sign_tab"></a>Sign tab</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You may need to sign something for one specific assignment task.
+So you can use the text field in the sign tab for that.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_about_tab"><a class="anchor" href="#_about_tab"></a>About tab</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The about tab is just a short description of the project and about the team.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_block_number"><a class="anchor" href="#_block_number"></a>Block number</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you are logged in, you can see the current block number in the top right corner.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_flowchart_of_the_process"><a class="anchor" href="#_flowchart_of_the_process"></a>Flowchart of the process</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="_images/Team%20Project-Student.drawio.png" alt="Team Project Student.drawio">
+</div>
 </div>
 </div>
 </div>

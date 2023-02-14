@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Frontend &amp; Faucet Raspberry Pi setup :: Antora Docs</title>
+    <meta name="generator" content="Antora 3.1.2">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a>MTP-Blockchain</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="documentation.yml-mtp-blockchain" data-version="0.1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">MTP-Blockchain</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Master Team Project</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../masterTeamProject/masterProject.html">A Blockchain-based system for course submissions</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Students</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../forStudents/guide.html">Guide for Knowledge Base</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../forStudents/metamask.html">Metamask Setup</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Lecturers</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="raspberry.html">Raspberry Pi setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="basicRaspberrySetup.html">Basic Raspberry Pi setup</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="frontendFaucetRaspberrySetup.html">Frontend &amp; Faucet Raspberry Pi setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="minerRPCRaspberrySetup.html">Miner Node &amp; RPC Node Raspberry Pi setup</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="newSemester.html">Start a new semester</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="adminFunctions.html">Admin functions</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">For Developers</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../forDevelopers/frontend.html">Frontend &amp; Blockchain interaction</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../forDevelopers/smartcontracts.html">Knowledge Base - Smart contracts</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">MTP-Blockchain</span>
+    <span class="version">0.1-beta.1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">MTP-Blockchain</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">0.1-beta.1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">MTP-Blockchain</a></li>
+    <li>For Lecturers</li>
+    <li><a href="raspberry.html">Raspberry Pi setup</a></li>
+    <li><a href="frontendFaucetRaspberrySetup.html">Frontend &amp; Faucet Raspberry Pi setup</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Frontend &amp; Faucet Raspberry Pi setup</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before you can start with the setup of the frontend and the faucet, you need to complete the basic Raspberry Pi setup. If you haven’t done so yet, please follow the instructions in the <a href="basicRaspberrySetup.html" class="xref page">Basic Raspberry Pi</a> section.
+You can either work directly on the Raspberry Pi or use a remote connection via SSH as described earlier in the <a href="basicRaspberrySetup.html" class="xref page">Basic Raspberry Pi</a> section.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installing_nvm_and_node_js"><a class="anchor" href="#_installing_nvm_and_node_js"></a>Installing NVM and Node.js</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The frontend and the faucet are written in Node.js. Therefore, you need to install Node.js on your Raspberry Pi.
+To make the installation easier, we will use the Node Version Manager (NVM).
+NVM allows you to install multiple versions of Node.js and switch between them.</p>
+</div>
+<div class="sect2">
+<h3 id="_installing_nvm"><a class="anchor" href="#_installing_nvm"></a>Installing NVM</h3>
+<div class="paragraph">
+<p>To install NVM, open a terminal window and run the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will download and run the NVM installation script.
+After the installation is complete, you need to restart the Raspberry Pi.
+To do so, run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sudo reboot now</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now you can check if NVM is installed correctly by opening a terminal window and running the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nvm --version</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the installation was successful, you should see the version number of NVM.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installing_node_js"><a class="anchor" href="#_installing_node_js"></a>Installing Node.js</h3>
+<div class="paragraph">
+<p>To install Node.js, run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nvm install 19.3.0</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will install Node.js version 19.3.0.</p>
+</div>
+<div class="paragraph">
+<p>To make nvm use this version by default, run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nvm use 19.3.0</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now you can check if Node.js is installed correctly by running the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>node --version</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the installation was successful, you should see the version number of Node.js.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_frontend_setup"><a class="anchor" href="#_frontend_setup"></a>Frontend setup</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>At this point the setup of the frontend and faucet differentiate, so please follow this guide for a frontend setup on the Raspberry Pi.</p>
+</div>
+<div class="sect2">
+<h3 id="_downloading_the_frontend"><a class="anchor" href="#_downloading_the_frontend"></a>Downloading the frontend</h3>
+<div class="paragraph">
+<p>You need to download the frontend from the GitHub repository, where the team project was programmed in.
+To do so, first navigate to the folder, where you want to install the frontend on the Raspberry Pi via the cd command.
+Then run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git clone https://github.com/Jonas-Grill/mtp-blockchain.git</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will download the frontend to the specified directory of the Raspberry Pi.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_and_running_the_frontend"><a class="anchor" href="#_building_and_running_the_frontend"></a>Building and running the frontend</h3>
+<div class="paragraph">
+<p>For this step you need to create a skript, which will be used to build and run the frontend.
+To do so, open a terminal window and navigate to the frontend folder in the repository.
+Then run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nano start_frontend.sh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter. This will open the nano editor.
+Now copy the following code into the editor:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>#!/bin/bash
+
+cd frontend //navigate to the frontend folder -&gt; only if skript is not stored in frontend folder directly
+
+npm install
+npm run build
+npm run start</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After you copied the code, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.</p>
+</div>
+<div class="paragraph">
+<p>Now you can start the frontend by running the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sh start_frontend.sh</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_faucet_setup"><a class="anchor" href="#_faucet_setup"></a>Faucet setup</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To start with this setup, you should have installed Node.js on your Raspberry Pi. Please follow these instructions for a faucet setup.
+The faucet requires at least one running Geth node with an unlocked account on the same Pi as the faucet should run on. The node used for the faucet should not be an RPC node.
+The setup for a miner and Geth node is described in the <a href="minerRPCRaspberrySetup.html" class="xref page">Miner and RPC Raspberry Pi</a> section.</p>
+</div>
+<div class="paragraph">
+<p>To use a miner node as a faucet node, you need to change the following lines in the config.toml file of the miner node:
+* Add the following lines to the [Node] section:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>InsecureUnlockAllowed = true
+HTTPHost = "localhost"
+HTTPCors = ["*"]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note down the HTTP port of the miner node. This will be used later in the faucet setup.</p>
+</div>
+<div class="sect2">
+<h3 id="_downloading_the_faucet"><a class="anchor" href="#_downloading_the_faucet"></a>Downloading the faucet</h3>
+<div class="paragraph">
+<p>You need to download the faucet from the GitHub repository, where the team project was programmed in.
+To do so, first navigate to the folder, where you want to install the faucet on the Raspberry Pi via the cd command.
+Then run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git clone https://github.com/Jonas-Grill/mtp-blockchain.git</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will download the faucet to the specified directory of the Raspberry Pi.</p>
+</div>
+<div class="paragraph">
+<p>Next, you need to configure the faucet.
+To do so, open the terminal on the Pi and navigate to the faucet folder in the repository.
+Then run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd ./config/dev</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter. This will navigate to the faucet configuration folder.
+Now run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nano .env</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter. This will open the nano editor.
+Now change the following lines in the editor:
+* WEB3_PROVIDER: Change the port to the HTTP port of the used node.
+* FAUCET_STORAGE_CONTRACT_ADDRESS: Change the address to the address of the faucet storage contract. If you didn´t already deploy the faucet storage contract, you need to come back to this step later.
+* UNLOCKED_ACCOUNT: Change the address to the address of the unlocked account on the used node.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_and_running_the_faucet"><a class="anchor" href="#_building_and_running_the_faucet"></a>Building and running the faucet</h3>
+<div class="paragraph">
+<p>For this step you need to create a script, which will be used to build and run the faucet.
+To do so, open a terminal window and navigate to the faucet folder in the repository.
+Then run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nano start_faucet.sh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter. This will open the nano editor.
+Now copy the following code into the editor:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>#!/bin/bash
+
+cd faucet //navigate to the faucet folder -&gt; only if skript is not stored in faucet folder directly
+
+npm install
+npm run dev</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After you copied the code, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.</p>
+</div>
+<div class="paragraph">
+<p>Now you can start the faucet by running the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sh start_faucet.sh</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

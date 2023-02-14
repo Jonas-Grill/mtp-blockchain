@@ -29,7 +29,7 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../index.html">index.adoc</a>
+    <a class="nav-link" href="../index.html">Home</a>
   </li>
 </ul>
   </li>
@@ -59,13 +59,25 @@
     <span class="nav-text">For Lecturers</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="raspberry.html">Raspberry Pi Setup</a>
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="raspberry.html">Raspberry Pi setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="basicRaspberrySetup.html">Basic Raspberry Pi setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="frontendFaucetRaspberrySetup.html">Frontend &amp; Faucet Raspberry Pi setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="minerRPCRaspberrySetup.html">Miner Node &amp; RPC Node Raspberry Pi setup</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="newSemester.html">Start a new semester</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="addAdminAddress.html">Add admin address</a>
+    <a class="nav-link" href="adminFunctions.html">Admin functions</a>
   </li>
 </ul>
   </li>
@@ -74,7 +86,7 @@
     <span class="nav-text">For Developers</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="#frontent.adoc">Frontend &amp; Blockchain interaction</a>
+    <a class="nav-link" href="../forDevelopers/frontend.html">Frontend &amp; Blockchain interaction</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../forDevelopers/smartcontracts.html">Knowledge Base - Smart contracts</a>
@@ -124,12 +136,14 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This will be a step-by-step guide on how you get a new semester with new students up and running.</p>
+<p>This will be a step-by-step guide on how you get a new semester with new students up and running.
+If you want a short overview of the process, please scroll down to the end of this page to look at a flow chart of the process.
+If you want to learn more about the admin functions, please check the <a href="adminFunctions.html" class="xref page">Admin functions page</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_log_in_as_admin_on_knowledge_base"><a class="anchor" href="#_log_in_as_admin_on_knowledge_base"></a>Log in as admin on Knowledge Base</h2>
+<h2 id="_step_1_log_in_as_admin_on_knowledge_base"><a class="anchor" href="#_step_1_log_in_as_admin_on_knowledge_base"></a>Step 1: Log in as admin on Knowledge Base</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>To be able to see all the admin functions to create a new semester on Knowledge Base you have to log in with your Metamask account that is registered as an admin account.</p>
@@ -137,7 +151,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_new_semester_on_knowledge_base"><a class="anchor" href="#_create_a_new_semester_on_knowledge_base"></a>Create a new semester on Knowledge Base</h2>
+<h2 id="_step_2_create_a_new_semester_on_knowledge_base"><a class="anchor" href="#_step_2_create_a_new_semester_on_knowledge_base"></a>Step 2: Create a new semester on Knowledge Base</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>To create a new semester on Knowledge Base you have to go to the Semester section and click on the button "Create new semester".
@@ -149,7 +163,8 @@ Then you are asked to type in the following information:</p>
 <p>Type in the name of the semester.</p>
 </li>
 <li>
-<p>Specify the starting block of the assignment. The students won´t see a time slot for the assignment but only the starting and end block. Students have to manually calculate the time slot for the assignment.</p>
+<p>Specify the starting block of the assignment. The students won´t see a time slot for the assignment but only the starting and end block.
+Students have to manually calculate the time slot for the assignment.</p>
 </li>
 <li>
 <p>Specify the end block of the assignment.</p>
@@ -159,10 +174,26 @@ Then you are asked to type in the following information:</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>Then press the "Create semester"-Button. The semester is now created, and you can add assignments to it.
+You should be able to see the new semester in the semester overview. The list is sorted, so that the newest semester is on top.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_how_to_deploy_a_new_validator_contract"><a class="anchor" href="#_how_to_deploy_a_new_validator_contract"></a>How to deploy a new validator contract</h2>
+<h2 id="_step_2_1_change_a_semester_on_knowledge_base"><a class="anchor" href="#_step_2_1_change_a_semester_on_knowledge_base"></a>Step 2.1: Change a semester on Knowledge Base</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can change every parameter of a semester, so name, starting block, end block and coin amount needed for the exam.
+But please be careful when changing the starting block or the end block of a semester when you already created assignments for it,
+because, the assignments should still be in the same time slot as the semester.
+Knowledge Base will give out a notification if you would cause an assignment to be out of the time slot of the semester, once you tried to save the changes.
+You need to change the timeslot of the affected assignments first, before you can change the timeslot of the semester.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_3_how_to_deploy_a_new_validator_contract"><a class="anchor" href="#_step_3_how_to_deploy_a_new_validator_contract"></a>Step 3: How to deploy a new validator contract</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>If you want to create a semester with new assignments, there need to be validator contracts that check the solutions that are submitted by the students.
@@ -174,7 +205,7 @@ To deploy such a validator contract you have to</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_assignments_or_use_existing_ones_on_knowledge_base"><a class="anchor" href="#_create_assignments_or_use_existing_ones_on_knowledge_base"></a>Create assignments or use existing ones on Knowledge Base</h2>
+<h2 id="_step_4_create_assignments_or_on_knowledge_base"><a class="anchor" href="#_step_4_create_assignments_or_on_knowledge_base"></a>Step 4: Create assignments or on Knowledge Base</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>If you want to add a new assignment on Knowledge Base you have to go to the section "Assignments" and press the "Add new Assignment"-Button.
@@ -183,14 +214,15 @@ Then you are asked to type in the following information:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Select the semester you want to add the assignment to. This way you can also add an existing assignment to a new semester.
+<p>Select the semester you want to add the assignment to.
 Please keep in mind that the semester has to be created before you can add an assignment to it.</p>
 </li>
 <li>
 <p>Type in the name of the assignment.</p>
 </li>
 <li>
-<p>Provide the link to the assignment task. This link will lead to a pdf document which contains the instructions for the task of the assignment.</p>
+<p>Provide the link to the assignment task.
+This link should lead to a pdf document which contains the instructions for the task of the assignment.</p>
 </li>
 <li>
 <p>Insert the contract address of the contract that will validate the solutions handed in by the students. This contract should have been deployed by this point.</p>
@@ -203,10 +235,27 @@ Please keep in mind that the semester has to be created before you can add an as
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>Then press the "Create assignment"-Button. The assignment is now created, and you should be able to see it in the assignment overview.</p>
+</div>
+<div class="paragraph">
+<p>Keep in mind, that it is not possible to create a new assignment with a validator contract that is already used by another assignment.
+You can use the same code, but need to deploy it again, so that it has a different address.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_survey_on_ilias"><a class="anchor" href="#_create_a_survey_on_ilias"></a>Create a survey on ILIAS</h2>
+<h2 id="_step_4_1_change_an_assignment_on_knowledge_base"><a class="anchor" href="#_step_4_1_change_an_assignment_on_knowledge_base"></a>Step 4.1: Change an assignment on Knowledge Base</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can change every parameter of an assignment, so name, link to the task, contract address, starting block and end block.
+But please be careful when changing the starting block or the end block of an assignment, because, the assignment should still be in the same time slot as the semester.
+Knowledge Base will give out a notification if you would cause an assignment to be out of the time slot of the semester, once you tried to save the changes.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_5_create_a_survey_on_ilias"><a class="anchor" href="#_step_5_create_a_survey_on_ilias"></a>Step 5: Create a survey on ILIAS</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>To gather the needed student data and comply to the data privacy rules of the University of Mannheim you have to use ILIAS as a data source.
@@ -225,14 +274,51 @@ To do so, you have to create a survey on ILIAS. The survey should contain the fo
 </div>
 </div>
 <div class="sect1">
-<h2 id="_upload_the_student_data_to_knowledge_base"><a class="anchor" href="#_upload_the_student_data_to_knowledge_base"></a>Upload the student data to Knowledge Base</h2>
+<h2 id="_step_6_upload_the_student_data_to_knowledge_base"><a class="anchor" href="#_step_6_upload_the_student_data_to_knowledge_base"></a>Step 6: Upload the student data to Knowledge Base</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Once the survey is completed, you can export the results as csv. Please copy the content from the csv. Then go to Knowledge Base to the Knowledge Overview (you still need to be signed in via an admin address).
-Then paste the content you copied from the csv in the text field. Press the Show data button.
-You will see a list of every student id with its corresponding wallet address and the Knowledge they earned.
-You may also see, whether the student has passed or failed with their current Knowledge amount.
-If you want to have a list of all students, you can export an excel-sheet via clicking the export .xls button.</p>
+<p>Once the survey on ILIAS is completed, you can export the results as csv.
+Now you can either check the Knowledge of one student or many students at once.</p>
+</div>
+<div class="paragraph">
+<p>To check the Knowledge of one student, you have to go to the section "Coin overview" and type in the student id (optional) and the wallet address of the student.
+The student id is optional, but can be used for convenience to have a better overview.</p>
+</div>
+<div class="paragraph">
+<p>To check the Knowledge of many students at once, you have to upload a csv file with the student data.
+The csv file needs to have the format "student id,wallet address". You also have the option to download an example csv file.
+To upload a file, click the "Choose file"-Button and select the csv file you want to upload.
+Then press the "Check Knowledge of course"-Button.
+You will get a csv file back with the following information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>student id</p>
+</li>
+<li>
+<p>wallet address</p>
+</li>
+<li>
+<p>Current Knowledge</p>
+</li>
+<li>
+<p>Passed or failed</p>
+</li>
+<li>
+<p>Knowledge per assignment</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_flowchart_of_the_process"><a class="anchor" href="#_flowchart_of_the_process"></a>Flowchart of the process</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="_images/Team%20Project-Lecturer.drawio.png" alt="Team Project Lecturer.drawio">
+</div>
 </div>
 </div>
 </div>
