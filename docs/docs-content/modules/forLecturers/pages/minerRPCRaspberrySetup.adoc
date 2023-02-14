@@ -1,0 +1,490 @@
+== Miner & RPC Raspberry Pi setup
+
+Before you can start with the setup of a miner or RPC node you need to complete the basic Raspberry Pi setup. If you haven’t done so yet, please follow the instructions in the xref:basicRaspberrySetup.adoc[Basic Raspberry Pi] section.
+You can either work directly on the Raspberry Pi or use a remote connection via SSH as described earlier in the xref:basicRaspberrySetup.adoc[Basic Raspberry Pi] section.
+This guide is describing the process
+
+== Getting the IP-Address of the Pi
+
+Now you need to open a terminal on the Pi and type:
+----
+ifconfig
+----
+and press enter. You will see a lot of information about your Pi.
+In the wlan0 (for WiFi) / eth0 (for ethernet connection) section you will see the IP-Address of your Pi after "inet". Please write this down, as you will need it later.
+
+=== Installing GO
+
+Now you need to install GO on your Pi. First you should navigate to the folder, where you want to download the installation files to. Then, open the terminal and type:
+----
+wget -c https://golang.org/dl/go1.19.5.linux-armv6l.tar.gz
+----
+and press enter to download GO.
+
+Then type:
+----
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.19.5.linux-armv6l.tar.gz
+----
+and press enter to install GO.
+
+Then type:
+----
+cd
+----
+and press enter to navigate to the home directory.
+
+Then type:
+----
+nano .profile
+----
+and press enter to open the .profile file. The .profile file gets executed at the launch of a login bash shell.
+
+Then scroll down to the bottom of the file and add the following lines:
+----
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+----
+and press CTRL+S and then CTRL+X.
+
+Then type:
+----
+sudo reboot now
+----
+and press enter. The Pi will now reboot.
+
+Once the Pi is rebooted, you need to open the terminal again and type:
+----
+go version
+----
+and press enter. You should see the version of go you installed. If not, please repeat the steps above. If it is correct, you can continue.
+
+=== Installing geth
+
+Now you need to install geth on your Pi. To do this, please open the terminal and type:
+----
+go install github.com/ethereum/go-ethereum/cmd/geth@latest
+----
+and press enter to install geth.
+
+Then type:
+----
+cd
+----
+and press enter to navigate to the home directory.
+
+Then type:
+----
+nano .profile
+----
+and press enter.
+
+Then scroll down to the bottom of the file and add the following line under the lines you already added for GO:
+----
+export PATH=$PATH:$GOPATH/bin
+----
+and press CTRL+S and then CTRL+X.
+
+Then type:
+----
+sudo reboot now
+----
+and press enter. The Pi will now reboot.
+
+== Installing pupeth :( TODO
+
+== Setting up a geth node
+
+This step is still relevant for both miners and RPC nodes. Please follow the steps below to set up a geth node.
+First you need to create a folder for the node. To do this, please open the terminal and type:
+----
+cd
+----
+and press enter to navigate to the home directory.
+
+Then type:
+----
+mkdir unima
+----
+and press enter to create the folder.
+
+Then type:
+----
+cd unima
+----
+and press enter to navigate to the unima folder.
+
+Then type:
+----
+mkdir node1
+----
+and press enter to create the node1 folder. You can replace the 1 with the number of the Pi you are setting up. For example, if you are setting up Pi 2, you would type:
+----
+mkdir node2
+----
+and press enter.
+
+You can either create a new account or import an existing one. If you want to create a new account, please type:
+----
+geth --datadir node1 account new
+----
+and press enter. You will then be asked to enter a password. Please enter a password and press enter.
+You will then see the address of the account. Please write this down, as you will need it later.
+
+If you want to import an existing account, please type:
+----
+cd node1
+----
+and press enter. Then type:
+----
+mkdir keystore
+----
+and press enter. Then type:
+----
+cd keystore
+----
+and press enter. Then copy the keystore file of your account to this folder.
+
+Now a .txt file needs to be created to store the password of the account. For this navigate to the node folder. Then type:
+----
+nano password.txt
+----
+and press enter. Then enter the password of the account and press CTRL+S and CTRL+X.
+Next you need to copy your genesis.json file to the unima folder. Please keep in mind, that the genesis file needs to be the same for every node in your network.
+If you don´t already have a genesis file, you have to create one.
+Now you need to initialize the node. To do this, please type:
+----
+geth --datadir node1 init genesis.json
+----
+and press enter.
+
+Next, you need to create a config.toml file. To do this, please type:
+----
+nano config.toml
+----
+and press enter. Now the specifications are different for a <<Miner Node>> and <<RPC Node>>.
+Please use the links to navigate to the guide for the node you want to set up.
+
+=== Miner Node
+
+In the config.toml file you need to add the following lines:
+----
+[Eth]
+NetworkId = 1337
+SyncMode = "full"
+EthDiscoveryURLs = []
+SnapDiscoveryURLs = []
+NoPruning = false
+NoPrefetch = false
+TxLookupLimit = 2350000
+LightPeers = 100
+UltraLightFraction = 75
+DatabaseCache = 341
+DatabaseFreezer = ""
+TrieCleanCache = 102
+TrieCleanCacheJournal = "triecache"
+TrieCleanCacheRejournal = 3600000000000
+TrieDirtyCache = 170
+TrieTimeout = 3600000000000
+SnapshotCache = 68
+Preimages = false
+FilterLogCacheSize = 32
+EnablePreimageRecording = false
+RPCGasCap = 50000000
+RPCEVMTimeout = 5000000000
+RPCTxFeeCap = 1e+00
+
+[Eth.Miner]
+GasFloor = 0
+GasCeil = 30000000
+GasPrice = 1
+Recommit = 3000000000
+Noverify = false
+
+[Eth.Ethash]
+CacheDir = "ethash"
+CachesInMem = 2
+CachesOnDisk = 3
+CachesLockMmap = false
+DatasetDir = "/home/unima/.ethash"
+DatasetsInMem = 1
+DatasetsOnDisk = 2
+DatasetsLockMmap = false
+PowMode = 0
+NotifyFull = false
+
+[Eth.TxPool]
+Locals = []
+NoLocals = false
+Journal = "transactions.rlp"
+Rejournal = 3600000000000
+PriceLimit = 1
+PriceBump = 10
+AccountSlots = 16
+GlobalSlots = 5120
+AccountQueue = 64
+GlobalQueue = 1024
+Lifetime = 10800000000000
+
+[Eth.GPO]
+Blocks = 20
+Percentile = 60
+MaxHeaderHistory = 1024
+MaxBlockHistory = 1024
+MaxPrice = 500000000000
+IgnorePrice = 2
+
+[Node]
+DataDir = "node1"
+IPCPath = "geth.ipc"
+HTTPPort = 8501
+HTTPVirtualHosts = ["localhost"]
+HTTPModules = ["eth", "net", "web3"]
+AuthAddr = "localhost"
+AuthPort = 8551
+AuthVirtualHosts = ["localhost"]
+WSPort = 8546
+WSModules = ["net", "web3", "eth"]
+GraphQLVirtualHosts = ["localhost"]
+
+[Node.P2P]
+MaxPeers = 50
+NoDiscovery = true
+BootstrapNodes = []
+BootstrapNodesV5 = []
+StaticNodes = []
+TrustedNodes = []
+ListenAddr = ":30311"
+DiscAddr = ""
+EnableMsgEvents = false
+
+[Node.HTTPTimeouts]
+ReadTimeout = 30000000000
+ReadHeaderTimeout = 30000000000
+WriteTimeout = 30000000000
+IdleTimeout = 120000000000
+
+[Metrics]
+HTTP = "127.0.0.1"
+Port = 6060
+InfluxDBEndpoint = "http://localhost:8086"
+InfluxDBDatabase = "geth"
+InfluxDBUsername = "test"
+InfluxDBPassword = "test"
+InfluxDBTags = "host=localhost"
+InfluxDBToken = "test"
+InfluxDBBucket = "geth"
+InfluxDBOrganization = "geth"
+----
+You need to change the following lines:
+
+* NetworkId to the network ID you want to use. This needs to be the same for every node in your network and the same as in the genesis file.
+* DataDir to the name of the folder you created in the beginning. For example, if you created a folder called "node1", you would type:
+----
+DataDir = "node1"
+----
+* ListenAddr to the port you want to use. This is the port, that the node uses, to communicate with the peers in the P2P network.
+For example, if you want to use port 30311, you would type:
+----
+ListenAddr = ":30311"
+----
+The port needs to be unlocked in your firewall.
+If you did not already add the port, you can check the part in the guide about the xref:basicRaspberrySetup.adoc#_installing_a_firewall[firewall].
+Now press CTRL+S and CTRL+X to save and exit the file.
+
+Then you need to create a script to start the miner node. To do this, please type:
+----
+nano start_node_1.sh
+----
+and press enter. Now you need to add the following lines:
+----
+#!/bin/bash
+
+geth --unlock <node address> \
+     --mine \
+     --miner.threads 1 \
+     --password node1/password.txt \
+     --config config.toml \
+----
+You need to change the node address to the address of the account you created in the beginning.
+For example, if you created an account with the address "0x1234567890abcdef1234567890abcdef12345678", you would type:
+----
+geth --unlock 0x1234567890abcdef1234567890abcdef12345678 \
+----
+Now press CTRL+S and CTRL+X to save and exit the file.
+To continue the setup, please go to <<_setting_up_the_p2p_network>>.
+
+=== RPC Node
+
+In the config.toml file you need to add the following lines:
+----
+[Eth]
+NetworkId = 1337
+SyncMode = "full"
+EthDiscoveryURLs = []
+SnapDiscoveryURLs = []
+NoPruning = false
+NoPrefetch = false
+TxLookupLimit = 2350000
+LightPeers = 100
+UltraLightFraction = 75
+DatabaseCache = 341
+DatabaseFreezer = ""
+TrieCleanCache = 102
+TrieCleanCacheJournal = "triecache"
+TrieCleanCacheRejournal = 3600000000000
+TrieDirtyCache = 170
+TrieTimeout = 3600000000000
+SnapshotCache = 68
+Preimages = false
+FilterLogCacheSize = 32
+EnablePreimageRecording = false
+RPCGasCap = 50000000
+RPCEVMTimeout = 5000000000
+RPCTxFeeCap = 1e+00
+
+[Eth.Ethash]
+CacheDir = "ethash"
+CachesInMem = 2
+CachesOnDisk = 3
+CachesLockMmap = false
+DatasetDir = "/home/unima/.ethash"
+DatasetsInMem = 1
+DatasetsOnDisk = 2
+DatasetsLockMmap = false
+PowMode = 0
+NotifyFull = false
+
+[Eth.TxPool]
+Locals = []
+NoLocals = false
+Journal = "transactions.rlp"
+Rejournal = 3600000000000
+PriceLimit = 1
+PriceBump = 10
+AccountSlots = 16
+GlobalSlots = 5120
+AccountQueue = 64
+GlobalQueue = 1024
+Lifetime = 10800000000000
+
+[Eth.GPO]
+Blocks = 20
+Percentile = 60
+MaxHeaderHistory = 1024
+MaxBlockHistory = 1024
+MaxPrice = 500000000000
+IgnorePrice = 2
+
+[Node]
+DataDir = "node1"
+IPCPath = "geth.ipc"
+HTTPHost = "134.567.890.123"
+HTTPPort = 8506
+HTTPCors = ["*"]
+HTTPVirtualHosts = ["localhost"]
+HTTPModules = ["eth", "net", "web3"]
+AuthAddr = "localhost"
+AuthPort = 8551
+AuthVirtualHosts = ["localhost"]
+WSHost = ""
+WSPort = 8546
+WSModules = ["net", "web3", "eth"]
+GraphQLVirtualHosts = ["localhost"]
+
+[Node.P2P]
+MaxPeers = 50
+NoDiscovery = true
+BootstrapNodes = []
+BootstrapNodesV5 = []
+StaticNodes = []
+TrustedNodes = []
+ListenAddr = ":30316"
+DiscAddr = ""
+EnableMsgEvents = false
+
+[Node.HTTPTimeouts]
+ReadTimeout = 30000000000
+ReadHeaderTimeout = 30000000000
+WriteTimeout = 30000000000
+IdleTimeout = 120000000000
+
+[Metrics]
+HTTP = "127.0.0.1"
+Port = 6060
+InfluxDBEndpoint = "http://localhost:8086"
+InfluxDBDatabase = "geth"
+InfluxDBUsername = "test"
+InfluxDBPassword = "test"
+InfluxDBTags = "host=localhost"
+InfluxDBToken = "test"
+InfluxDBBucket = "geth"
+InfluxDBOrganization = "geth"
+----
+
+You need to change the following lines:
+
+* NetworkId to the network ID you want to use. This needs to be the same for every node in your network and the same as in the genesis file.
+* DataDir to the name of the folder you created in the beginning. For example, if you created a folder called "node1", you would type:
+----
+DataDir = "node1"
+----
+* HTTPHost to the IP address of the Pi. For example, if the IP address of the Pi is 134.567.890.123, you would type:
+----
+HTTPHost = "134.567.890.123"
+----
+* HTTPPort to the port you want to use. This is the port, on which the node opens the RPC API.
+For example, if you want to use port 8506, you would type:
+----
+HTTPPort = 8506
+----
+* ListenAddr to the port you want to use. This is the port, that the node uses, to communicate with the peers in the P2P network.
+For example, if you want to use port 30311, you would type:
+----
+ListenAddr = ":30311"
+----
+The port for the ListenAddr and the HTTPPort need to be unlocked in your firewall.
+If you did not already add the ports, you can check the part in the guide about the xref:basicRaspberrySetup.adoc#_installing_a_firewall[firewall].
+Now press CTRL+S and CTRL+X to save and exit the file.
+Please continue with <<_setting_up_the_p2p_network>>.
+
+== Setting up the P2P Network
+
+This step is both for the RPC nodes and the miner nodes.
+First, you need to copy the enode of the node you want to connect to.
+To do this, you need to first start the node. To do this, open the terminal and type:
+----
+sh start_node1.sh
+----
+This will start the node. In this case, node1.
+Then press CTRL+C to stop the node.
+You will again see a lot of information. You need to copy the enode. The enode is shown in quotation marks after "self=".
+For example, if the enode is:
+----
+enode://6f8a80d14311c39f35f516fa664deaaaa13e85b2f7493f37f6144d86991ec012937307647bd3b9a82abe2974e1407241d54947bbb39763a4cac9f77166ad92a0@127.0.0.1:30311?discport=0
+----
+you would note down:
+----
+"enode://6f8a80d14311c39f35f516fa664deaaaa13e85b2f7493f37f6144d86991ec012937307647bd3b9a82abe2974e1407241d54947bbb39763a4cac9f77166ad92a0@<IP-Address>:30311?discport=0"
+----
+The IP-Address needs to be changed to the IP-Address of the Raspberry Pi you want to set up.
+To find out the IP-Address of the Pi, you can check the part in the guide about the xref:basicRaspberrySetup.adoc#_getting_the_ip_address_of_the_raspberry_pi[IP-Address].
+
+Please do all the steps before for every miner and RPC node of the P2P network you want to set up, so that the list of enodes is complete and up-to-date.
+Then you can go on with the following steps for each node.
+
+Go back to the terminal and type:
+----
+nano config.toml
+----
+and press enter. Then scroll down to [Node.P2P]. After "StaticNodes = [" paste the enodes you copied.
+Separate the enodes with a comma. The enodes need to be in quotation marks as shown in the example above.
+Then press CTRL+S and CTRL+X.
+
+The Raspberry Pi is now all set to be a node.
+You can now start every node by typing:
+----
+sh start_node1.sh
+----
+This will start the node. In this case, node1. The nodes will now start to connect to each other and sync the blockchain.
+You can connect to the blockchain by using the IP-Address and port of the RPC API.
+For more information on the RPC API in general, please check https://geth.ethereum.org/docs/interacting-with-geth/rpc[this].

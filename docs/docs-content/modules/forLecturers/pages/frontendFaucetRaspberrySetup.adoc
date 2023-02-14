@@ -1,0 +1,154 @@
+= Frontend & Faucet Raspberry Pi setup
+
+Before you can start with the setup of the frontend and the faucet, you need to complete the basic Raspberry Pi setup. If you haven’t done so yet, please follow the instructions in the xref:basicRaspberrySetup.adoc[Basic Raspberry Pi] section.
+You can either work directly on the Raspberry Pi or use a remote connection via SSH as described earlier in the xref:basicRaspberrySetup.adoc[Basic Raspberry Pi] section.
+
+== Installing NVM and Node.js
+
+The frontend and the faucet are written in Node.js. Therefore, you need to install Node.js on your Raspberry Pi.
+To make the installation easier, we will use the Node Version Manager (NVM).
+NVM allows you to install multiple versions of Node.js and switch between them.
+
+=== Installing NVM
+
+To install NVM, open a terminal window and run the following commands:
+----
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+----
+This will download and run the NVM installation script.
+After the installation is complete, you need to restart the Raspberry Pi.
+To do so, run the following command:
+----
+sudo reboot now
+----
+Now you can check if NVM is installed correctly by opening a terminal window and running the following command:
+----
+nvm --version
+----
+If the installation was successful, you should see the version number of NVM.
+
+=== Installing Node.js
+
+To install Node.js, run the following command:
+----
+nvm install 19.3.0
+----
+This will install Node.js version 19.3.0.
+
+To make nvm use this version by default, run the following command:
+----
+nvm use 19.3.0
+----
+Now you can check if Node.js is installed correctly by running the following command:
+----
+node --version
+----
+If the installation was successful, you should see the version number of Node.js.
+
+== Frontend setup
+
+At this point the setup of the frontend and faucet differentiate, so please follow this guide for a frontend setup on the Raspberry Pi.
+
+
+=== Downloading the frontend
+
+You need to download the frontend from the GitHub repository, where the team project was programmed in.
+To do so, first navigate to the folder, where you want to install the frontend on the Raspberry Pi via the cd command.
+Then run the following command:
+----
+git clone https://github.com/Jonas-Grill/mtp-blockchain.git
+----
+This will download the frontend to the specified directory of the Raspberry Pi.
+
+=== Building and running the frontend
+
+For this step you need to create a skript, which will be used to build and run the frontend.
+To do so, open a terminal window and navigate to the frontend folder in the repository.
+Then run the following command:
+----
+nano start_frontend.sh
+----
+and press enter. This will open the nano editor.
+Now copy the following code into the editor:
+----
+#!/bin/bash
+
+cd frontend //navigate to the frontend folder -> only if skript is not stored in frontend folder directly
+
+npm install
+npm run build
+npm run start
+----
+After you copied the code, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.
+
+Now you can start the frontend by running the following command:
+----
+sh start_frontend.sh
+----
+
+== Faucet setup
+
+To start with this setup, you should have installed Node.js on your Raspberry Pi. Please follow these instructions for a faucet setup.
+The faucet requires at least one running Geth node with an unlocked account on the same Pi as the faucet should run on. The node used for the faucet should not be an RPC node.
+The setup for a miner and Geth node is described in the xref:minerRPCRaspberrySetup.adoc[Miner and RPC Raspberry Pi] section.
+
+To use a miner node as a faucet node, you need to change the following lines in the config.toml file of the miner node:
+* Add the following lines to the [Node] section:
+----
+InsecureUnlockAllowed = true
+HTTPHost = "localhost"
+HTTPCors = ["*"]
+----
+Note down the HTTP port of the miner node. This will be used later in the faucet setup.
+
+=== Downloading the faucet
+
+You need to download the faucet from the GitHub repository, where the team project was programmed in.
+To do so, first navigate to the folder, where you want to install the faucet on the Raspberry Pi via the cd command.
+Then run the following command:
+----
+git clone https://github.com/Jonas-Grill/mtp-blockchain.git
+----
+This will download the faucet to the specified directory of the Raspberry Pi.
+
+Next, you need to configure the faucet.
+To do so, open the terminal on the Pi and navigate to the faucet folder in the repository.
+Then run the following command:
+----
+cd ./config/dev
+----
+and press enter. This will navigate to the faucet configuration folder.
+Now run the following command:
+----
+nano .env
+----
+and press enter. This will open the nano editor.
+Now change the following lines in the editor:
+* WEB3_PROVIDER: Change the port to the HTTP port of the used node.
+* FAUCET_STORAGE_CONTRACT_ADDRESS: Change the address to the address of the faucet storage contract. If you didn´t already deploy the faucet storage contract, you need to come back to this step later.
+* UNLOCKED_ACCOUNT: Change the address to the address of the unlocked account on the used node.
+
+=== Building and running the faucet
+
+For this step you need to create a script, which will be used to build and run the faucet.
+To do so, open a terminal window and navigate to the faucet folder in the repository.
+Then run the following command:
+----
+nano start_faucet.sh
+----
+and press enter. This will open the nano editor.
+Now copy the following code into the editor:
+----
+#!/bin/bash
+
+cd faucet //navigate to the faucet folder -> only if skript is not stored in faucet folder directly
+
+npm install
+npm run dev
+----
+After you copied the code, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.
+
+Now you can start the faucet by running the following command:
+----
+sh start_faucet.sh
+----
