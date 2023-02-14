@@ -16,3 +16,10 @@ exports.hasStudentsPassedSemester = async (web3, studentAddresses, semesterId) =
 
     return await account.hasStudentsPassedSemester(studentAddresses, semesterId);
 }
+
+// CSV passed semester > return csv of addresses which passed
+exports.hasStudentsPassedSemesterCSV = async (web3, csv, semesterId) => {
+    const account = new accountHandler.NOWAccount(web3);
+
+    return await account.hasStudentsPassedSemesterCSV(csv, semesterId);
+}
