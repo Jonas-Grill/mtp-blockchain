@@ -205,9 +205,9 @@ As we call function from other contracts it is possible that the function is not
 
 If this happens the validator will log a `revert` and will completels stop the exection. This results in the fact that the student cannot submit the assignment. Even if only 1 function of 20 is missing he student will not be able to submit the assignment and will receive 0 points. 
 
-To solve this it is possible to call functions using the solidity assembly command. 
+To solve this it is possible to call functions using the solidity assembly command.  
 
-The `BaseValidator.sol` contract contains the `hasFunction` function. This function takes the following parameters:
+The `BaseValidator.sol` contract contains the `hasFunction` function which uses the assembly function. This function takes the following parameters:
 
 * `address _contractAddress` - The address of the contract
 * `string memory _functionName` - The name of the function
