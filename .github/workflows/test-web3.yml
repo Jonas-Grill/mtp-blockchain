@@ -1,6 +1,7 @@
 name: Run web3 tests
 on:
   push:
+    branches: [main]
     paths:
       - frontend/web3/**
 
