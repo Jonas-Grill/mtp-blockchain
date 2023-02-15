@@ -131,7 +131,7 @@ If the student is happy with the result he can call the `submit(address)` functi
 
 The contract needs to be:
 
-* Deployed and submitted in block range of the assignment
+* Deployed and submitted in block range of the assignment (plus 6 days of grace period)
 * The student needs to be the owner of the contract
 * No other submission is registered for this assignment by the `msg.sender`
 
@@ -150,3 +150,71 @@ To ensure that the student who submits the assignment is really the owner of the
 === Admin
 
 It is possible to remove an already submitted Assignment by calling the `removeSubmittedAssignment(address)` function. This function is of course restricted to user or contract admins. The function will remove the assignment from the mapping and the student can submit the assignment again. BUT the student will also lose the tokens he already earned (`burn` function used).
+
+=== Create a new validator contract
+
+Here a small explanation is given how to create a new validator contract.
+
+1. Create a new smart contract and inherit it from the `BaseValidator.sol` contract. The `BaseValidator.sol` contract is the base contract for all validators. It contains the basic functions and variables.
+
+2. Make sure to pass all the required parameters to the `BaseValidator.sol` constructor. The `BaseValidator.sol` constructor takes the following parameters:
+
+* `address _configContractAddress` - The address of the `ConfigStorage.sol` contract
+* `string _contractName` - The name of the contract (used so that admins know which contract they are interacting with)
+* `uint _requiredEther` - The amount of ether the validator needs to be able to test. So e.g. if the validator needs to test a payable function which requires 0.5 ETH, this value should be at least 0.5 ETH.
+3. Override the `test` function and create a new test history by call the `createTestHistory` function
+
+* This function creates a new test entry and stores the results. It returns the index of the test. 
+* !IMPORTANT! The `createTestHistory` function needs to be called at the begining of the `test` function and the return value of the `createTestHistory` needs to be returned by the `test` function.
+
+4. In the test function different tests can be executed. How the tests are setup depends on the assignment.
+
+* When testing the code the validator contract can log failed or passed tests using the `appendTestResult()` function. This function takes the following parameters: 
+
+* `string memory _name` - The name of the test
+* `bool _result` - The result of the test (true = passed, false = failed)
+* `uint256 _points` - The amount of points the student receives if the test is passed
+
+* The `appendTestResult` function can be called multiple times. The results will be stored in the test history and can be accessed by the test id.
+
+* The `appendTestResult` function can also be used to log the reason why a test failed. The reason can be accessed by the test id.
+
+No additonal steps are required. The validator contract is now ready to be used. It is usefull to give proper explanation why a test failed. This will help the student to understand why a test failed and how he can fix it.
+
+==== Common errors
+
+===== Contract exceed maximum size
+
+The description above is the basic description of how the validator works. There are some extra features which are not required but can be used. The validator can easily exceed the maximum allowed size, therefore it is recommended to split the _base_ validator into different contracts. 
+
+This can be done by creating a new contract and inherit it from the `BaseConfig`. Here it is important to register this contract as an admin. This can be done by calling the `initAdmin` function. The `initAdmin` function takes the following parameters:
+
+* `address _configContractAddress` - The address of the `ConfigStorage.sol` contract
+* `string memory _name` - The name of the contract (used so that admins know which contract they are interacting with)
+
+Further a function can than be added that runs the tests and returns a e.g. boolean value. This function can be called by the `test` function of the base validator contract. This way the `test` function of the `BaseValidator.sol` contract can be kept small and the validator can be split into multiple contracts.
+
+===== Function is not found
+
+As we call function from other contracts it is possible that the function is not found. This can be caused by the following reasons:
+
+* The function is not public
+* The function is misspelled
+* The function uses the wrong input parameters
+* The function uses the wrong output parameters
+
+If this happens the validator will log a `revert` and will completels stop the exection. This results in the fact that the student cannot submit the assignment. Even if only 1 function of 20 is missing he student will not be able to submit the assignment and will receive 0 points. 
+
+To solve this it is possible to call functions using the solidity assembly command. 
+
+The `BaseValidator.sol` contract contains the `hasFunction` function. This function takes the following parameters:
+
+* `address _contractAddress` - The address of the contract
+* `string memory _functionName` - The name of the function
+* `string memory ethValue` - The amount of ether required to call the function
+
+The `hasFunction` function will return true if the function exists and false if the function does not exist. This function can be used to check if a function exists and if it exists it can be called using the solidity assembly command.
+
+**!!! IMPORTANT !!!**
+
+The `hasFunction` is not only checking if the function exsists but it also executes this function. So if the function returns true we know that no revert will be thrown. This allows us then to call the same function "normaly" and store the test results. Unfounately this also means that the function will be executed twice. This can be a problem if the function is not idempotent. So if the function is not idempotent it is not possible to use the `hasFunction` function.
