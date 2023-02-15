@@ -1,6 +1,7 @@
 name: Run truffle tests
 on:
   push:
+    branches: [main]
     paths:
       - smart-contracts/**
 
