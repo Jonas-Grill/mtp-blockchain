@@ -48,7 +48,7 @@ Ganache allows to view the deployed smart contracts. Make sure the blue box on t
 
 ### 4. Find deployed contract addresses
 
-The API requires that the faucet contract address is defined via env variable. The get the contract address navigate to the "Smart Contract View" (see step #3) and open the `FaucetStorage` contract. Copy the "ADDRESS" and paste it into the `.env` file ([this one](./config/dev/.env)).
+The API requires that the faucet contract address is defined via env variable. The get the contract address navigate to the "Smart Contract View" (see step #3) and open the `FaucetStorage` contract. Copy the "ADDRESS" and paste it into the `.env` file ([this one](config/.env)).
 
 Define also the `UNLOCKED_ACCOUNT` in the `.env` file. This address has to be unlocked and enough ether to execute the sendEth function.
 
