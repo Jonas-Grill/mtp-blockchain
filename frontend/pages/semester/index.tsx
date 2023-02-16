@@ -18,28 +18,32 @@ export type Semester = {
 
 export const loadSemesters = async (web3: any, isAdmin: boolean) => {
     if (web3) {
-        const semesters: Semester[] = [];
-        const ids: string[] = await getSemesterIds(web3);
+        try {
+            const semesters: Semester[] = [];
+            const ids: string[] = await getSemesterIds(web3);
 
-        for (let id of ids) {
-            const semester = await getSemester(web3, id);
+            for (let id of ids) {
+                const semester = await getSemester(web3, id);
 
-            if (semester) {
-                semesters.push({
-                    id: id,
-                    name: semester.name,
-                    startBlock: semester.startBlock,
-                    endBlock: semester.endBlock,
-                    minKnowledgeCoinAmount: semester.minKnowledgeCoinAmount
-                });
+                if (semester) {
+                    semesters.push({
+                        id: id,
+                        name: semester.name,
+                        startBlock: semester.startBlock,
+                        endBlock: semester.endBlock,
+                        minKnowledgeCoinAmount: semester.minKnowledgeCoinAmount
+                    });
+                }
             }
-        }
 
-        if (isAdmin) {
-            return semesters.sort((a, b) => b.startBlock - a.startBlock);
-        } else {
-            const currentBlockNumber = await getCurrentBlockNumber(web3);
-            return semesters.filter(semester => semester.endBlock > currentBlockNumber && semester.startBlock < currentBlockNumber).sort((a, b) => b.startBlock - a.startBlock);
+            if (isAdmin) {
+                return semesters.sort((a, b) => b.startBlock - a.startBlock);
+            } else {
+                const currentBlockNumber = await getCurrentBlockNumber(web3);
+                return semesters.filter(semester => semester.endBlock > currentBlockNumber && semester.startBlock < currentBlockNumber).sort((a, b) => b.startBlock - a.startBlock);
+            }
+        } catch (error) {
+            alert(error)
         }
     }
 }
@@ -98,6 +102,8 @@ export default function SemesterOverview({userAddress}: { userAddress: string })
                 if (result && result !== isUserAdmin) {
                     setIsUserAdmin(result);
                 }
+            }).catch((e) => {
+                alert("Error while checking if user is admin: " + e.message);
             });
         }
     }, [web3, userAddress, isUserAdmin]);

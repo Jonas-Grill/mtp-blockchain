@@ -1,10 +1,8 @@
 import "../styles/globals.css"
 import type {AppProps} from 'next/app'
 import Navbar from "../components/Navbar";
-import {SetStateAction, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {initBlockchain} from "./faucet";
-
-export const FAUCET_URL = "http://192.168.178.67:8080"
 
 export default function MyApp({Component, pageProps}: AppProps) {
     const [userAddress, setUserAddress] = useState("");

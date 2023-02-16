@@ -146,6 +146,8 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                         }
                     });
                 }
+            }).catch((e) => {
+                alert("Error while checking if user is admin: " + e.message);
             });
         }
 

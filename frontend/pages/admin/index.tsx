@@ -25,7 +25,6 @@ import {getFaucetGas, setFaucetGas} from "../../web3/src/entrypoints/config/fauc
 import {getFaucetBalance} from "../../web3/src/entrypoints/account/faucet";
 import {getTimestampFromBlockNumber, getCurrentBlockNumber} from "../../web3/src/entrypoints/utils/utils";
 import Web3 from "web3";
-import {FAUCET_URL} from "../_app";
 
 export default function Admin({userAddress}: { userAddress: string }) {
     const [web3, setWeb3] = useState<any>(undefined);
@@ -182,7 +181,7 @@ export default function Admin({userAddress}: { userAddress: string }) {
                 setFaucetContractBalance(result);
             });
         } else if (faucetApiBalance < 0) {
-            fetch(FAUCET_URL + "/eth", {
+            fetch(process.env.FAUCET_URL + "/eth", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -209,6 +208,8 @@ export default function Admin({userAddress}: { userAddress: string }) {
         if (web3 && userAddress) {
             isAdmin(web3, userAddress).then((result) => {
                 setIsUserAdmin(result);
+            }).catch((e) => {
+                alert("Error while checking if user is admin: " + e.message);
             });
         }
     }, [web3, userAdmins, contractAdmins, userAddress, faucetBlockNoDifference, faucetGas, faucetApiBalance, faucetContractBalance, zeroAddressFilter]);

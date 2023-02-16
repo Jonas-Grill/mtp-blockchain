@@ -79,6 +79,8 @@ export default function Navbar({
                 } else {
                     setNavigation(initialNavItems.filter((item) => !item.admin));
                 }
+            }).catch((e) => {
+                alert("Error while checking if user is admin: " + e.message);
             });
         }
         if (web3) {
