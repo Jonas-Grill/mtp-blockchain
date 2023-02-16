@@ -24,3 +24,6 @@
 
 # ignore custom test dir from elias
 frontend/web3/src/web3/test/*
+
+# Ignore docs
+docs/docs-generator/build/*

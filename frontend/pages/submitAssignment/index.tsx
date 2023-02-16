@@ -31,7 +31,7 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
     const [testResults, setTestResults] = useState<string[][][]>([]);
     const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
 
-    const [submittedAssignment, setSubmittedAssignment] = useState<{ testIndex: string, studentAddress: string, contractAddress: string, knowledgeCoins: string, blockNo: string }>();
+    const [submittedAssignment, setSubmittedAssignment] = useState<{ testIndex: string, studentAddress: string, contractAddress: string, knowledgeCoins: string, blockNo: string, lateSubmission: string }>();
 
 
     const validateTestAndSubmitConditions = () => {
@@ -341,11 +341,13 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                         {
                             submittedAssignment && submittedAssignment.blockNo != "0" ? (
                                 <div className="mt-2 mb-2 grid grid-cols-3 rounded-md shadow shadow-uni p-2">
-                                    <dt className="col-span-2 text-lg font-medium text-uni">Block
-                                        number: {submittedAssignment.blockNo}</dt>
-                                    <dt className="col-span-2 text-lg font-medium text-uni">Coins: {submittedAssignment.knowledgeCoins}</dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni">Submitted Block
+                                        number: <b>{submittedAssignment.blockNo}</b></dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni">NOW coins: <b>{submittedAssignment.knowledgeCoins}</b></dt>
                                     <dt className="col-span-2 text-lg font-medium text-uni">Contract
-                                        address: {submittedAssignment.contractAddress}</dt>
+                                        address: <b>{submittedAssignment.contractAddress}</b></dt>
+                                    <dt className="col-span-2 text-lg font-medium text-uni" >Late Submision: <b style={{color: submittedAssignment.lateSubmission.toString().toString() === "true" ? "red" : "green"}}>{submittedAssignment.lateSubmission.toString()}</b></dt>
+
                                 </div>
                             ) : (
                                 <div className="mt-1 mb-1 ">
@@ -379,10 +381,9 @@ export default function SubmitAssignment({userAddress}: { userAddress: string })
                                             {results.map((testResult, i) => (
                                                 <div key={i}
                                                      className="mt-2 mb-2 grid grid-cols-3 rounded-md shadow shadow-uni p-2">
-                                                    <dt className="col-span-2 text-lg font-medium text-uni">Validator
-                                                        contract test number: {i}</dt>
+                                                    <dt className="col-span-2 text-lg font-medium text-uni">Test number: <b>{i}</b></dt>
                                                     <dt className="col-span-2 text-lg font-medium text-uni">{testResult[0]}</dt>
-                                                    <dt className="col-span-2 text-lg font-medium text-uni">Passed: {testResult[1]?.toString()}</dt>
+                                                    <dt className="col-span-2 text-lg font-medium text-uni" >Passed: <b style={{color: testResult[1]?.toString() === "true" ? "green" : "red"}}>{testResult[1]?.toString()}</b></dt>
                                                 </div>
                                             ))}
                                         </details>

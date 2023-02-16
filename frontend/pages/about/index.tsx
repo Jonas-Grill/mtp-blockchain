@@ -18,7 +18,7 @@ export default function About() {
                     />
                     <h2 className="text-3xl font-bold tracking-tight text-gray-900 text-center">A Blockchain-based system for course submissions</h2>
                     <p className="mt-4 text-gray-500 text-center">
-                        A business informatics master´s degree team project in the for the course "Team Project" at the University of Mannheim.
+                    The project was implemented as part of the Team Project course of the Business Informatics Masters at the University of Mannheim.
                     </p>
                     <dl className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 text-center mb-8">
                         {features.map((feature) => (

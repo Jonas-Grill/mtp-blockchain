@@ -1,0 +1,11 @@
+= Admin functions
+
+On the admin functions page, you have the following functions:
+
+* Type in a block number and get the date and time of the block
+* See a list of all the user admin addresses, you can add and delete addresses
+* See a list of all the contract admin addresses, you can add and delete addresses
+* See and set the faucet block number difference: e.g. if you set it to 10, you can use the faucet every 10 blocks
+* See and set how much ETH yu get per faucet request (both for the faucet contract and the faucet API)
+* See the amount of ETH in the faucet contract
+* See the amount of ETH in the faucet API

@@ -1,6 +1,9 @@
 name: Run truffle tests
 on:
+  pull_request:
+    branches: [main]
   push:
+    branches: [main]
     paths:
       - smart-contracts/**
 
@@ -37,7 +40,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
           cache-dependency-path: "./smart-contracts/package-lock.json"
-      - run: npm ci
+      - run: npm i
         working-directory: smart-contracts
       - run: npm run build --if-present
         working-directory: smart-contracts

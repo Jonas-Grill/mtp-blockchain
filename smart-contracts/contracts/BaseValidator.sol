@@ -69,7 +69,7 @@ contract BaseValidator is BaseConfig, Helper {
 
     // Default value
     uint endBuffer = 7200; // 1 day
-    uint endBufferExtend = 7200 * 7; // 7 days
+    uint endBufferExtend = 7200 * 6; // 6 days
 
     // Test history
     uint256 public _testHistoryCounter;
@@ -194,7 +194,7 @@ contract BaseValidator is BaseConfig, Helper {
 
 
         bool lateSubmission = false;
-        // If assignment is submitted after the endblock with 1 day buffer and before 7 days buffer, reduce knowledge coins by 15%
+        // If assignment is submitted after the endblock with 1 day buffer and before 6 days buffer, reduce knowledge coins by 15%
         if (block.number >= endBlock + endBuffer && block.number <= endBlock + endBufferExtend) {
             knowledgeCoins = knowledgeCoins * 85 / 100;
             lateSubmission = true;
