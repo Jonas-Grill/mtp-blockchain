@@ -44,7 +44,9 @@ In the Assignment Overview you see all the assignment tasks which you have to co
 You won´t see a due date or time, but only starting block and end block for submission. One block is signed after 12 seconds.
 So you need to find out the current block number and calculate your due date on your own.
 The tasks itself are found on each assignment via a link that leads to a PDF document. There you can see the task descriptions and the maximum Knowledge you can earn.
-With your calculated due date and the task you are ready to write some code.
+With your calculated due date and the task you can start with the tasks.
+
+The validator contracts can only correctly evaluate your code, if you follow the instructions in the task description. So please read them carefully, before you start coding.
 
 == Step 6: Submitting/testing your assignments
 
