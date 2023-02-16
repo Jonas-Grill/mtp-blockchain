@@ -161,18 +161,18 @@
     "absolutePath": "project:/contracts/example/ExampleAssignmentInterface.sol",
     "exportedSymbols": {
       "ExampleAssignmentInterface": [
-        13350
+        13455
       ],
       "IBaseAssignment": [
-        3303
+        3359
       ]
     },
-    "id": 13351,
+    "id": 13456,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 13334,
+        "id": 13439,
         "literals": [
           "solidity",
           "^",
@@ -185,11 +185,11 @@
       {
         "absolutePath": "project:/contracts/IBaseAssignment.sol",
         "file": "../IBaseAssignment.sol",
-        "id": 13335,
+        "id": 13440,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 13351,
-        "sourceUnit": 3304,
+        "scope": 13456,
+        "sourceUnit": 3360,
         "src": "118:32:41",
         "symbolAliases": [],
         "unitAlias": ""
@@ -199,16 +199,16 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 13336,
+              "id": 13441,
               "name": "IBaseAssignment",
               "nameLocations": [
                 "202:15:41"
               ],
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 3303,
+              "referencedDeclaration": 3359,
               "src": "202:15:41"
             },
-            "id": 13337,
+            "id": 13442,
             "nodeType": "InheritanceSpecifier",
             "src": "202:15:41"
           }
@@ -217,10 +217,10 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 13350,
+        "id": 13455,
         "linearizedBaseContracts": [
-          13350,
-          3303
+          13455,
+          3359
         ],
         "name": "ExampleAssignmentInterface",
         "nameLocation": "172:26:41",
@@ -228,13 +228,13 @@
         "nodes": [
           {
             "body": {
-              "id": 13342,
+              "id": 13447,
               "nodeType": "Block",
               "src": "277:2:41",
               "statements": []
             },
             "functionSelector": "6c2e929c",
-            "id": 13343,
+            "id": 13448,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -242,17 +242,17 @@
             "nameLocation": "234:12:41",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 13340,
+              "id": 13445,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 13339,
+                  "id": 13444,
                   "mutability": "mutable",
                   "name": "_value",
                   "nameLocation": "254:6:41",
                   "nodeType": "VariableDeclaration",
-                  "scope": 13343,
+                  "scope": 13448,
                   "src": "247:13:41",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -261,7 +261,7 @@
                     "typeString": "int256"
                   },
                   "typeName": {
-                    "id": 13338,
+                    "id": 13443,
                     "name": "int256",
                     "nodeType": "ElementaryTypeName",
                     "src": "247:6:41",
@@ -276,12 +276,12 @@
               "src": "246:15:41"
             },
             "returnParameters": {
-              "id": 13341,
+              "id": 13446,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "277:0:41"
             },
-            "scope": 13350,
+            "scope": 13455,
             "src": "225:54:41",
             "stateMutability": "nonpayable",
             "virtual": true,
@@ -289,13 +289,13 @@
           },
           {
             "body": {
-              "id": 13348,
+              "id": 13453,
               "nodeType": "Block",
               "src": "348:2:41",
               "statements": []
             },
             "functionSelector": "a420e5d2",
-            "id": 13349,
+            "id": 13454,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -303,23 +303,23 @@
             "nameLocation": "296:12:41",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 13344,
+              "id": 13449,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "308:2:41"
             },
             "returnParameters": {
-              "id": 13347,
+              "id": 13452,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 13346,
+                  "id": 13451,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 13349,
+                  "scope": 13454,
                   "src": "340:6:41",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -328,7 +328,7 @@
                     "typeString": "int256"
                   },
                   "typeName": {
-                    "id": 13345,
+                    "id": 13450,
                     "name": "int256",
                     "nodeType": "ElementaryTypeName",
                     "src": "340:6:41",
@@ -342,14 +342,14 @@
               ],
               "src": "339:8:41"
             },
-            "scope": 13350,
+            "scope": 13455,
             "src": "287:63:41",
             "stateMutability": "view",
             "virtual": true,
             "visibility": "public"
           }
         ],
-        "scope": 13351,
+        "scope": 13456,
         "src": "154:199:41",
         "usedErrors": []
       }
@@ -362,7 +362,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-02-05T15:34:49.251Z",
+  "updatedAt": "2023-02-16T19:17:23.893Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
