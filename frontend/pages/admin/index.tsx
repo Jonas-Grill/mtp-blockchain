@@ -212,7 +212,7 @@ export default function Admin({userAddress}: { userAddress: string }) {
                 alert("Error while checking if user is admin: " + e.message);
             });
         }
-    }, [web3, userAdmins, contractAdmins, userAddress, faucetBlockNoDifference, faucetGas, faucetApiBalance, faucetContractBalance, zeroAddressFilter]);
+    }, [web3, userAdmins, contractAdmins, userAddress, faucetBlockNoDifference, faucetGas, faucetApiBalance, faucetContractBalance]);
 
     return (
         <>
