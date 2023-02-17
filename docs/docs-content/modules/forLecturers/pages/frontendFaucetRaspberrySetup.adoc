@@ -162,7 +162,7 @@ Then run the following command:
 nano .env
 ----
 and press enter. This will open the nano editor.
-In the frontend folder you find an example .env file, which you can copy and paste into the editor.
+In the frontend folder you find an example.env file, which you can copy and paste into the editor.
 You can make changes to the .env file according to your needs.
 After you copied the code, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.
 This needs to be done for both the frontend and the faucet in their respective folders.

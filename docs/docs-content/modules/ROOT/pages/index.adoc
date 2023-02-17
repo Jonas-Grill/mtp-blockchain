@@ -22,4 +22,4 @@ For each assignment, you can earn a specific amount of Knowledge. The lecturer i
 So basically, if you have collected enough Knowledge coins, you have enough Knowledge to take the exam.
 You can always try to reach the ultimate goal of a perfect score by getting maximum points in each assignment and doing the bonus tasks, but that is completely up to you.
 
-Further information on how to interact with Knowledge Base are shown in the following pages of the documentation.
+Further information on how to interact with Knowledge Base is shown in the following pages of the documentation.
