@@ -374,7 +374,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>Deployed and submitted in block range of the assignment</p>
+<p>Deployed and submitted in block range of the assignment (plus 6 days of grace period)</p>
 </li>
 <li>
 <p>The student needs to be the owner of the contract</p>
@@ -411,6 +411,154 @@
 <h3 id="_admin"><a class="anchor" href="#_admin"></a>Admin</h3>
 <div class="paragraph">
 <p>It is possible to remove an already submitted Assignment by calling the <code>removeSubmittedAssignment(address)</code> function. This function is of course restricted to user or contract admins. The function will remove the assignment from the mapping and the student can submit the assignment again. BUT the student will also lose the tokens he already earned (<code>burn</code> function used).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_a_new_validator_contract"><a class="anchor" href="#_create_a_new_validator_contract"></a>Create a new validator contract</h3>
+<div class="paragraph">
+<p>Here a small explanation is given how to create a new validator contract.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new smart contract and inherit it from the <code>BaseValidator.sol</code> contract. The <code>BaseValidator.sol</code> contract is the base contract for all validators. It contains the basic functions and variables.</p>
+</li>
+<li>
+<p>Make sure to pass all the required parameters to the <code>BaseValidator.sol</code> constructor. The <code>BaseValidator.sol</code> constructor takes the following parameters:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>address _configContractAddress</code> - The address of the <code>ConfigStorage.sol</code> contract</p>
+</li>
+<li>
+<p><code>string _contractName</code> - The name of the contract (used so that admins know which contract they are interacting with)</p>
+</li>
+<li>
+<p><code>uint _requiredEther</code> - The amount of ether the validator needs to be able to test. So e.g. if the validator needs to test a payable function which requires 0.5 ETH, this value should be at least 0.5 ETH.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Override the <code>test</code> function and create a new test history by call the <code>createTestHistory</code> function</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This function creates a new test entry and stores the results. It returns the index of the test.</p>
+</li>
+<li>
+<p>!IMPORTANT! The <code>createTestHistory</code> function needs to be called at the begining of the <code>test</code> function and the return value of the <code>createTestHistory</code> needs to be returned by the <code>test</code> function.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>In the test function different tests can be executed. How the tests are setup depends on the assignment.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>When testing the code the validator contract can log failed or passed tests using the <code>appendTestResult()</code> function. This function takes the following parameters:</p>
+</li>
+<li>
+<p><code>string memory _name</code> - The name of the test</p>
+</li>
+<li>
+<p><code>bool _result</code> - The result of the test (true = passed, false = failed)</p>
+</li>
+<li>
+<p><code>uint256 _points</code> - The amount of points the student receives if the test is passed</p>
+</li>
+<li>
+<p>The <code>appendTestResult</code> function can be called multiple times. The results will be stored in the test history and can be accessed by the test id.</p>
+</li>
+<li>
+<p>The <code>appendTestResult</code> function can also be used to log the reason why a test failed. The reason can be accessed by the test id.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>No additonal steps are required. The validator contract is now ready to be used. It is usefull to give proper explanation why a test failed. This will help the student to understand why a test failed and how he can fix it.</p>
+</div>
+<div class="sect3">
+<h4 id="_common_errors"><a class="anchor" href="#_common_errors"></a>Common errors</h4>
+<div class="sect4">
+<h5 id="_contract_exceed_maximum_size"><a class="anchor" href="#_contract_exceed_maximum_size"></a>Contract exceed maximum size</h5>
+<div class="paragraph">
+<p>The description above is the basic description of how the validator works. There are some extra features which are not required but can be used. The validator can easily exceed the maximum allowed size, therefore it is recommended to split the <em>base</em> validator into different contracts.</p>
+</div>
+<div class="paragraph">
+<p>This can be done by creating a new contract and inherit it from the <code>BaseConfig</code>. Here it is important to register this contract as an admin. This can be done by calling the <code>initAdmin</code> function. The <code>initAdmin</code> function takes the following parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>address _configContractAddress</code> - The address of the <code>ConfigStorage.sol</code> contract</p>
+</li>
+<li>
+<p><code>string memory _name</code> - The name of the contract (used so that admins know which contract they are interacting with)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Further a function can than be added that runs the tests and returns a e.g. boolean value. This function can be called by the <code>test</code> function of the base validator contract. This way the <code>test</code> function of the <code>BaseValidator.sol</code> contract can be kept small and the validator can be split into multiple contracts.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_function_is_not_found"><a class="anchor" href="#_function_is_not_found"></a>Function is not found</h5>
+<div class="paragraph">
+<p>As we call function from other contracts it is possible that the function is not found. This can be caused by the following reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The function is not public</p>
+</li>
+<li>
+<p>The function is misspelled</p>
+</li>
+<li>
+<p>The function uses the wrong input parameters</p>
+</li>
+<li>
+<p>The function uses the wrong output parameters</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If this happens the validator will log a <code>revert</code> and will completels stop the exection. This results in the fact that the student cannot submit the assignment. Even if only 1 function of 20 is missing he student will not be able to submit the assignment and will receive 0 points.</p>
+</div>
+<div class="paragraph">
+<p>To solve this it is possible to call functions using the solidity assembly command.</p>
+</div>
+<div class="paragraph">
+<p>The <code>BaseValidator.sol</code> contract contains the <code>hasFunction</code> function which uses the assembly function. This function takes the following parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>address _contractAddress</code> - The address of the contract</p>
+</li>
+<li>
+<p><code>string memory _functionName</code> - The name of the function</p>
+</li>
+<li>
+<p><code>string memory ethValue</code> - The amount of ether required to call the function</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>hasFunction</code> function will return true if the function exists and false if the function does not exist. This function can be used to check if a function exists and if it exists it can be called using the solidity assembly command.</p>
+</div>
+<div class="paragraph">
+<p><strong>!!! IMPORTANT !!!</strong></p>
+</div>
+<div class="paragraph">
+<p>The <code>hasFunction</code> is not only checking if the function exsists but it also executes this function. So if the function returns true we know that no revert will be thrown. This allows us then to call the same function "normaly" and store the test results. Unfounately this also means that the function will be executed twice. This can be a problem if the function is not idempotent. So if the function is not idempotent it is not possible to use the <code>hasFunction</code> function.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
