@@ -55,6 +55,10 @@ class NOWUtils {
     getContractAddress(contractName, networkId) {
         const deployedNetwork = this.getContractJson(contractName).networks[networkId];
 
+        if (!deployedNetwork) {
+            throw new Error(`Contract ${contractName} not deployed on network ${networkId}`);
+        }
+
         return deployedNetwork.address;
     }
 
@@ -210,12 +214,6 @@ class NOWUtils {
     }
 
     /*=====     End of BLOCK HELPER        ======*/
-
-    async getRevertReason(tx, receipt, web3) {
-        if (receipt && receipt.status === '0x0') {
-            return await web3.eth.call(tx, tx.blockNumber);
-        }
-    }
 }
 
 // export unima class

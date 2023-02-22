@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const cors = require('cors')
 const app = express();
@@ -8,17 +10,8 @@ app.use(express.json());
 // require web3
 const Web3 = require('web3');
 
-// Read arguments passed with execution of node
-const argv = require('minimist')(process.argv.slice(2));
-
-// Fallback to dev .env.local if "--env" is "dev"
-if (argv["env"] != "prd") {
-    console.log("Using dev .env.local");
-    require('dotenv').config({ path: 'config/dev/.env.local' });
-}
-
 // Get port
-API_PORT = process.env.API_PORT
+API_PORT = process.env.API_PORT || 8080;
 
 // create sendEth endpoint
 app.post("/sendEth", async (req, res) => {

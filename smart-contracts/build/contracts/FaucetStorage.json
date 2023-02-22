@@ -2351,7 +2351,7 @@
                 }
               ]
             },
-            "name": "convert_t_contract$_ConfigStorage_$2965_to_t_address",
+            "name": "convert_t_contract$_ConfigStorage_$3021_to_t_address",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -2393,7 +2393,7 @@
                           }
                         ],
                         "functionName": {
-                          "name": "convert_t_contract$_ConfigStorage_$2965_to_t_address",
+                          "name": "convert_t_contract$_ConfigStorage_$3021_to_t_address",
                           "nodeType": "YulIdentifier",
                           "src": "1519:52:60"
                         },
@@ -2414,7 +2414,7 @@
                 }
               ]
             },
-            "name": "abi_encode_t_contract$_ConfigStorage_$2965_to_t_address_fromStack",
+            "name": "abi_encode_t_contract$_ConfigStorage_$3021_to_t_address_fromStack",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -2504,7 +2504,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "abi_encode_t_contract$_ConfigStorage_$2965_to_t_address_fromStack",
+                      "name": "abi_encode_t_contract$_ConfigStorage_$3021_to_t_address_fromStack",
                       "nodeType": "YulIdentifier",
                       "src": "1757:65:60"
                     },
@@ -2516,7 +2516,7 @@
                 }
               ]
             },
-            "name": "abi_encode_tuple_t_contract$_ConfigStorage_$2965__to_t_address__fromStack_reversed",
+            "name": "abi_encode_tuple_t_contract$_ConfigStorage_$3021__to_t_address__fromStack_reversed",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -3622,7 +3622,7 @@
                 }
               ]
             },
-            "name": "abi_encode_t_struct$_faucetUser_$2973_memory_ptr_to_t_struct$_faucetUser_$2973_memory_ptr_fromStack",
+            "name": "abi_encode_t_struct$_faucetUser_$3029_memory_ptr_to_t_struct$_faucetUser_$3029_memory_ptr_fromStack",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -3712,7 +3712,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "abi_encode_t_struct$_faucetUser_$2973_memory_ptr_to_t_struct$_faucetUser_$2973_memory_ptr_fromStack",
+                      "name": "abi_encode_t_struct$_faucetUser_$3029_memory_ptr_to_t_struct$_faucetUser_$3029_memory_ptr_fromStack",
                       "nodeType": "YulIdentifier",
                       "src": "4300:99:60"
                     },
@@ -3724,7 +3724,7 @@
                 }
               ]
             },
-            "name": "abi_encode_tuple_t_struct$_faucetUser_$2973_memory_ptr__to_t_struct$_faucetUser_$2973_memory_ptr__fromStack_reversed",
+            "name": "abi_encode_tuple_t_struct$_faucetUser_$3029_memory_ptr__to_t_struct$_faucetUser_$3029_memory_ptr__fromStack_reversed",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -11069,7 +11069,7 @@
           }
         ]
       },
-      "contents": "{\n\n    function cleanup_t_uint160(value) -> cleaned {\n        cleaned := and(value, 0xffffffffffffffffffffffffffffffffffffffff)\n    }\n\n    function cleanup_t_address(value) -> cleaned {\n        cleaned := cleanup_t_uint160(value)\n    }\n\n    function abi_encode_t_address_to_t_address_fromStack(value, pos) {\n        mstore(pos, cleanup_t_address(value))\n    }\n\n    function cleanup_t_uint256(value) -> cleaned {\n        cleaned := value\n    }\n\n    function abi_encode_t_uint256_to_t_uint256_fromStack(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    function abi_encode_tuple_t_address_t_uint256__to_t_address_t_uint256__fromStack_reversed(headStart , value1, value0) -> tail {\n        tail := add(headStart, 64)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n        abi_encode_t_uint256_to_t_uint256_fromStack(value1,  add(headStart, 32))\n\n    }\n\n    function identity(value) -> ret {\n        ret := value\n    }\n\n    function convert_t_uint160_to_t_uint160(value) -> converted {\n        converted := cleanup_t_uint160(identity(cleanup_t_uint160(value)))\n    }\n\n    function convert_t_uint160_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_uint160(value)\n    }\n\n    function convert_t_contract$_ConfigStorage_$2965_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_address(value)\n    }\n\n    function abi_encode_t_contract$_ConfigStorage_$2965_to_t_address_fromStack(value, pos) {\n        mstore(pos, convert_t_contract$_ConfigStorage_$2965_to_t_address(value))\n    }\n\n    function abi_encode_tuple_t_contract$_ConfigStorage_$2965__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_contract$_ConfigStorage_$2965_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function allocate_unbounded() -> memPtr {\n        memPtr := mload(64)\n    }\n\n    function revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() {\n        revert(0, 0)\n    }\n\n    function revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() {\n        revert(0, 0)\n    }\n\n    function cleanup_t_address_payable(value) -> cleaned {\n        cleaned := cleanup_t_uint160(value)\n    }\n\n    function validator_revert_t_address_payable(value) {\n        if iszero(eq(value, cleanup_t_address_payable(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_address_payable(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_address_payable(value)\n    }\n\n    function abi_decode_tuple_t_address_payable(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address_payable(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function validator_revert_t_address(value) {\n        if iszero(eq(value, cleanup_t_address(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_address(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_address(value)\n    }\n\n    function abi_decode_tuple_t_address(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_t_uint256_to_t_uint256(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    // struct FaucetStorage.faucetUser -> struct FaucetStorage.faucetUser\n    function abi_encode_t_struct$_faucetUser_$2973_memory_ptr_to_t_struct$_faucetUser_$2973_memory_ptr_fromStack(value, pos)  {\n        let tail := add(pos, 0x20)\n\n        {\n            // blockNo\n\n            let memberValue0 := mload(add(value, 0x00))\n            abi_encode_t_uint256_to_t_uint256(memberValue0, add(pos, 0x00))\n        }\n\n    }\n\n    function abi_encode_tuple_t_struct$_faucetUser_$2973_memory_ptr__to_t_struct$_faucetUser_$2973_memory_ptr__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_struct$_faucetUser_$2973_memory_ptr_to_t_struct$_faucetUser_$2973_memory_ptr_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function validator_revert_t_uint256(value) {\n        if iszero(eq(value, cleanup_t_uint256(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_uint256(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_uint256(value)\n    }\n\n    function abi_decode_tuple_t_address_payablet_uint256(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address_payable(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 32\n\n            value1 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_tuple_t_uint256__to_t_uint256__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_uint256_to_t_uint256_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d() {\n        revert(0, 0)\n    }\n\n    function revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae() {\n        revert(0, 0)\n    }\n\n    function round_up_to_mul_of_32(value) -> result {\n        result := and(add(value, 31), not(31))\n    }\n\n    function panic_error_0x41() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x41)\n        revert(0, 0x24)\n    }\n\n    function finalize_allocation(memPtr, size) {\n        let newFreePtr := add(memPtr, round_up_to_mul_of_32(size))\n        // protect against overflow\n        if or(gt(newFreePtr, 0xffffffffffffffff), lt(newFreePtr, memPtr)) { panic_error_0x41() }\n        mstore(64, newFreePtr)\n    }\n\n    function allocate_memory(size) -> memPtr {\n        memPtr := allocate_unbounded()\n        finalize_allocation(memPtr, size)\n    }\n\n    function array_allocation_size_t_string_memory_ptr(length) -> size {\n        // Make sure we can allocate memory without overflow\n        if gt(length, 0xffffffffffffffff) { panic_error_0x41() }\n\n        size := round_up_to_mul_of_32(length)\n\n        // add length slot\n        size := add(size, 0x20)\n\n    }\n\n    function copy_calldata_to_memory_with_cleanup(src, dst, length) {\n        calldatacopy(dst, src, length)\n        mstore(add(dst, length), 0)\n    }\n\n    function abi_decode_available_length_t_string_memory_ptr(src, length, end) -> array {\n        array := allocate_memory(array_allocation_size_t_string_memory_ptr(length))\n        mstore(array, length)\n        let dst := add(array, 0x20)\n        if gt(add(src, length), end) { revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae() }\n        copy_calldata_to_memory_with_cleanup(src, dst, length)\n    }\n\n    // string\n    function abi_decode_t_string_memory_ptr(offset, end) -> array {\n        if iszero(slt(add(offset, 0x1f), end)) { revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d() }\n        let length := calldataload(offset)\n        array := abi_decode_available_length_t_string_memory_ptr(add(offset, 0x20), length, end)\n    }\n\n    function abi_decode_tuple_t_addresst_string_memory_ptr(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function cleanup_t_uint128(value) -> cleaned {\n        cleaned := and(value, 0xffffffffffffffffffffffffffffffff)\n    }\n\n    function validator_revert_t_uint128(value) {\n        if iszero(eq(value, cleanup_t_uint128(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_uint128_fromMemory(offset, end) -> value {\n        value := mload(offset)\n        validator_revert_t_uint128(value)\n    }\n\n    function abi_decode_tuple_t_uint128_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_uint128_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function panic_error_0x11() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x11)\n        revert(0, 0x24)\n    }\n\n    function checked_mul_t_uint128(x, y) -> product {\n        x := cleanup_t_uint128(x)\n        y := cleanup_t_uint128(y)\n        let product_raw := mul(x, y)\n        product := cleanup_t_uint128(product_raw)\n\n        if iszero(eq(product, product_raw)) { panic_error_0x11() }\n\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length) -> updated_pos {\n        mstore(pos, length)\n        updated_pos := add(pos, 0x20)\n    }\n\n    function store_literal_in_memory_4ace071b5311c9ba3208077cc687f4b3faf4af30103a305a2ac0a189585b033e(memPtr) {\n\n        mstore(add(memPtr, 0), \"Not enough funds in faucet!\")\n\n    }\n\n    function abi_encode_t_stringliteral_4ace071b5311c9ba3208077cc687f4b3faf4af30103a305a2ac0a189585b033e_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 27)\n        store_literal_in_memory_4ace071b5311c9ba3208077cc687f4b3faf4af30103a305a2ac0a189585b033e(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_4ace071b5311c9ba3208077cc687f4b3faf4af30103a305a2ac0a189585b033e__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_4ace071b5311c9ba3208077cc687f4b3faf4af30103a305a2ac0a189585b033e_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function checked_sub_t_uint256(x, y) -> diff {\n        x := cleanup_t_uint256(x)\n        y := cleanup_t_uint256(y)\n        diff := sub(x, y)\n\n        if gt(diff, x) { panic_error_0x11() }\n\n    }\n\n    function store_literal_in_memory_103a79142c95f45d6fa2a2c5853f4fc6e48b45b320a3c964df4a03bc15b7795f(memPtr) {\n\n        mstore(add(memPtr, 0), \"Faucet used too recently!\")\n\n    }\n\n    function abi_encode_t_stringliteral_103a79142c95f45d6fa2a2c5853f4fc6e48b45b320a3c964df4a03bc15b7795f_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 25)\n        store_literal_in_memory_103a79142c95f45d6fa2a2c5853f4fc6e48b45b320a3c964df4a03bc15b7795f(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_103a79142c95f45d6fa2a2c5853f4fc6e48b45b320a3c964df4a03bc15b7795f__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_103a79142c95f45d6fa2a2c5853f4fc6e48b45b320a3c964df4a03bc15b7795f_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, length) -> updated_pos {\n        updated_pos := pos\n    }\n\n    function store_literal_in_memory_f44a8859528b070c44f0159901107e903054c49ac666361b4ba5fdb233f6d350(memPtr) {\n\n        mstore(add(memPtr, 0), \"Ether sent successfully!\")\n\n    }\n\n    function abi_encode_t_stringliteral_f44a8859528b070c44f0159901107e903054c49ac666361b4ba5fdb233f6d350_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, 24)\n        store_literal_in_memory_f44a8859528b070c44f0159901107e903054c49ac666361b4ba5fdb233f6d350(pos)\n        end := add(pos, 24)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_f44a8859528b070c44f0159901107e903054c49ac666361b4ba5fdb233f6d350__to_t_bytes_memory_ptr__nonPadded_inplace_fromStack_reversed(pos ) -> end {\n\n        pos := abi_encode_t_stringliteral_f44a8859528b070c44f0159901107e903054c49ac666361b4ba5fdb233f6d350_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69(memPtr) {\n\n        mstore(add(memPtr, 0), \"Transfer failed.\")\n\n    }\n\n    function abi_encode_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 16)\n        store_literal_in_memory_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_address__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function cleanup_t_bool(value) -> cleaned {\n        cleaned := iszero(iszero(value))\n    }\n\n    function validator_revert_t_bool(value) {\n        if iszero(eq(value, cleanup_t_bool(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_bool_fromMemory(offset, end) -> value {\n        value := mload(offset)\n        validator_revert_t_bool(value)\n    }\n\n    function abi_decode_tuple_t_bool_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_bool_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function store_literal_in_memory_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f(memPtr) {\n\n        mstore(add(memPtr, 0), \"Only contract admin can withdraw\")\n\n        mstore(add(memPtr, 32), \" funds\")\n\n    }\n\n    function abi_encode_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 38)\n        store_literal_in_memory_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f(pos)\n        end := add(pos, 64)\n    }\n\n    function abi_encode_tuple_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function store_literal_in_memory_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226(memPtr) {\n\n        mstore(add(memPtr, 0), \"Invalid address\")\n\n    }\n\n    function abi_encode_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 15)\n        store_literal_in_memory_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function convert_t_address_payable_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_address(value)\n    }\n\n    function abi_encode_t_address_payable_to_t_address_fromStack(value, pos) {\n        mstore(pos, convert_t_address_payable_to_t_address(value))\n    }\n\n    function abi_encode_tuple_t_address_payable__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_address_payable_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function store_literal_in_memory_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90(memPtr) {\n\n        mstore(add(memPtr, 0), \"Funds can only be withdrawn to a\")\n\n        mstore(add(memPtr, 32), \"dmin, msg.sender or tx.origin\")\n\n    }\n\n    function abi_encode_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 61)\n        store_literal_in_memory_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90(pos)\n        end := add(pos, 64)\n    }\n\n    function abi_encode_tuple_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function store_literal_in_memory_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d(memPtr) {\n\n        mstore(add(memPtr, 0), \"Insufficient funds\")\n\n    }\n\n    function abi_encode_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 18)\n        store_literal_in_memory_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function store_literal_in_memory_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470(memPtr) {\n\n    }\n\n    function abi_encode_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, 0)\n        store_literal_in_memory_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470(pos)\n        end := add(pos, 0)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470__to_t_bytes_memory_ptr__nonPadded_inplace_fromStack_reversed(pos ) -> end {\n\n        pos := abi_encode_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        end := pos\n    }\n\n    function array_length_t_string_memory_ptr(value) -> length {\n\n        length := mload(value)\n\n    }\n\n    function copy_memory_to_memory_with_cleanup(src, dst, length) {\n        let i := 0\n        for { } lt(i, length) { i := add(i, 32) }\n        {\n            mstore(add(dst, i), mload(add(src, i)))\n        }\n        mstore(add(dst, length), 0)\n    }\n\n    function abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value, pos) -> end {\n        let length := array_length_t_string_memory_ptr(value)\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length)\n        copy_memory_to_memory_with_cleanup(add(value, 0x20), pos, length)\n        end := add(pos, round_up_to_mul_of_32(length))\n    }\n\n    function abi_encode_tuple_t_address_t_string_memory_ptr__to_t_address_t_string_memory_ptr__fromStack_reversed(headStart , value1, value0) -> tail {\n        tail := add(headStart, 64)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n        mstore(add(headStart, 32), sub(tail, headStart))\n        tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value1,  tail)\n\n    }\n\n}\n",
+      "contents": "{\n\n    function cleanup_t_uint160(value) -> cleaned {\n        cleaned := and(value, 0xffffffffffffffffffffffffffffffffffffffff)\n    }\n\n    function cleanup_t_address(value) -> cleaned {\n        cleaned := cleanup_t_uint160(value)\n    }\n\n    function abi_encode_t_address_to_t_address_fromStack(value, pos) {\n        mstore(pos, cleanup_t_address(value))\n    }\n\n    function cleanup_t_uint256(value) -> cleaned {\n        cleaned := value\n    }\n\n    function abi_encode_t_uint256_to_t_uint256_fromStack(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    function abi_encode_tuple_t_address_t_uint256__to_t_address_t_uint256__fromStack_reversed(headStart , value1, value0) -> tail {\n        tail := add(headStart, 64)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n        abi_encode_t_uint256_to_t_uint256_fromStack(value1,  add(headStart, 32))\n\n    }\n\n    function identity(value) -> ret {\n        ret := value\n    }\n\n    function convert_t_uint160_to_t_uint160(value) -> converted {\n        converted := cleanup_t_uint160(identity(cleanup_t_uint160(value)))\n    }\n\n    function convert_t_uint160_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_uint160(value)\n    }\n\n    function convert_t_contract$_ConfigStorage_$3021_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_address(value)\n    }\n\n    function abi_encode_t_contract$_ConfigStorage_$3021_to_t_address_fromStack(value, pos) {\n        mstore(pos, convert_t_contract$_ConfigStorage_$3021_to_t_address(value))\n    }\n\n    function abi_encode_tuple_t_contract$_ConfigStorage_$3021__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_contract$_ConfigStorage_$3021_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function allocate_unbounded() -> memPtr {\n        memPtr := mload(64)\n    }\n\n    function revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() {\n        revert(0, 0)\n    }\n\n    function revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() {\n        revert(0, 0)\n    }\n\n    function cleanup_t_address_payable(value) -> cleaned {\n        cleaned := cleanup_t_uint160(value)\n    }\n\n    function validator_revert_t_address_payable(value) {\n        if iszero(eq(value, cleanup_t_address_payable(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_address_payable(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_address_payable(value)\n    }\n\n    function abi_decode_tuple_t_address_payable(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address_payable(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function validator_revert_t_address(value) {\n        if iszero(eq(value, cleanup_t_address(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_address(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_address(value)\n    }\n\n    function abi_decode_tuple_t_address(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_t_uint256_to_t_uint256(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    // struct FaucetStorage.faucetUser -> struct FaucetStorage.faucetUser\n    function abi_encode_t_struct$_faucetUser_$3029_memory_ptr_to_t_struct$_faucetUser_$3029_memory_ptr_fromStack(value, pos)  {\n        let tail := add(pos, 0x20)\n\n        {\n            // blockNo\n\n            let memberValue0 := mload(add(value, 0x00))\n            abi_encode_t_uint256_to_t_uint256(memberValue0, add(pos, 0x00))\n        }\n\n    }\n\n    function abi_encode_tuple_t_struct$_faucetUser_$3029_memory_ptr__to_t_struct$_faucetUser_$3029_memory_ptr__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_struct$_faucetUser_$3029_memory_ptr_to_t_struct$_faucetUser_$3029_memory_ptr_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function validator_revert_t_uint256(value) {\n        if iszero(eq(value, cleanup_t_uint256(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_uint256(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_uint256(value)\n    }\n\n    function abi_decode_tuple_t_address_payablet_uint256(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address_payable(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 32\n\n            value1 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_tuple_t_uint256__to_t_uint256__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_uint256_to_t_uint256_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d() {\n        revert(0, 0)\n    }\n\n    function revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae() {\n        revert(0, 0)\n    }\n\n    function round_up_to_mul_of_32(value) -> result {\n        result := and(add(value, 31), not(31))\n    }\n\n    function panic_error_0x41() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x41)\n        revert(0, 0x24)\n    }\n\n    function finalize_allocation(memPtr, size) {\n        let newFreePtr := add(memPtr, round_up_to_mul_of_32(size))\n        // protect against overflow\n        if or(gt(newFreePtr, 0xffffffffffffffff), lt(newFreePtr, memPtr)) { panic_error_0x41() }\n        mstore(64, newFreePtr)\n    }\n\n    function allocate_memory(size) -> memPtr {\n        memPtr := allocate_unbounded()\n        finalize_allocation(memPtr, size)\n    }\n\n    function array_allocation_size_t_string_memory_ptr(length) -> size {\n        // Make sure we can allocate memory without overflow\n        if gt(length, 0xffffffffffffffff) { panic_error_0x41() }\n\n        size := round_up_to_mul_of_32(length)\n\n        // add length slot\n        size := add(size, 0x20)\n\n    }\n\n    function copy_calldata_to_memory_with_cleanup(src, dst, length) {\n        calldatacopy(dst, src, length)\n        mstore(add(dst, length), 0)\n    }\n\n    function abi_decode_available_length_t_string_memory_ptr(src, length, end) -> array {\n        array := allocate_memory(array_allocation_size_t_string_memory_ptr(length))\n        mstore(array, length)\n        let dst := add(array, 0x20)\n        if gt(add(src, length), end) { revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae() }\n        copy_calldata_to_memory_with_cleanup(src, dst, length)\n    }\n\n    // string\n    function abi_decode_t_string_memory_ptr(offset, end) -> array {\n        if iszero(slt(add(offset, 0x1f), end)) { revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d() }\n        let length := calldataload(offset)\n        array := abi_decode_available_length_t_string_memory_ptr(add(offset, 0x20), length, end)\n    }\n\n    function abi_decode_tuple_t_addresst_string_memory_ptr(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function cleanup_t_uint128(value) -> cleaned {\n        cleaned := and(value, 0xffffffffffffffffffffffffffffffff)\n    }\n\n    function validator_revert_t_uint128(value) {\n        if iszero(eq(value, cleanup_t_uint128(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_uint128_fromMemory(offset, end) -> value {\n        value := mload(offset)\n        validator_revert_t_uint128(value)\n    }\n\n    function abi_decode_tuple_t_uint128_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_uint128_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function panic_error_0x11() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x11)\n        revert(0, 0x24)\n    }\n\n    function checked_mul_t_uint128(x, y) -> product {\n        x := cleanup_t_uint128(x)\n        y := cleanup_t_uint128(y)\n        let product_raw := mul(x, y)\n        product := cleanup_t_uint128(product_raw)\n\n        if iszero(eq(product, product_raw)) { panic_error_0x11() }\n\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length) -> updated_pos {\n        mstore(pos, length)\n        updated_pos := add(pos, 0x20)\n    }\n\n    function store_literal_in_memory_4ace071b5311c9ba3208077cc687f4b3faf4af30103a305a2ac0a189585b033e(memPtr) {\n\n        mstore(add(memPtr, 0), \"Not enough funds in faucet!\")\n\n    }\n\n    function abi_encode_t_stringliteral_4ace071b5311c9ba3208077cc687f4b3faf4af30103a305a2ac0a189585b033e_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 27)\n        store_literal_in_memory_4ace071b5311c9ba3208077cc687f4b3faf4af30103a305a2ac0a189585b033e(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_4ace071b5311c9ba3208077cc687f4b3faf4af30103a305a2ac0a189585b033e__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_4ace071b5311c9ba3208077cc687f4b3faf4af30103a305a2ac0a189585b033e_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function checked_sub_t_uint256(x, y) -> diff {\n        x := cleanup_t_uint256(x)\n        y := cleanup_t_uint256(y)\n        diff := sub(x, y)\n\n        if gt(diff, x) { panic_error_0x11() }\n\n    }\n\n    function store_literal_in_memory_103a79142c95f45d6fa2a2c5853f4fc6e48b45b320a3c964df4a03bc15b7795f(memPtr) {\n\n        mstore(add(memPtr, 0), \"Faucet used too recently!\")\n\n    }\n\n    function abi_encode_t_stringliteral_103a79142c95f45d6fa2a2c5853f4fc6e48b45b320a3c964df4a03bc15b7795f_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 25)\n        store_literal_in_memory_103a79142c95f45d6fa2a2c5853f4fc6e48b45b320a3c964df4a03bc15b7795f(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_103a79142c95f45d6fa2a2c5853f4fc6e48b45b320a3c964df4a03bc15b7795f__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_103a79142c95f45d6fa2a2c5853f4fc6e48b45b320a3c964df4a03bc15b7795f_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, length) -> updated_pos {\n        updated_pos := pos\n    }\n\n    function store_literal_in_memory_f44a8859528b070c44f0159901107e903054c49ac666361b4ba5fdb233f6d350(memPtr) {\n\n        mstore(add(memPtr, 0), \"Ether sent successfully!\")\n\n    }\n\n    function abi_encode_t_stringliteral_f44a8859528b070c44f0159901107e903054c49ac666361b4ba5fdb233f6d350_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, 24)\n        store_literal_in_memory_f44a8859528b070c44f0159901107e903054c49ac666361b4ba5fdb233f6d350(pos)\n        end := add(pos, 24)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_f44a8859528b070c44f0159901107e903054c49ac666361b4ba5fdb233f6d350__to_t_bytes_memory_ptr__nonPadded_inplace_fromStack_reversed(pos ) -> end {\n\n        pos := abi_encode_t_stringliteral_f44a8859528b070c44f0159901107e903054c49ac666361b4ba5fdb233f6d350_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69(memPtr) {\n\n        mstore(add(memPtr, 0), \"Transfer failed.\")\n\n    }\n\n    function abi_encode_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 16)\n        store_literal_in_memory_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_address__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function cleanup_t_bool(value) -> cleaned {\n        cleaned := iszero(iszero(value))\n    }\n\n    function validator_revert_t_bool(value) {\n        if iszero(eq(value, cleanup_t_bool(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_bool_fromMemory(offset, end) -> value {\n        value := mload(offset)\n        validator_revert_t_bool(value)\n    }\n\n    function abi_decode_tuple_t_bool_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_bool_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function store_literal_in_memory_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f(memPtr) {\n\n        mstore(add(memPtr, 0), \"Only contract admin can withdraw\")\n\n        mstore(add(memPtr, 32), \" funds\")\n\n    }\n\n    function abi_encode_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 38)\n        store_literal_in_memory_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f(pos)\n        end := add(pos, 64)\n    }\n\n    function abi_encode_tuple_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function store_literal_in_memory_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226(memPtr) {\n\n        mstore(add(memPtr, 0), \"Invalid address\")\n\n    }\n\n    function abi_encode_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 15)\n        store_literal_in_memory_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function convert_t_address_payable_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_address(value)\n    }\n\n    function abi_encode_t_address_payable_to_t_address_fromStack(value, pos) {\n        mstore(pos, convert_t_address_payable_to_t_address(value))\n    }\n\n    function abi_encode_tuple_t_address_payable__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_address_payable_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function store_literal_in_memory_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90(memPtr) {\n\n        mstore(add(memPtr, 0), \"Funds can only be withdrawn to a\")\n\n        mstore(add(memPtr, 32), \"dmin, msg.sender or tx.origin\")\n\n    }\n\n    function abi_encode_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 61)\n        store_literal_in_memory_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90(pos)\n        end := add(pos, 64)\n    }\n\n    function abi_encode_tuple_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function store_literal_in_memory_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d(memPtr) {\n\n        mstore(add(memPtr, 0), \"Insufficient funds\")\n\n    }\n\n    function abi_encode_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 18)\n        store_literal_in_memory_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function store_literal_in_memory_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470(memPtr) {\n\n    }\n\n    function abi_encode_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, 0)\n        store_literal_in_memory_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470(pos)\n        end := add(pos, 0)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470__to_t_bytes_memory_ptr__nonPadded_inplace_fromStack_reversed(pos ) -> end {\n\n        pos := abi_encode_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        end := pos\n    }\n\n    function array_length_t_string_memory_ptr(value) -> length {\n\n        length := mload(value)\n\n    }\n\n    function copy_memory_to_memory_with_cleanup(src, dst, length) {\n        let i := 0\n        for { } lt(i, length) { i := add(i, 32) }\n        {\n            mstore(add(dst, i), mload(add(src, i)))\n        }\n        mstore(add(dst, length), 0)\n    }\n\n    function abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value, pos) -> end {\n        let length := array_length_t_string_memory_ptr(value)\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length)\n        copy_memory_to_memory_with_cleanup(add(value, 0x20), pos, length)\n        end := add(pos, round_up_to_mul_of_32(length))\n    }\n\n    function abi_encode_tuple_t_address_t_string_memory_ptr__to_t_address_t_string_memory_ptr__fromStack_reversed(headStart , value1, value0) -> tail {\n        tail := add(headStart, 64)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n        mstore(add(headStart, 32), sub(tail, headStart))\n        tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value1,  tail)\n\n    }\n\n}\n",
       "id": 60,
       "language": "Yul",
       "name": "#utility.yul"
@@ -11089,21 +11089,21 @@
         591
       ],
       "ConfigStorage": [
-        2965
+        3021
       ],
       "FaucetStorage": [
-        3156
+        3212
       ],
       "IBaseValidator": [
-        1637
+        1693
       ]
     },
-    "id": 3157,
+    "id": 3213,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2967,
+        "id": 3023,
         "literals": [
           "solidity",
           "^",
@@ -11116,10 +11116,10 @@
       {
         "absolutePath": "project:/contracts/BaseConfig.sol",
         "file": "./BaseConfig.sol",
-        "id": 2968,
+        "id": 3024,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 3157,
+        "scope": 3213,
         "sourceUnit": 117,
         "src": "61:26:4",
         "symbolAliases": [],
@@ -11130,7 +11130,7 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 2969,
+              "id": 3025,
               "name": "BaseConfig",
               "nameLocations": [
                 "117:10:4"
@@ -11139,7 +11139,7 @@
               "referencedDeclaration": 116,
               "src": "117:10:4"
             },
-            "id": 2970,
+            "id": 3026,
             "nodeType": "InheritanceSpecifier",
             "src": "117:10:4"
           }
@@ -11148,9 +11148,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 3156,
+        "id": 3212,
         "linearizedBaseContracts": [
-          3156,
+          3212,
           116
         ],
         "name": "FaucetStorage",
@@ -11159,16 +11159,16 @@
         "nodes": [
           {
             "canonicalName": "FaucetStorage.faucetUser",
-            "id": 2973,
+            "id": 3029,
             "members": [
               {
                 "constant": false,
-                "id": 2972,
+                "id": 3028,
                 "mutability": "mutable",
                 "name": "blockNo",
                 "nameLocation": "281:7:4",
                 "nodeType": "VariableDeclaration",
-                "scope": 2973,
+                "scope": 3029,
                 "src": "273:15:4",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -11177,7 +11177,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2971,
+                  "id": 3027,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "273:7:4",
@@ -11192,31 +11192,31 @@
             "name": "faucetUser",
             "nameLocation": "204:10:4",
             "nodeType": "StructDefinition",
-            "scope": 3156,
+            "scope": 3212,
             "src": "197:99:4",
             "visibility": "public"
           },
           {
             "constant": false,
-            "id": 2978,
+            "id": 3034,
             "mutability": "mutable",
             "name": "Users",
             "nameLocation": "387:5:4",
             "nodeType": "VariableDeclaration",
-            "scope": 3156,
+            "scope": 3212,
             "src": "356:36:4",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$2973_storage_$",
+              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$3029_storage_$",
               "typeString": "mapping(address => struct FaucetStorage.faucetUser)"
             },
             "typeName": {
-              "id": 2977,
+              "id": 3033,
               "keyName": "",
               "keyNameLocation": "-1:-1:-1",
               "keyType": {
-                "id": 2974,
+                "id": 3030,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "364:7:4",
@@ -11228,28 +11228,28 @@
               "nodeType": "Mapping",
               "src": "356:30:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$2973_storage_$",
+                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$3029_storage_$",
                 "typeString": "mapping(address => struct FaucetStorage.faucetUser)"
               },
               "valueName": "",
               "valueNameLocation": "-1:-1:-1",
               "valueType": {
-                "id": 2976,
+                "id": 3032,
                 "nodeType": "UserDefinedTypeName",
                 "pathNode": {
-                  "id": 2975,
+                  "id": 3031,
                   "name": "faucetUser",
                   "nameLocations": [
                     "375:10:4"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2973,
+                  "referencedDeclaration": 3029,
                   "src": "375:10:4"
                 },
-                "referencedDeclaration": 2973,
+                "referencedDeclaration": 3029,
                 "src": "375:10:4",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_faucetUser_$2973_storage_ptr",
+                  "typeIdentifier": "t_struct$_faucetUser_$3029_storage_ptr",
                   "typeString": "struct FaucetStorage.faucetUser"
                 }
               }
@@ -11259,23 +11259,23 @@
           {
             "anonymous": false,
             "eventSelector": "c58b2544858971e180cfd7fa79f6862f44a71f22a3a84d1172e238ba81d163d8",
-            "id": 2984,
+            "id": 3040,
             "name": "faucetUsed",
             "nameLocation": "448:10:4",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 2983,
+              "id": 3039,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2980,
+                  "id": 3036,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "_address",
                   "nameLocation": "467:8:4",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2984,
+                  "scope": 3040,
                   "src": "459:16:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -11284,7 +11284,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2979,
+                    "id": 3035,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "459:7:4",
@@ -11298,13 +11298,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 2982,
+                  "id": 3038,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "_blockNo",
                   "nameLocation": "485:8:4",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2984,
+                  "scope": 3040,
                   "src": "477:16:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -11313,7 +11313,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2981,
+                    "id": 3037,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "477:7:4",
@@ -11331,7 +11331,7 @@
           },
           {
             "body": {
-              "id": 2994,
+              "id": 3050,
               "nodeType": "Block",
               "src": "555:68:4",
               "statements": [
@@ -11339,11 +11339,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 2990,
+                        "id": 3046,
                         "name": "_configContractAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2986,
+                        "referencedDeclaration": 3042,
                         "src": "576:22:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -11352,7 +11352,7 @@
                       },
                       {
                         "hexValue": "466175636574536f72616765",
-                        "id": 2991,
+                        "id": 3047,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -11378,7 +11378,7 @@
                           "typeString": "literal_string \"FaucetSorage\""
                         }
                       ],
-                      "id": 2989,
+                      "id": 3045,
                       "name": "initAdmin",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
@@ -11389,7 +11389,7 @@
                         "typeString": "function (address,string memory)"
                       }
                     },
-                    "id": 2992,
+                    "id": 3048,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -11405,13 +11405,13 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2993,
+                  "id": 3049,
                   "nodeType": "ExpressionStatement",
                   "src": "566:49:4"
                 }
               ]
             },
-            "id": 2995,
+            "id": 3051,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
@@ -11419,17 +11419,17 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2987,
+              "id": 3043,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2986,
+                  "id": 3042,
                   "mutability": "mutable",
                   "name": "_configContractAddress",
                   "nameLocation": "523:22:4",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2995,
+                  "scope": 3051,
                   "src": "515:30:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -11438,7 +11438,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2985,
+                    "id": 3041,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "515:7:4",
@@ -11454,12 +11454,12 @@
               "src": "514:32:4"
             },
             "returnParameters": {
-              "id": 2988,
+              "id": 3044,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "555:0:4"
             },
-            "scope": 3156,
+            "scope": 3212,
             "src": "503:120:4",
             "stateMutability": "payable",
             "virtual": false,
@@ -11467,23 +11467,23 @@
           },
           {
             "body": {
-              "id": 3085,
+              "id": 3141,
               "nodeType": "Block",
               "src": "850:1249:4",
               "statements": [
                 {
                   "assignments": [
-                    3001
+                    3057
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 3001,
+                      "id": 3057,
                       "mutability": "mutable",
                       "name": "currentBlockNumber",
                       "nameLocation": "869:18:4",
                       "nodeType": "VariableDeclaration",
-                      "scope": 3085,
+                      "scope": 3141,
                       "src": "861:26:4",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -11492,7 +11492,7 @@
                         "typeString": "uint256"
                       },
                       "typeName": {
-                        "id": 3000,
+                        "id": 3056,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
                         "src": "861:7:4",
@@ -11504,10 +11504,10 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 3004,
+                  "id": 3060,
                   "initialValue": {
                     "expression": {
-                      "id": 3002,
+                      "id": 3058,
                       "name": "block",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
@@ -11518,7 +11518,7 @@
                         "typeString": "block"
                       }
                     },
-                    "id": 3003,
+                    "id": 3059,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -11537,56 +11537,56 @@
                 },
                 {
                   "assignments": [
-                    3007
+                    3063
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 3007,
+                      "id": 3063,
                       "mutability": "mutable",
                       "name": "obj",
                       "nameLocation": "933:3:4",
                       "nodeType": "VariableDeclaration",
-                      "scope": 3085,
+                      "scope": 3141,
                       "src": "915:21:4",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_faucetUser_$2973_memory_ptr",
+                        "typeIdentifier": "t_struct$_faucetUser_$3029_memory_ptr",
                         "typeString": "struct FaucetStorage.faucetUser"
                       },
                       "typeName": {
-                        "id": 3006,
+                        "id": 3062,
                         "nodeType": "UserDefinedTypeName",
                         "pathNode": {
-                          "id": 3005,
+                          "id": 3061,
                           "name": "faucetUser",
                           "nameLocations": [
                             "915:10:4"
                           ],
                           "nodeType": "IdentifierPath",
-                          "referencedDeclaration": 2973,
+                          "referencedDeclaration": 3029,
                           "src": "915:10:4"
                         },
-                        "referencedDeclaration": 2973,
+                        "referencedDeclaration": 3029,
                         "src": "915:10:4",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_faucetUser_$2973_storage_ptr",
+                          "typeIdentifier": "t_struct$_faucetUser_$3029_storage_ptr",
                           "typeString": "struct FaucetStorage.faucetUser"
                         }
                       },
                       "visibility": "internal"
                     }
                   ],
-                  "id": 3011,
+                  "id": 3067,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 3009,
+                        "id": 3065,
                         "name": "_address",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2997,
+                        "referencedDeclaration": 3053,
                         "src": "954:8:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address_payable",
@@ -11601,18 +11601,18 @@
                           "typeString": "address payable"
                         }
                       ],
-                      "id": 3008,
+                      "id": 3064,
                       "name": "getFaucetUsage",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3125,
+                      "referencedDeclaration": 3181,
                       "src": "939:14:4",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_struct$_faucetUser_$2973_memory_ptr_$",
+                        "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_struct$_faucetUser_$3029_memory_ptr_$",
                         "typeString": "function (address) view returns (struct FaucetStorage.faucetUser memory)"
                       }
                     },
-                    "id": 3010,
+                    "id": 3066,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -11624,7 +11624,7 @@
                     "src": "939:24:4",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_faucetUser_$2973_memory_ptr",
+                      "typeIdentifier": "t_struct$_faucetUser_$3029_memory_ptr",
                       "typeString": "struct FaucetStorage.faucetUser memory"
                     }
                   },
@@ -11633,17 +11633,17 @@
                 },
                 {
                   "assignments": [
-                    3013
+                    3069
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 3013,
+                      "id": 3069,
                       "mutability": "mutable",
                       "name": "faucetBlockNoDifference",
                       "nameLocation": "1021:23:4",
                       "nodeType": "VariableDeclaration",
-                      "scope": 3085,
+                      "scope": 3141,
                       "src": "1013:31:4",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -11652,7 +11652,7 @@
                         "typeString": "uint128"
                       },
                       "typeName": {
-                        "id": 3012,
+                        "id": 3068,
                         "name": "uint128",
                         "nodeType": "ElementaryTypeName",
                         "src": "1013:7:4",
@@ -11664,7 +11664,7 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 3018,
+                  "id": 3074,
                   "initialValue": {
                     "arguments": [],
                     "expression": {
@@ -11673,18 +11673,18 @@
                         "arguments": [],
                         "expression": {
                           "argumentTypes": [],
-                          "id": 3014,
+                          "id": 3070,
                           "name": "getConfigStorage",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 43,
                           "src": "1047:16:4",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_function_internal_view$__$returns$_t_contract$_ConfigStorage_$2965_$",
+                            "typeIdentifier": "t_function_internal_view$__$returns$_t_contract$_ConfigStorage_$3021_$",
                             "typeString": "function () view returns (contract ConfigStorage)"
                           }
                         },
-                        "id": 3015,
+                        "id": 3071,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -11696,11 +11696,11 @@
                         "src": "1047:18:4",
                         "tryCall": false,
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_ConfigStorage_$2965",
+                          "typeIdentifier": "t_contract$_ConfigStorage_$3021",
                           "typeString": "contract ConfigStorage"
                         }
                       },
-                      "id": 3016,
+                      "id": 3072,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -11708,14 +11708,14 @@
                       "memberLocation": "1080:26:4",
                       "memberName": "getFaucetBlockNoDifference",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2824,
+                      "referencedDeclaration": 2880,
                       "src": "1047:59:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_view$__$returns$_t_uint128_$",
                         "typeString": "function () view external returns (uint128)"
                       }
                     },
-                    "id": 3017,
+                    "id": 3073,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -11736,17 +11736,17 @@
                 },
                 {
                   "assignments": [
-                    3020
+                    3076
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 3020,
+                      "id": 3076,
                       "mutability": "mutable",
                       "name": "faucetGas",
                       "nameLocation": "1171:9:4",
                       "nodeType": "VariableDeclaration",
-                      "scope": 3085,
+                      "scope": 3141,
                       "src": "1163:17:4",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -11755,7 +11755,7 @@
                         "typeString": "uint256"
                       },
                       "typeName": {
-                        "id": 3019,
+                        "id": 3075,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
                         "src": "1163:7:4",
@@ -11767,13 +11767,13 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 3029,
+                  "id": 3085,
                   "initialValue": {
                     "commonType": {
                       "typeIdentifier": "t_uint128",
                       "typeString": "uint128"
                     },
-                    "id": 3028,
+                    "id": 3084,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -11786,18 +11786,18 @@
                           "arguments": [],
                           "expression": {
                             "argumentTypes": [],
-                            "id": 3021,
+                            "id": 3077,
                             "name": "getConfigStorage",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 43,
                             "src": "1183:16:4",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_internal_view$__$returns$_t_contract$_ConfigStorage_$2965_$",
+                              "typeIdentifier": "t_function_internal_view$__$returns$_t_contract$_ConfigStorage_$3021_$",
                               "typeString": "function () view returns (contract ConfigStorage)"
                             }
                           },
-                          "id": 3022,
+                          "id": 3078,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -11809,11 +11809,11 @@
                           "src": "1183:18:4",
                           "tryCall": false,
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_ConfigStorage_$2965",
+                            "typeIdentifier": "t_contract$_ConfigStorage_$3021",
                             "typeString": "contract ConfigStorage"
                           }
                         },
-                        "id": 3023,
+                        "id": 3079,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -11821,14 +11821,14 @@
                         "memberLocation": "1202:12:4",
                         "memberName": "getFaucetGas",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 2816,
+                        "referencedDeclaration": 2872,
                         "src": "1183:31:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$__$returns$_t_uint128_$",
                           "typeString": "function () view external returns (uint128)"
                         }
                       },
-                      "id": 3024,
+                      "id": 3080,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -11851,14 +11851,14 @@
                         "typeIdentifier": "t_rational_1000000000000000000_by_1",
                         "typeString": "int_const 1000000000000000000"
                       },
-                      "id": 3027,
+                      "id": 3083,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
                       "lValueRequested": false,
                       "leftExpression": {
                         "hexValue": "3130",
-                        "id": 3025,
+                        "id": 3081,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -11876,7 +11876,7 @@
                       "operator": "**",
                       "rightExpression": {
                         "hexValue": "3138",
-                        "id": 3026,
+                        "id": 3082,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -11913,7 +11913,7 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 3037,
+                        "id": 3093,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -11922,14 +11922,14 @@
                           "expression": {
                             "arguments": [
                               {
-                                "id": 3033,
+                                "id": 3089,
                                 "name": "this",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 4294967268,
                                 "src": "1326:4:4",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_FaucetStorage_$3156",
+                                  "typeIdentifier": "t_contract$_FaucetStorage_$3212",
                                   "typeString": "contract FaucetStorage"
                                 }
                               }
@@ -11937,11 +11937,11 @@
                             "expression": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_FaucetStorage_$3156",
+                                  "typeIdentifier": "t_contract$_FaucetStorage_$3212",
                                   "typeString": "contract FaucetStorage"
                                 }
                               ],
-                              "id": 3032,
+                              "id": 3088,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -11953,14 +11953,14 @@
                                 "typeString": "type(address)"
                               },
                               "typeName": {
-                                "id": 3031,
+                                "id": 3087,
                                 "name": "address",
                                 "nodeType": "ElementaryTypeName",
                                 "src": "1318:7:4",
                                 "typeDescriptions": {}
                               }
                             },
-                            "id": 3034,
+                            "id": 3090,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -11976,7 +11976,7 @@
                               "typeString": "address"
                             }
                           },
-                          "id": 3035,
+                          "id": 3091,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -11993,11 +11993,11 @@
                         "nodeType": "BinaryOperation",
                         "operator": ">=",
                         "rightExpression": {
-                          "id": 3036,
+                          "id": 3092,
                           "name": "faucetGas",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 3020,
+                          "referencedDeclaration": 3076,
                           "src": "1343:9:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -12012,7 +12012,7 @@
                       },
                       {
                         "hexValue": "4e6f7420656e6f7567682066756e647320696e2066617563657421",
-                        "id": 3038,
+                        "id": 3094,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -12038,7 +12038,7 @@
                           "typeString": "literal_string \"Not enough funds in faucet!\""
                         }
                       ],
-                      "id": 3030,
+                      "id": 3086,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -12052,7 +12052,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 3039,
+                    "id": 3095,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12068,7 +12068,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 3040,
+                  "id": 3096,
                   "nodeType": "ExpressionStatement",
                   "src": "1296:111:4"
                 },
@@ -12078,7 +12078,7 @@
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     },
-                    "id": 3051,
+                    "id": 3107,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12088,25 +12088,25 @@
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       },
-                      "id": 3044,
+                      "id": 3100,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "leftExpression": {
                         "expression": {
-                          "id": 3041,
+                          "id": 3097,
                           "name": "obj",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 3007,
+                          "referencedDeclaration": 3063,
                           "src": "1513:3:4",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_faucetUser_$2973_memory_ptr",
+                            "typeIdentifier": "t_struct$_faucetUser_$3029_memory_ptr",
                             "typeString": "struct FaucetStorage.faucetUser memory"
                           }
                         },
-                        "id": 3042,
+                        "id": 3098,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -12114,7 +12114,7 @@
                         "memberLocation": "1517:7:4",
                         "memberName": "blockNo",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 2972,
+                        "referencedDeclaration": 3028,
                         "src": "1513:11:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -12125,7 +12125,7 @@
                       "operator": ">",
                       "rightExpression": {
                         "hexValue": "30",
-                        "id": 3043,
+                        "id": 3099,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -12152,7 +12152,7 @@
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       },
-                      "id": 3050,
+                      "id": 3106,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -12162,17 +12162,17 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 3048,
+                        "id": 3104,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
-                          "id": 3045,
+                          "id": 3101,
                           "name": "currentBlockNumber",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 3001,
+                          "referencedDeclaration": 3057,
                           "src": "1545:18:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -12183,18 +12183,18 @@
                         "operator": "-",
                         "rightExpression": {
                           "expression": {
-                            "id": 3046,
+                            "id": 3102,
                             "name": "obj",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3007,
+                            "referencedDeclaration": 3063,
                             "src": "1566:3:4",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_faucetUser_$2973_memory_ptr",
+                              "typeIdentifier": "t_struct$_faucetUser_$3029_memory_ptr",
                               "typeString": "struct FaucetStorage.faucetUser memory"
                             }
                           },
-                          "id": 3047,
+                          "id": 3103,
                           "isConstant": false,
                           "isLValue": true,
                           "isPure": false,
@@ -12202,7 +12202,7 @@
                           "memberLocation": "1570:7:4",
                           "memberName": "blockNo",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 2972,
+                          "referencedDeclaration": 3028,
                           "src": "1566:11:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -12218,11 +12218,11 @@
                       "nodeType": "BinaryOperation",
                       "operator": "<",
                       "rightExpression": {
-                        "id": 3049,
+                        "id": 3105,
                         "name": "faucetBlockNoDifference",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3013,
+                        "referencedDeclaration": 3069,
                         "src": "1580:23:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint128",
@@ -12241,11 +12241,11 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 3057,
+                  "id": 3113,
                   "nodeType": "IfStatement",
                   "src": "1495:182:4",
                   "trueBody": {
-                    "id": 3056,
+                    "id": 3112,
                     "nodeType": "Block",
                     "src": "1615:62:4",
                     "statements": [
@@ -12254,7 +12254,7 @@
                           "arguments": [
                             {
                               "hexValue": "466175636574207573656420746f6f20726563656e746c7921",
-                              "id": 3053,
+                              "id": 3109,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -12276,7 +12276,7 @@
                                 "typeString": "literal_string \"Faucet used too recently!\""
                               }
                             ],
-                            "id": 3052,
+                            "id": 3108,
                             "name": "revert",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
@@ -12290,7 +12290,7 @@
                               "typeString": "function (string memory) pure"
                             }
                           },
-                          "id": 3054,
+                          "id": 3110,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -12306,7 +12306,7 @@
                             "typeString": "tuple()"
                           }
                         },
-                        "id": 3055,
+                        "id": 3111,
                         "nodeType": "ExpressionStatement",
                         "src": "1630:35:4"
                       }
@@ -12317,11 +12317,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 3059,
+                        "id": 3115,
                         "name": "_address",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2997,
+                        "referencedDeclaration": 3053,
                         "src": "1769:8:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address_payable",
@@ -12329,11 +12329,11 @@
                         }
                       },
                       {
-                        "id": 3060,
+                        "id": 3116,
                         "name": "currentBlockNumber",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3001,
+                        "referencedDeclaration": 3057,
                         "src": "1779:18:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -12352,18 +12352,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 3058,
+                      "id": 3114,
                       "name": "addFaucetUsage",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3112,
+                      "referencedDeclaration": 3168,
                       "src": "1754:14:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 3061,
+                    "id": 3117,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12379,24 +12379,24 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 3062,
+                  "id": 3118,
                   "nodeType": "ExpressionStatement",
                   "src": "1754:44:4"
                 },
                 {
                   "assignments": [
-                    3064,
+                    3120,
                     null
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 3064,
+                      "id": 3120,
                       "mutability": "mutable",
                       "name": "success",
                       "nameLocation": "1817:7:4",
                       "nodeType": "VariableDeclaration",
-                      "scope": 3085,
+                      "scope": 3141,
                       "src": "1812:12:4",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -12405,7 +12405,7 @@
                         "typeString": "bool"
                       },
                       "typeName": {
-                        "id": 3063,
+                        "id": 3119,
                         "name": "bool",
                         "nodeType": "ElementaryTypeName",
                         "src": "1812:4:4",
@@ -12418,12 +12418,12 @@
                     },
                     null
                   ],
-                  "id": 3071,
+                  "id": 3127,
                   "initialValue": {
                     "arguments": [
                       {
                         "hexValue": "45746865722073656e74207375636365737366756c6c7921",
-                        "id": 3069,
+                        "id": 3125,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -12453,18 +12453,18 @@
                           }
                         ],
                         "expression": {
-                          "id": 3065,
+                          "id": 3121,
                           "name": "_address",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2997,
+                          "referencedDeclaration": 3053,
                           "src": "1830:8:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address_payable",
                             "typeString": "address payable"
                           }
                         },
-                        "id": 3066,
+                        "id": 3122,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -12478,7 +12478,7 @@
                           "typeString": "function (bytes memory) payable returns (bool,bytes memory)"
                         }
                       },
-                      "id": 3068,
+                      "id": 3124,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -12489,11 +12489,11 @@
                       "nodeType": "FunctionCallOptions",
                       "options": [
                         {
-                          "id": 3067,
+                          "id": 3123,
                           "name": "faucetGas",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 3020,
+                          "referencedDeclaration": 3076,
                           "src": "1851:9:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -12507,7 +12507,7 @@
                         "typeString": "function (bytes memory) payable returns (bool,bytes memory)"
                       }
                     },
-                    "id": 3070,
+                    "id": 3126,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12528,7 +12528,7 @@
                 },
                 {
                   "condition": {
-                    "id": 3073,
+                    "id": 3129,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12538,11 +12538,11 @@
                     "prefix": true,
                     "src": "1930:8:4",
                     "subExpression": {
-                      "id": 3072,
+                      "id": 3128,
                       "name": "success",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3064,
+                      "referencedDeclaration": 3120,
                       "src": "1931:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -12554,11 +12554,11 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 3079,
+                  "id": 3135,
                   "nodeType": "IfStatement",
                   "src": "1926:67:4",
                   "trueBody": {
-                    "id": 3078,
+                    "id": 3134,
                     "nodeType": "Block",
                     "src": "1940:53:4",
                     "statements": [
@@ -12567,7 +12567,7 @@
                           "arguments": [
                             {
                               "hexValue": "5472616e73666572206661696c65642e",
-                              "id": 3075,
+                              "id": 3131,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -12589,7 +12589,7 @@
                                 "typeString": "literal_string \"Transfer failed.\""
                               }
                             ],
-                            "id": 3074,
+                            "id": 3130,
                             "name": "revert",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
@@ -12603,7 +12603,7 @@
                               "typeString": "function (string memory) pure"
                             }
                           },
-                          "id": 3076,
+                          "id": 3132,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -12619,7 +12619,7 @@
                             "typeString": "tuple()"
                           }
                         },
-                        "id": 3077,
+                        "id": 3133,
                         "nodeType": "ExpressionStatement",
                         "src": "1955:26:4"
                       }
@@ -12630,11 +12630,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 3081,
+                        "id": 3137,
                         "name": "success",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3064,
+                        "referencedDeclaration": 3120,
                         "src": "2063:7:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
@@ -12643,7 +12643,7 @@
                       },
                       {
                         "hexValue": "5472616e73666572206661696c65642e",
-                        "id": 3082,
+                        "id": 3138,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -12669,7 +12669,7 @@
                           "typeString": "literal_string \"Transfer failed.\""
                         }
                       ],
-                      "id": 3080,
+                      "id": 3136,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -12683,7 +12683,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 3083,
+                    "id": 3139,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12699,14 +12699,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 3084,
+                  "id": 3140,
                   "nodeType": "ExpressionStatement",
                   "src": "2055:36:4"
                 }
               ]
             },
             "functionSelector": "76a54c60",
-            "id": 3086,
+            "id": 3142,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -12714,17 +12714,17 @@
             "nameLocation": "801:7:4",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2998,
+              "id": 3054,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2997,
+                  "id": 3053,
                   "mutability": "mutable",
                   "name": "_address",
                   "nameLocation": "825:8:4",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3086,
+                  "scope": 3142,
                   "src": "809:24:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -12733,7 +12733,7 @@
                     "typeString": "address payable"
                   },
                   "typeName": {
-                    "id": 2996,
+                    "id": 3052,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "809:15:4",
@@ -12749,12 +12749,12 @@
               "src": "808:26:4"
             },
             "returnParameters": {
-              "id": 2999,
+              "id": 3055,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "850:0:4"
             },
-            "scope": 3156,
+            "scope": 3212,
             "src": "792:1307:4",
             "stateMutability": "payable",
             "virtual": false,
@@ -12762,62 +12762,62 @@
           },
           {
             "body": {
-              "id": 3111,
+              "id": 3167,
               "nodeType": "Block",
               "src": "2175:145:4",
               "statements": [
                 {
                   "assignments": [
-                    3095
+                    3151
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 3095,
+                      "id": 3151,
                       "mutability": "mutable",
                       "name": "obj",
                       "nameLocation": "2204:3:4",
                       "nodeType": "VariableDeclaration",
-                      "scope": 3111,
+                      "scope": 3167,
                       "src": "2186:21:4",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_faucetUser_$2973_memory_ptr",
+                        "typeIdentifier": "t_struct$_faucetUser_$3029_memory_ptr",
                         "typeString": "struct FaucetStorage.faucetUser"
                       },
                       "typeName": {
-                        "id": 3094,
+                        "id": 3150,
                         "nodeType": "UserDefinedTypeName",
                         "pathNode": {
-                          "id": 3093,
+                          "id": 3149,
                           "name": "faucetUser",
                           "nameLocations": [
                             "2186:10:4"
                           ],
                           "nodeType": "IdentifierPath",
-                          "referencedDeclaration": 2973,
+                          "referencedDeclaration": 3029,
                           "src": "2186:10:4"
                         },
-                        "referencedDeclaration": 2973,
+                        "referencedDeclaration": 3029,
                         "src": "2186:10:4",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_faucetUser_$2973_storage_ptr",
+                          "typeIdentifier": "t_struct$_faucetUser_$3029_storage_ptr",
                           "typeString": "struct FaucetStorage.faucetUser"
                         }
                       },
                       "visibility": "internal"
                     }
                   ],
-                  "id": 3099,
+                  "id": 3155,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 3097,
+                        "id": 3153,
                         "name": "_blockNo",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3090,
+                        "referencedDeclaration": 3146,
                         "src": "2221:8:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -12832,18 +12832,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 3096,
+                      "id": 3152,
                       "name": "faucetUser",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2973,
+                      "referencedDeclaration": 3029,
                       "src": "2210:10:4",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_struct$_faucetUser_$2973_storage_ptr_$",
+                        "typeIdentifier": "t_type$_t_struct$_faucetUser_$3029_storage_ptr_$",
                         "typeString": "type(struct FaucetStorage.faucetUser storage pointer)"
                       }
                     },
-                    "id": 3098,
+                    "id": 3154,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12855,7 +12855,7 @@
                     "src": "2210:20:4",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_faucetUser_$2973_memory_ptr",
+                      "typeIdentifier": "t_struct$_faucetUser_$3029_memory_ptr",
                       "typeString": "struct FaucetStorage.faucetUser memory"
                     }
                   },
@@ -12864,31 +12864,31 @@
                 },
                 {
                   "expression": {
-                    "id": 3104,
+                    "id": 3160,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "baseExpression": {
-                        "id": 3100,
+                        "id": 3156,
                         "name": "Users",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2978,
+                        "referencedDeclaration": 3034,
                         "src": "2243:5:4",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$2973_storage_$",
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$3029_storage_$",
                           "typeString": "mapping(address => struct FaucetStorage.faucetUser storage ref)"
                         }
                       },
-                      "id": 3102,
+                      "id": 3158,
                       "indexExpression": {
-                        "id": 3101,
+                        "id": 3157,
                         "name": "_address",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3088,
+                        "referencedDeclaration": 3144,
                         "src": "2249:8:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -12902,31 +12902,31 @@
                       "nodeType": "IndexAccess",
                       "src": "2243:15:4",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_faucetUser_$2973_storage",
+                        "typeIdentifier": "t_struct$_faucetUser_$3029_storage",
                         "typeString": "struct FaucetStorage.faucetUser storage ref"
                       }
                     },
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 3103,
+                      "id": 3159,
                       "name": "obj",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3095,
+                      "referencedDeclaration": 3151,
                       "src": "2261:3:4",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_faucetUser_$2973_memory_ptr",
+                        "typeIdentifier": "t_struct$_faucetUser_$3029_memory_ptr",
                         "typeString": "struct FaucetStorage.faucetUser memory"
                       }
                     },
                     "src": "2243:21:4",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_faucetUser_$2973_storage",
+                      "typeIdentifier": "t_struct$_faucetUser_$3029_storage",
                       "typeString": "struct FaucetStorage.faucetUser storage ref"
                     }
                   },
-                  "id": 3105,
+                  "id": 3161,
                   "nodeType": "ExpressionStatement",
                   "src": "2243:21:4"
                 },
@@ -12934,11 +12934,11 @@
                   "eventCall": {
                     "arguments": [
                       {
-                        "id": 3107,
+                        "id": 3163,
                         "name": "_address",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3088,
+                        "referencedDeclaration": 3144,
                         "src": "2293:8:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -12946,11 +12946,11 @@
                         }
                       },
                       {
-                        "id": 3108,
+                        "id": 3164,
                         "name": "_blockNo",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3090,
+                        "referencedDeclaration": 3146,
                         "src": "2303:8:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -12969,18 +12969,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 3106,
+                      "id": 3162,
                       "name": "faucetUsed",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2984,
+                      "referencedDeclaration": 3040,
                       "src": "2282:10:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_uint256_$returns$__$",
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 3109,
+                    "id": 3165,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12996,13 +12996,13 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 3110,
+                  "id": 3166,
                   "nodeType": "EmitStatement",
                   "src": "2277:35:4"
                 }
               ]
             },
-            "id": 3112,
+            "id": 3168,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -13010,17 +13010,17 @@
             "nameLocation": "2116:14:4",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3091,
+              "id": 3147,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3088,
+                  "id": 3144,
                   "mutability": "mutable",
                   "name": "_address",
                   "nameLocation": "2139:8:4",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3112,
+                  "scope": 3168,
                   "src": "2131:16:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -13029,7 +13029,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3087,
+                    "id": 3143,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2131:7:4",
@@ -13043,12 +13043,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 3090,
+                  "id": 3146,
                   "mutability": "mutable",
                   "name": "_blockNo",
                   "nameLocation": "2157:8:4",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3112,
+                  "scope": 3168,
                   "src": "2149:16:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -13057,7 +13057,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3089,
+                    "id": 3145,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2149:7:4",
@@ -13072,12 +13072,12 @@
               "src": "2130:36:4"
             },
             "returnParameters": {
-              "id": 3092,
+              "id": 3148,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2175:0:4"
             },
-            "scope": 3156,
+            "scope": 3212,
             "src": "2107:213:4",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -13085,31 +13085,31 @@
           },
           {
             "body": {
-              "id": 3124,
+              "id": 3180,
               "nodeType": "Block",
               "src": "2442:41:4",
               "statements": [
                 {
                   "expression": {
                     "baseExpression": {
-                      "id": 3120,
+                      "id": 3176,
                       "name": "Users",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2978,
+                      "referencedDeclaration": 3034,
                       "src": "2460:5:4",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$2973_storage_$",
+                        "typeIdentifier": "t_mapping$_t_address_$_t_struct$_faucetUser_$3029_storage_$",
                         "typeString": "mapping(address => struct FaucetStorage.faucetUser storage ref)"
                       }
                     },
-                    "id": 3122,
+                    "id": 3178,
                     "indexExpression": {
-                      "id": 3121,
+                      "id": 3177,
                       "name": "_address",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3114,
+                      "referencedDeclaration": 3170,
                       "src": "2466:8:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -13123,19 +13123,19 @@
                     "nodeType": "IndexAccess",
                     "src": "2460:15:4",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_faucetUser_$2973_storage",
+                      "typeIdentifier": "t_struct$_faucetUser_$3029_storage",
                       "typeString": "struct FaucetStorage.faucetUser storage ref"
                     }
                   },
-                  "functionReturnParameters": 3119,
-                  "id": 3123,
+                  "functionReturnParameters": 3175,
+                  "id": 3179,
                   "nodeType": "Return",
                   "src": "2453:22:4"
                 }
               ]
             },
             "functionSelector": "aecf9866",
-            "id": 3125,
+            "id": 3181,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -13143,17 +13143,17 @@
             "nameLocation": "2337:14:4",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3115,
+              "id": 3171,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3114,
+                  "id": 3170,
                   "mutability": "mutable",
                   "name": "_address",
                   "nameLocation": "2360:8:4",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3125,
+                  "scope": 3181,
                   "src": "2352:16:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -13162,7 +13162,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3113,
+                    "id": 3169,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2352:7:4",
@@ -13178,41 +13178,41 @@
               "src": "2351:18:4"
             },
             "returnParameters": {
-              "id": 3119,
+              "id": 3175,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3118,
+                  "id": 3174,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3125,
+                  "scope": 3181,
                   "src": "2418:17:4",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_faucetUser_$2973_memory_ptr",
+                    "typeIdentifier": "t_struct$_faucetUser_$3029_memory_ptr",
                     "typeString": "struct FaucetStorage.faucetUser"
                   },
                   "typeName": {
-                    "id": 3117,
+                    "id": 3173,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 3116,
+                      "id": 3172,
                       "name": "faucetUser",
                       "nameLocations": [
                         "2418:10:4"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 2973,
+                      "referencedDeclaration": 3029,
                       "src": "2418:10:4"
                     },
-                    "referencedDeclaration": 2973,
+                    "referencedDeclaration": 3029,
                     "src": "2418:10:4",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_faucetUser_$2973_storage_ptr",
+                      "typeIdentifier": "t_struct$_faucetUser_$3029_storage_ptr",
                       "typeString": "struct FaucetStorage.faucetUser"
                     }
                   },
@@ -13221,7 +13221,7 @@
               ],
               "src": "2417:19:4"
             },
-            "scope": 3156,
+            "scope": 3212,
             "src": "2328:155:4",
             "stateMutability": "view",
             "virtual": false,
@@ -13229,7 +13229,7 @@
           },
           {
             "body": {
-              "id": 3137,
+              "id": 3193,
               "nodeType": "Block",
               "src": "2605:47:4",
               "statements": [
@@ -13238,14 +13238,14 @@
                     "expression": {
                       "arguments": [
                         {
-                          "id": 3133,
+                          "id": 3189,
                           "name": "this",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 4294967268,
                           "src": "2631:4:4",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_FaucetStorage_$3156",
+                            "typeIdentifier": "t_contract$_FaucetStorage_$3212",
                             "typeString": "contract FaucetStorage"
                           }
                         }
@@ -13253,11 +13253,11 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_contract$_FaucetStorage_$3156",
+                            "typeIdentifier": "t_contract$_FaucetStorage_$3212",
                             "typeString": "contract FaucetStorage"
                           }
                         ],
-                        "id": 3132,
+                        "id": 3188,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -13269,14 +13269,14 @@
                           "typeString": "type(address)"
                         },
                         "typeName": {
-                          "id": 3131,
+                          "id": 3187,
                           "name": "address",
                           "nodeType": "ElementaryTypeName",
                           "src": "2623:7:4",
                           "typeDescriptions": {}
                         }
                       },
-                      "id": 3134,
+                      "id": 3190,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -13292,7 +13292,7 @@
                         "typeString": "address"
                       }
                     },
-                    "id": 3135,
+                    "id": 3191,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -13306,21 +13306,21 @@
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 3130,
-                  "id": 3136,
+                  "functionReturnParameters": 3186,
+                  "id": 3192,
                   "nodeType": "Return",
                   "src": "2616:28:4"
                 }
               ]
             },
             "documentation": {
-              "id": 3126,
+              "id": 3182,
               "nodeType": "StructuredDocumentation",
               "src": "2491:50:4",
               "text": " Get the balance of the faucet"
             },
             "functionSelector": "f1f959a6",
-            "id": 3138,
+            "id": 3194,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -13328,23 +13328,23 @@
             "nameLocation": "2556:16:4",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3127,
+              "id": 3183,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2572:2:4"
             },
             "returnParameters": {
-              "id": 3130,
+              "id": 3186,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3129,
+                  "id": 3185,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3138,
+                  "scope": 3194,
                   "src": "2596:7:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -13353,7 +13353,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3128,
+                    "id": 3184,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2596:7:4",
@@ -13367,7 +13367,7 @@
               ],
               "src": "2595:9:4"
             },
-            "scope": 3156,
+            "scope": 3212,
             "src": "2547:105:4",
             "stateMutability": "view",
             "virtual": false,
@@ -13376,23 +13376,23 @@
           {
             "anonymous": false,
             "eventSelector": "88a5966d370b9919b20f3e2c13ff65706f196a4e32cc2c12bf57088f88525874",
-            "id": 3144,
+            "id": 3200,
             "name": "Received",
             "nameLocation": "2882:8:4",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3143,
+              "id": 3199,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3140,
+                  "id": 3196,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3144,
+                  "scope": 3200,
                   "src": "2891:7:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -13401,7 +13401,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3139,
+                    "id": 3195,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2891:7:4",
@@ -13415,13 +13415,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 3142,
+                  "id": 3198,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3144,
+                  "scope": 3200,
                   "src": "2900:7:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -13430,7 +13430,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3141,
+                    "id": 3197,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2900:7:4",
@@ -13448,7 +13448,7 @@
           },
           {
             "body": {
-              "id": 3154,
+              "id": 3210,
               "nodeType": "Block",
               "src": "2944:55:4",
               "statements": [
@@ -13457,7 +13457,7 @@
                     "arguments": [
                       {
                         "expression": {
-                          "id": 3148,
+                          "id": 3204,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
@@ -13468,7 +13468,7 @@
                             "typeString": "msg"
                           }
                         },
-                        "id": 3149,
+                        "id": 3205,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -13484,7 +13484,7 @@
                       },
                       {
                         "expression": {
-                          "id": 3150,
+                          "id": 3206,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
@@ -13495,7 +13495,7 @@
                             "typeString": "msg"
                           }
                         },
-                        "id": 3151,
+                        "id": 3207,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -13521,18 +13521,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 3147,
+                      "id": 3203,
                       "name": "Received",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3144,
+                      "referencedDeclaration": 3200,
                       "src": "2960:8:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_uint256_$returns$__$",
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 3152,
+                    "id": 3208,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -13548,13 +13548,13 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 3153,
+                  "id": 3209,
                   "nodeType": "EmitStatement",
                   "src": "2955:36:4"
                 }
               ]
             },
-            "id": 3155,
+            "id": 3211,
             "implemented": true,
             "kind": "receive",
             "modifiers": [],
@@ -13562,25 +13562,25 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3145,
+              "id": 3201,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2924:2:4"
             },
             "returnParameters": {
-              "id": 3146,
+              "id": 3202,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2944:0:4"
             },
-            "scope": 3156,
+            "scope": 3212,
             "src": "2917:82:4",
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 3157,
+        "scope": 3213,
         "src": "91:2963:4",
         "usedErrors": []
       }
@@ -13597,10 +13597,16 @@
       "links": {},
       "address": "0xb0e9b8c68D774B48E07520bED7837d3CA3f917Bf",
       "transactionHash": "0xc3dc48a5a5adb670d9e30afed09341e71ffb8e3e753a23be7ee1d1a1fb3dcc2a"
+    },
+    "1676575001171": {
+      "events": {},
+      "links": {},
+      "address": "0x1a04B17D3c601265C84D795523a5F867C3e77Cab",
+      "transactionHash": "0x956b3eba8ee7fce61acf653ed13e101db307fc210f2fb577adc7fbabf0ac5894"
     }
   },
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-02-05T15:35:28.678Z",
+  "updatedAt": "2023-02-16T19:17:31.936Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
