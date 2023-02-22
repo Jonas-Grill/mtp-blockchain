@@ -1,0 +1,140 @@
+= Knowledge Base Setup for Developers
+
+== Smart Contracts
+
+=== Prerequisites
+
+1. Change directory to `smart-contracts`
+2. Install packages using `npm i`
+
+=== Deploy smart contracts to local chain
+
+Deploy contracts to chain using truffle.
+
+1. Compile contracts `truffle compile`
+2. Deploy contracts `truffle deploy`
+
+=== Smart Contract Usage
+
+In total the project has two major smart contracts:
+
+1. `ConfigStorage`: Stores all necessary config parameters for the system to properly operate
+2. `FaucetStorage`: Functions that are necessary for operating the ethereum faucet
+
+Further the project also has some smart contracts that are implicitly deployed on the chain via inheritance.
+
+Three contract are used for this:
+
+1. `BaseAdmin`: Admin related functions
+2. `BaseAssignment`: Base functions that every assignment contract (from the students) needs
+3. `BaseValidator`: Base functions that every assignment validator contract (from the instructor) needs
+
+=== Base Contract usage
+
+A base contract can be easily imported into any other smart contract by importing the .sol file and referencing the file.
+
+Example:
+----
+import "../contracts/BaseAdmin.sol";
+
+contract ConfigStorage is BaseAdmin {
+    ...
+}
+----
+
+In this example the `ConfigStorage` smart contract inherits any function that the `BaseAdmin` class owns.
+
+=== Development of custom assignment validators
+
+To develop custom assignment validators two parts a necessary.
+
+==== Part 1 - Assignment interface:
+First of all the instructor needs to write a smart contract which owns all the necessary functions to test the smart contract as `virtual` functions.
+This file can then be inherited by the student and by the validator contract.
+
+An example interface file is shown here:
+
+image::interfaceExample.png[Assignment Interface]
+
+As you can see, the functions have no content and use the `virtual` keyword.
+Therefore, the students do not get help to solve the assignment but get a skeleton to implement the necessary functions/methods.
+
+==== Part 2 - Assignment Validator contract:
+Secondly, the instructor needs to create the necessary validation contract.
+To ensure that each validation contract follows the same guidelines as the others, the validation smart contract needs to inherit the `BaseValidator` contract.
+This base contract, offers an interface that every assignment validator contract needs.
+An example usage of the smart contract can be seen in the https://github.com/Jonas-Grill/mtp-blockchain/blob/main/smart-contracts/contracts/example/ExampleAssignmentValidator.sol[ExampleAssignmentValidator].
+
+=== Example
+
+The `ExampleAssignment` contract is a mock assignment with some simple functions.
+This contract is an example, just like the students would deploy to the blockchain.
+
+The instructor needs to develop an interface contract which is in our case the `ExampleAssignmentInterface`.
+As you may see, the functions are not implemented and marked as `virtual`.
+But they allow the `ExampleAssignmentValidator` contract to call the necessary functions for every contract which inherits the `ExampleAssignmentInterface`.
+
+Using the frontend it is possible to test the deployed `ExampleAssignment` by taking the address of the person who deployed the `ExampleAssignment` (should be the student address) and the address of the `ExampleAssignment` smart contract.
+Using these two parameters and the address of the validation contract it is possible to test any implementation of the `ExampleAssignment` contract (as long as the functions are implemented).
+
+== Frontend
+
+=== Prerequisites
+
+1. Change directory to `frontend`.
+2. Install packages using npm `npm i`
+
+=== Frontend & smart contracts
+
+To properly use the frontend the corresponding smart contracts have to be deployed to the chain.
+The documentation on how to deploy the smart contracts to the chain can be viewed xref:knowledgeBaseSetup.adoc#_deploy_smart_contracts_to_local_chain[here].
+
+=== Starting the frontend
+To start the frontend for development, run:
+
+----
+npm run dev
+----
+
+To start the frontend for production, run:
+
+----
+npm run build
+----
+
+== Faucet
+
+=== Prerequisites
+
+1. Change directory to `faucet`.
+2. Install packages using `npm i`
+
+=== Faucet & smart contracts
+
+To properly use the frontend the corresponding smart contracts have to be deployed to the chain.
+The documentation on how to deploy the smart contracts to the chain can be viewed xref:knowledgeBaseSetup.adoc#_deploy_smart_contracts_to_local_chain[here].
+
+=== Sending eth to faucet contract
+
+The faucet contract needs to have some ether to send to the students.
+To do so, send some ether to the faucet contract address. Use metamask or any other option to send gas to the FaucetStorage contract address.
+
+=== Starting express API
+
+To start the express API use the following command:
+
+----
+npm run dev
+----
+
+=== API Usage
+
+The API has one endpoint that can be used to send ether to a student.
+The endpoint is `POST /sendEth` and requires the following body:
+
+----
+{
+    "toAddress": "0x9f8fD6722f8f74c9942d0751374a542F5847BfD1"
+}
+----
+

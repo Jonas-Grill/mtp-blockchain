@@ -44,12 +44,16 @@ In the Assignment Overview you see all the assignment tasks which you have to co
 You won´t see a due date or time, but only starting block and end block for submission. One block is signed after 12 seconds.
 So you need to find out the current block number and calculate your due date on your own.
 The tasks itself are found on each assignment via a link that leads to a PDF document. There you can see the task descriptions and the maximum Knowledge you can earn.
-With your calculated due date and the task you are ready to write some code.
+With your calculated due date and the task you can start with the tasks.
+
+The validator contracts can only correctly evaluate your code, if you follow the instructions in the task description. So please read them carefully, before you start coding.
 
 == Step 6: Submitting/testing your assignments
 
 At Submit assignment, you can hand in your code. You need Eth for those steps, so make sure, that you used the faucet before.
-To submit or test, you have to deploy your solution on the blockchain. Then you can see the contract address of your code.
+To submit or test, you have to deploy your solution on the blockchain. This is done via hardhat.
+You can find a guide on how to do that here: https://hardhat.org/tutorial[Deploying with Hardhat].
+Then you can see the contract address of your code.
 In Knowledge Base, when you provide that contract address, in the background there is a smart contract or validator contract, that tests your code.
 The validator contract consists of a number of tests. According to the number of tests passed you achieve your Knowledge from the validator contract directly to your personal wallet, which may take a second.
 

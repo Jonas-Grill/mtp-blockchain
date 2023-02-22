@@ -1,39 +1,41 @@
 = Knowledge Base - Smart contracts
 
 The Knowledge Base runs completely on-chain and consists out of different smart contracts which interact with each other.
-
-:toc:
+The contracts are written in Solidity and compiled with the help of the `solc` compiler.
 
 == `ConfigStorage.sol`
-The `ConfigStorage.sol` smart contract is the central component of the Knowledge Base. It stores all the configuration data of the Knowledge Base. The configuration data is stored in various mappings and parameters. The conract also contains functions to set and get the configuration data. The `ConfigStorage.sol` smart contract inherits the `BaseConfigAdmin.sol` smart contract. The `BaseConfigAdmin.sol` smart contract contains functions to add and remove admins and contract admins.
+The `ConfigStorage.sol` smart contract is the central component of the Knowledge Base. It stores all the configuration data of the Knowledge Base.
+The configuration data is stored in various mappings and parameters.
+The contract also contains functions to set and get the configuration data.
+The `ConfigStorage.sol` smart contract inherits the `BaseConfigAdmin.sol` smart contract. The `BaseConfigAdmin.sol` smart contract contains functions to add and remove user admins and contract admins.
 
-The system differentiated between two types of admins:
+The system differentiates between two types of admins:
 
 * *User Admin* - The user admin can be a professor, teaching assistant or system admin. User admins can change the configuration of the system and add and remove admins.
-* *Contract Admin* - The contract admin are contracts that need special permissions to interact with the Knowledge Base. Usually all contracts that are part of the Knowledge Base are contract admins.
+* *Contract Admin* - The contract admins are contracts that need special permissions to interact with the Knowledge Base. Usually all contracts that are part of the Knowledge Base are contract admins.
 
-This role management system is used to ensure that only trusted users or contracts can access or change the configuration data of the Knowledge Base. This is especially important for the `SBCoin.sol` and validator smart contract. Because only admins should be allowed to transfer _Knowledge Coins_.
+This role management system is used to ensure that only trusted users or contracts can access or change the configuration data of the Knowledge Base.
+This is especially important for the `SBCoin.sol` and validator smart contract, because only admins should be allowed to transfer _Knowledge Coins_.
 
 === Parameters
 The `ConfigStorage.sol` smart contract stores the configuration data in various parameters. The parameters are used to store the configuration data in a more efficient way. The parameters are:
 
 * `uint128 faucetGas;` - The amount of gas the faucet can send to a user.
-* `uint128 faucetBlockNoDifference;` - The amount of blocks need to be passed before the faucet can be used again.
+* `uint128 faucetBlockNoDifference;` - The number of blocks that need to be waited out before the faucet can be used again.
 
 ==== Inherited parameters from `BaseConfigAdmin.sol`
 The `ConfigStorage.sol` smart contract inherits the following parameters from the `BaseConfigAdmin.sol` smart contract:
 
-* `address[] private admins;` - Stores the addresses of the admins.
+* `address[] private admins;` - Stores the addresses of the user admins.
 * `ContractAdmin[] private contractAdmins;` - Stores the contract admins.
 
-=== Mappings
-The `ConfigStorage.sol` smart contract stores the configuration data in various mappings. The mappings are used to store the configuration data in a more efficient way. The mappings are:
+=== Mapping
+The `ConfigStorage.sol` smart contract stores the configuration data in a mapping. The mapping is used to store the configuration data in a more efficient way. The mapping is:
 
 * `mapping(uint256 => NOWSemester) semesters;` - Stores the semesters of the Knowledge Base. The key of the mapping is the semester ID. The value of the mapping is a `NOWSemester` struct.
 
 === Structs
 The `ConfigStorage.sol` smart contract stores the configuration data in various structs. The structs are used to store the configuration data in a more efficient way. The structs are:
-
 
 * `struct NOWSemester {...}` - Stores the data of a semester. The struct contains the following parameters:
 [source,solidity]
@@ -64,8 +66,8 @@ struct NOWAssignments {
 }
 ----
 
-==== Inherited structs from `BaseConfigAdmin.sol`
-The `ConfigStorage.sol` smart contract inherits the following structs from the `BaseConfigAdmin.sol` smart contract:
+==== Inherited struct from `BaseConfigAdmin.sol`
+The `ConfigStorage.sol` smart contract inherits the following struct from the `BaseConfigAdmin.sol` smart contract:
 
 * `struct ContractAdmin {...}` - Stores the data of an admin. The struct contains the following parameters:
 [source,solidity]
@@ -78,78 +80,109 @@ struct ContractAdmin {
 ----
 
 === Functions
-The `ConfigStorage.sol` smart contract contains various functions. The paramaters, mappings and structs are used in the functions and can be setted or getted. For detailed descriptions of the functions, please see the comments in the `ConfigStorage.sol` smart contract.
+The `ConfigStorage.sol` smart contract contains various functions.
+The parameters, mappings and structs are used in the functions and can be set or read.
+For detailed descriptions of the functions, please see the comments in the `ConfigStorage.sol` smart contract.
 
 == `SBCoin.sol`
-The `SBCoin.sol` smart contract is the contract which stores the _Knowledge Coin_ in short _NOW_. This coin is the main currency of the Knowledge Base system and the payment students receive for successfully passing tests on their submitted assignments.
+The `SBCoin.sol` smart contract is the contract which stores the _Knowledge Coin_ in short _NOW_.
+This coin is the main currency of the Knowledge Base system and the payment students receive for successfully passing tests on their submitted assignments.
 
-All the functions of the contract are described in the comments to the code. The contract is written in Solidity language and compiled with the help of the `solc` compiler.
+All the functions of the contract are described in the comments of the code.
 
 === Security
 
-All minting, transfer or burning functions are restricted to user or contract admins. This ensures that only the contract owner can mint new coins and that only the contract owner or the contract admin can transfer coins to other users. So students cannot send coins to each other to cheat the system.
+All minting, transfer or burning functions are restricted to user or contract admins.
+This ensures that only the contract owner can mint new coins and that only the contract owner or the contract admin can transfer coins to other users.
+So students cannot send coins to each other to cheat the system.
 
-To ensure that students cannot reuse the Knowledge Coins from a previous semester, the Knowledge Coins are bounded to a block range. So students can only use the Knowledge Coins they received in the current semester for qualifying themselves for the current semester exam. This is done by the `mint` function. The `mint` function can only be called by user or contract admins and sends the amount of Knowledge Coins to the student's address and logs the amount with the current block number.
+To ensure that students cannot reuse the Knowledge Coins from a previous semester, the Knowledge Coins are bound to a block range.
+So students can only use the Knowledge Coins they received in the current semester for qualifying themselves for the current semester exam.
+This is done by the `mint` function. The `mint` function can only be called by user and contract admins and sends the amount of Knowledge Coins to the student's address and logs the amount with the current block number.
 
-The `burn` function can burn Knowledge Coins from the student's address. This function is also restricted to user or contract admins. Coins are burned by transferring them to a 0x0 address using the `_transfer` function.
+The `burn` function can burn Knowledge Coins from the student's address.
+This function is also restricted to user and contract admins. Coins are burned by transferring them to a 0x0 address using the `_transfer` function.
 
-The basic `_transfer` and `_approve` functions can only be called by user or contract admins. The `_transfer` function is used to transfer Knowledge Coins from one address to another. The `_approve` function is used to approve another address to spend a certain amount of Knowledge Coins from the sender's address.
-
-The `_transfer` function also keeps track of the change of coins for the block number restriction.
+The basic `_transfer` and `_approve` functions can only be called by user and contract admins.
+The `_transfer` function is used to transfer Knowledge Coins from one address to another. This function also keeps track of the change of coins for the block number restriction.
+The `_approve` function is used to approve another address to spend a certain amount of Knowledge Coins from the sender's address.
 
 == `FaucetStorage.sol`
 
-The `FaucetStorage.sol` smart contract is the contract which allows students to request ETH. To mock a real system and create an artificial value for ETH. ETH can only be requested after a certain block time. This block difference can be modified in the `ConfigStorage.sol`.
+The `FaucetStorage.sol` smart contract is the contract which allows students to request ETH.
+To mock a real system and create an artificial value for ETH, ETH can only be requested after a certain block time. This block difference can be modified in the `ConfigStorage.sol`.
 
-All the functions of the contract are described in the comments to the code. The contract is written in Solidity language and compiled with the help of the `solc` compiler.
+All the functions of the contract are described in the comments to the code.
 
-Every student can request ETH from the contract. The contract will check if the student has already requested ETH in the defined block difference range. If not the contract will send ETH to the student and store the block number of the transaction. If the student has already requested ETH in the defined block difference range, the contract will not send ETH to the student.
+Every student can request ETH from the contract. The contract will check if the student has already requested ETH in the defined block difference range.
+If not, the contract will send ETH to the student and store the block number of the transaction.
+If the student has already requested ETH in the defined block difference range, the contract will not send ETH to the student.
 
 == Assignment Validator
 
 Here is an explanation of the concept of the assignment validators.
 
-The job of the assignment validator is to check the validity of the assignment. The contract is doing this by interacting with the assignment of the student and calling different functions and checking the return values or the change of the state of the contract.
+The job of the assignment validator is to check the validity of the assignment.
+The contract does this by interacting with the assignment of the student and calling different functions and checking the return values or the change of the state of the contract.
 
-Each assignment validator, for convenience we call it _validator_, is pack of different contracts.
+Each assignment validator, for convenience we call it _validator_, is built out of many different contracts with one base contract.
 
 image::validator_example.png[]
 
 Contracts in the:
 
-* **/helper** directory are contracts that are used by the validator to check the validity of the assignment. They usually create components like an exchange of registry which are used by the validator or students.
+* **/helper** directory are contracts that are used by the validator to check the validity of the assignment.
+They usually create components like an exchange of registry which are used by the validator or students.
 
-* **/interface** directory are contracts that store the interface of the assignment. They are used by the validator to call the functions of the assignment. The student needs to name his functions in the same way as written in the interface and also define the input and output parameters in the same way.
+* **/interface** directory are contracts that store the interface of the assignment.
+They are used by the validator to call the functions of the assignment.
+The student needs to name his functions in the same way as written in the interface and also define the input and output parameters in the same way.
 
-* base directory contains the validator contracts. The contract without any suffix e.g. _Validator2.sol_ is the main validator contract. The other contracts e.g. _Validator2TaskC.sol_ are used to check single tasks, for this file it only checks tasks which where requested in _Task C_ of the assignment. The vase validator is organizing the calls to the task validators and is also responsible for the payment of the student.
+* base directory contain the validator contracts.
+The contract without any suffix e.g. _Validator2.sol_ is the main validator contract.
+The other contracts, e.g. _Validator2TaskC.sol_, are used to check single tasks.
+For this file it only checks tasks which where requested in _Task C_ of the assignment. The base validator is organizing the calls to the task validators and is also responsible for the payment of the student.
 
 === Process
 
-The student calls the `test(address)` function using the React frontend. He passes his assignment contract address. The validator than runs various tests on this contract. For each passed task the student receives a certain amount of predefined tokens. **No subpoints can be paid out**. The student can call the `test(address)` function as often as he wants. Each test gets registered and stored in a mapping. The result of the test can be accessed via the test id. This allows the student to see which tasks he passed and which not. The student can also see the reason why a task was not passed.
+The student calls the `test(address)` function using the React frontend. He passes his assignment contract address. The validator then runs various tests on this contract.
+For each passed test the student receives a certain amount of predefined tokens. **No subpoints can be paid out**.
+The student can call the `test(address)` function as often as he wants. Each test gets registered and stored in a mapping.
+The result of the test can be accessed via the test id. This allows the student to see which tests he passed and which not. The student can also see the reason why a test has not passed.
 
-If the student is happy with the result he can call the `submit(address)` function. This function will test the assignment again and then pays the student the tokens he earned. The student can only call this function once. After the student called this function the validator will not accept any more submit for this assignment.
+If the student is happy with the result he can call the `submit(address)` function. This function will test the assignment again and then pays the student the tokens he earned.
+The student can only call this function once. After the student called this function the validator will not accept another submission by this student for this assignment.
 
 The contract needs to be:
 
-* Deployed and submitted in block range of the assignment (plus 6 days of grace period)
+* Deployed and submitted in the block range of the assignment (plus 6 days of grace period)
 * The student needs to be the owner of the contract
 * No other submission is registered for this assignment by the `msg.sender`
 
 **IMPORTANT:**
 
-* The student always needs to call the `test(address)` and `submit(address)` function by their own. Because the system checks if the `msg.sender` is the owner of the contract. Furhter the `msg.sender` receives the tokens. Ensure to not try to submit an assignment via another contract.
+* The student always needs to call the `test(address)` and `submit(address)` function themself, because the system checks if the `msg.sender` is the owner of the contract.
+Further the `msg.sender` receives the tokens.
 
-* The owner of the contract is trackd by the `BaseAssignment.sol` contract. The `BaseAssignment.sol` is inherited by the validator. To set the owner the function `setAssignmentOwner` takes the `msg.sender` as the contract address and the `tx.origin` as the owner. So here the `setAssignmentOwner` **must be called by the student contract**. If the student is using a proxy contract the `setAssignmentOwner` function will log the wrong contract address. This will result in the fact that the student cannot submit the assignment.
+* The owner of the contract is tracked by the `BaseAssignment.sol` contract. The `BaseAssignment.sol` is inherited by the validator.
+To set the owner, the function `setAssignmentOwner` takes the `msg.sender` as the contract address and the `tx.origin` as the owner.
+So here the `setAssignmentOwner` **must be called by the student contract**. If the student is using a proxy contract the `setAssignmentOwner` function will log the wrong contract address.
+This will result in the fact that the student cannot submit the assignment.
 
-* It is only possible to once set the block creation and contract admin.
+* It is only possible to set the block creation and contract admin once.
 
 === Security
 
-To ensure that the student who submits the assignment is really the owner of the contract. Each student needs to inherit his assignment from the `BaseAssignment.sol` contract. This contract stores calls the corresponding validator contract and stores the _owner_ and _block number_ of creation. By storing the owner and the block number of creation we can ensure that the student is the owner of the contract and that the student is not trying to submit an assignment which is too old. Further the student cannot change the values.
+To ensure that the student who submits the assignment is really the owner of the contract, each student needs to inherit his assignment from the `BaseAssignment.sol` contract.
+This contract calls the corresponding validator contracts and stores the _owner_ and _block number_ at the deployment of the contract.
+By storing the owner and the block number at this point we can ensure that the student is the owner of the contract and that the student is not trying to submit an assignment which is too old.
+Further the student cannot change the values.
 
 === Admin
 
-It is possible to remove an already submitted Assignment by calling the `removeSubmittedAssignment(address)` function. This function is of course restricted to user or contract admins. The function will remove the assignment from the mapping and the student can submit the assignment again. BUT the student will also lose the tokens he already earned (`burn` function used).
+It is possible to remove an already submitted Assignment by calling the `removeSubmittedAssignment(address)` function.
+This function is of course restricted to user or contract admins. The function will remove the assignment from the mapping and the student can submit the assignment again.
+BUT the student will also lose the tokens he already earned (`burn` function used).
 
 === Create a new validator contract
 
@@ -164,12 +197,12 @@ Here a small explanation is given how to create a new validator contract.
 * `uint _requiredEther` - The amount of ether the validator needs to be able to test. So e.g. if the validator needs to test a payable function which requires 0.5 ETH, this value should be at least 0.5 ETH.
 3. Override the `test` function and create a new test history by call the `createTestHistory` function
 
-* This function creates a new test entry and stores the results. It returns the index of the test. 
+* This function creates a new test entry and stores the results. It returns the index of the test.
 * !IMPORTANT! The `createTestHistory` function needs to be called at the begining of the `test` function and the return value of the `createTestHistory` needs to be returned by the `test` function.
 
 4. In the test function different tests can be executed. How the tests are setup depends on the assignment.
 
-* When testing the code the validator contract can log failed or passed tests using the `appendTestResult()` function. This function takes the following parameters: 
+* When testing the code the validator contract can log failed or passed tests using the `appendTestResult()` function. This function takes the following parameters:
 
 * `string memory _name` - The name of the test
 * `bool _result` - The result of the test (true = passed, false = failed)
@@ -185,7 +218,7 @@ No additonal steps are required. The validator contract is now ready to be used.
 
 ===== Contract exceed maximum size
 
-The description above is the basic description of how the validator works. There are some extra features which are not required but can be used. The validator can easily exceed the maximum allowed size, therefore it is recommended to split the _base_ validator into different contracts. 
+The description above is the basic description of how the validator works. There are some extra features which are not required but can be used. The validator can easily exceed the maximum allowed size, therefore it is recommended to split the _base_ validator into different contracts.
 
 This can be done by creating a new contract and inherit it from the `BaseConfig`. Here it is important to register this contract as an admin. This can be done by calling the `initAdmin` function. The `initAdmin` function takes the following parameters:
 
@@ -203,9 +236,9 @@ As we call function from other contracts it is possible that the function is not
 * The function uses the wrong input parameters
 * The function uses the wrong output parameters
 
-If this happens the validator will log a `revert` and will completels stop the exection. This results in the fact that the student cannot submit the assignment. Even if only 1 function of 20 is missing he student will not be able to submit the assignment and will receive 0 points. 
+If this happens the validator will log a `revert` and will completels stop the exection. This results in the fact that the student cannot submit the assignment. Even if only 1 function of 20 is missing he student will not be able to submit the assignment and will receive 0 points.
 
-To solve this it is possible to call functions using the solidity assembly command.  
+To solve this it is possible to call functions using the solidity assembly command.
 
 The `BaseValidator.sol` contract contains the `hasFunction` function which uses the assembly function. This function takes the following parameters:
 

@@ -90,8 +90,6 @@ sudo reboot now
 ----
 and press enter. The Pi will now reboot.
 
-== Installing pupeth :( TODO
-
 == Setting up a geth node
 
 This step is still relevant for both miners and RPC nodes. Please follow the steps below to set up a geth node.

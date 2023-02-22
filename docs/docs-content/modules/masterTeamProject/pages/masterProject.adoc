@@ -11,7 +11,7 @@ The project was first launched in spring semester 2023.
 
 The basic idea of Prof. Strohmaier was to teach blockchain by using a blockchain based learning system.
 Therefore, basic concepts such as block numbers and smart contracts are understood through using the system.
-We implemented a frontend with Next.js and tailwindCSS. The faucet for first Eth distribution was implemented via a Node.js backend.
+We implemented a frontend with Next.js together with React. The faucet for first Eth distribution was implemented via a Node.js backend.
 All other logical operations are running directly on-chain.
 Only for the submission of student ID and wallet addresses, an off-chain system such as ILIAS is used to comply to data privacy rules.
 But ILIAS is not directly connected to the Knowledge base.
@@ -24,10 +24,7 @@ If you want to learn more about the things that were mentioned above, listen to 
 
 == The Knowledge base system
 
-As already mentioned, the system is based on a blockchain, and we did almost everything by ourselves.
-But here is a quick overview of the system:
+As already mentioned, Knowledge Base is sat up on a blockchain, and we did almost everything by ourselves.
+But here is a quick overview of the system architecture:
 
 image::architecture.png[]
-
-== Tests
-

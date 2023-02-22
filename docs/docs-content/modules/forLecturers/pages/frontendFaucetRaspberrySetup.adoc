@@ -62,7 +62,7 @@ This will download the frontend to the specified directory of the Raspberry Pi.
 
 === Building and running the frontend
 
-For this step you need to create a skript, which will be used to build and run the frontend.
+For this step you need to create a script, which will be used to build and run the frontend.
 To do so, open a terminal window and navigate to the frontend folder in the repository.
 Then run the following command:
 ----
@@ -152,3 +152,17 @@ Now you can start the faucet by running the following command:
 ----
 sh start_faucet.sh
 ----
+
+== Creating .env files
+
+This step is relevant for the frontend and the faucet after they have been set up according to the instructions above.
+To create the .env files, open a terminal window and navigate to the frontend or faucet folder in the repository.
+Then run the following command:
+----
+nano .env
+----
+and press enter. This will open the nano editor.
+In the frontend folder you find an example.env file, which you can copy and paste into the editor.
+You can make changes to the .env file according to your needs.
+After you copied the code, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.
+This needs to be done for both the frontend and the faucet in their respective folders.

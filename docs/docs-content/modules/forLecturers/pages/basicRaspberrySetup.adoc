@@ -69,7 +69,7 @@ Also in the configuration window, go to Localisation and set the keyboard layout
 To update the software on the Raspberry Pi, you need to open a terminal window. You can do this by clicking on the raspberry icon in the top left corner and selecting "Accessories" and then "Terminal".
 Then you need to type in the following command:
 ----
-sudo apg-get update && sudo apt-get full-upgrade
+sudo apt-get update && sudo apt-get full-upgrade
 ----
 and press enter. This will update the software on the Raspberry Pi. This will take a while. Once it is done, you can close the terminal window. Please do this in the initial setup and also *regularly to keep the software up to date. This is especially important for security reasons.*
 
@@ -89,7 +89,7 @@ Then press "Ctrl + X" to exit the editor. Then press "Y" to save the changes.
 
 Now you need to restart the SSH service by typing in the following command:
 ----
-sudo service restart ssh
+sudo service ssh restart
 ----
 and press enter. This will restart the SSH service.
 
