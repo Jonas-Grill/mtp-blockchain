@@ -10,7 +10,7 @@
     "dashboard": "truffle dashboard",
     "prod": "truffle migrate --network unima --compile-none",
     "dash": "truffle migrate --network dashboard --compile-none && truffle console --network dashboard",
-    "github": "npx truffle compile --compile-none & npx truffle deploy --compile-none"
+    "github": "npx truffle compile & npx truffle deploy --compile-none"
   },
   "repository": {
     "type": "git",
