@@ -22,7 +22,7 @@ module.exports = {
           mnemonic: {
             phrase: getEnv('ETH_WALLET_MNEMONIC')
           },
-          providerOrUrl: "http://192.168.178.68:8506"
+          providerOrUrl: getEnv('PROVIDER')
         });
       },
       network_id: 1337

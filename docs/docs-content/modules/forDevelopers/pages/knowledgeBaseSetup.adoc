@@ -11,7 +11,8 @@
 
 Deploy contracts to chain using truffle.
 
-1. Compile contracts `truffle compile`
+1. Optional: Only recompile the contracts if you did some changes to the contracts `truffle compile`.
+   The contracts are already compiled and can be found in the `build` folder. The frontend needs to have the contracts compiled in order to work.
 2. Deploy contracts `truffle deploy`
 
 === Smart Contract Usage

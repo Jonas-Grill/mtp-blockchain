@@ -1,0 +1,32 @@
+= Setting up the KnowledgeBase
+
+To set up the KnowledgeBase, you need to deploy the KnowledgeBase smart contracts.
+To do this, you need to first start the rpc node. Then navigate to the folder where the smart contracts are located.
+To do this from the repository root, type:
+----
+cd smart-contracts
+----
+Then you need to create a file called ".env". To do this, type:
+----
+nano .env
+----
+and press enter. Then paste the following lines into the file:
+----
+ETH_WALLET_MNEMONIC="YOUR MNEMONIC"
+PROVIDER="YOUR PROVIDER"
+----
+
+You need to change the following lines:
+* ETH_WALLET_MNEMONIC to the mnemonic of the wallet you want to use to deploy the smart contracts.
+* PROVIDER to the URL of the RPC API of the node you want to use to deploy the smart contracts.
+
+Then press CTRL+S and CTRL+X to save and exit the file.
+
+Note that the account you use to deploy the smart contracts needs to have enough Ether to pay for the gas.
+It also important that the account you use to deploy the smart contracts is the only admin at the beginning.
+You can add more admins later on, but only with the account you used to deploy the smart contracts.
+Now you can deploy the smart contracts by typing:
+----
+npm run prod
+----
+This will deploy the smart contracts.
