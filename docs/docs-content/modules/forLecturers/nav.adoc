@@ -3,5 +3,6 @@
 ** xref:basicRaspberrySetup.adoc[Basic Raspberry Pi setup]
 ** xref:frontendFaucetRaspberrySetup.adoc[Frontend & Faucet Raspberry Pi setup]
 ** xref:minerRPCRaspberrySetup.adoc[Miner Node & RPC Node Raspberry Pi setup]
+* xref:setupTheKnowledgeBase.adoc[KnowledgeBase setup]
 * xref:newSemester.adoc[Start a new semester]
 * xref:adminFunctions.adoc[Admin functions]
