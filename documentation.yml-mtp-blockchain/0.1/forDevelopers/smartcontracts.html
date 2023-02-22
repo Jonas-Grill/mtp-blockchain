@@ -86,7 +86,7 @@
     <span class="nav-text">For Developers</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="frontend.html">Frontend &amp; Blockchain interaction</a>
+    <a class="nav-link" href="knowledgeBaseSetup.html">Frontend &amp; Blockchain interaction</a>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="smartcontracts.html">Knowledge Base - Smart contracts</a>
@@ -136,7 +136,8 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>The Knowledge Base runs completely on-chain and consists out of different smart contracts which interact with each other.</p>
+<p>The Knowledge Base runs completely on-chain and consists out of different smart contracts which interact with each other.
+The contracts are written in Solidity and compiled with the help of the <code>solc</code> compiler.</p>
 </div>
 </div>
 </div>
@@ -144,10 +145,13 @@
 <h2 id="_configstorage_sol"><a class="anchor" href="#_configstorage_sol"></a><code>ConfigStorage.sol</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The <code>ConfigStorage.sol</code> smart contract is the central component of the Knowledge Base. It stores all the configuration data of the Knowledge Base. The configuration data is stored in various mappings and parameters. The conract also contains functions to set and get the configuration data. The <code>ConfigStorage.sol</code> smart contract inherits the <code>BaseConfigAdmin.sol</code> smart contract. The <code>BaseConfigAdmin.sol</code> smart contract contains functions to add and remove admins and contract admins.</p>
+<p>The <code>ConfigStorage.sol</code> smart contract is the central component of the Knowledge Base. It stores all the configuration data of the Knowledge Base.
+The configuration data is stored in various mappings and parameters.
+The contract also contains functions to set and get the configuration data.
+The <code>ConfigStorage.sol</code> smart contract inherits the <code>BaseConfigAdmin.sol</code> smart contract. The <code>BaseConfigAdmin.sol</code> smart contract contains functions to add and remove user admins and contract admins.</p>
 </div>
 <div class="paragraph">
-<p>The system differentiated between two types of admins:</p>
+<p>The system differentiates between two types of admins:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -155,12 +159,13 @@
 <p><strong>User Admin</strong> - The user admin can be a professor, teaching assistant or system admin. User admins can change the configuration of the system and add and remove admins.</p>
 </li>
 <li>
-<p><strong>Contract Admin</strong> - The contract admin are contracts that need special permissions to interact with the Knowledge Base. Usually all contracts that are part of the Knowledge Base are contract admins.</p>
+<p><strong>Contract Admin</strong> - The contract admins are contracts that need special permissions to interact with the Knowledge Base. Usually all contracts that are part of the Knowledge Base are contract admins.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>This role management system is used to ensure that only trusted users or contracts can access or change the configuration data of the Knowledge Base. This is especially important for the <code>SBCoin.sol</code> and validator smart contract. Because only admins should be allowed to transfer <em>Knowledge Coins</em>.</p>
+<p>This role management system is used to ensure that only trusted users or contracts can access or change the configuration data of the Knowledge Base.
+This is especially important for the <code>SBCoin.sol</code> and validator smart contract, because only admins should be allowed to transfer <em>Knowledge Coins</em>.</p>
 </div>
 <div class="sect2">
 <h3 id="_parameters"><a class="anchor" href="#_parameters"></a>Parameters</h3>
@@ -173,7 +178,7 @@
 <p><code>uint128 faucetGas;</code> - The amount of gas the faucet can send to a user.</p>
 </li>
 <li>
-<p><code>uint128 faucetBlockNoDifference;</code> - The amount of blocks need to be passed before the faucet can be used again.</p>
+<p><code>uint128 faucetBlockNoDifference;</code> - The number of blocks that need to be waited out before the faucet can be used again.</p>
 </li>
 </ul>
 </div>
@@ -185,7 +190,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>address[] private admins;</code> - Stores the addresses of the admins.</p>
+<p><code>address[] private admins;</code> - Stores the addresses of the user admins.</p>
 </li>
 <li>
 <p><code>ContractAdmin[] private contractAdmins;</code> - Stores the contract admins.</p>
@@ -195,9 +200,9 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mappings"><a class="anchor" href="#_mappings"></a>Mappings</h3>
+<h3 id="_mapping"><a class="anchor" href="#_mapping"></a>Mapping</h3>
 <div class="paragraph">
-<p>The <code>ConfigStorage.sol</code> smart contract stores the configuration data in various mappings. The mappings are used to store the configuration data in a more efficient way. The mappings are:</p>
+<p>The <code>ConfigStorage.sol</code> smart contract stores the configuration data in a mapping. The mapping is used to store the configuration data in a more efficient way. The mapping is:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -254,9 +259,9 @@
 </div>
 </div>
 <div class="sect3">
-<h4 id="_inherited_structs_from_baseconfigadmin_sol"><a class="anchor" href="#_inherited_structs_from_baseconfigadmin_sol"></a>Inherited structs from <code>BaseConfigAdmin.sol</code></h4>
+<h4 id="_inherited_struct_from_baseconfigadmin_sol"><a class="anchor" href="#_inherited_struct_from_baseconfigadmin_sol"></a>Inherited struct from <code>BaseConfigAdmin.sol</code></h4>
 <div class="paragraph">
-<p>The <code>ConfigStorage.sol</code> smart contract inherits the following structs from the <code>BaseConfigAdmin.sol</code> smart contract:</p>
+<p>The <code>ConfigStorage.sol</code> smart contract inherits the following struct from the <code>BaseConfigAdmin.sol</code> smart contract:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -279,7 +284,9 @@
 <div class="sect2">
 <h3 id="_functions"><a class="anchor" href="#_functions"></a>Functions</h3>
 <div class="paragraph">
-<p>The <code>ConfigStorage.sol</code> smart contract contains various functions. The paramaters, mappings and structs are used in the functions and can be setted or getted. For detailed descriptions of the functions, please see the comments in the <code>ConfigStorage.sol</code> smart contract.</p>
+<p>The <code>ConfigStorage.sol</code> smart contract contains various functions.
+The parameters, mappings and structs are used in the functions and can be set or read.
+For detailed descriptions of the functions, please see the comments in the <code>ConfigStorage.sol</code> smart contract.</p>
 </div>
 </div>
 </div>
@@ -288,27 +295,32 @@
 <h2 id="_sbcoin_sol"><a class="anchor" href="#_sbcoin_sol"></a><code>SBCoin.sol</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The <code>SBCoin.sol</code> smart contract is the contract which stores the <em>Knowledge Coin</em> in short <em>NOW</em>. This coin is the main currency of the Knowledge Base system and the payment students receive for successfully passing tests on their submitted assignments.</p>
+<p>The <code>SBCoin.sol</code> smart contract is the contract which stores the <em>Knowledge Coin</em> in short <em>NOW</em>.
+This coin is the main currency of the Knowledge Base system and the payment students receive for successfully passing tests on their submitted assignments.</p>
 </div>
 <div class="paragraph">
-<p>All the functions of the contract are described in the comments to the code. The contract is written in Solidity language and compiled with the help of the <code>solc</code> compiler.</p>
+<p>All the functions of the contract are described in the comments of the code.</p>
 </div>
 <div class="sect2">
 <h3 id="_security"><a class="anchor" href="#_security"></a>Security</h3>
 <div class="paragraph">
-<p>All minting, transfer or burning functions are restricted to user or contract admins. This ensures that only the contract owner can mint new coins and that only the contract owner or the contract admin can transfer coins to other users. So students cannot send coins to each other to cheat the system.</p>
+<p>All minting, transfer or burning functions are restricted to user or contract admins.
+This ensures that only the contract owner can mint new coins and that only the contract owner or the contract admin can transfer coins to other users.
+So students cannot send coins to each other to cheat the system.</p>
 </div>
 <div class="paragraph">
-<p>To ensure that students cannot reuse the Knowledge Coins from a previous semester, the Knowledge Coins are bounded to a block range. So students can only use the Knowledge Coins they received in the current semester for qualifying themselves for the current semester exam. This is done by the <code>mint</code> function. The <code>mint</code> function can only be called by user or contract admins and sends the amount of Knowledge Coins to the student&#8217;s address and logs the amount with the current block number.</p>
+<p>To ensure that students cannot reuse the Knowledge Coins from a previous semester, the Knowledge Coins are bound to a block range.
+So students can only use the Knowledge Coins they received in the current semester for qualifying themselves for the current semester exam.
+This is done by the <code>mint</code> function. The <code>mint</code> function can only be called by user and contract admins and sends the amount of Knowledge Coins to the student&#8217;s address and logs the amount with the current block number.</p>
 </div>
 <div class="paragraph">
-<p>The <code>burn</code> function can burn Knowledge Coins from the student&#8217;s address. This function is also restricted to user or contract admins. Coins are burned by transferring them to a 0x0 address using the <code>_transfer</code> function.</p>
+<p>The <code>burn</code> function can burn Knowledge Coins from the student&#8217;s address.
+This function is also restricted to user and contract admins. Coins are burned by transferring them to a 0x0 address using the <code>_transfer</code> function.</p>
 </div>
 <div class="paragraph">
-<p>The basic <code>_transfer</code> and <code>_approve</code> functions can only be called by user or contract admins. The <code>_transfer</code> function is used to transfer Knowledge Coins from one address to another. The <code>_approve</code> function is used to approve another address to spend a certain amount of Knowledge Coins from the sender&#8217;s address.</p>
-</div>
-<div class="paragraph">
-<p>The <code>_transfer</code> function also keeps track of the change of coins for the block number restriction.</p>
+<p>The basic <code>_transfer</code> and <code>_approve</code> functions can only be called by user and contract admins.
+The <code>_transfer</code> function is used to transfer Knowledge Coins from one address to another. This function also keeps track of the change of coins for the block number restriction.
+The <code>_approve</code> function is used to approve another address to spend a certain amount of Knowledge Coins from the sender&#8217;s address.</p>
 </div>
 </div>
 </div>
@@ -317,13 +329,16 @@
 <h2 id="_faucetstorage_sol"><a class="anchor" href="#_faucetstorage_sol"></a><code>FaucetStorage.sol</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The <code>FaucetStorage.sol</code> smart contract is the contract which allows students to request ETH. To mock a real system and create an artificial value for ETH. ETH can only be requested after a certain block time. This block difference can be modified in the <code>ConfigStorage.sol</code>.</p>
+<p>The <code>FaucetStorage.sol</code> smart contract is the contract which allows students to request ETH.
+To mock a real system and create an artificial value for ETH, ETH can only be requested after a certain block time. This block difference can be modified in the <code>ConfigStorage.sol</code>.</p>
 </div>
 <div class="paragraph">
-<p>All the functions of the contract are described in the comments to the code. The contract is written in Solidity language and compiled with the help of the <code>solc</code> compiler.</p>
+<p>All the functions of the contract are described in the comments to the code.</p>
 </div>
 <div class="paragraph">
-<p>Every student can request ETH from the contract. The contract will check if the student has already requested ETH in the defined block difference range. If not the contract will send ETH to the student and store the block number of the transaction. If the student has already requested ETH in the defined block difference range, the contract will not send ETH to the student.</p>
+<p>Every student can request ETH from the contract. The contract will check if the student has already requested ETH in the defined block difference range.
+If not, the contract will send ETH to the student and store the block number of the transaction.
+If the student has already requested ETH in the defined block difference range, the contract will not send ETH to the student.</p>
 </div>
 </div>
 </div>
@@ -334,10 +349,11 @@
 <p>Here is an explanation of the concept of the assignment validators.</p>
 </div>
 <div class="paragraph">
-<p>The job of the assignment validator is to check the validity of the assignment. The contract is doing this by interacting with the assignment of the student and calling different functions and checking the return values or the change of the state of the contract.</p>
+<p>The job of the assignment validator is to check the validity of the assignment.
+The contract does this by interacting with the assignment of the student and calling different functions and checking the return values or the change of the state of the contract.</p>
 </div>
 <div class="paragraph">
-<p>Each assignment validator, for convenience we call it <em>validator</em>, is pack of different contracts.</p>
+<p>Each assignment validator, for convenience we call it <em>validator</em>, is built out of many different contracts with one base contract.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -350,23 +366,33 @@
 <div class="ulist">
 <ul>
 <li>
-<p><strong>/helper</strong> directory are contracts that are used by the validator to check the validity of the assignment. They usually create components like an exchange of registry which are used by the validator or students.</p>
+<p><strong>/helper</strong> directory are contracts that are used by the validator to check the validity of the assignment.
+They usually create components like an exchange of registry which are used by the validator or students.</p>
 </li>
 <li>
-<p><strong>/interface</strong> directory are contracts that store the interface of the assignment. They are used by the validator to call the functions of the assignment. The student needs to name his functions in the same way as written in the interface and also define the input and output parameters in the same way.</p>
+<p><strong>/interface</strong> directory are contracts that store the interface of the assignment.
+They are used by the validator to call the functions of the assignment.
+The student needs to name his functions in the same way as written in the interface and also define the input and output parameters in the same way.</p>
 </li>
 <li>
-<p>base directory contains the validator contracts. The contract without any suffix e.g. <em>Validator2.sol</em> is the main validator contract. The other contracts e.g. <em>Validator2TaskC.sol</em> are used to check single tasks, for this file it only checks tasks which where requested in <em>Task C</em> of the assignment. The vase validator is organizing the calls to the task validators and is also responsible for the payment of the student.</p>
+<p>base directory contain the validator contracts.
+The contract without any suffix e.g. <em>Validator2.sol</em> is the main validator contract.
+The other contracts, e.g. <em>Validator2TaskC.sol</em>, are used to check single tasks.
+For this file it only checks tasks which where requested in <em>Task C</em> of the assignment. The base validator is organizing the calls to the task validators and is also responsible for the payment of the student.</p>
 </li>
 </ul>
 </div>
 <div class="sect2">
 <h3 id="_process"><a class="anchor" href="#_process"></a>Process</h3>
 <div class="paragraph">
-<p>The student calls the <code>test(address)</code> function using the React frontend. He passes his assignment contract address. The validator than runs various tests on this contract. For each passed task the student receives a certain amount of predefined tokens. <strong>No subpoints can be paid out</strong>. The student can call the <code>test(address)</code> function as often as he wants. Each test gets registered and stored in a mapping. The result of the test can be accessed via the test id. This allows the student to see which tasks he passed and which not. The student can also see the reason why a task was not passed.</p>
+<p>The student calls the <code>test(address)</code> function using the React frontend. He passes his assignment contract address. The validator then runs various tests on this contract.
+For each passed test the student receives a certain amount of predefined tokens. <strong>No subpoints can be paid out</strong>.
+The student can call the <code>test(address)</code> function as often as he wants. Each test gets registered and stored in a mapping.
+The result of the test can be accessed via the test id. This allows the student to see which tests he passed and which not. The student can also see the reason why a test has not passed.</p>
 </div>
 <div class="paragraph">
-<p>If the student is happy with the result he can call the <code>submit(address)</code> function. This function will test the assignment again and then pays the student the tokens he earned. The student can only call this function once. After the student called this function the validator will not accept any more submit for this assignment.</p>
+<p>If the student is happy with the result he can call the <code>submit(address)</code> function. This function will test the assignment again and then pays the student the tokens he earned.
+The student can only call this function once. After the student called this function the validator will not accept another submission by this student for this assignment.</p>
 </div>
 <div class="paragraph">
 <p>The contract needs to be:</p>
@@ -374,7 +400,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>Deployed and submitted in block range of the assignment (plus 6 days of grace period)</p>
+<p>Deployed and submitted in the block range of the assignment (plus 6 days of grace period)</p>
 </li>
 <li>
 <p>The student needs to be the owner of the contract</p>
@@ -390,13 +416,17 @@
 <div class="ulist">
 <ul>
 <li>
-<p>The student always needs to call the <code>test(address)</code> and <code>submit(address)</code> function by their own. Because the system checks if the <code>msg.sender</code> is the owner of the contract. Furhter the <code>msg.sender</code> receives the tokens. Ensure to not try to submit an assignment via another contract.</p>
+<p>The student always needs to call the <code>test(address)</code> and <code>submit(address)</code> function themself, because the system checks if the <code>msg.sender</code> is the owner of the contract.
+Further the <code>msg.sender</code> receives the tokens.</p>
 </li>
 <li>
-<p>The owner of the contract is trackd by the <code>BaseAssignment.sol</code> contract. The <code>BaseAssignment.sol</code> is inherited by the validator. To set the owner the function <code>setAssignmentOwner</code> takes the <code>msg.sender</code> as the contract address and the <code>tx.origin</code> as the owner. So here the <code>setAssignmentOwner</code> <strong>must be called by the student contract</strong>. If the student is using a proxy contract the <code>setAssignmentOwner</code> function will log the wrong contract address. This will result in the fact that the student cannot submit the assignment.</p>
+<p>The owner of the contract is tracked by the <code>BaseAssignment.sol</code> contract. The <code>BaseAssignment.sol</code> is inherited by the validator.
+To set the owner, the function <code>setAssignmentOwner</code> takes the <code>msg.sender</code> as the contract address and the <code>tx.origin</code> as the owner.
+So here the <code>setAssignmentOwner</code> <strong>must be called by the student contract</strong>. If the student is using a proxy contract the <code>setAssignmentOwner</code> function will log the wrong contract address.
+This will result in the fact that the student cannot submit the assignment.</p>
 </li>
 <li>
-<p>It is only possible to once set the block creation and contract admin.</p>
+<p>It is only possible to set the block creation and contract admin once.</p>
 </li>
 </ul>
 </div>
@@ -404,13 +434,18 @@
 <div class="sect2">
 <h3 id="_security_2"><a class="anchor" href="#_security_2"></a>Security</h3>
 <div class="paragraph">
-<p>To ensure that the student who submits the assignment is really the owner of the contract. Each student needs to inherit his assignment from the <code>BaseAssignment.sol</code> contract. This contract stores calls the corresponding validator contract and stores the <em>owner</em> and <em>block number</em> of creation. By storing the owner and the block number of creation we can ensure that the student is the owner of the contract and that the student is not trying to submit an assignment which is too old. Further the student cannot change the values.</p>
+<p>To ensure that the student who submits the assignment is really the owner of the contract, each student needs to inherit his assignment from the <code>BaseAssignment.sol</code> contract.
+This contract calls the corresponding validator contracts and stores the <em>owner</em> and <em>block number</em> at the deployment of the contract.
+By storing the owner and the block number at this point we can ensure that the student is the owner of the contract and that the student is not trying to submit an assignment which is too old.
+Further the student cannot change the values.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_admin"><a class="anchor" href="#_admin"></a>Admin</h3>
 <div class="paragraph">
-<p>It is possible to remove an already submitted Assignment by calling the <code>removeSubmittedAssignment(address)</code> function. This function is of course restricted to user or contract admins. The function will remove the assignment from the mapping and the student can submit the assignment again. BUT the student will also lose the tokens he already earned (<code>burn</code> function used).</p>
+<p>It is possible to remove an already submitted Assignment by calling the <code>removeSubmittedAssignment(address)</code> function.
+This function is of course restricted to user or contract admins. The function will remove the assignment from the mapping and the student can submit the assignment again.
+BUT the student will also lose the tokens he already earned (<code>burn</code> function used).</p>
 </div>
 </div>
 <div class="sect2">
