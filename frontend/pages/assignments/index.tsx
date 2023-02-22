@@ -110,6 +110,8 @@ export default function AssignmentOverview({userAddress}: { userAddress: string 
                         }
                     });
                 }
+            }).catch((e) => {
+                alert("Error while checking if user is admin: " + e.message);
             });
         }
     }, [web3, semesters, selectedSemester, userAddress, isUserAdmin]);

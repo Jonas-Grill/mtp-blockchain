@@ -3,7 +3,6 @@ import { sendEth } from '../../web3/src/entrypoints/account/faucet'
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Web3 from "web3";
-import {FAUCET_URL} from "../_app";
 
 export const initBlockchain = async (web3: any) => {
     // @ts-ignore
@@ -15,7 +14,9 @@ export const initBlockchain = async (web3: any) => {
 
         const chainId = await web3.eth.getChainId();
 
-        if (chainId != 1337) {
+        console.log(chainId);
+
+        if (chainId != parseInt(process.env.NETWORK_ID || "1337")) {
             alert("You are using the wrong chain!")
             web3 = undefined;
         }
@@ -45,7 +46,7 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
                         alert(error.message);
                     });
                 } else {
-                    fetch(FAUCET_URL + "/sendEth", {
+                    fetch(process.env.FAUCET_URL + "/sendEth", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

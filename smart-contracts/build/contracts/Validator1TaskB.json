@@ -6658,7 +6658,7 @@
                 }
               ]
             },
-            "name": "convert_t_contract$_ConfigStorage_$2965_to_t_address",
+            "name": "convert_t_contract$_ConfigStorage_$3021_to_t_address",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -6700,7 +6700,7 @@
                           }
                         ],
                         "functionName": {
-                          "name": "convert_t_contract$_ConfigStorage_$2965_to_t_address",
+                          "name": "convert_t_contract$_ConfigStorage_$3021_to_t_address",
                           "nodeType": "YulIdentifier",
                           "src": "9539:52:60"
                         },
@@ -6721,7 +6721,7 @@
                 }
               ]
             },
-            "name": "abi_encode_t_contract$_ConfigStorage_$2965_to_t_address_fromStack",
+            "name": "abi_encode_t_contract$_ConfigStorage_$3021_to_t_address_fromStack",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -6811,7 +6811,7 @@
                       }
                     ],
                     "functionName": {
-                      "name": "abi_encode_t_contract$_ConfigStorage_$2965_to_t_address_fromStack",
+                      "name": "abi_encode_t_contract$_ConfigStorage_$3021_to_t_address_fromStack",
                       "nodeType": "YulIdentifier",
                       "src": "9777:65:60"
                     },
@@ -6823,7 +6823,7 @@
                 }
               ]
             },
-            "name": "abi_encode_tuple_t_contract$_ConfigStorage_$2965__to_t_address__fromStack_reversed",
+            "name": "abi_encode_tuple_t_contract$_ConfigStorage_$3021__to_t_address__fromStack_reversed",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -17956,7 +17956,7 @@
           }
         ]
       },
-      "contents": "{\n\n    function array_length_t_string_memory_ptr(value) -> length {\n\n        length := mload(value)\n\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length) -> updated_pos {\n        mstore(pos, length)\n        updated_pos := add(pos, 0x20)\n    }\n\n    function copy_memory_to_memory_with_cleanup(src, dst, length) {\n        let i := 0\n        for { } lt(i, length) { i := add(i, 32) }\n        {\n            mstore(add(dst, i), mload(add(src, i)))\n        }\n        mstore(add(dst, length), 0)\n    }\n\n    function round_up_to_mul_of_32(value) -> result {\n        result := and(add(value, 31), not(31))\n    }\n\n    function abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value, pos) -> end {\n        let length := array_length_t_string_memory_ptr(value)\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length)\n        copy_memory_to_memory_with_cleanup(add(value, 0x20), pos, length)\n        end := add(pos, round_up_to_mul_of_32(length))\n    }\n\n    function cleanup_t_bool(value) -> cleaned {\n        cleaned := iszero(iszero(value))\n    }\n\n    function abi_encode_t_bool_to_t_bool_fromStack(value, pos) {\n        mstore(pos, cleanup_t_bool(value))\n    }\n\n    function abi_encode_tuple_t_string_memory_ptr_t_bool__to_t_string_memory_ptr_t_bool__fromStack_reversed(headStart , value1, value0) -> tail {\n        tail := add(headStart, 64)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value0,  tail)\n\n        abi_encode_t_bool_to_t_bool_fromStack(value1,  add(headStart, 32))\n\n    }\n\n    function allocate_unbounded() -> memPtr {\n        memPtr := mload(64)\n    }\n\n    function revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() {\n        revert(0, 0)\n    }\n\n    function revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() {\n        revert(0, 0)\n    }\n\n    function cleanup_t_uint160(value) -> cleaned {\n        cleaned := and(value, 0xffffffffffffffffffffffffffffffffffffffff)\n    }\n\n    function cleanup_t_address(value) -> cleaned {\n        cleaned := cleanup_t_uint160(value)\n    }\n\n    function validator_revert_t_address(value) {\n        if iszero(eq(value, cleanup_t_address(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_address(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_address(value)\n    }\n\n    function abi_decode_tuple_t_addresst_address(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 32\n\n            value1 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d() {\n        revert(0, 0)\n    }\n\n    function revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae() {\n        revert(0, 0)\n    }\n\n    function panic_error_0x41() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x41)\n        revert(0, 0x24)\n    }\n\n    function finalize_allocation(memPtr, size) {\n        let newFreePtr := add(memPtr, round_up_to_mul_of_32(size))\n        // protect against overflow\n        if or(gt(newFreePtr, 0xffffffffffffffff), lt(newFreePtr, memPtr)) { panic_error_0x41() }\n        mstore(64, newFreePtr)\n    }\n\n    function allocate_memory(size) -> memPtr {\n        memPtr := allocate_unbounded()\n        finalize_allocation(memPtr, size)\n    }\n\n    function array_allocation_size_t_string_memory_ptr(length) -> size {\n        // Make sure we can allocate memory without overflow\n        if gt(length, 0xffffffffffffffff) { panic_error_0x41() }\n\n        size := round_up_to_mul_of_32(length)\n\n        // add length slot\n        size := add(size, 0x20)\n\n    }\n\n    function copy_calldata_to_memory_with_cleanup(src, dst, length) {\n        calldatacopy(dst, src, length)\n        mstore(add(dst, length), 0)\n    }\n\n    function abi_decode_available_length_t_string_memory_ptr(src, length, end) -> array {\n        array := allocate_memory(array_allocation_size_t_string_memory_ptr(length))\n        mstore(array, length)\n        let dst := add(array, 0x20)\n        if gt(add(src, length), end) { revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae() }\n        copy_calldata_to_memory_with_cleanup(src, dst, length)\n    }\n\n    // string\n    function abi_decode_t_string_memory_ptr(offset, end) -> array {\n        if iszero(slt(add(offset, 0x1f), end)) { revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d() }\n        let length := calldataload(offset)\n        array := abi_decode_available_length_t_string_memory_ptr(add(offset, 0x20), length, end)\n    }\n\n    function abi_decode_tuple_t_string_memory_ptrt_string_memory_ptrt_string_memory_ptr(headStart, dataEnd) -> value0, value1, value2 {\n        if slt(sub(dataEnd, headStart), 96) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := calldataload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value0 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 64))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value2 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_tuple_t_string_memory_ptr__to_t_string_memory_ptr__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value0,  tail)\n\n    }\n\n    function abi_decode_tuple_t_string_memory_ptrt_string_memory_ptr(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := calldataload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value0 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_tuple_t_bool__to_t_bool__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_bool_to_t_bool_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function cleanup_t_uint256(value) -> cleaned {\n        cleaned := value\n    }\n\n    function validator_revert_t_uint256(value) {\n        if iszero(eq(value, cleanup_t_uint256(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_uint256(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_uint256(value)\n    }\n\n    function abi_decode_tuple_t_uint256t_string_memory_ptrt_addresst_address(headStart, dataEnd) -> value0, value1, value2, value3 {\n        if slt(sub(dataEnd, headStart), 128) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 64\n\n            value2 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 96\n\n            value3 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function identity(value) -> ret {\n        ret := value\n    }\n\n    function convert_t_uint160_to_t_uint160(value) -> converted {\n        converted := cleanup_t_uint160(identity(cleanup_t_uint160(value)))\n    }\n\n    function convert_t_uint160_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_uint160(value)\n    }\n\n    function convert_t_contract$_ConfigStorage_$2965_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_address(value)\n    }\n\n    function abi_encode_t_contract$_ConfigStorage_$2965_to_t_address_fromStack(value, pos) {\n        mstore(pos, convert_t_contract$_ConfigStorage_$2965_to_t_address(value))\n    }\n\n    function abi_encode_tuple_t_contract$_ConfigStorage_$2965__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_contract$_ConfigStorage_$2965_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function abi_decode_tuple_t_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_string_memory_ptr(headStart, dataEnd) -> value0, value1, value2, value3 {\n        if slt(sub(dataEnd, headStart), 128) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := calldataload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value0 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 64))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value2 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 96))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value3 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function cleanup_t_address_payable(value) -> cleaned {\n        cleaned := cleanup_t_uint160(value)\n    }\n\n    function validator_revert_t_address_payable(value) {\n        if iszero(eq(value, cleanup_t_address_payable(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_address_payable(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_address_payable(value)\n    }\n\n    function abi_decode_tuple_t_address_payablet_uint256(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address_payable(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 32\n\n            value1 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_tuple_t_addresst_string_memory_ptr(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_t_address_to_t_address_fromStack(value, pos) {\n        mstore(pos, cleanup_t_address(value))\n    }\n\n    function abi_encode_tuple_t_address__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function abi_decode_t_uint256_fromMemory(offset, end) -> value {\n        value := mload(offset)\n        validator_revert_t_uint256(value)\n    }\n\n    function abi_decode_tuple_t_uint256_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_uint256_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_t_uint256_to_t_uint256_fromStack(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    function abi_encode_tuple_t_uint256__to_t_uint256__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_uint256_to_t_uint256_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function abi_decode_available_length_t_string_memory_ptr_fromMemory(src, length, end) -> array {\n        array := allocate_memory(array_allocation_size_t_string_memory_ptr(length))\n        mstore(array, length)\n        let dst := add(array, 0x20)\n        if gt(add(src, length), end) { revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae() }\n        copy_memory_to_memory_with_cleanup(src, dst, length)\n    }\n\n    // string\n    function abi_decode_t_string_memory_ptr_fromMemory(offset, end) -> array {\n        if iszero(slt(add(offset, 0x1f), end)) { revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d() }\n        let length := mload(offset)\n        array := abi_decode_available_length_t_string_memory_ptr_fromMemory(add(offset, 0x20), length, end)\n    }\n\n    function abi_decode_tuple_t_string_memory_ptr_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := mload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value0 := abi_decode_t_string_memory_ptr_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_t_address_fromMemory(offset, end) -> value {\n        value := mload(offset)\n        validator_revert_t_address(value)\n    }\n\n    function abi_decode_tuple_t_address_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, length) -> updated_pos {\n        updated_pos := pos\n    }\n\n    function store_literal_in_memory_c24a98154c5a3c00a57f7d82bd809cd944f06b30ced20fe4175f75bb6aed76fd(memPtr) {\n\n        mstore(add(memPtr, 0), \"Error (Exercise B): TokenURI not\")\n\n        mstore(add(memPtr, 32), \" correct got: \")\n\n    }\n\n    function abi_encode_t_stringliteral_c24a98154c5a3c00a57f7d82bd809cd944f06b30ced20fe4175f75bb6aed76fd_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 46)\n        store_literal_in_memory_c24a98154c5a3c00a57f7d82bd809cd944f06b30ced20fe4175f75bb6aed76fd(pos)\n        end := add(pos, 46)\n    }\n\n    function abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value, pos) -> end {\n        let length := array_length_t_string_memory_ptr(value)\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, length)\n        copy_memory_to_memory_with_cleanup(add(value, 0x20), pos, length)\n        end := add(pos, length)\n    }\n\n    function store_literal_in_memory_40cb4920858f61576a33c3708da9aec3258137b7e89c8d7b8fdf80e41802f57b(memPtr) {\n\n        mstore(add(memPtr, 0), \" expected: \")\n\n    }\n\n    function abi_encode_t_stringliteral_40cb4920858f61576a33c3708da9aec3258137b7e89c8d7b8fdf80e41802f57b_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 11)\n        store_literal_in_memory_40cb4920858f61576a33c3708da9aec3258137b7e89c8d7b8fdf80e41802f57b(pos)\n        end := add(pos, 11)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_c24a98154c5a3c00a57f7d82bd809cd944f06b30ced20fe4175f75bb6aed76fd_t_string_memory_ptr_t_stringliteral_40cb4920858f61576a33c3708da9aec3258137b7e89c8d7b8fdf80e41802f57b_t_string_memory_ptr__to_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value1, value0) -> end {\n\n        pos := abi_encode_t_stringliteral_c24a98154c5a3c00a57f7d82bd809cd944f06b30ced20fe4175f75bb6aed76fd_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        pos := abi_encode_t_stringliteral_40cb4920858f61576a33c3708da9aec3258137b7e89c8d7b8fdf80e41802f57b_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value1,  pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73(memPtr) {\n\n        mstore(add(memPtr, 0), \": \")\n\n    }\n\n    function abi_encode_t_stringliteral_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 2)\n        store_literal_in_memory_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73(pos)\n        end := add(pos, 2)\n    }\n\n    function store_literal_in_memory_242eefb75b785c572766d106b5e111bc072278a9668bc50885b98bf2c8dd712d(memPtr) {\n\n        mstore(add(memPtr, 0), \" > \")\n\n    }\n\n    function abi_encode_t_stringliteral_242eefb75b785c572766d106b5e111bc072278a9668bc50885b98bf2c8dd712d_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 3)\n        store_literal_in_memory_242eefb75b785c572766d106b5e111bc072278a9668bc50885b98bf2c8dd712d(pos)\n        end := add(pos, 3)\n    }\n\n    function abi_encode_tuple_packed_t_string_memory_ptr_t_stringliteral_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73_t_string_memory_ptr_t_stringliteral_242eefb75b785c572766d106b5e111bc072278a9668bc50885b98bf2c8dd712d_t_string_memory_ptr__to_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value2, value1, value0) -> end {\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        pos := abi_encode_t_stringliteral_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value1,  pos)\n\n        pos := abi_encode_t_stringliteral_242eefb75b785c572766d106b5e111bc072278a9668bc50885b98bf2c8dd712d_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value2,  pos)\n\n        end := pos\n    }\n\n    function abi_encode_tuple_packed_t_string_memory_ptr__to_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value0) -> end {\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_a91eddf639b0b768929589c1a9fd21dcb0107199bdd82e55c5348018a1572f52(memPtr) {\n\n        mstore(add(memPtr, 0), \"{\")\n\n        }\n\n        function abi_encode_t_stringliteral_a91eddf639b0b768929589c1a9fd21dcb0107199bdd82e55c5348018a1572f52_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 1)\n            store_literal_in_memory_a91eddf639b0b768929589c1a9fd21dcb0107199bdd82e55c5348018a1572f52(pos)\n            end := add(pos, 1)\n        }\n\n        function store_literal_in_memory_ab60c04c7f4d15da9050c4f84c7f7c95430964fbe1acc8b7a981fa2764f53508(memPtr) {\n\n            mstore(add(memPtr, 0), 0x226e616d65223a20224d792062656175746966756c20617274776f726b202300)\n\n        }\n\n        function abi_encode_t_stringliteral_ab60c04c7f4d15da9050c4f84c7f7c95430964fbe1acc8b7a981fa2764f53508_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 31)\n            store_literal_in_memory_ab60c04c7f4d15da9050c4f84c7f7c95430964fbe1acc8b7a981fa2764f53508(pos)\n            end := add(pos, 31)\n        }\n\n        function store_literal_in_memory_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0(memPtr) {\n\n            mstore(add(memPtr, 0), 0x2200000000000000000000000000000000000000000000000000000000000000)\n\n        }\n\n        function abi_encode_t_stringliteral_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 1)\n            store_literal_in_memory_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0(pos)\n            end := add(pos, 1)\n        }\n\n        function store_literal_in_memory_956c42c9357dd6436b0cb69001835ac6917f151af48c949a7791aa43c853ece4(memPtr) {\n\n            mstore(add(memPtr, 0), 0x2268617368223a20220000000000000000000000000000000000000000000000)\n\n        }\n\n        function abi_encode_t_stringliteral_956c42c9357dd6436b0cb69001835ac6917f151af48c949a7791aa43c853ece4_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 9)\n            store_literal_in_memory_956c42c9357dd6436b0cb69001835ac6917f151af48c949a7791aa43c853ece4(pos)\n            end := add(pos, 9)\n        }\n\n        function store_literal_in_memory_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb(memPtr) {\n\n            mstore(add(memPtr, 0), 0x222c000000000000000000000000000000000000000000000000000000000000)\n\n        }\n\n        function abi_encode_t_stringliteral_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 2)\n            store_literal_in_memory_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb(pos)\n            end := add(pos, 2)\n        }\n\n        function store_literal_in_memory_12ad00898c5d36f25e364fd7dbeb30fa3b4c621792b3ca2da1f858a869ca047a(memPtr) {\n\n            mstore(add(memPtr, 0), 0x226279223a202200000000000000000000000000000000000000000000000000)\n\n        }\n\n        function abi_encode_t_stringliteral_12ad00898c5d36f25e364fd7dbeb30fa3b4c621792b3ca2da1f858a869ca047a_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 7)\n            store_literal_in_memory_12ad00898c5d36f25e364fd7dbeb30fa3b4c621792b3ca2da1f858a869ca047a(pos)\n            end := add(pos, 7)\n        }\n\n        function shift_left_96(value) -> newValue {\n            newValue :=\n\n            shl(96, value)\n\n        }\n\n        function leftAlign_t_uint160(value) -> aligned {\n            aligned := shift_left_96(value)\n        }\n\n        function leftAlign_t_address(value) -> aligned {\n            aligned := leftAlign_t_uint160(value)\n        }\n\n        function abi_encode_t_address_to_t_address_nonPadded_inplace_fromStack(value, pos) {\n            mstore(pos, leftAlign_t_address(cleanup_t_address(value)))\n        }\n\n        function store_literal_in_memory_d8d729e794464912fd0537734d2af7ad23a1ceed5f5b2f4a5da376fc522dede9(memPtr) {\n\n            mstore(add(memPtr, 0), 0x226e65775f6f776e6572223a2022000000000000000000000000000000000000)\n\n        }\n\n        function abi_encode_t_stringliteral_d8d729e794464912fd0537734d2af7ad23a1ceed5f5b2f4a5da376fc522dede9_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 14)\n            store_literal_in_memory_d8d729e794464912fd0537734d2af7ad23a1ceed5f5b2f4a5da376fc522dede9(pos)\n            end := add(pos, 14)\n        }\n\n        function store_literal_in_memory_8e2ffa389f3a6ded42d759b3377ac0d928e6a268d143bcc9517093d10c843bff(memPtr) {\n\n        mstore(add(memPtr, 0), \"}\")\n\n    }\n\n    function abi_encode_t_stringliteral_8e2ffa389f3a6ded42d759b3377ac0d928e6a268d143bcc9517093d10c843bff_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 1)\n        store_literal_in_memory_8e2ffa389f3a6ded42d759b3377ac0d928e6a268d143bcc9517093d10c843bff(pos)\n        end := add(pos, 1)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_a91eddf639b0b768929589c1a9fd21dcb0107199bdd82e55c5348018a1572f52_t_stringliteral_ab60c04c7f4d15da9050c4f84c7f7c95430964fbe1acc8b7a981fa2764f53508_t_string_memory_ptr_t_stringliteral_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0_t_stringliteral_956c42c9357dd6436b0cb69001835ac6917f151af48c949a7791aa43c853ece4_t_string_memory_ptr_t_stringliteral_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb_t_stringliteral_12ad00898c5d36f25e364fd7dbeb30fa3b4c621792b3ca2da1f858a869ca047a_t_address_t_stringliteral_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb_t_stringliteral_d8d729e794464912fd0537734d2af7ad23a1ceed5f5b2f4a5da376fc522dede9_t_address_t_stringliteral_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0_t_stringliteral_8e2ffa389f3a6ded42d759b3377ac0d928e6a268d143bcc9517093d10c843bff__to_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_address_t_string_memory_ptr_t_string_memory_ptr_t_address_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value3, value2, value1, value0) -> end {\n\n        pos := abi_encode_t_stringliteral_a91eddf639b0b768929589c1a9fd21dcb0107199bdd82e55c5348018a1572f52_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_stringliteral_ab60c04c7f4d15da9050c4f84c7f7c95430964fbe1acc8b7a981fa2764f53508_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        pos := abi_encode_t_stringliteral_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_stringliteral_956c42c9357dd6436b0cb69001835ac6917f151af48c949a7791aa43c853ece4_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value1,  pos)\n\n        pos := abi_encode_t_stringliteral_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_stringliteral_12ad00898c5d36f25e364fd7dbeb30fa3b4c621792b3ca2da1f858a869ca047a_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        abi_encode_t_address_to_t_address_nonPadded_inplace_fromStack(value2,  pos)\n        pos := add(pos, 20)\n\n        pos := abi_encode_t_stringliteral_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_stringliteral_d8d729e794464912fd0537734d2af7ad23a1ceed5f5b2f4a5da376fc522dede9_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        abi_encode_t_address_to_t_address_nonPadded_inplace_fromStack(value3,  pos)\n        pos := add(pos, 20)\n\n        pos := abi_encode_t_stringliteral_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_stringliteral_8e2ffa389f3a6ded42d759b3377ac0d928e6a268d143bcc9517093d10c843bff_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_bccab2d885f86fda81bfd84dd4248d31f8073b473d187111d36536db073076fa(memPtr) {\n\n        mstore(add(memPtr, 0), \"data:application/json;base64,\")\n\n    }\n\n    function abi_encode_t_stringliteral_bccab2d885f86fda81bfd84dd4248d31f8073b473d187111d36536db073076fa_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 29)\n        store_literal_in_memory_bccab2d885f86fda81bfd84dd4248d31f8073b473d187111d36536db073076fa(pos)\n        end := add(pos, 29)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_bccab2d885f86fda81bfd84dd4248d31f8073b473d187111d36536db073076fa_t_string_memory_ptr__to_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value0) -> end {\n\n        pos := abi_encode_t_stringliteral_bccab2d885f86fda81bfd84dd4248d31f8073b473d187111d36536db073076fa_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_a1422bbcfa5f99939ca9643b0f027988fc04d8b159392580e2cd33203a358a38(memPtr) {\n\n        mstore(add(memPtr, 0), \" Expected: \")\n\n    }\n\n    function abi_encode_t_stringliteral_a1422bbcfa5f99939ca9643b0f027988fc04d8b159392580e2cd33203a358a38_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 11)\n        store_literal_in_memory_a1422bbcfa5f99939ca9643b0f027988fc04d8b159392580e2cd33203a358a38(pos)\n        end := add(pos, 11)\n    }\n\n    function store_literal_in_memory_b44f50f367e7040ff8b2e90c1b8b05c99501cee716a6635103e9f0b4a3721695(memPtr) {\n\n        mstore(add(memPtr, 0), \" Actual: \")\n\n    }\n\n    function abi_encode_t_stringliteral_b44f50f367e7040ff8b2e90c1b8b05c99501cee716a6635103e9f0b4a3721695_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 9)\n        store_literal_in_memory_b44f50f367e7040ff8b2e90c1b8b05c99501cee716a6635103e9f0b4a3721695(pos)\n        end := add(pos, 9)\n    }\n\n    function abi_encode_tuple_packed_t_string_memory_ptr_t_stringliteral_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73_t_string_memory_ptr_t_stringliteral_a1422bbcfa5f99939ca9643b0f027988fc04d8b159392580e2cd33203a358a38_t_string_memory_ptr_t_stringliteral_b44f50f367e7040ff8b2e90c1b8b05c99501cee716a6635103e9f0b4a3721695_t_string_memory_ptr__to_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value3, value2, value1, value0) -> end {\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        pos := abi_encode_t_stringliteral_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value1,  pos)\n\n        pos := abi_encode_t_stringliteral_a1422bbcfa5f99939ca9643b0f027988fc04d8b159392580e2cd33203a358a38_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value2,  pos)\n\n        pos := abi_encode_t_stringliteral_b44f50f367e7040ff8b2e90c1b8b05c99501cee716a6635103e9f0b4a3721695_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value3,  pos)\n\n        end := pos\n    }\n\n    function validator_revert_t_bool(value) {\n        if iszero(eq(value, cleanup_t_bool(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_bool_fromMemory(offset, end) -> value {\n        value := mload(offset)\n        validator_revert_t_bool(value)\n    }\n\n    function abi_decode_tuple_t_bool_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_bool_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function store_literal_in_memory_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f(memPtr) {\n\n        mstore(add(memPtr, 0), \"Only contract admin can withdraw\")\n\n        mstore(add(memPtr, 32), \" funds\")\n\n    }\n\n    function abi_encode_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 38)\n        store_literal_in_memory_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f(pos)\n        end := add(pos, 64)\n    }\n\n    function abi_encode_tuple_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function store_literal_in_memory_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226(memPtr) {\n\n        mstore(add(memPtr, 0), \"Invalid address\")\n\n    }\n\n    function abi_encode_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 15)\n        store_literal_in_memory_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function convert_t_address_payable_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_address(value)\n    }\n\n    function abi_encode_t_address_payable_to_t_address_fromStack(value, pos) {\n        mstore(pos, convert_t_address_payable_to_t_address(value))\n    }\n\n    function abi_encode_tuple_t_address_payable__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_address_payable_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function store_literal_in_memory_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90(memPtr) {\n\n        mstore(add(memPtr, 0), \"Funds can only be withdrawn to a\")\n\n        mstore(add(memPtr, 32), \"dmin, msg.sender or tx.origin\")\n\n    }\n\n    function abi_encode_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 61)\n        store_literal_in_memory_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90(pos)\n        end := add(pos, 64)\n    }\n\n    function abi_encode_tuple_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function store_literal_in_memory_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d(memPtr) {\n\n        mstore(add(memPtr, 0), \"Insufficient funds\")\n\n    }\n\n    function abi_encode_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 18)\n        store_literal_in_memory_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, length) -> updated_pos {\n        updated_pos := pos\n    }\n\n    function store_literal_in_memory_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470(memPtr) {\n\n    }\n\n    function abi_encode_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, 0)\n        store_literal_in_memory_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470(pos)\n        end := add(pos, 0)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470__to_t_bytes_memory_ptr__nonPadded_inplace_fromStack_reversed(pos ) -> end {\n\n        pos := abi_encode_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69(memPtr) {\n\n        mstore(add(memPtr, 0), \"Transfer failed.\")\n\n    }\n\n    function abi_encode_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 16)\n        store_literal_in_memory_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_address_t_string_memory_ptr__to_t_address_t_string_memory_ptr__fromStack_reversed(headStart , value1, value0) -> tail {\n        tail := add(headStart, 64)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n        mstore(add(headStart, 32), sub(tail, headStart))\n        tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value1,  tail)\n\n    }\n\n    function panic_error_0x12() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x12)\n        revert(0, 0x24)\n    }\n\n    function panic_error_0x11() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x11)\n        revert(0, 0x24)\n    }\n\n    function checked_add_t_uint256(x, y) -> sum {\n        x := cleanup_t_uint256(x)\n        y := cleanup_t_uint256(y)\n        sum := add(x, y)\n\n        if gt(x, sum) { panic_error_0x11() }\n\n    }\n\n    function checked_div_t_uint256(x, y) -> r {\n        x := cleanup_t_uint256(x)\n        y := cleanup_t_uint256(y)\n        if iszero(y) { panic_error_0x12() }\n\n        r := div(x, y)\n    }\n\n    function checked_mul_t_uint256(x, y) -> product {\n        x := cleanup_t_uint256(x)\n        y := cleanup_t_uint256(y)\n        let product_raw := mul(x, y)\n        product := cleanup_t_uint256(product_raw)\n\n        // overflow, if x != 0 and y != product/x\n        if iszero(\n            or(\n                iszero(x),\n                eq(y, div(product, x))\n            )\n        ) { panic_error_0x11() }\n\n    }\n\n}\n",
+      "contents": "{\n\n    function array_length_t_string_memory_ptr(value) -> length {\n\n        length := mload(value)\n\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length) -> updated_pos {\n        mstore(pos, length)\n        updated_pos := add(pos, 0x20)\n    }\n\n    function copy_memory_to_memory_with_cleanup(src, dst, length) {\n        let i := 0\n        for { } lt(i, length) { i := add(i, 32) }\n        {\n            mstore(add(dst, i), mload(add(src, i)))\n        }\n        mstore(add(dst, length), 0)\n    }\n\n    function round_up_to_mul_of_32(value) -> result {\n        result := and(add(value, 31), not(31))\n    }\n\n    function abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value, pos) -> end {\n        let length := array_length_t_string_memory_ptr(value)\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, length)\n        copy_memory_to_memory_with_cleanup(add(value, 0x20), pos, length)\n        end := add(pos, round_up_to_mul_of_32(length))\n    }\n\n    function cleanup_t_bool(value) -> cleaned {\n        cleaned := iszero(iszero(value))\n    }\n\n    function abi_encode_t_bool_to_t_bool_fromStack(value, pos) {\n        mstore(pos, cleanup_t_bool(value))\n    }\n\n    function abi_encode_tuple_t_string_memory_ptr_t_bool__to_t_string_memory_ptr_t_bool__fromStack_reversed(headStart , value1, value0) -> tail {\n        tail := add(headStart, 64)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value0,  tail)\n\n        abi_encode_t_bool_to_t_bool_fromStack(value1,  add(headStart, 32))\n\n    }\n\n    function allocate_unbounded() -> memPtr {\n        memPtr := mload(64)\n    }\n\n    function revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() {\n        revert(0, 0)\n    }\n\n    function revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() {\n        revert(0, 0)\n    }\n\n    function cleanup_t_uint160(value) -> cleaned {\n        cleaned := and(value, 0xffffffffffffffffffffffffffffffffffffffff)\n    }\n\n    function cleanup_t_address(value) -> cleaned {\n        cleaned := cleanup_t_uint160(value)\n    }\n\n    function validator_revert_t_address(value) {\n        if iszero(eq(value, cleanup_t_address(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_address(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_address(value)\n    }\n\n    function abi_decode_tuple_t_addresst_address(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 32\n\n            value1 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d() {\n        revert(0, 0)\n    }\n\n    function revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae() {\n        revert(0, 0)\n    }\n\n    function panic_error_0x41() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x41)\n        revert(0, 0x24)\n    }\n\n    function finalize_allocation(memPtr, size) {\n        let newFreePtr := add(memPtr, round_up_to_mul_of_32(size))\n        // protect against overflow\n        if or(gt(newFreePtr, 0xffffffffffffffff), lt(newFreePtr, memPtr)) { panic_error_0x41() }\n        mstore(64, newFreePtr)\n    }\n\n    function allocate_memory(size) -> memPtr {\n        memPtr := allocate_unbounded()\n        finalize_allocation(memPtr, size)\n    }\n\n    function array_allocation_size_t_string_memory_ptr(length) -> size {\n        // Make sure we can allocate memory without overflow\n        if gt(length, 0xffffffffffffffff) { panic_error_0x41() }\n\n        size := round_up_to_mul_of_32(length)\n\n        // add length slot\n        size := add(size, 0x20)\n\n    }\n\n    function copy_calldata_to_memory_with_cleanup(src, dst, length) {\n        calldatacopy(dst, src, length)\n        mstore(add(dst, length), 0)\n    }\n\n    function abi_decode_available_length_t_string_memory_ptr(src, length, end) -> array {\n        array := allocate_memory(array_allocation_size_t_string_memory_ptr(length))\n        mstore(array, length)\n        let dst := add(array, 0x20)\n        if gt(add(src, length), end) { revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae() }\n        copy_calldata_to_memory_with_cleanup(src, dst, length)\n    }\n\n    // string\n    function abi_decode_t_string_memory_ptr(offset, end) -> array {\n        if iszero(slt(add(offset, 0x1f), end)) { revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d() }\n        let length := calldataload(offset)\n        array := abi_decode_available_length_t_string_memory_ptr(add(offset, 0x20), length, end)\n    }\n\n    function abi_decode_tuple_t_string_memory_ptrt_string_memory_ptrt_string_memory_ptr(headStart, dataEnd) -> value0, value1, value2 {\n        if slt(sub(dataEnd, headStart), 96) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := calldataload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value0 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 64))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value2 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_tuple_t_string_memory_ptr__to_t_string_memory_ptr__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value0,  tail)\n\n    }\n\n    function abi_decode_tuple_t_string_memory_ptrt_string_memory_ptr(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := calldataload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value0 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_tuple_t_bool__to_t_bool__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_bool_to_t_bool_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function cleanup_t_uint256(value) -> cleaned {\n        cleaned := value\n    }\n\n    function validator_revert_t_uint256(value) {\n        if iszero(eq(value, cleanup_t_uint256(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_uint256(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_uint256(value)\n    }\n\n    function abi_decode_tuple_t_uint256t_string_memory_ptrt_addresst_address(headStart, dataEnd) -> value0, value1, value2, value3 {\n        if slt(sub(dataEnd, headStart), 128) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 64\n\n            value2 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 96\n\n            value3 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function identity(value) -> ret {\n        ret := value\n    }\n\n    function convert_t_uint160_to_t_uint160(value) -> converted {\n        converted := cleanup_t_uint160(identity(cleanup_t_uint160(value)))\n    }\n\n    function convert_t_uint160_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_uint160(value)\n    }\n\n    function convert_t_contract$_ConfigStorage_$3021_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_address(value)\n    }\n\n    function abi_encode_t_contract$_ConfigStorage_$3021_to_t_address_fromStack(value, pos) {\n        mstore(pos, convert_t_contract$_ConfigStorage_$3021_to_t_address(value))\n    }\n\n    function abi_encode_tuple_t_contract$_ConfigStorage_$3021__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_contract$_ConfigStorage_$3021_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function abi_decode_tuple_t_string_memory_ptrt_string_memory_ptrt_string_memory_ptrt_string_memory_ptr(headStart, dataEnd) -> value0, value1, value2, value3 {\n        if slt(sub(dataEnd, headStart), 128) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := calldataload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value0 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 64))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value2 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 96))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value3 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function cleanup_t_address_payable(value) -> cleaned {\n        cleaned := cleanup_t_uint160(value)\n    }\n\n    function validator_revert_t_address_payable(value) {\n        if iszero(eq(value, cleanup_t_address_payable(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_address_payable(offset, end) -> value {\n        value := calldataload(offset)\n        validator_revert_t_address_payable(value)\n    }\n\n    function abi_decode_tuple_t_address_payablet_uint256(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address_payable(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := 32\n\n            value1 := abi_decode_t_uint256(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_tuple_t_addresst_string_memory_ptr(headStart, dataEnd) -> value0, value1 {\n        if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address(add(headStart, offset), dataEnd)\n        }\n\n        {\n\n            let offset := calldataload(add(headStart, 32))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value1 := abi_decode_t_string_memory_ptr(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_t_address_to_t_address_fromStack(value, pos) {\n        mstore(pos, cleanup_t_address(value))\n    }\n\n    function abi_encode_tuple_t_address__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function abi_decode_t_uint256_fromMemory(offset, end) -> value {\n        value := mload(offset)\n        validator_revert_t_uint256(value)\n    }\n\n    function abi_decode_tuple_t_uint256_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_uint256_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_encode_t_uint256_to_t_uint256_fromStack(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    function abi_encode_tuple_t_uint256__to_t_uint256__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_uint256_to_t_uint256_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function abi_decode_available_length_t_string_memory_ptr_fromMemory(src, length, end) -> array {\n        array := allocate_memory(array_allocation_size_t_string_memory_ptr(length))\n        mstore(array, length)\n        let dst := add(array, 0x20)\n        if gt(add(src, length), end) { revert_error_987264b3b1d58a9c7f8255e93e81c77d86d6299019c33110a076957a3e06e2ae() }\n        copy_memory_to_memory_with_cleanup(src, dst, length)\n    }\n\n    // string\n    function abi_decode_t_string_memory_ptr_fromMemory(offset, end) -> array {\n        if iszero(slt(add(offset, 0x1f), end)) { revert_error_1b9f4a0a5773e33b91aa01db23bf8c55fce1411167c872835e7fa00a4f17d46d() }\n        let length := mload(offset)\n        array := abi_decode_available_length_t_string_memory_ptr_fromMemory(add(offset, 0x20), length, end)\n    }\n\n    function abi_decode_tuple_t_string_memory_ptr_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := mload(add(headStart, 0))\n            if gt(offset, 0xffffffffffffffff) { revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() }\n\n            value0 := abi_decode_t_string_memory_ptr_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function abi_decode_t_address_fromMemory(offset, end) -> value {\n        value := mload(offset)\n        validator_revert_t_address(value)\n    }\n\n    function abi_decode_tuple_t_address_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_address_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, length) -> updated_pos {\n        updated_pos := pos\n    }\n\n    function store_literal_in_memory_c24a98154c5a3c00a57f7d82bd809cd944f06b30ced20fe4175f75bb6aed76fd(memPtr) {\n\n        mstore(add(memPtr, 0), \"Error (Exercise B): TokenURI not\")\n\n        mstore(add(memPtr, 32), \" correct got: \")\n\n    }\n\n    function abi_encode_t_stringliteral_c24a98154c5a3c00a57f7d82bd809cd944f06b30ced20fe4175f75bb6aed76fd_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 46)\n        store_literal_in_memory_c24a98154c5a3c00a57f7d82bd809cd944f06b30ced20fe4175f75bb6aed76fd(pos)\n        end := add(pos, 46)\n    }\n\n    function abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value, pos) -> end {\n        let length := array_length_t_string_memory_ptr(value)\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, length)\n        copy_memory_to_memory_with_cleanup(add(value, 0x20), pos, length)\n        end := add(pos, length)\n    }\n\n    function store_literal_in_memory_40cb4920858f61576a33c3708da9aec3258137b7e89c8d7b8fdf80e41802f57b(memPtr) {\n\n        mstore(add(memPtr, 0), \" expected: \")\n\n    }\n\n    function abi_encode_t_stringliteral_40cb4920858f61576a33c3708da9aec3258137b7e89c8d7b8fdf80e41802f57b_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 11)\n        store_literal_in_memory_40cb4920858f61576a33c3708da9aec3258137b7e89c8d7b8fdf80e41802f57b(pos)\n        end := add(pos, 11)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_c24a98154c5a3c00a57f7d82bd809cd944f06b30ced20fe4175f75bb6aed76fd_t_string_memory_ptr_t_stringliteral_40cb4920858f61576a33c3708da9aec3258137b7e89c8d7b8fdf80e41802f57b_t_string_memory_ptr__to_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value1, value0) -> end {\n\n        pos := abi_encode_t_stringliteral_c24a98154c5a3c00a57f7d82bd809cd944f06b30ced20fe4175f75bb6aed76fd_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        pos := abi_encode_t_stringliteral_40cb4920858f61576a33c3708da9aec3258137b7e89c8d7b8fdf80e41802f57b_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value1,  pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73(memPtr) {\n\n        mstore(add(memPtr, 0), \": \")\n\n    }\n\n    function abi_encode_t_stringliteral_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 2)\n        store_literal_in_memory_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73(pos)\n        end := add(pos, 2)\n    }\n\n    function store_literal_in_memory_242eefb75b785c572766d106b5e111bc072278a9668bc50885b98bf2c8dd712d(memPtr) {\n\n        mstore(add(memPtr, 0), \" > \")\n\n    }\n\n    function abi_encode_t_stringliteral_242eefb75b785c572766d106b5e111bc072278a9668bc50885b98bf2c8dd712d_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 3)\n        store_literal_in_memory_242eefb75b785c572766d106b5e111bc072278a9668bc50885b98bf2c8dd712d(pos)\n        end := add(pos, 3)\n    }\n\n    function abi_encode_tuple_packed_t_string_memory_ptr_t_stringliteral_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73_t_string_memory_ptr_t_stringliteral_242eefb75b785c572766d106b5e111bc072278a9668bc50885b98bf2c8dd712d_t_string_memory_ptr__to_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value2, value1, value0) -> end {\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        pos := abi_encode_t_stringliteral_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value1,  pos)\n\n        pos := abi_encode_t_stringliteral_242eefb75b785c572766d106b5e111bc072278a9668bc50885b98bf2c8dd712d_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value2,  pos)\n\n        end := pos\n    }\n\n    function abi_encode_tuple_packed_t_string_memory_ptr__to_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value0) -> end {\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_a91eddf639b0b768929589c1a9fd21dcb0107199bdd82e55c5348018a1572f52(memPtr) {\n\n        mstore(add(memPtr, 0), \"{\")\n\n        }\n\n        function abi_encode_t_stringliteral_a91eddf639b0b768929589c1a9fd21dcb0107199bdd82e55c5348018a1572f52_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 1)\n            store_literal_in_memory_a91eddf639b0b768929589c1a9fd21dcb0107199bdd82e55c5348018a1572f52(pos)\n            end := add(pos, 1)\n        }\n\n        function store_literal_in_memory_ab60c04c7f4d15da9050c4f84c7f7c95430964fbe1acc8b7a981fa2764f53508(memPtr) {\n\n            mstore(add(memPtr, 0), 0x226e616d65223a20224d792062656175746966756c20617274776f726b202300)\n\n        }\n\n        function abi_encode_t_stringliteral_ab60c04c7f4d15da9050c4f84c7f7c95430964fbe1acc8b7a981fa2764f53508_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 31)\n            store_literal_in_memory_ab60c04c7f4d15da9050c4f84c7f7c95430964fbe1acc8b7a981fa2764f53508(pos)\n            end := add(pos, 31)\n        }\n\n        function store_literal_in_memory_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0(memPtr) {\n\n            mstore(add(memPtr, 0), 0x2200000000000000000000000000000000000000000000000000000000000000)\n\n        }\n\n        function abi_encode_t_stringliteral_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 1)\n            store_literal_in_memory_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0(pos)\n            end := add(pos, 1)\n        }\n\n        function store_literal_in_memory_956c42c9357dd6436b0cb69001835ac6917f151af48c949a7791aa43c853ece4(memPtr) {\n\n            mstore(add(memPtr, 0), 0x2268617368223a20220000000000000000000000000000000000000000000000)\n\n        }\n\n        function abi_encode_t_stringliteral_956c42c9357dd6436b0cb69001835ac6917f151af48c949a7791aa43c853ece4_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 9)\n            store_literal_in_memory_956c42c9357dd6436b0cb69001835ac6917f151af48c949a7791aa43c853ece4(pos)\n            end := add(pos, 9)\n        }\n\n        function store_literal_in_memory_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb(memPtr) {\n\n            mstore(add(memPtr, 0), 0x222c000000000000000000000000000000000000000000000000000000000000)\n\n        }\n\n        function abi_encode_t_stringliteral_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 2)\n            store_literal_in_memory_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb(pos)\n            end := add(pos, 2)\n        }\n\n        function store_literal_in_memory_12ad00898c5d36f25e364fd7dbeb30fa3b4c621792b3ca2da1f858a869ca047a(memPtr) {\n\n            mstore(add(memPtr, 0), 0x226279223a202200000000000000000000000000000000000000000000000000)\n\n        }\n\n        function abi_encode_t_stringliteral_12ad00898c5d36f25e364fd7dbeb30fa3b4c621792b3ca2da1f858a869ca047a_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 7)\n            store_literal_in_memory_12ad00898c5d36f25e364fd7dbeb30fa3b4c621792b3ca2da1f858a869ca047a(pos)\n            end := add(pos, 7)\n        }\n\n        function shift_left_96(value) -> newValue {\n            newValue :=\n\n            shl(96, value)\n\n        }\n\n        function leftAlign_t_uint160(value) -> aligned {\n            aligned := shift_left_96(value)\n        }\n\n        function leftAlign_t_address(value) -> aligned {\n            aligned := leftAlign_t_uint160(value)\n        }\n\n        function abi_encode_t_address_to_t_address_nonPadded_inplace_fromStack(value, pos) {\n            mstore(pos, leftAlign_t_address(cleanup_t_address(value)))\n        }\n\n        function store_literal_in_memory_d8d729e794464912fd0537734d2af7ad23a1ceed5f5b2f4a5da376fc522dede9(memPtr) {\n\n            mstore(add(memPtr, 0), 0x226e65775f6f776e6572223a2022000000000000000000000000000000000000)\n\n        }\n\n        function abi_encode_t_stringliteral_d8d729e794464912fd0537734d2af7ad23a1ceed5f5b2f4a5da376fc522dede9_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n            pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 14)\n            store_literal_in_memory_d8d729e794464912fd0537734d2af7ad23a1ceed5f5b2f4a5da376fc522dede9(pos)\n            end := add(pos, 14)\n        }\n\n        function store_literal_in_memory_8e2ffa389f3a6ded42d759b3377ac0d928e6a268d143bcc9517093d10c843bff(memPtr) {\n\n        mstore(add(memPtr, 0), \"}\")\n\n    }\n\n    function abi_encode_t_stringliteral_8e2ffa389f3a6ded42d759b3377ac0d928e6a268d143bcc9517093d10c843bff_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 1)\n        store_literal_in_memory_8e2ffa389f3a6ded42d759b3377ac0d928e6a268d143bcc9517093d10c843bff(pos)\n        end := add(pos, 1)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_a91eddf639b0b768929589c1a9fd21dcb0107199bdd82e55c5348018a1572f52_t_stringliteral_ab60c04c7f4d15da9050c4f84c7f7c95430964fbe1acc8b7a981fa2764f53508_t_string_memory_ptr_t_stringliteral_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0_t_stringliteral_956c42c9357dd6436b0cb69001835ac6917f151af48c949a7791aa43c853ece4_t_string_memory_ptr_t_stringliteral_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb_t_stringliteral_12ad00898c5d36f25e364fd7dbeb30fa3b4c621792b3ca2da1f858a869ca047a_t_address_t_stringliteral_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb_t_stringliteral_d8d729e794464912fd0537734d2af7ad23a1ceed5f5b2f4a5da376fc522dede9_t_address_t_stringliteral_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0_t_stringliteral_8e2ffa389f3a6ded42d759b3377ac0d928e6a268d143bcc9517093d10c843bff__to_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_address_t_string_memory_ptr_t_string_memory_ptr_t_address_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value3, value2, value1, value0) -> end {\n\n        pos := abi_encode_t_stringliteral_a91eddf639b0b768929589c1a9fd21dcb0107199bdd82e55c5348018a1572f52_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_stringliteral_ab60c04c7f4d15da9050c4f84c7f7c95430964fbe1acc8b7a981fa2764f53508_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        pos := abi_encode_t_stringliteral_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_stringliteral_956c42c9357dd6436b0cb69001835ac6917f151af48c949a7791aa43c853ece4_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value1,  pos)\n\n        pos := abi_encode_t_stringliteral_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_stringliteral_12ad00898c5d36f25e364fd7dbeb30fa3b4c621792b3ca2da1f858a869ca047a_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        abi_encode_t_address_to_t_address_nonPadded_inplace_fromStack(value2,  pos)\n        pos := add(pos, 20)\n\n        pos := abi_encode_t_stringliteral_24823e6fed9f46f380d33960e511caeb002037c5a4e9735154809fa36b166ffb_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_stringliteral_d8d729e794464912fd0537734d2af7ad23a1ceed5f5b2f4a5da376fc522dede9_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        abi_encode_t_address_to_t_address_nonPadded_inplace_fromStack(value3,  pos)\n        pos := add(pos, 20)\n\n        pos := abi_encode_t_stringliteral_6e9f33448a4153023cdaf3eb759f1afdc24aba433a3e18b683f8c04a6eaa69f0_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_stringliteral_8e2ffa389f3a6ded42d759b3377ac0d928e6a268d143bcc9517093d10c843bff_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_bccab2d885f86fda81bfd84dd4248d31f8073b473d187111d36536db073076fa(memPtr) {\n\n        mstore(add(memPtr, 0), \"data:application/json;base64,\")\n\n    }\n\n    function abi_encode_t_stringliteral_bccab2d885f86fda81bfd84dd4248d31f8073b473d187111d36536db073076fa_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 29)\n        store_literal_in_memory_bccab2d885f86fda81bfd84dd4248d31f8073b473d187111d36536db073076fa(pos)\n        end := add(pos, 29)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_bccab2d885f86fda81bfd84dd4248d31f8073b473d187111d36536db073076fa_t_string_memory_ptr__to_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value0) -> end {\n\n        pos := abi_encode_t_stringliteral_bccab2d885f86fda81bfd84dd4248d31f8073b473d187111d36536db073076fa_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_a1422bbcfa5f99939ca9643b0f027988fc04d8b159392580e2cd33203a358a38(memPtr) {\n\n        mstore(add(memPtr, 0), \" Expected: \")\n\n    }\n\n    function abi_encode_t_stringliteral_a1422bbcfa5f99939ca9643b0f027988fc04d8b159392580e2cd33203a358a38_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 11)\n        store_literal_in_memory_a1422bbcfa5f99939ca9643b0f027988fc04d8b159392580e2cd33203a358a38(pos)\n        end := add(pos, 11)\n    }\n\n    function store_literal_in_memory_b44f50f367e7040ff8b2e90c1b8b05c99501cee716a6635103e9f0b4a3721695(memPtr) {\n\n        mstore(add(memPtr, 0), \" Actual: \")\n\n    }\n\n    function abi_encode_t_stringliteral_b44f50f367e7040ff8b2e90c1b8b05c99501cee716a6635103e9f0b4a3721695_to_t_string_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_nonPadded_inplace_fromStack(pos, 9)\n        store_literal_in_memory_b44f50f367e7040ff8b2e90c1b8b05c99501cee716a6635103e9f0b4a3721695(pos)\n        end := add(pos, 9)\n    }\n\n    function abi_encode_tuple_packed_t_string_memory_ptr_t_stringliteral_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73_t_string_memory_ptr_t_stringliteral_a1422bbcfa5f99939ca9643b0f027988fc04d8b159392580e2cd33203a358a38_t_string_memory_ptr_t_stringliteral_b44f50f367e7040ff8b2e90c1b8b05c99501cee716a6635103e9f0b4a3721695_t_string_memory_ptr__to_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr_t_string_memory_ptr__nonPadded_inplace_fromStack_reversed(pos , value3, value2, value1, value0) -> end {\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value0,  pos)\n\n        pos := abi_encode_t_stringliteral_e64009107d042bdc478cc69a5433e4573ea2e8a23a46646c0ee241e30c888e73_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value1,  pos)\n\n        pos := abi_encode_t_stringliteral_a1422bbcfa5f99939ca9643b0f027988fc04d8b159392580e2cd33203a358a38_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value2,  pos)\n\n        pos := abi_encode_t_stringliteral_b44f50f367e7040ff8b2e90c1b8b05c99501cee716a6635103e9f0b4a3721695_to_t_string_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        pos := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_nonPadded_inplace_fromStack(value3,  pos)\n\n        end := pos\n    }\n\n    function validator_revert_t_bool(value) {\n        if iszero(eq(value, cleanup_t_bool(value))) { revert(0, 0) }\n    }\n\n    function abi_decode_t_bool_fromMemory(offset, end) -> value {\n        value := mload(offset)\n        validator_revert_t_bool(value)\n    }\n\n    function abi_decode_tuple_t_bool_fromMemory(headStart, dataEnd) -> value0 {\n        if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }\n\n        {\n\n            let offset := 0\n\n            value0 := abi_decode_t_bool_fromMemory(add(headStart, offset), dataEnd)\n        }\n\n    }\n\n    function store_literal_in_memory_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f(memPtr) {\n\n        mstore(add(memPtr, 0), \"Only contract admin can withdraw\")\n\n        mstore(add(memPtr, 32), \" funds\")\n\n    }\n\n    function abi_encode_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 38)\n        store_literal_in_memory_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f(pos)\n        end := add(pos, 64)\n    }\n\n    function abi_encode_tuple_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_33b9ef562a82092f846a9c0ea5f8dd99b7a082b0e0c15461aa56fa7b041d461f_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function store_literal_in_memory_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226(memPtr) {\n\n        mstore(add(memPtr, 0), \"Invalid address\")\n\n    }\n\n    function abi_encode_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 15)\n        store_literal_in_memory_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_1462473b7a4b33d32b109b815fd2324d00c9e5839b707ecf16d0ab5744f99226_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function convert_t_address_payable_to_t_address(value) -> converted {\n        converted := convert_t_uint160_to_t_address(value)\n    }\n\n    function abi_encode_t_address_payable_to_t_address_fromStack(value, pos) {\n        mstore(pos, convert_t_address_payable_to_t_address(value))\n    }\n\n    function abi_encode_tuple_t_address_payable__to_t_address__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_address_payable_to_t_address_fromStack(value0,  add(headStart, 0))\n\n    }\n\n    function store_literal_in_memory_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90(memPtr) {\n\n        mstore(add(memPtr, 0), \"Funds can only be withdrawn to a\")\n\n        mstore(add(memPtr, 32), \"dmin, msg.sender or tx.origin\")\n\n    }\n\n    function abi_encode_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 61)\n        store_literal_in_memory_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90(pos)\n        end := add(pos, 64)\n    }\n\n    function abi_encode_tuple_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_aa38dda158504a12e014fc0f598537b476019f512e2ac5da0a2c69bf66f8fe90_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function store_literal_in_memory_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d(memPtr) {\n\n        mstore(add(memPtr, 0), \"Insufficient funds\")\n\n    }\n\n    function abi_encode_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 18)\n        store_literal_in_memory_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_63452317cb6d597bef833f023ed2962a84dbd24c571e27629ed1e3056d6cfd8d_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, length) -> updated_pos {\n        updated_pos := pos\n    }\n\n    function store_literal_in_memory_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470(memPtr) {\n\n    }\n\n    function abi_encode_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_bytes_memory_ptr_nonPadded_inplace_fromStack(pos, 0)\n        store_literal_in_memory_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470(pos)\n        end := add(pos, 0)\n    }\n\n    function abi_encode_tuple_packed_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470__to_t_bytes_memory_ptr__nonPadded_inplace_fromStack_reversed(pos ) -> end {\n\n        pos := abi_encode_t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470_to_t_bytes_memory_ptr_nonPadded_inplace_fromStack( pos)\n\n        end := pos\n    }\n\n    function store_literal_in_memory_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69(memPtr) {\n\n        mstore(add(memPtr, 0), \"Transfer failed.\")\n\n    }\n\n    function abi_encode_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69_to_t_string_memory_ptr_fromStack(pos) -> end {\n        pos := array_storeLengthForEncoding_t_string_memory_ptr_fromStack(pos, 16)\n        store_literal_in_memory_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69(pos)\n        end := add(pos, 32)\n    }\n\n    function abi_encode_tuple_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69__to_t_string_memory_ptr__fromStack_reversed(headStart ) -> tail {\n        tail := add(headStart, 32)\n\n        mstore(add(headStart, 0), sub(tail, headStart))\n        tail := abi_encode_t_stringliteral_c81948f77ae7b56f1759fc612b6b373d090eebe7124f74c528fff8e0a139fe69_to_t_string_memory_ptr_fromStack( tail)\n\n    }\n\n    function abi_encode_tuple_t_address_t_string_memory_ptr__to_t_address_t_string_memory_ptr__fromStack_reversed(headStart , value1, value0) -> tail {\n        tail := add(headStart, 64)\n\n        abi_encode_t_address_to_t_address_fromStack(value0,  add(headStart, 0))\n\n        mstore(add(headStart, 32), sub(tail, headStart))\n        tail := abi_encode_t_string_memory_ptr_to_t_string_memory_ptr_fromStack(value1,  tail)\n\n    }\n\n    function panic_error_0x12() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x12)\n        revert(0, 0x24)\n    }\n\n    function panic_error_0x11() {\n        mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)\n        mstore(4, 0x11)\n        revert(0, 0x24)\n    }\n\n    function checked_add_t_uint256(x, y) -> sum {\n        x := cleanup_t_uint256(x)\n        y := cleanup_t_uint256(y)\n        sum := add(x, y)\n\n        if gt(x, sum) { panic_error_0x11() }\n\n    }\n\n    function checked_div_t_uint256(x, y) -> r {\n        x := cleanup_t_uint256(x)\n        y := cleanup_t_uint256(y)\n        if iszero(y) { panic_error_0x12() }\n\n        r := div(x, y)\n    }\n\n    function checked_mul_t_uint256(x, y) -> product {\n        x := cleanup_t_uint256(x)\n        y := cleanup_t_uint256(y)\n        let product_raw := mul(x, y)\n        product := cleanup_t_uint256(product_raw)\n\n        // overflow, if x != 0 and y != product/x\n        if iszero(\n            or(\n                iszero(x),\n                eq(y, div(product, x))\n            )\n        ) { panic_error_0x11() }\n\n    }\n\n}\n",
       "id": 60,
       "language": "Yul",
       "name": "#utility.yul"
@@ -17970,10 +17970,10 @@
     "absolutePath": "project:/contracts/assignment_1/Validator1TaskB.sol",
     "exportedSymbols": {
       "Address": [
-        15852
+        15957
       ],
       "Base64": [
-        15899
+        16004
       ],
       "BaseConfig": [
         116
@@ -17982,63 +17982,63 @@
         591
       ],
       "ConfigStorage": [
-        2965
+        3021
       ],
       "Context": [
-        15921
+        16026
       ],
       "ERC165": [
-        16120
+        16225
       ],
       "ERC721": [
-        15209
+        15314
       ],
       "ERC721URIStorage": [
-        15468
+        15573
       ],
       "Helper": [
-        3243
+        3299
       ],
       "IAssignment1": [
-        5693
+        5798
       ],
       "IBaseAssignment": [
-        3303
+        3359
       ],
       "IBaseValidator": [
-        1637
+        1693
       ],
       "IERC165": [
-        16132
+        16237
       ],
       "IERC721": [
-        15325
+        15430
       ],
       "IERC721Metadata": [
-        15495
+        15600
       ],
       "IERC721Receiver": [
-        15343
+        15448
       ],
       "Math": [
-        16997
+        17102
       ],
       "Strings": [
-        16096
+        16201
       ],
       "Validator1Helper": [
-        4442
+        4547
       ],
       "Validator1TaskB": [
-        4841
+        4946
       ]
     },
-    "id": 4842,
+    "id": 4947,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4627,
+        "id": 4732,
         "literals": [
           "solidity",
           "^",
@@ -18051,11 +18051,11 @@
       {
         "absolutePath": "project:/contracts/assignment_1/interface/IAssignment1.sol",
         "file": "./interface/IAssignment1.sol",
-        "id": 4628,
+        "id": 4733,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 4842,
-        "sourceUnit": 5694,
+        "scope": 4947,
+        "sourceUnit": 5799,
         "src": "93:38:11",
         "symbolAliases": [],
         "unitAlias": ""
@@ -18063,11 +18063,11 @@
       {
         "absolutePath": "project:/node_modules/@openzeppelin/contracts/utils/Base64.sol",
         "file": "../../node_modules/@openzeppelin/contracts/utils/Base64.sol",
-        "id": 4629,
+        "id": 4734,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 4842,
-        "sourceUnit": 15900,
+        "scope": 4947,
+        "sourceUnit": 16005,
         "src": "135:69:11",
         "symbolAliases": [],
         "unitAlias": ""
@@ -18075,11 +18075,11 @@
       {
         "absolutePath": "project:/node_modules/@openzeppelin/contracts/utils/Strings.sol",
         "file": "../../node_modules/@openzeppelin/contracts/utils/Strings.sol",
-        "id": 4630,
+        "id": 4735,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 4842,
-        "sourceUnit": 16097,
+        "scope": 4947,
+        "sourceUnit": 16202,
         "src": "206:70:11",
         "symbolAliases": [],
         "unitAlias": ""
@@ -18087,11 +18087,11 @@
       {
         "absolutePath": "project:/contracts/Helper.sol",
         "file": "../Helper.sol",
-        "id": 4631,
+        "id": 4736,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 4842,
-        "sourceUnit": 3244,
+        "scope": 4947,
+        "sourceUnit": 3300,
         "src": "298:23:11",
         "symbolAliases": [],
         "unitAlias": ""
@@ -18099,11 +18099,11 @@
       {
         "absolutePath": "project:/contracts/assignment_1/Validator1Helper.sol",
         "file": "./Validator1Helper.sol",
-        "id": 4632,
+        "id": 4737,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 4842,
-        "sourceUnit": 4443,
+        "scope": 4947,
+        "sourceUnit": 4548,
         "src": "377:32:11",
         "symbolAliases": [],
         "unitAlias": ""
@@ -18111,10 +18111,10 @@
       {
         "absolutePath": "project:/contracts/BaseConfig.sol",
         "file": "../BaseConfig.sol",
-        "id": 4633,
+        "id": 4738,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 4842,
+        "scope": 4947,
         "sourceUnit": 117,
         "src": "442:27:11",
         "symbolAliases": [],
@@ -18125,22 +18125,22 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 4634,
+              "id": 4739,
               "name": "Helper",
               "nameLocations": [
                 "577:6:11"
               ],
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 3243,
+              "referencedDeclaration": 3299,
               "src": "577:6:11"
             },
-            "id": 4635,
+            "id": 4740,
             "nodeType": "InheritanceSpecifier",
             "src": "577:6:11"
           },
           {
             "baseName": {
-              "id": 4636,
+              "id": 4741,
               "name": "BaseConfig",
               "nameLocations": [
                 "585:10:11"
@@ -18149,7 +18149,7 @@
               "referencedDeclaration": 116,
               "src": "585:10:11"
             },
-            "id": 4637,
+            "id": 4742,
             "nodeType": "InheritanceSpecifier",
             "src": "585:10:11"
           }
@@ -18158,11 +18158,11 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 4841,
+        "id": 4946,
         "linearizedBaseContracts": [
-          4841,
+          4946,
           116,
-          3243
+          3299
         ],
         "name": "Validator1TaskB",
         "nameLocation": "558:15:11",
@@ -18170,21 +18170,21 @@
         "nodes": [
           {
             "global": false,
-            "id": 4640,
+            "id": 4745,
             "libraryName": {
-              "id": 4638,
+              "id": 4743,
               "name": "Strings",
               "nameLocations": [
                 "609:7:11"
               ],
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 16096,
+              "referencedDeclaration": 16201,
               "src": "609:7:11"
             },
             "nodeType": "UsingForDirective",
             "src": "603:26:11",
             "typeName": {
-              "id": 4639,
+              "id": 4744,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "621:7:11",
@@ -18196,36 +18196,36 @@
           },
           {
             "constant": false,
-            "id": 4643,
+            "id": 4748,
             "mutability": "mutable",
             "name": "assignmentContract",
             "nameLocation": "688:18:11",
             "nodeType": "VariableDeclaration",
-            "scope": 4841,
+            "scope": 4946,
             "src": "675:31:11",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_IAssignment1_$5693",
+              "typeIdentifier": "t_contract$_IAssignment1_$5798",
               "typeString": "contract IAssignment1"
             },
             "typeName": {
-              "id": 4642,
+              "id": 4747,
               "nodeType": "UserDefinedTypeName",
               "pathNode": {
-                "id": 4641,
+                "id": 4746,
                 "name": "IAssignment1",
                 "nameLocations": [
                   "675:12:11"
                 ],
                 "nodeType": "IdentifierPath",
-                "referencedDeclaration": 5693,
+                "referencedDeclaration": 5798,
                 "src": "675:12:11"
               },
-              "referencedDeclaration": 5693,
+              "referencedDeclaration": 5798,
               "src": "675:12:11",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IAssignment1_$5693",
+                "typeIdentifier": "t_contract$_IAssignment1_$5798",
                 "typeString": "contract IAssignment1"
               }
             },
@@ -18233,36 +18233,36 @@
           },
           {
             "constant": false,
-            "id": 4646,
+            "id": 4751,
             "mutability": "mutable",
             "name": "validator1Helper",
             "nameLocation": "730:16:11",
             "nodeType": "VariableDeclaration",
-            "scope": 4841,
+            "scope": 4946,
             "src": "713:33:11",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_Validator1Helper_$4442",
+              "typeIdentifier": "t_contract$_Validator1Helper_$4547",
               "typeString": "contract Validator1Helper"
             },
             "typeName": {
-              "id": 4645,
+              "id": 4750,
               "nodeType": "UserDefinedTypeName",
               "pathNode": {
-                "id": 4644,
+                "id": 4749,
                 "name": "Validator1Helper",
                 "nameLocations": [
                   "713:16:11"
                 ],
                 "nodeType": "IdentifierPath",
-                "referencedDeclaration": 4442,
+                "referencedDeclaration": 4547,
                 "src": "713:16:11"
               },
-              "referencedDeclaration": 4442,
+              "referencedDeclaration": 4547,
               "src": "713:16:11",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Validator1Helper_$4442",
+                "typeIdentifier": "t_contract$_Validator1Helper_$4547",
                 "typeString": "contract Validator1Helper"
               }
             },
@@ -18270,7 +18270,7 @@
           },
           {
             "body": {
-              "id": 4656,
+              "id": 4761,
               "nodeType": "Block",
               "src": "799:138:11",
               "statements": [
@@ -18278,11 +18278,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 4652,
+                        "id": 4757,
                         "name": "_configContractAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4648,
+                        "referencedDeclaration": 4753,
                         "src": "834:22:11",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -18291,7 +18291,7 @@
                       },
                       {
                         "hexValue": "535332332041737369676e6d656e7420312056616c696461746f7220436f6e7472616374202d205461736b2042",
-                        "id": 4653,
+                        "id": 4758,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -18317,7 +18317,7 @@
                           "typeString": "literal_string \"SS23 Assignment 1 Validator Contract - Task B\""
                         }
                       ],
-                      "id": 4651,
+                      "id": 4756,
                       "name": "initAdmin",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
@@ -18328,7 +18328,7 @@
                         "typeString": "function (address,string memory)"
                       }
                     },
-                    "id": 4654,
+                    "id": 4759,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -18344,13 +18344,13 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 4655,
+                  "id": 4760,
                   "nodeType": "ExpressionStatement",
                   "src": "810:119:11"
                 }
               ]
             },
-            "id": 4657,
+            "id": 4762,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
@@ -18358,17 +18358,17 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 4649,
+              "id": 4754,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4648,
+                  "id": 4753,
                   "mutability": "mutable",
                   "name": "_configContractAddress",
                   "nameLocation": "775:22:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4657,
+                  "scope": 4762,
                   "src": "767:30:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -18377,7 +18377,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4647,
+                    "id": 4752,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "767:7:11",
@@ -18393,12 +18393,12 @@
               "src": "766:32:11"
             },
             "returnParameters": {
-              "id": 4650,
+              "id": 4755,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "799:0:11"
             },
-            "scope": 4841,
+            "scope": 4946,
             "src": "755:182:11",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -18406,12 +18406,12 @@
           },
           {
             "body": {
-              "id": 4660,
+              "id": 4765,
               "nodeType": "Block",
               "src": "972:2:11",
               "statements": []
             },
-            "id": 4661,
+            "id": 4766,
             "implemented": true,
             "kind": "receive",
             "modifiers": [],
@@ -18419,18 +18419,18 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 4658,
+              "id": 4763,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "952:2:11"
             },
             "returnParameters": {
-              "id": 4659,
+              "id": 4764,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "972:0:11"
             },
-            "scope": 4841,
+            "scope": 4946,
             "src": "945:29:11",
             "stateMutability": "payable",
             "virtual": false,
@@ -18438,26 +18438,26 @@
           },
           {
             "body": {
-              "id": 4683,
+              "id": 4788,
               "nodeType": "Block",
               "src": "1118:264:11",
               "statements": [
                 {
                   "expression": {
-                    "id": 4672,
+                    "id": 4777,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 4668,
+                      "id": 4773,
                       "name": "assignmentContract",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4643,
+                      "referencedDeclaration": 4748,
                       "src": "1242:18:11",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IAssignment1_$5693",
+                        "typeIdentifier": "t_contract$_IAssignment1_$5798",
                         "typeString": "contract IAssignment1"
                       }
                     },
@@ -18466,11 +18466,11 @@
                     "rightHandSide": {
                       "arguments": [
                         {
-                          "id": 4670,
+                          "id": 4775,
                           "name": "_contractAddress",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4663,
+                          "referencedDeclaration": 4768,
                           "src": "1276:16:11",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -18485,18 +18485,18 @@
                             "typeString": "address"
                           }
                         ],
-                        "id": 4669,
+                        "id": 4774,
                         "name": "IAssignment1",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5693,
+                        "referencedDeclaration": 5798,
                         "src": "1263:12:11",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_IAssignment1_$5693_$",
+                          "typeIdentifier": "t_type$_t_contract$_IAssignment1_$5798_$",
                           "typeString": "type(contract IAssignment1)"
                         }
                       },
-                      "id": 4671,
+                      "id": 4776,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -18508,36 +18508,36 @@
                       "src": "1263:30:11",
                       "tryCall": false,
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IAssignment1_$5693",
+                        "typeIdentifier": "t_contract$_IAssignment1_$5798",
                         "typeString": "contract IAssignment1"
                       }
                     },
                     "src": "1242:51:11",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IAssignment1_$5693",
+                      "typeIdentifier": "t_contract$_IAssignment1_$5798",
                       "typeString": "contract IAssignment1"
                     }
                   },
-                  "id": 4673,
+                  "id": 4778,
                   "nodeType": "ExpressionStatement",
                   "src": "1242:51:11"
                 },
                 {
                   "expression": {
-                    "id": 4681,
+                    "id": 4786,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 4674,
+                      "id": 4779,
                       "name": "validator1Helper",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4646,
+                      "referencedDeclaration": 4751,
                       "src": "1304:16:11",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Validator1Helper_$4442",
+                        "typeIdentifier": "t_contract$_Validator1Helper_$4547",
                         "typeString": "contract Validator1Helper"
                       }
                     },
@@ -18548,11 +18548,11 @@
                         {
                           "arguments": [
                             {
-                              "id": 4678,
+                              "id": 4783,
                               "name": "_validator1HelperAddress",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 4665,
+                              "referencedDeclaration": 4770,
                               "src": "1348:24:11",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_address",
@@ -18567,7 +18567,7 @@
                                 "typeString": "address"
                               }
                             ],
-                            "id": 4677,
+                            "id": 4782,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
@@ -18579,7 +18579,7 @@
                               "typeString": "type(address payable)"
                             },
                             "typeName": {
-                              "id": 4676,
+                              "id": 4781,
                               "name": "address",
                               "nodeType": "ElementaryTypeName",
                               "src": "1340:8:11",
@@ -18587,7 +18587,7 @@
                               "typeDescriptions": {}
                             }
                           },
-                          "id": 4679,
+                          "id": 4784,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -18611,18 +18611,18 @@
                             "typeString": "address payable"
                           }
                         ],
-                        "id": 4675,
+                        "id": 4780,
                         "name": "Validator1Helper",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4442,
+                        "referencedDeclaration": 4547,
                         "src": "1323:16:11",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_Validator1Helper_$4442_$",
+                          "typeIdentifier": "t_type$_t_contract$_Validator1Helper_$4547_$",
                           "typeString": "type(contract Validator1Helper)"
                         }
                       },
-                      "id": 4680,
+                      "id": 4785,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -18634,24 +18634,24 @@
                       "src": "1323:51:11",
                       "tryCall": false,
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Validator1Helper_$4442",
+                        "typeIdentifier": "t_contract$_Validator1Helper_$4547",
                         "typeString": "contract Validator1Helper"
                       }
                     },
                     "src": "1304:70:11",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Validator1Helper_$4442",
+                      "typeIdentifier": "t_contract$_Validator1Helper_$4547",
                       "typeString": "contract Validator1Helper"
                     }
                   },
-                  "id": 4682,
+                  "id": 4787,
                   "nodeType": "ExpressionStatement",
                   "src": "1304:70:11"
                 }
               ]
             },
             "functionSelector": "25ba0f51",
-            "id": 4684,
+            "id": 4789,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -18659,17 +18659,17 @@
             "nameLocation": "1013:12:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 4666,
+              "id": 4771,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4663,
+                  "id": 4768,
                   "mutability": "mutable",
                   "name": "_contractAddress",
                   "nameLocation": "1044:16:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4684,
+                  "scope": 4789,
                   "src": "1036:24:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -18678,7 +18678,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4662,
+                    "id": 4767,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1036:7:11",
@@ -18692,12 +18692,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 4665,
+                  "id": 4770,
                   "mutability": "mutable",
                   "name": "_validator1HelperAddress",
                   "nameLocation": "1079:24:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4684,
+                  "scope": 4789,
                   "src": "1071:32:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -18706,7 +18706,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4664,
+                    "id": 4769,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1071:7:11",
@@ -18722,12 +18722,12 @@
               "src": "1025:85:11"
             },
             "returnParameters": {
-              "id": 4667,
+              "id": 4772,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1118:0:11"
             },
-            "scope": 4841,
+            "scope": 4946,
             "src": "1004:378:11",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -18735,7 +18735,7 @@
           },
           {
             "body": {
-              "id": 4767,
+              "id": 4872,
               "nodeType": "Block",
               "src": "1460:1652:11",
               "statements": [
@@ -18743,7 +18743,7 @@
                   "clauses": [
                     {
                       "block": {
-                        "id": 4758,
+                        "id": 4863,
                         "nodeType": "Block",
                         "src": "1690:1258:11",
                         "statements": [
@@ -18753,17 +18753,17 @@
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
                               },
-                              "id": 4703,
+                              "id": 4808,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
                               "lValueRequested": false,
                               "leftExpression": {
-                                "id": 4701,
+                                "id": 4806,
                                 "name": "id_b",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 4699,
+                                "referencedDeclaration": 4804,
                                 "src": "1709:4:11",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -18774,7 +18774,7 @@
                               "operator": ">",
                               "rightExpression": {
                                 "hexValue": "30",
-                                "id": 4702,
+                                "id": 4807,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": true,
@@ -18795,7 +18795,7 @@
                               }
                             },
                             "falseBody": {
-                              "id": 4756,
+                              "id": 4861,
                               "nodeType": "Block",
                               "src": "2774:163:11",
                               "statements": [
@@ -18804,7 +18804,7 @@
                                     "components": [
                                       {
                                         "hexValue": "4572726f72202845786572636973652042293a204572726f72207769746820746865206d696e742066756e6374696f6e21",
-                                        "id": 4752,
+                                        "id": 4857,
                                         "isConstant": false,
                                         "isLValue": false,
                                         "isPure": true,
@@ -18820,7 +18820,7 @@
                                       },
                                       {
                                         "hexValue": "66616c7365",
-                                        "id": 4753,
+                                        "id": 4858,
                                         "isConstant": false,
                                         "isLValue": false,
                                         "isPure": true,
@@ -18835,7 +18835,7 @@
                                         "value": "false"
                                       }
                                     ],
-                                    "id": 4754,
+                                    "id": 4859,
                                     "isConstant": false,
                                     "isInlineArray": false,
                                     "isLValue": false,
@@ -18848,34 +18848,34 @@
                                       "typeString": "tuple(literal_string \"Error (Exercise B): Error with the mint function!\",bool)"
                                     }
                                   },
-                                  "functionReturnParameters": 4690,
-                                  "id": 4755,
+                                  "functionReturnParameters": 4795,
+                                  "id": 4860,
                                   "nodeType": "Return",
                                   "src": "2793:128:11"
                                 }
                               ]
                             },
-                            "id": 4757,
+                            "id": 4862,
                             "nodeType": "IfStatement",
                             "src": "1705:1232:11",
                             "trueBody": {
-                              "id": 4751,
+                              "id": 4856,
                               "nodeType": "Block",
                               "src": "1719:1049:11",
                               "statements": [
                                 {
                                   "assignments": [
-                                    4705
+                                    4810
                                   ],
                                   "declarations": [
                                     {
                                       "constant": false,
-                                      "id": 4705,
+                                      "id": 4810,
                                       "mutability": "mutable",
                                       "name": "tokenURI",
                                       "nameLocation": "1752:8:11",
                                       "nodeType": "VariableDeclaration",
-                                      "scope": 4751,
+                                      "scope": 4856,
                                       "src": "1738:22:11",
                                       "stateVariable": false,
                                       "storageLocation": "memory",
@@ -18884,7 +18884,7 @@
                                         "typeString": "string"
                                       },
                                       "typeName": {
-                                        "id": 4704,
+                                        "id": 4809,
                                         "name": "string",
                                         "nodeType": "ElementaryTypeName",
                                         "src": "1738:6:11",
@@ -18896,15 +18896,15 @@
                                       "visibility": "internal"
                                     }
                                   ],
-                                  "id": 4710,
+                                  "id": 4815,
                                   "initialValue": {
                                     "arguments": [
                                       {
-                                        "id": 4708,
+                                        "id": 4813,
                                         "name": "id_b",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 4699,
+                                        "referencedDeclaration": 4804,
                                         "src": "1791:4:11",
                                         "typeDescriptions": {
                                           "typeIdentifier": "t_uint256",
@@ -18920,18 +18920,18 @@
                                         }
                                       ],
                                       "expression": {
-                                        "id": 4706,
+                                        "id": 4811,
                                         "name": "assignmentContract",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 4643,
+                                        "referencedDeclaration": 4748,
                                         "src": "1763:18:11",
                                         "typeDescriptions": {
-                                          "typeIdentifier": "t_contract$_IAssignment1_$5693",
+                                          "typeIdentifier": "t_contract$_IAssignment1_$5798",
                                           "typeString": "contract IAssignment1"
                                         }
                                       },
-                                      "id": 4707,
+                                      "id": 4812,
                                       "isConstant": false,
                                       "isLValue": false,
                                       "isPure": false,
@@ -18939,14 +18939,14 @@
                                       "memberLocation": "1782:8:11",
                                       "memberName": "tokenURI",
                                       "nodeType": "MemberAccess",
-                                      "referencedDeclaration": 15415,
+                                      "referencedDeclaration": 15520,
                                       "src": "1763:27:11",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_string_memory_ptr_$",
                                         "typeString": "function (uint256) view external returns (string memory)"
                                       }
                                     },
-                                    "id": 4709,
+                                    "id": 4814,
                                     "isConstant": false,
                                     "isLValue": false,
                                     "isPure": false,
@@ -18967,17 +18967,17 @@
                                 },
                                 {
                                   "assignments": [
-                                    4712
+                                    4817
                                   ],
                                   "declarations": [
                                     {
                                       "constant": false,
-                                      "id": 4712,
+                                      "id": 4817,
                                       "mutability": "mutable",
                                       "name": "expectedTokenURI",
                                       "nameLocation": "1829:16:11",
                                       "nodeType": "VariableDeclaration",
-                                      "scope": 4751,
+                                      "scope": 4856,
                                       "src": "1815:30:11",
                                       "stateVariable": false,
                                       "storageLocation": "memory",
@@ -18986,7 +18986,7 @@
                                         "typeString": "string"
                                       },
                                       "typeName": {
-                                        "id": 4711,
+                                        "id": 4816,
                                         "name": "string",
                                         "nodeType": "ElementaryTypeName",
                                         "src": "1815:6:11",
@@ -18998,15 +18998,15 @@
                                       "visibility": "internal"
                                     }
                                   ],
-                                  "id": 4724,
+                                  "id": 4829,
                                   "initialValue": {
                                     "arguments": [
                                       {
-                                        "id": 4714,
+                                        "id": 4819,
                                         "name": "id_b",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 4699,
+                                        "referencedDeclaration": 4804,
                                         "src": "1882:4:11",
                                         "typeDescriptions": {
                                           "typeIdentifier": "t_uint256",
@@ -19018,18 +19018,18 @@
                                         "expression": {
                                           "argumentTypes": [],
                                           "expression": {
-                                            "id": 4715,
+                                            "id": 4820,
                                             "name": "assignmentContract",
                                             "nodeType": "Identifier",
                                             "overloadedDeclarations": [],
-                                            "referencedDeclaration": 4643,
+                                            "referencedDeclaration": 4748,
                                             "src": "1909:18:11",
                                             "typeDescriptions": {
-                                              "typeIdentifier": "t_contract$_IAssignment1_$5693",
+                                              "typeIdentifier": "t_contract$_IAssignment1_$5798",
                                               "typeString": "contract IAssignment1"
                                             }
                                           },
-                                          "id": 4716,
+                                          "id": 4821,
                                           "isConstant": false,
                                           "isLValue": false,
                                           "isPure": false,
@@ -19037,14 +19037,14 @@
                                           "memberLocation": "1928:11:11",
                                           "memberName": "getIPFSHash",
                                           "nodeType": "MemberAccess",
-                                          "referencedDeclaration": 5692,
+                                          "referencedDeclaration": 5797,
                                           "src": "1909:30:11",
                                           "typeDescriptions": {
                                             "typeIdentifier": "t_function_external_view$__$returns$_t_string_memory_ptr_$",
                                             "typeString": "function () view external returns (string memory)"
                                           }
                                         },
-                                        "id": 4717,
+                                        "id": 4822,
                                         "isConstant": false,
                                         "isLValue": false,
                                         "isPure": false,
@@ -19065,18 +19065,18 @@
                                         "expression": {
                                           "argumentTypes": [],
                                           "expression": {
-                                            "id": 4718,
+                                            "id": 4823,
                                             "name": "assignmentContract",
                                             "nodeType": "Identifier",
                                             "overloadedDeclarations": [],
-                                            "referencedDeclaration": 4643,
+                                            "referencedDeclaration": 4748,
                                             "src": "1964:18:11",
                                             "typeDescriptions": {
-                                              "typeIdentifier": "t_contract$_IAssignment1_$5693",
+                                              "typeIdentifier": "t_contract$_IAssignment1_$5798",
                                               "typeString": "contract IAssignment1"
                                             }
                                           },
-                                          "id": 4719,
+                                          "id": 4824,
                                           "isConstant": false,
                                           "isLValue": false,
                                           "isPure": false,
@@ -19084,14 +19084,14 @@
                                           "memberLocation": "1983:8:11",
                                           "memberName": "getOwner",
                                           "nodeType": "MemberAccess",
-                                          "referencedDeclaration": 3251,
+                                          "referencedDeclaration": 3307,
                                           "src": "1964:27:11",
                                           "typeDescriptions": {
                                             "typeIdentifier": "t_function_external_nonpayable$__$returns$_t_address_$",
                                             "typeString": "function () external returns (address)"
                                           }
                                         },
-                                        "id": 4720,
+                                        "id": 4825,
                                         "isConstant": false,
                                         "isLValue": false,
                                         "isPure": false,
@@ -19109,7 +19109,7 @@
                                       },
                                       {
                                         "expression": {
-                                          "id": 4721,
+                                          "id": 4826,
                                           "name": "msg",
                                           "nodeType": "Identifier",
                                           "overloadedDeclarations": [],
@@ -19120,7 +19120,7 @@
                                             "typeString": "msg"
                                           }
                                         },
-                                        "id": 4722,
+                                        "id": 4827,
                                         "isConstant": false,
                                         "isLValue": false,
                                         "isPure": false,
@@ -19154,18 +19154,18 @@
                                           "typeString": "address"
                                         }
                                       ],
-                                      "id": 4713,
+                                      "id": 4818,
                                       "name": "getTokenURI",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 4816,
+                                      "referencedDeclaration": 4921,
                                       "src": "1848:11:11",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_string_memory_ptr_$_t_address_$_t_address_$returns$_t_string_memory_ptr_$",
                                         "typeString": "function (uint256,string memory,address,address) pure returns (string memory)"
                                       }
                                     },
-                                    "id": 4723,
+                                    "id": 4828,
                                     "isConstant": false,
                                     "isLValue": false,
                                     "isPure": false,
@@ -19190,7 +19190,7 @@
                                       "typeIdentifier": "t_bool",
                                       "typeString": "bool"
                                     },
-                                    "id": 4730,
+                                    "id": 4835,
                                     "isConstant": false,
                                     "isLValue": false,
                                     "isPure": false,
@@ -19198,11 +19198,11 @@
                                     "leftExpression": {
                                       "arguments": [
                                         {
-                                          "id": 4726,
+                                          "id": 4831,
                                           "name": "tokenURI",
                                           "nodeType": "Identifier",
                                           "overloadedDeclarations": [],
-                                          "referencedDeclaration": 4705,
+                                          "referencedDeclaration": 4810,
                                           "src": "2143:8:11",
                                           "typeDescriptions": {
                                             "typeIdentifier": "t_string_memory_ptr",
@@ -19210,11 +19210,11 @@
                                           }
                                         },
                                         {
-                                          "id": 4727,
+                                          "id": 4832,
                                           "name": "expectedTokenURI",
                                           "nodeType": "Identifier",
                                           "overloadedDeclarations": [],
-                                          "referencedDeclaration": 4712,
+                                          "referencedDeclaration": 4817,
                                           "src": "2153:16:11",
                                           "typeDescriptions": {
                                             "typeIdentifier": "t_string_memory_ptr",
@@ -19233,18 +19233,18 @@
                                             "typeString": "string memory"
                                           }
                                         ],
-                                        "id": 4725,
+                                        "id": 4830,
                                         "name": "compare",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 4840,
+                                        "referencedDeclaration": 4945,
                                         "src": "2135:7:11",
                                         "typeDescriptions": {
                                           "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$_t_bool_$",
                                           "typeString": "function (string memory,string memory) pure returns (bool)"
                                         }
                                       },
-                                      "id": 4728,
+                                      "id": 4833,
                                       "isConstant": false,
                                       "isLValue": false,
                                       "isPure": false,
@@ -19264,7 +19264,7 @@
                                     "operator": "==",
                                     "rightExpression": {
                                       "hexValue": "74727565",
-                                      "id": 4729,
+                                      "id": 4834,
                                       "isConstant": false,
                                       "isLValue": false,
                                       "isPure": true,
@@ -19285,7 +19285,7 @@
                                     }
                                   },
                                   "falseBody": {
-                                    "id": 4749,
+                                    "id": 4854,
                                     "nodeType": "Block",
                                     "src": "2285:468:11",
                                     "statements": [
@@ -19298,7 +19298,7 @@
                                                   "arguments": [
                                                     {
                                                       "hexValue": "4572726f72202845786572636973652042293a20546f6b656e555249206e6f7420636f727265637420676f743a20",
-                                                      "id": 4740,
+                                                      "id": 4845,
                                                       "isConstant": false,
                                                       "isLValue": false,
                                                       "isPure": true,
@@ -19313,11 +19313,11 @@
                                                       "value": "Error (Exercise B): TokenURI not correct got: "
                                                     },
                                                     {
-                                                      "id": 4741,
+                                                      "id": 4846,
                                                       "name": "tokenURI",
                                                       "nodeType": "Identifier",
                                                       "overloadedDeclarations": [],
-                                                      "referencedDeclaration": 4705,
+                                                      "referencedDeclaration": 4810,
                                                       "src": "2513:8:11",
                                                       "typeDescriptions": {
                                                         "typeIdentifier": "t_string_memory_ptr",
@@ -19326,7 +19326,7 @@
                                                     },
                                                     {
                                                       "hexValue": "2065787065637465643a20",
-                                                      "id": 4742,
+                                                      "id": 4847,
                                                       "isConstant": false,
                                                       "isLValue": false,
                                                       "isPure": true,
@@ -19341,11 +19341,11 @@
                                                       "value": " expected: "
                                                     },
                                                     {
-                                                      "id": 4743,
+                                                      "id": 4848,
                                                       "name": "expectedTokenURI",
                                                       "nodeType": "Identifier",
                                                       "overloadedDeclarations": [],
-                                                      "referencedDeclaration": 4712,
+                                                      "referencedDeclaration": 4817,
                                                       "src": "2604:16:11",
                                                       "typeDescriptions": {
                                                         "typeIdentifier": "t_string_memory_ptr",
@@ -19373,7 +19373,7 @@
                                                       }
                                                     ],
                                                     "expression": {
-                                                      "id": 4738,
+                                                      "id": 4843,
                                                       "name": "abi",
                                                       "nodeType": "Identifier",
                                                       "overloadedDeclarations": [],
@@ -19384,7 +19384,7 @@
                                                         "typeString": "abi"
                                                       }
                                                     },
-                                                    "id": 4739,
+                                                    "id": 4844,
                                                     "isConstant": false,
                                                     "isLValue": false,
                                                     "isPure": true,
@@ -19398,7 +19398,7 @@
                                                       "typeString": "function () pure returns (bytes memory)"
                                                     }
                                                   },
-                                                  "id": 4744,
+                                                  "id": 4849,
                                                   "isConstant": false,
                                                   "isLValue": false,
                                                   "isPure": false,
@@ -19422,7 +19422,7 @@
                                                     "typeString": "bytes memory"
                                                   }
                                                 ],
-                                                "id": 4737,
+                                                "id": 4842,
                                                 "isConstant": false,
                                                 "isLValue": false,
                                                 "isPure": true,
@@ -19434,14 +19434,14 @@
                                                   "typeString": "type(string storage pointer)"
                                                 },
                                                 "typeName": {
-                                                  "id": 4736,
+                                                  "id": 4841,
                                                   "name": "string",
                                                   "nodeType": "ElementaryTypeName",
                                                   "src": "2342:6:11",
                                                   "typeDescriptions": {}
                                                 }
                                               },
-                                              "id": 4745,
+                                              "id": 4850,
                                               "isConstant": false,
                                               "isLValue": false,
                                               "isPure": false,
@@ -19459,7 +19459,7 @@
                                             },
                                             {
                                               "hexValue": "66616c7365",
-                                              "id": 4746,
+                                              "id": 4851,
                                               "isConstant": false,
                                               "isLValue": false,
                                               "isPure": true,
@@ -19474,7 +19474,7 @@
                                               "value": "false"
                                             }
                                           ],
-                                          "id": 4747,
+                                          "id": 4852,
                                           "isConstant": false,
                                           "isInlineArray": false,
                                           "isLValue": false,
@@ -19487,18 +19487,18 @@
                                             "typeString": "tuple(string memory,bool)"
                                           }
                                         },
-                                        "functionReturnParameters": 4690,
-                                        "id": 4748,
+                                        "functionReturnParameters": 4795,
+                                        "id": 4853,
                                         "nodeType": "Return",
                                         "src": "2308:425:11"
                                       }
                                     ]
                                   },
-                                  "id": 4750,
+                                  "id": 4855,
                                   "nodeType": "IfStatement",
                                   "src": "2131:622:11",
                                   "trueBody": {
-                                    "id": 4735,
+                                    "id": 4840,
                                     "nodeType": "Block",
                                     "src": "2180:99:11",
                                     "statements": [
@@ -19507,7 +19507,7 @@
                                           "components": [
                                             {
                                               "hexValue": "506173736564202845786572636973652042293a20457865726369736520422070617373656421",
-                                              "id": 4731,
+                                              "id": 4836,
                                               "isConstant": false,
                                               "isLValue": false,
                                               "isPure": true,
@@ -19523,7 +19523,7 @@
                                             },
                                             {
                                               "hexValue": "74727565",
-                                              "id": 4732,
+                                              "id": 4837,
                                               "isConstant": false,
                                               "isLValue": false,
                                               "isPure": true,
@@ -19538,7 +19538,7 @@
                                               "value": "true"
                                             }
                                           ],
-                                          "id": 4733,
+                                          "id": 4838,
                                           "isConstant": false,
                                           "isInlineArray": false,
                                           "isLValue": false,
@@ -19551,8 +19551,8 @@
                                             "typeString": "tuple(literal_string \"Passed (Exercise B): Exercise B passed!\",bool)"
                                           }
                                         },
-                                        "functionReturnParameters": 4690,
-                                        "id": 4734,
+                                        "functionReturnParameters": 4795,
+                                        "id": 4839,
                                         "nodeType": "Return",
                                         "src": "2203:56:11"
                                       }
@@ -19565,20 +19565,20 @@
                         ]
                       },
                       "errorName": "",
-                      "id": 4759,
+                      "id": 4864,
                       "nodeType": "TryCatchClause",
                       "parameters": {
-                        "id": 4700,
+                        "id": 4805,
                         "nodeType": "ParameterList",
                         "parameters": [
                           {
                             "constant": false,
-                            "id": 4699,
+                            "id": 4804,
                             "mutability": "mutable",
                             "name": "id_b",
                             "nameLocation": "1674:4:11",
                             "nodeType": "VariableDeclaration",
-                            "scope": 4759,
+                            "scope": 4864,
                             "src": "1666:12:11",
                             "stateVariable": false,
                             "storageLocation": "default",
@@ -19587,7 +19587,7 @@
                               "typeString": "uint256"
                             },
                             "typeName": {
-                              "id": 4698,
+                              "id": 4803,
                               "name": "uint256",
                               "nodeType": "ElementaryTypeName",
                               "src": "1666:7:11",
@@ -19605,7 +19605,7 @@
                     },
                     {
                       "block": {
-                        "id": 4764,
+                        "id": 4869,
                         "nodeType": "Block",
                         "src": "2955:150:11",
                         "statements": [
@@ -19614,7 +19614,7 @@
                               "components": [
                                 {
                                   "hexValue": "4572726f72202845786572636973652042293a204572726f72207769746820746865206d696e742066756e6374696f6e21",
-                                  "id": 4760,
+                                  "id": 4865,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": true,
@@ -19630,7 +19630,7 @@
                                 },
                                 {
                                   "hexValue": "66616c7365",
-                                  "id": 4761,
+                                  "id": 4866,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": true,
@@ -19645,7 +19645,7 @@
                                   "value": "false"
                                 }
                               ],
-                              "id": 4762,
+                              "id": 4867,
                               "isConstant": false,
                               "isInlineArray": false,
                               "isLValue": false,
@@ -19658,15 +19658,15 @@
                                 "typeString": "tuple(literal_string \"Error (Exercise B): Error with the mint function!\",bool)"
                               }
                             },
-                            "functionReturnParameters": 4690,
-                            "id": 4763,
+                            "functionReturnParameters": 4795,
+                            "id": 4868,
                             "nodeType": "Return",
                             "src": "3026:67:11"
                           }
                         ]
                       },
                       "errorName": "",
-                      "id": 4765,
+                      "id": 4870,
                       "nodeType": "TryCatchClause",
                       "src": "2949:156:11"
                     }
@@ -19675,7 +19675,7 @@
                     "arguments": [
                       {
                         "expression": {
-                          "id": 4695,
+                          "id": 4800,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
@@ -19686,7 +19686,7 @@
                             "typeString": "msg"
                           }
                         },
-                        "id": 4696,
+                        "id": 4801,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -19716,18 +19716,18 @@
                           }
                         ],
                         "expression": {
-                          "id": 4691,
+                          "id": 4796,
                           "name": "assignmentContract",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4643,
+                          "referencedDeclaration": 4748,
                           "src": "1588:18:11",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_IAssignment1_$5693",
+                            "typeIdentifier": "t_contract$_IAssignment1_$5798",
                             "typeString": "contract IAssignment1"
                           }
                         },
-                        "id": 4692,
+                        "id": 4797,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -19735,14 +19735,14 @@
                         "memberLocation": "1607:4:11",
                         "memberName": "mint",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 5652,
+                        "referencedDeclaration": 5757,
                         "src": "1588:23:11",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_payable$_t_address_$returns$_t_uint256_$",
                           "typeString": "function (address) payable external returns (uint256)"
                         }
                       },
-                      "id": 4694,
+                      "id": 4799,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -19754,7 +19754,7 @@
                       "options": [
                         {
                           "hexValue": "302e3031",
-                          "id": 4693,
+                          "id": 4798,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -19776,7 +19776,7 @@
                         "typeString": "function (address) payable external returns (uint256)"
                       }
                     },
-                    "id": 4697,
+                    "id": 4802,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -19792,14 +19792,14 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 4766,
+                  "id": 4871,
                   "nodeType": "TryStatement",
                   "src": "1584:1521:11"
                 }
               ]
             },
             "functionSelector": "1ccb0c12",
-            "id": 4768,
+            "id": 4873,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -19807,23 +19807,23 @@
             "nameLocation": "1399:13:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 4685,
+              "id": 4790,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1412:2:11"
             },
             "returnParameters": {
-              "id": 4690,
+              "id": 4795,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4687,
+                  "id": 4792,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4768,
+                  "scope": 4873,
                   "src": "1439:13:11",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -19832,7 +19832,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4686,
+                    "id": 4791,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1439:6:11",
@@ -19845,12 +19845,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 4689,
+                  "id": 4794,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4768,
+                  "scope": 4873,
                   "src": "1454:4:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -19859,7 +19859,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 4688,
+                    "id": 4793,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "1454:4:11",
@@ -19873,7 +19873,7 @@
               ],
               "src": "1438:21:11"
             },
-            "scope": 4841,
+            "scope": 4946,
             "src": "1390:1722:11",
             "stateMutability": "payable",
             "virtual": false,
@@ -19881,23 +19881,23 @@
           },
           {
             "body": {
-              "id": 4815,
+              "id": 4920,
               "nodeType": "Block",
               "src": "3437:798:11",
               "statements": [
                 {
                   "assignments": [
-                    4782
+                    4887
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 4782,
+                      "id": 4887,
                       "mutability": "mutable",
                       "name": "dataURI",
                       "nameLocation": "3487:7:11",
                       "nodeType": "VariableDeclaration",
-                      "scope": 4815,
+                      "scope": 4920,
                       "src": "3474:20:11",
                       "stateVariable": false,
                       "storageLocation": "memory",
@@ -19906,7 +19906,7 @@
                         "typeString": "bytes"
                       },
                       "typeName": {
-                        "id": 4781,
+                        "id": 4886,
                         "name": "bytes",
                         "nodeType": "ElementaryTypeName",
                         "src": "3474:5:11",
@@ -19918,12 +19918,12 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 4802,
+                  "id": 4907,
                   "initialValue": {
                     "arguments": [
                       {
                         "hexValue": "7b",
-                        "id": 4785,
+                        "id": 4890,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -19939,7 +19939,7 @@
                       },
                       {
                         "hexValue": "226e616d65223a20224d792062656175746966756c20617274776f726b2023",
-                        "id": 4786,
+                        "id": 4891,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -19958,18 +19958,18 @@
                         "expression": {
                           "argumentTypes": [],
                           "expression": {
-                            "id": 4787,
+                            "id": 4892,
                             "name": "tokenId",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4770,
+                            "referencedDeclaration": 4875,
                             "src": "3594:7:11",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             }
                           },
-                          "id": 4788,
+                          "id": 4893,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -19977,14 +19977,14 @@
                           "memberLocation": "3602:8:11",
                           "memberName": "toString",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 15979,
+                          "referencedDeclaration": 16084,
                           "src": "3594:16:11",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_pure$_t_uint256_$returns$_t_string_memory_ptr_$attached_to$_t_uint256_$",
                             "typeString": "function (uint256) pure returns (string memory)"
                           }
                         },
-                        "id": 4789,
+                        "id": 4894,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -20002,7 +20002,7 @@
                       },
                       {
                         "hexValue": "22",
-                        "id": 4790,
+                        "id": 4895,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -20018,7 +20018,7 @@
                       },
                       {
                         "hexValue": "2268617368223a2022",
-                        "id": 4791,
+                        "id": 4896,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -20033,11 +20033,11 @@
                         "value": "\"hash\": \""
                       },
                       {
-                        "id": 4792,
+                        "id": 4897,
                         "name": "IPFSHash",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4772,
+                        "referencedDeclaration": 4877,
                         "src": "3694:8:11",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -20046,7 +20046,7 @@
                       },
                       {
                         "hexValue": "222c",
-                        "id": 4793,
+                        "id": 4898,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -20062,7 +20062,7 @@
                       },
                       {
                         "hexValue": "226279223a2022",
-                        "id": 4794,
+                        "id": 4899,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -20077,11 +20077,11 @@
                         "value": "\"by\": \""
                       },
                       {
-                        "id": 4795,
+                        "id": 4900,
                         "name": "by",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4774,
+                        "referencedDeclaration": 4879,
                         "src": "3801:2:11",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -20090,7 +20090,7 @@
                       },
                       {
                         "hexValue": "222c",
-                        "id": 4796,
+                        "id": 4901,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -20106,7 +20106,7 @@
                       },
                       {
                         "hexValue": "226e65775f6f776e6572223a2022",
-                        "id": 4797,
+                        "id": 4902,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -20121,11 +20121,11 @@
                         "value": "\"new_owner\": \""
                       },
                       {
-                        "id": 4798,
+                        "id": 4903,
                         "name": "newOwner",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4776,
+                        "referencedDeclaration": 4881,
                         "src": "3890:8:11",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -20134,7 +20134,7 @@
                       },
                       {
                         "hexValue": "22",
-                        "id": 4799,
+                        "id": 4904,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -20150,7 +20150,7 @@
                       },
                       {
                         "hexValue": "7d",
-                        "id": 4800,
+                        "id": 4905,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -20225,7 +20225,7 @@
                         }
                       ],
                       "expression": {
-                        "id": 4783,
+                        "id": 4888,
                         "name": "abi",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
@@ -20236,7 +20236,7 @@
                           "typeString": "abi"
                         }
                       },
-                      "id": 4784,
+                      "id": 4889,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -20250,7 +20250,7 @@
                         "typeString": "function () pure returns (bytes memory)"
                       }
                     },
-                    "id": 4801,
+                    "id": 4906,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -20276,7 +20276,7 @@
                         "arguments": [
                           {
                             "hexValue": "646174613a6170706c69636174696f6e2f6a736f6e3b6261736536342c",
-                            "id": 4807,
+                            "id": 4912,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
@@ -20293,11 +20293,11 @@
                           {
                             "arguments": [
                               {
-                                "id": 4810,
+                                "id": 4915,
                                 "name": "dataURI",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 4782,
+                                "referencedDeclaration": 4887,
                                 "src": "4185:7:11",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_bytes_memory_ptr",
@@ -20313,18 +20313,18 @@
                                 }
                               ],
                               "expression": {
-                                "id": 4808,
+                                "id": 4913,
                                 "name": "Base64",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 15899,
+                                "referencedDeclaration": 16004,
                                 "src": "4171:6:11",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_type$_t_contract$_Base64_$15899_$",
+                                  "typeIdentifier": "t_type$_t_contract$_Base64_$16004_$",
                                   "typeString": "type(library Base64)"
                                 }
                               },
-                              "id": 4809,
+                              "id": 4914,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -20332,14 +20332,14 @@
                               "memberLocation": "4178:6:11",
                               "memberName": "encode",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 15898,
+                              "referencedDeclaration": 16003,
                               "src": "4171:13:11",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_internal_pure$_t_bytes_memory_ptr_$returns$_t_string_memory_ptr_$",
                                 "typeString": "function (bytes memory) pure returns (string memory)"
                               }
                             },
-                            "id": 4811,
+                            "id": 4916,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -20368,7 +20368,7 @@
                             }
                           ],
                           "expression": {
-                            "id": 4805,
+                            "id": 4910,
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
@@ -20379,7 +20379,7 @@
                               "typeString": "abi"
                             }
                           },
-                          "id": 4806,
+                          "id": 4911,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -20393,7 +20393,7 @@
                             "typeString": "function () pure returns (bytes memory)"
                           }
                         },
-                        "id": 4812,
+                        "id": 4917,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -20417,7 +20417,7 @@
                           "typeString": "bytes memory"
                         }
                       ],
-                      "id": 4804,
+                      "id": 4909,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -20429,14 +20429,14 @@
                         "typeString": "type(string storage pointer)"
                       },
                       "typeName": {
-                        "id": 4803,
+                        "id": 4908,
                         "name": "string",
                         "nodeType": "ElementaryTypeName",
                         "src": "4053:6:11",
                         "typeDescriptions": {}
                       }
                     },
-                    "id": 4813,
+                    "id": 4918,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -20452,15 +20452,15 @@
                       "typeString": "string memory"
                     }
                   },
-                  "functionReturnParameters": 4780,
-                  "id": 4814,
+                  "functionReturnParameters": 4885,
+                  "id": 4919,
                   "nodeType": "Return",
                   "src": "4033:194:11"
                 }
               ]
             },
             "functionSelector": "4c0bb46c",
-            "id": 4816,
+            "id": 4921,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -20468,17 +20468,17 @@
             "nameLocation": "3275:11:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 4777,
+              "id": 4882,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4770,
+                  "id": 4875,
                   "mutability": "mutable",
                   "name": "tokenId",
                   "nameLocation": "3305:7:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4816,
+                  "scope": 4921,
                   "src": "3297:15:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -20487,7 +20487,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 4769,
+                    "id": 4874,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "3297:7:11",
@@ -20500,12 +20500,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 4772,
+                  "id": 4877,
                   "mutability": "mutable",
                   "name": "IPFSHash",
                   "nameLocation": "3337:8:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4816,
+                  "scope": 4921,
                   "src": "3323:22:11",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -20514,7 +20514,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4771,
+                    "id": 4876,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "3323:6:11",
@@ -20527,12 +20527,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 4774,
+                  "id": 4879,
                   "mutability": "mutable",
                   "name": "by",
                   "nameLocation": "3364:2:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4816,
+                  "scope": 4921,
                   "src": "3356:10:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -20541,7 +20541,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4773,
+                    "id": 4878,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "3356:7:11",
@@ -20555,12 +20555,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 4776,
+                  "id": 4881,
                   "mutability": "mutable",
                   "name": "newOwner",
                   "nameLocation": "3385:8:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4816,
+                  "scope": 4921,
                   "src": "3377:16:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -20569,7 +20569,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4775,
+                    "id": 4880,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "3377:7:11",
@@ -20585,17 +20585,17 @@
               "src": "3286:114:11"
             },
             "returnParameters": {
-              "id": 4780,
+              "id": 4885,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4779,
+                  "id": 4884,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4816,
+                  "scope": 4921,
                   "src": "3422:13:11",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -20604,7 +20604,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4778,
+                    "id": 4883,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "3422:6:11",
@@ -20618,7 +20618,7 @@
               ],
               "src": "3421:15:11"
             },
-            "scope": 4841,
+            "scope": 4946,
             "src": "3266:969:11",
             "stateMutability": "pure",
             "virtual": false,
@@ -20626,7 +20626,7 @@
           },
           {
             "body": {
-              "id": 4839,
+              "id": 4944,
               "nodeType": "Block",
               "src": "4359:122:11",
               "statements": [
@@ -20636,7 +20636,7 @@
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
                     },
-                    "id": 4837,
+                    "id": 4942,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -20646,11 +20646,11 @@
                         {
                           "arguments": [
                             {
-                              "id": 4828,
+                              "id": 4933,
                               "name": "str1",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 4818,
+                              "referencedDeclaration": 4923,
                               "src": "4417:4:11",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_string_memory_ptr",
@@ -20666,7 +20666,7 @@
                               }
                             ],
                             "expression": {
-                              "id": 4826,
+                              "id": 4931,
                               "name": "abi",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
@@ -20677,7 +20677,7 @@
                                 "typeString": "abi"
                               }
                             },
-                            "id": 4827,
+                            "id": 4932,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
@@ -20691,7 +20691,7 @@
                               "typeString": "function () pure returns (bytes memory)"
                             }
                           },
-                          "id": 4829,
+                          "id": 4934,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -20715,7 +20715,7 @@
                             "typeString": "bytes memory"
                           }
                         ],
-                        "id": 4825,
+                        "id": 4930,
                         "name": "keccak256",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
@@ -20726,7 +20726,7 @@
                           "typeString": "function (bytes memory) pure returns (bytes32)"
                         }
                       },
-                      "id": 4830,
+                      "id": 4935,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -20749,11 +20749,11 @@
                         {
                           "arguments": [
                             {
-                              "id": 4834,
+                              "id": 4939,
                               "name": "str2",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 4820,
+                              "referencedDeclaration": 4925,
                               "src": "4467:4:11",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_string_memory_ptr",
@@ -20769,7 +20769,7 @@
                               }
                             ],
                             "expression": {
-                              "id": 4832,
+                              "id": 4937,
                               "name": "abi",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
@@ -20780,7 +20780,7 @@
                                 "typeString": "abi"
                               }
                             },
-                            "id": 4833,
+                            "id": 4938,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
@@ -20794,7 +20794,7 @@
                               "typeString": "function () pure returns (bytes memory)"
                             }
                           },
-                          "id": 4835,
+                          "id": 4940,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -20818,7 +20818,7 @@
                             "typeString": "bytes memory"
                           }
                         ],
-                        "id": 4831,
+                        "id": 4936,
                         "name": "keccak256",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
@@ -20829,7 +20829,7 @@
                           "typeString": "function (bytes memory) pure returns (bytes32)"
                         }
                       },
-                      "id": 4836,
+                      "id": 4941,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -20851,15 +20851,15 @@
                       "typeString": "bool"
                     }
                   },
-                  "functionReturnParameters": 4824,
-                  "id": 4838,
+                  "functionReturnParameters": 4929,
+                  "id": 4943,
                   "nodeType": "Return",
                   "src": "4370:103:11"
                 }
               ]
             },
             "functionSelector": "3a96fdd7",
-            "id": 4840,
+            "id": 4945,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -20867,17 +20867,17 @@
             "nameLocation": "4252:7:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 4821,
+              "id": 4926,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4818,
+                  "id": 4923,
                   "mutability": "mutable",
                   "name": "str1",
                   "nameLocation": "4274:4:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4840,
+                  "scope": 4945,
                   "src": "4260:18:11",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -20886,7 +20886,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4817,
+                    "id": 4922,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "4260:6:11",
@@ -20899,12 +20899,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 4820,
+                  "id": 4925,
                   "mutability": "mutable",
                   "name": "str2",
                   "nameLocation": "4294:4:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4840,
+                  "scope": 4945,
                   "src": "4280:18:11",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -20913,7 +20913,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4819,
+                    "id": 4924,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "4280:6:11",
@@ -20928,17 +20928,17 @@
               "src": "4259:40:11"
             },
             "returnParameters": {
-              "id": 4824,
+              "id": 4929,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4823,
+                  "id": 4928,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4840,
+                  "scope": 4945,
                   "src": "4348:4:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -20947,7 +20947,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 4822,
+                    "id": 4927,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "4348:4:11",
@@ -20961,14 +20961,14 @@
               ],
               "src": "4347:6:11"
             },
-            "scope": 4841,
+            "scope": 4946,
             "src": "4243:238:11",
             "stateMutability": "pure",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 4842,
+        "scope": 4947,
         "src": "549:3975:11",
         "usedErrors": []
       }
@@ -20981,7 +20981,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-02-05T15:34:49.056Z",
+  "updatedAt": "2023-02-16T19:17:23.715Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
