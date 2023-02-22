@@ -4,14 +4,12 @@
   "description": "Blockchain Project for University Mannheim - Smart Contracts",
   "main": "index.js",
   "scripts": {
-    "test": "truffle test",
-    "migrate": "truffle migrate",
+    "test": "truffle test --compile-none",
+    "migrate": "truffle migrate --compile-none",
     "compile": "truffle compile",
-    "dev": "truffle compile && truffle deploy",
     "dashboard": "truffle dashboard",
-    "prod": "truffle compile && truffle migrate --network unima",
-    "dash": "truffle migrate --network dashboard && truffle console --network dashboard",
-    "github": "npx truffle compile & npx truffle deploy"
+    "prod": "truffle migrate --network unima --compile-none",
+    "dash": "truffle migrate --network dashboard --compile-none && truffle console --network dashboard"
   },
   "repository": {
     "type": "git",
