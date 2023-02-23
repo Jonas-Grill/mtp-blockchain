@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import React from "react";
 import Link from "next/link";
-import {BookOpenIcon, FireIcon} from "@heroicons/react/20/solid";
+import {BookOpenIcon} from "@heroicons/react/20/solid";
 
 export default function Home() {
     return (

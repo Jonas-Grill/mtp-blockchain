@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Semester} from "../../pages/semester";
-import {DocumentMagnifyingGlassIcon, FireIcon, MagnifyingGlassIcon} from "@heroicons/react/20/solid";
+import {DocumentMagnifyingGlassIcon, MagnifyingGlassIcon} from "@heroicons/react/20/solid";
 import {getKnowledgeCoinBalanceInRange} from "../../web3/src/entrypoints/account/coin";
 import {hasStudentPassedSemester, hasStudentsPassedSemesterCSV} from "../../web3/src/entrypoints/account/exam";
 
@@ -28,7 +28,7 @@ export default function Admin({
         const csv = data.get('csv') as File;
 
         csv.text().then((text) => {
-            hasStudentsPassedSemesterCSV(web3, text, selectedSemester).then((result) => {            
+            hasStudentsPassedSemesterCSV(web3, text, selectedSemester).then((result) => {
                 const element = document.createElement("a");
                 const file = new Blob([result], {type: 'text/plain'});
                 element.href = URL.createObjectURL(file);
@@ -93,7 +93,7 @@ export default function Admin({
                             Check a single Student:
                         </div>
             <div className="mt-4 text-md font-medium text-uni">
-            
+
                 For one student, enter the student ID (optional) and the students wallet address:
             </div>
             <form className="space-y-3" onSubmit={handleSubmit}>
@@ -140,7 +140,7 @@ export default function Admin({
             <div className="mt-4 text-md font-medium text-uni">
                 For multiple students, please provide a csv file where the sixth column (6th) is the wallets address and the seventh column (7th) is the student ID.
                 <br></br><br></br>
-                <button 
+                <button
                     type="button"
                     className="group relative flex justify-center rounded-md shadow shadow-uni py-1 px-3 text-sm font-medium text-uni hover:bg-uni hover:text-white"
                     onClick={() => {

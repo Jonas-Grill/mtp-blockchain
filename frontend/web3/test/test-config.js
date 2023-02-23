@@ -1,6 +1,6 @@
 const configHandler = require('../src/web3/config')
 
-var assert = require('assert');
+const assert = require('assert');
 
 const rpcUrl = "http://127.0.0.1:8545"
 const networkId = "1337"
@@ -11,7 +11,7 @@ process.env.RPC_URL = rpcUrl
 process.env.NETWORK_ID = networkId
 
 // ganache prepare
-var prepare = require('./ganache/setup-ganache')
+const prepare = require('./ganache/setup-ganache');
 ganache = new prepare.GanacheHelper()
 
 //utils
@@ -19,7 +19,7 @@ const utilsHandler = require('../src/web3/utils')
 const utils = new utilsHandler.NOWUtils()
 
 // Require web3 for talking to api
-Web3 = require('web3')
+const Web3 = require('web3')
 
 // Parse and set rpc url
 web3 = new Web3()
@@ -46,7 +46,7 @@ describe("test", async function () {
             const config = new configHandler.NOWConfig(web3)
 
             // Set value to default
-            accounts = await ganache.getAccount()
+            let accounts = await ganache.getAccount()
             await config.setFaucetGas(faucetGas)
 
             assert.equal(await config.getFreshFaucetGas(), faucetGas)
@@ -62,7 +62,7 @@ describe("test", async function () {
             const config = new configHandler.NOWConfig(web3)
 
             // Set value to default
-            accounts = await ganache.getAccount()
+            let accounts = await ganache.getAccount()
             await config.setFaucetBlockNoDifference(faucetBlockNoDifference)
 
             assert.equal(await config.getFreshFaucetBlockNoDifference(), faucetBlockNoDifference)
@@ -78,7 +78,7 @@ describe("test", async function () {
                 assert.equal(await config.getFreshFaucetGas(), faucetGas)
 
                 // Set value to 20
-                accounts = await ganache.getAccount()
+                let accounts = await ganache.getAccount()
                 await config.setFaucetGas(20)
 
                 // Check if value is changed to 20
@@ -94,7 +94,7 @@ describe("test", async function () {
                 assert.equal(await config.getFreshFaucetBlockNoDifference(), 10)
 
                 // Set value to 20
-                accounts = await ganache.getAccount()
+                let accounts = await ganache.getAccount()
                 await config.setFaucetBlockNoDifference(30)
 
                 // Check if value is changed to 20
@@ -108,7 +108,7 @@ describe("test", async function () {
                 const config = new configHandler.NOWConfig(web3)
 
                 // Create new semester
-                var id = await config.appendSemester("test", 1, 100, 5);
+                const id = await config.appendSemester("test", 1, 100, 5);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
@@ -125,7 +125,7 @@ describe("test", async function () {
                 const config = new configHandler.NOWConfig(web3)
 
                 // Create new semester
-                var id = await config.appendSemester("test", 1, 100, 5);
+                const id = await config.appendSemester("test", 1, 100, 5);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
@@ -156,7 +156,7 @@ describe("test", async function () {
 
 
                 // Create new semester
-                var id = await config.appendSemester("test", 1, 2000, 55);
+                const id = await config.appendSemester("test", 1, 2000, 55);
 
                 // Set name to test2
                 await config.setSemesterName(id, "test2")
@@ -195,7 +195,7 @@ describe("test", async function () {
                 });
 
                 // Create new semester
-                var id = await config.appendSemester("test", 1, 10000, 55);
+                const id = await config.appendSemester("test", 1, 10000, 55);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
@@ -207,7 +207,7 @@ describe("test", async function () {
                 assert.equal(obj[3], 55)
 
                 // Create new assignment
-                var assignmentId = await config.appendAssignment(id, "test", "test_link", exampleValidationAddress, 101, 102);
+                const assignmentId = await config.appendAssignment(id, "test", "test_link", exampleValidationAddress, 101, 102);
 
                 // Get new assignment
                 const assignmentObject = await config.getAssignment(id, assignmentId);
@@ -230,7 +230,7 @@ describe("test", async function () {
                 const exampleValidationAddress = utils.getContractAddress("ExampleAssignmentValidator", await web3.eth.net.getId());
 
                 // Create new semester
-                var id = await config.appendSemester("test", 1, 10000, 55);
+                const id = await config.appendSemester("test", 1, 10000, 55);
 
                 // Get semester from blockchain
                 const obj = await config.getSemester(id);
@@ -242,7 +242,7 @@ describe("test", async function () {
                 assert.equal(obj[3], 55)
 
                 // Create new assignment
-                var assignmentId = await config.appendAssignment(id, "test", "test_link", exampleValidationAddress, 101, 102);
+                const assignmentId = await config.appendAssignment(id, "test", "test_link", exampleValidationAddress, 101, 102);
 
                 // Get new assignment
                 const assignmentObject = await config.getAssignment(id, assignmentId);
@@ -278,10 +278,10 @@ describe("test", async function () {
                 const exampleValidationAddress2 = utils.getContractAddress("ExampleAssignmentValidator2", await web3.eth.net.getId());
 
                 // Create new semester
-                var id = await config.appendSemester("test", 1, 10000, 55);
+                const id = await config.appendSemester("test", 1, 10000, 55);
 
                 // Create new assignment
-                var assignmentId = await config.appendAssignment(id, "test", "test_link", exampleValidationAddress, 100, 1000);
+                const assignmentId = await config.appendAssignment(id, "test", "test_link", exampleValidationAddress, 100, 1000);
 
                 // Set name to test2
                 await config.setAssignmentName(id, assignmentId, "test2")

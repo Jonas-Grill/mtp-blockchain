@@ -21,10 +21,10 @@ const web3 = new Web3(rpcURL);
 web3.setProvider(new web3.providers.HttpProvider(rpcURL));
 
 // Mocha
-var assert = require('assert');
+const assert = require('assert');
 
 // ganache prepare
-var prepare = require('./ganache/setup-ganache')
+const prepare = require('./ganache/setup-ganache');
 
 const ganache = new prepare.GanacheHelper()
 
@@ -96,7 +96,7 @@ describe("test", function () {
             const testResults = await assignment.getTestResults(exampleValidationAddress, id);
 
             let correctTestCounter = 0
-            for (var i = 0; i < testResults.length; i++) {
+            for (let i = 0; i < testResults.length; i++) {
                 if (testResults[i].testPassed == true)
                     correctTestCounter++;
             }
@@ -154,7 +154,7 @@ describe("test", function () {
             const testResults = await assignment.getTestResults(exampleValidationAddress, assignmentAfterSubmit.testIndex);
 
             let correctTestCounter = 0
-            for (var i = 0; i < testResults.length; i++) {
+            for (let i = 0; i < testResults.length; i++) {
                 if (testResults[i].testPassed == true)
                     correctTestCounter++;
             }

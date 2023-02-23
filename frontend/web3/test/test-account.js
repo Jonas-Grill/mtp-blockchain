@@ -14,15 +14,10 @@ const web3 = new Web3(rpcURL);
 web3.setProvider(new web3.providers.HttpProvider(rpcURL));
 
 // Mocha
-var assert = require('assert');
+const assert = require('assert');
 
 // ganache prepare
-var prepare = require('./ganache/setup-ganache')
-
-// Chai
-var chai = require('chai');
-const { expect } = require('chai');
-var chaiAssert = chai.assert
+const prepare = require('./ganache/setup-ganache')
 
 const ganache = new prepare.GanacheHelper()
 
@@ -43,13 +38,13 @@ describe("test", function () {
 
                 const account = new accountHandler.NOWAccount(web3)
 
-                var to = accounts[0]
+                const to = accounts[0];
 
-                var oldWeiTo = await web3.eth.getBalance(to);
+                const oldWeiTo = await web3.eth.getBalance(to);
 
                 await account.sendEth(to)
 
-                var newWeiTo = await web3.eth.getBalance(to);
+                const newWeiTo = await web3.eth.getBalance(to);
 
                 // Make sure that the to address has 1 eth more
                 assert.equal(newWeiTo > oldWeiTo, true)
@@ -67,10 +62,10 @@ describe("test", function () {
                 const accounts = await ganache.getAccount()
                 const account = new accountHandler.NOWAccount(web3)
 
-                var from = accounts[0]
-                var to = accounts[1]
+                const from = accounts[0];
+                const to = accounts[1];
 
-                error_occured = false
+                let error_occured = false
 
                 try {
                     // Repeately send eth to the to address and enforce an error
