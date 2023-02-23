@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Head from "next/head";
 import {initBlockchain} from "../faucet";
-import Web3 from "web3";
 import {PencilSquareIcon} from "@heroicons/react/24/outline";
 
 export default function Sign({userAddress}: { userAddress: string }) {
