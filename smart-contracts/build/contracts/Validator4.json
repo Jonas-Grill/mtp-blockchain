@@ -10,7 +10,8 @@
         }
       ],
       "stateMutability": "payable",
-      "type": "constructor"
+      "type": "constructor",
+      "payable": true
     },
     {
       "inputs": [],
@@ -23,7 +24,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -88,7 +90,8 @@
         }
       ],
       "stateMutability": "pure",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -122,7 +125,8 @@
         }
       ],
       "stateMutability": "pure",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -141,7 +145,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -172,7 +177,8 @@
         }
       ],
       "stateMutability": "pure",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -210,7 +216,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -233,7 +240,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -252,7 +260,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -265,7 +274,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -278,7 +288,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -291,7 +302,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -347,7 +359,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -366,7 +379,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -407,7 +421,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -443,7 +458,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -462,7 +478,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -491,7 +508,8 @@
         }
       ],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -522,7 +540,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -541,7 +560,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -605,7 +625,8 @@
         }
       ],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -624,7 +645,8 @@
         }
       ],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -642,11 +664,13 @@
       "name": "withdrawFunds",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "stateMutability": "payable",
-      "type": "receive"
+      "type": "receive",
+      "payable": true
     },
     {
       "inputs": [
@@ -665,7 +689,8 @@
         }
       ],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [],
@@ -678,7 +703,8 @@
         }
       ],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_configContractAddress\",\"type\":\"address\"}],\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"_testHistoryCounter\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_helperAddress\",\"type\":\"address\"}],\"name\":\"addHelperContracts\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"},{\"internalType\":\"bool\",\"name\":\"_result\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"_points\",\"type\":\"uint256\"}],\"name\":\"appendTestResult\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_prefix\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_message\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_errorMsg\",\"type\":\"string\"}],\"name\":\"buildErrorMessage\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_prefix\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_message\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_expected\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_actual\",\"type\":\"string\"}],\"name\":\"buildErrorMessageExtended\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_contractAddress\",\"type\":\"address\"}],\"name\":\"checkAssignmentOwner\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"clearAssignmentInfos\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"a\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"b\",\"type\":\"string\"}],\"name\":\"compareStrings\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_contractAddress\",\"type\":\"address\"}],\"name\":\"createTestHistory\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"donateEther\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"getAssignmentCreationBlockNumber\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getAssignmentInfos\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"getAssignmentOwner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getConfigStorage\",\"outputs\":[{\"internalType\":\"contract ConfigStorage\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getHistoryCounter\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getRequiredEther\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"getSubmittedAssignment\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"testIndex\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"studentAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"contractAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"knowledgeCoins\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"blockNo\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"submitted\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"lateSubmission\",\"type\":\"bool\"}],\"internalType\":\"struct BaseValidator.AssignmentSubmitted\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"getTestHistoryIndexes\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_historyIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_testIndex\",\"type\":\"uint256\"}],\"name\":\"getTestResultByIndex\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"testName\",\"type\":\"string\"},{\"internalType\":\"bool\",\"name\":\"testPassed\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"points\",\"type\":\"uint256\"}],\"internalType\":\"struct BaseValidator.Test\",\"name\":\"result\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_historyIndex\",\"type\":\"uint256\"}],\"name\":\"getTestResults\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"testName\",\"type\":\"string\"},{\"internalType\":\"bool\",\"name\":\"testPassed\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"points\",\"type\":\"uint256\"}],\"internalType\":\"struct BaseValidator.Test[]\",\"name\":\"result\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"hasAssignmentSubmitted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_addr\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"functionName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"ethValue\",\"type\":\"uint256\"}],\"name\":\"hasFunction\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_configContractAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_contractName\",\"type\":\"string\"}],\"name\":\"initAdmin\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"isAssignmentLinked\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_helperAddress\",\"type\":\"address\"}],\"name\":\"isValidator\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"removeSubmittedAssignment\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"setAssignmentCreationBlockNumber\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"semesterId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"assignmentId\",\"type\":\"uint256\"}],\"name\":\"setAssignmentInfos\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"setAssignmentOwner\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_contractAddress\",\"type\":\"address\"}],\"name\":\"submitAssignment\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_contractAddress\",\"type\":\"address\"}],\"name\":\"test\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_contractAddress\",\"type\":\"address\"}],\"name\":\"validateAssignment\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"withdrawFunds\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"getSubmittedAssignment(address)\":{\"params\":{\"_address\":\"Student address\"},\"returns\":{\"_0\":\"AssignmentSubmitted\"}},\"getTestHistoryIndexes(address)\":{\"params\":{\"_address\":\"Student address\"},\"returns\":{\"_0\":\"testIndexes Array of test history indexes\"}},\"hasAssignmentSubmitted(address)\":{\"params\":{\"_address\":\"Student address\"},\"returns\":{\"_0\":\"bool\"}},\"removeSubmittedAssignment(address)\":{\"params\":{\"_address\":\"Student address\"}},\"setAssignmentInfos(uint256,uint256)\":{\"params\":{\"assignmentId\":\"Assignment id\",\"semesterId\":\"Semester id\"}}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"clearAssignmentInfos()\":{\"notice\":\"Clear assignment infos\"},\"getAssignmentInfos()\":{\"notice\":\"Get assignment infos\"},\"getHistoryCounter()\":{\"notice\":\"Get test history counter\"},\"getRequiredEther()\":{\"notice\":\"Get required ether This amount of ether is required to submit or test an assignment\"},\"getSubmittedAssignment(address)\":{\"notice\":\"Get submitted assignment for address\"},\"getTestHistoryIndexes(address)\":{\"notice\":\"Get all test history indexes for a student MARK: The array has a fixed size, ignore all number besides 0\"},\"hasAssignmentSubmitted(address)\":{\"notice\":\"Check if assignment is submitted\"},\"isAssignmentLinked()\":{\"notice\":\"Check if assignment is linked to config storage\"},\"removeSubmittedAssignment(address)\":{\"notice\":\"Remove submitted assignment\"},\"setAssignmentCreationBlockNumber()\":{\"notice\":\"Set block number of contract creation\"},\"setAssignmentInfos(uint256,uint256)\":{\"notice\":\"Set assignment infos\"},\"setAssignmentOwner()\":{\"notice\":\"Set admin address\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/assignment_4/Validator4.sol\":\"Validator4\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/BaseConfig.sol\":{\"keccak256\":\"0xe38581f919659366d0bda947431cdd263fb71f51dfed142ab86012cbba8dae52\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ee8caa3720c8b7078d343585bfb0d1e34a2c75469dd8e84b41122fc3241fce00\",\"dweb:/ipfs/QmY1D37Lkz6Hz5Kumoi3AtzU6KKYfzrD6uMYbGR3xgZUMF\"]},\"project:/contracts/BaseConfigAdmin.sol\":{\"keccak256\":\"0x3ca891a26ba6672d5ff447cc2278f1b5e33f7d9b51397c71b538cca6e6f0738d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9d484decf53a223c64173bdeadc54d0b5f228190b9e080cd5985ae48c86e3062\",\"dweb:/ipfs/QmQRwfvRjXv1YcoKe4Akun5zvVCoFht4FegtR7fAfwPZ89\"]},\"project:/contracts/BaseValidator.sol\":{\"keccak256\":\"0xd17d78a946ff1c034ea7a39fb118c58c16cbd645a1ad09f34393486f21c4e8ea\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://df4e2c434f02c64de89c8d3046667372f004d3e7c84b52ef6d04e0182e1e424a\",\"dweb:/ipfs/QmRwxDncVBSvMGKnZ1NuA356uYsXju72W1Twt4TEQBcWpB\"]},\"project:/contracts/ConfigStorage.sol\":{\"keccak256\":\"0x7da04c803883ab7a63c94074a8b981037c4a5414663e65791383435d1bfb90c6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1fe63af3cef944b16bf7de5278b89e23bdc664050dba91d153bd2ea014d4c02f\",\"dweb:/ipfs/QmdEogQDY3VCTke9d2xorzZP6ipWA9jbWzwEBZYDhzHHE6\"]},\"project:/contracts/Helper.sol\":{\"keccak256\":\"0x6ca570173d20ca0c0ef14999ad506143c0318568535adb3c706f236d5e7ce0d6\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://c03fb55e6224187956691f4c4cb2066f7758c704e481e7d2db1599725adaf92e\",\"dweb:/ipfs/QmRJqyBtmpagCg4UHR5ThsXmef2HfpyRdjx8YKb6nVPv4q\"]},\"project:/contracts/IBaseAssignment.sol\":{\"keccak256\":\"0x0811c89758cf33b2b9271bef39e4f698c2adaa33ba9baa2324cefb5de74b5bee\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6ef58fea3f4e3d72c098248bf34140ec8e6dc4816c0c1a00db51debe792639fa\",\"dweb:/ipfs/QmPDKCefkLKFRv9XckF5qrN3RBuUe81w31ZdbFPQAKvW47\"]},\"project:/contracts/SBCoin.sol\":{\"keccak256\":\"0xb08037b54d087160547facd00bbc3eeb8979b4743b20c2d6116b4048e589e7c7\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://aed5b8923fbfed89606551881960846d0d61e745aa5c45f8977ae11027646044\",\"dweb:/ipfs/QmfKkvdAsGAma3tnMa3tDKvLG9VsjkzgkVeP5vBk9NoMiX\"]},\"project:/contracts/assignment_4/Validator4.sol\":{\"keccak256\":\"0x0e5fb877d6d6889c8f5be4a270ac1f652395fa6d0c953dad24ea2ab459d03ca2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5adafc774d7ba6aaa188c9dbf347d61e9f3ba6b8c354d3fe86dcf1021e5be4ac\",\"dweb:/ipfs/QmeRgwChTzprQ6tjfWk8qV1SFgXnKt1L8rqY4kZbWrh4VG\"]},\"project:/contracts/assignment_4/Validator4TaskA.sol\":{\"keccak256\":\"0x141eabc76256747430ffef870b1cd1807647b6452dcd9857b75ca5be0c409413\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9c2773682395d66f827401135382106eee100f4b6bad728b51126624ce7f7830\",\"dweb:/ipfs/QmWefXkTt1aJF5fBPrGFW1hPiKXsNjbhiiyBcvhvNAt3Gv\"]},\"project:/contracts/assignment_4/Validator4TaskB.sol\":{\"keccak256\":\"0xfdeea462f4fd1a6a3ff9bc285bb91e49a9889fff2d930a35cbfb603678d51491\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fd95052210eecd3f0a2cc8934aab3f683f59bb71fb1731ced3c91b0b7578f816\",\"dweb:/ipfs/QmbY6eNUn5TRLkX6xcnocXpgjaUzHNYJQUFxZ7VoTmjA5X\"]},\"project:/contracts/assignment_4/Validator4TaskD.sol\":{\"keccak256\":\"0xeb8c1120a811ca97b6ae32a23d40af2cae378a6d6196688c11afc9b1d29bbd8a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3b188ace6272c1c807ea5d3732635d528fddd8ffed1329b8f1cee8192a82bd48\",\"dweb:/ipfs/QmbLVUVfd1sHhQqBMV8AfoCcS9LwzqZ8yXNzGSQrGNo1Zv\"]},\"project:/contracts/assignment_4/helper/Assignment4Coin.sol\":{\"keccak256\":\"0x0ce23d68800b219d1729187f4fde6379c13e4ca03281d669c29347e6a4326837\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://403330c20cfd686165b9bbeb002f36c88b2f8425f97e81d0e27cb3783385f1b3\",\"dweb:/ipfs/QmPX5uBL5X7oa4y1jVMkZ2o5s24uxksHNHpT9j6Y2vG28D\"]},\"project:/contracts/assignment_4/helper/Assignment4Exchange.sol\":{\"keccak256\":\"0xf56c383e069d7ea4ce7efc4a0e02333b6c1c42867c5d2ae985d3f61cbb28e78a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1d636f662bde8211f3464e241ad8a2d731d7938d9525a67aa19bd65c20c29ccd\",\"dweb:/ipfs/QmaZ6CjdcZe7uZs46WDkUEo1JB6SigLmaML8pHXH34hXcW\"]},\"project:/contracts/assignment_4/helper/Assignment4Registry.sol\":{\"keccak256\":\"0x3390f476410249a7845d1873e65523d208a4b18af76dd623105ab632fd1811e6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5fb5056af74187410d7425d2749acb3c6b57c88a4a230d31b8869af0fe85e243\",\"dweb:/ipfs/QmQ6zk61Jn3SHgWnrNCueFfyBMj3qmz14oouSM6CpYqaK5\"]},\"project:/contracts/assignment_4/interface/IAssignment4.sol\":{\"keccak256\":\"0xdf217e110a1bf54249f464cce48bcde907dad3c2517b91f7fbfe1a906644e496\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ee743ccf68188e1464a01c48bdb4b70717cccad2ae251c0cd753903bd7149dfc\",\"dweb:/ipfs/QmX4p8CJDTKd3Nd8aEgHXtTnR88EeGrS7GyzsWHaYXzJWm\"]},\"project:/contracts/assignment_4/interface/IAssignment4Coin.sol\":{\"keccak256\":\"0x5ef83a4049968f07fc726883c2a5eb291c17b076aaab60ef45560a7063aaeff6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://82c7087467c2451683600166cfbf9773a9418f95ba960def7d31b8c12684eb84\",\"dweb:/ipfs/QmQ43H45tHTWYzyFp5Fsmk59GgJ7P2UUDQkKDcn8dP6aMZ\"]},\"project:/node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol\":{\"keccak256\":\"0x4ffc0547c02ad22925310c585c0f166f8759e2648a09e9b489100c42f15dd98d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://15f52f51413a9de1ff191e2f6367c62178e1df7806d7880fe857a98b0b66253d\",\"dweb:/ipfs/QmaQG1fwfgUt5E9nu2cccFiV47B2V78MM1tCy1qB7n4MsH\"]},\"project:/node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5a7d5b1ef5d8d5889ad2ed89d8619c09383b80b72ab226e0fe7bde1636481e34\",\"dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr\"]},\"project:/node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol\":{\"keccak256\":\"0x8de418a5503946cabe331f35fe242d3201a73f67f77aaeb7110acb1f30423aca\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5a376d3dda2cb70536c0a45c208b29b34ac560c4cb4f513a42079f96ba47d2dd\",\"dweb:/ipfs/QmZQg6gn1sUpM8wHzwNvSnihumUCAhxD119MpXeKp8B9s8\"]},\"project:/node_modules/@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92\",\"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3\"]},\"project:/node_modules/@openzeppelin/contracts/utils/Strings.sol\":{\"keccak256\":\"0xa4d1d62251f8574deb032a35fc948386a9b4de74b812d4f545a1ac120486b48a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8c969013129ba9e651a20735ef659fef6d8a1139ea3607bd4b26ddea2d645634\",\"dweb:/ipfs/QmVhVa6LGuzAcB8qgDtVHRkucn4ihj5UZr8xBLcJkP6ucb\"]},\"project:/node_modules/@openzeppelin/contracts/utils/math/Math.sol\":{\"keccak256\":\"0xa1e8e83cd0087785df04ac79fb395d9f3684caeaf973d9e2c71caef723a3a5d6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://33bbf48cc069be677705037ba7520c22b1b622c23b33e1a71495f2d36549d40b\",\"dweb:/ipfs/Qmct36zWXv3j7LZB83uwbg7TXwnZSN1fqHNDZ93GG98bGz\"]}},\"version\":1}",
@@ -35577,8 +35603,8 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0xB03C84c39F8B9370DDCD43A6AD35F89d0806523a",
-      "transactionHash": "0x7eedef5dba0c6a55137908ef8e48bfd6fe5e71a65c583e6725b3b5b222d3b7d5"
+      "address": "0xaBfE6D21E69eEe5eB228E007c23eeF45c5BB539e",
+      "transactionHash": "0xc442e463a3554cdfafeb1b03359b041e0c7f413209cb3251f6b2d025e2aa5e5c"
     },
     "1676575001171": {
       "events": {},
@@ -35588,7 +35614,8 @@
     }
   },
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-02-24T09:41:35.188Z",
+  "updatedAt": "2023-02-28T09:02:40.495Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {

@@ -9,13 +9,16 @@ const getEnv = env => {
   return value;
 };
 
+// console.log(getEnv('PROVIDER'));
+// return;
+
 module.exports = {
   networks: {
     development: {
-      host: "127.0.0.1",
-      port: 8545,
-      network_id: "*"
-    },
+       host: "127.0.0.1",
+       port: 8545,
+       network_id: "*"
+     },
     unima: {
       provider: function() {
         return new HDWalletProvider({
