@@ -1,6 +1,6 @@
 import { FireIcon } from '@heroicons/react/20/solid'
 import { sendEth } from '../../web3/src/entrypoints/account/faucet'
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Head from "next/head";
 import Web3 from "web3";
 
@@ -29,21 +29,27 @@ export const initBlockchain = async (web3: any) => {
     return web3;
 }
 
-export default function Faucet({ userAddress }: { userAddress: string }) {
+export default function Faucet(this: any, { userAddress }: { userAddress: string }) {
     const [web3, setWeb3] = useState<any>(undefined);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (web3) {
+        const button = event.currentTarget.querySelector("button");
+
+        if (web3 && button) {
+            button.disabled = true;
+
             web3.eth.getBalance(userAddress).then((result: any) => {
                 const balance = web3.utils.fromWei(result, "ether");
 
                 if (balance > 0.2) {
-                    sendEth(web3, userAddress).then((result: any) => {
+                    sendEth(web3, userAddress).then(() => {
                         alert("Gas sent!");
+                        button.disabled = false;
                     }).catch((error: any) => {
                         alert(error.message);
+                        button.disabled = false;
                     });
                 } else {
                     fetch(process.env.FAUCET_URL + "/sendEth", {
@@ -61,12 +67,15 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
                         } else {
                             alert("Error: " + response.status);
                         }
+                        button.disabled = false;
                     }).catch((error) => {
                         alert(error.message);
+                        button.disabled = false;
                     });
                 }
             }).catch((error: any) => {
                 alert(error.message);
+                button.disabled = false;
             });
         }
     }
@@ -128,8 +137,8 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
 
                         <button
                             type="submit"
-
-                            className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni hover:bg-uni hover:text-white"
+                            disabled={false}
+                            className="group relative flex w-full justify-center rounded-md shadow shadow-uni bg-gray-400 py-2 px-4 text-sm font-medium text-uni disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-500 hover:bg-uni hover:text-white"
                         >
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <FireIcon className="h-5 w-5 text-uni group-hover:text-gray-400"
@@ -138,6 +147,9 @@ export default function Faucet({ userAddress }: { userAddress: string }) {
                             Get gas
                         </button>
                     </form>
+                    <div className="mt-4 text-lg font-medium text-uni">
+                        This button is disabled, if you have an ongoing faucet request.
+                    </div>
                 </div>
             </div>
         </>
