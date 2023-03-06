@@ -60,6 +60,18 @@ git clone https://github.com/Jonas-Grill/mtp-blockchain.git
 ----
 This will download the frontend to the specified directory of the Raspberry Pi.
 
+=== Creating a .env file
+
+To create the .env file, open a terminal window and navigate to the frontend folder in the repository.
+Then run the following command:
+----
+nano .env
+----
+and press enter. This will open the nano editor.
+In the frontend folder you find an example.env file, which you can copy and paste into the editor.
+You can make changes to the .env file according to your needs.
+After you have finished the .env file, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.
+
 === Building and running the frontend
 
 For this step you need to create a script, which will be used to build and run the frontend.
@@ -86,6 +98,11 @@ Now you can start the frontend by running the following command:
 sh start_frontend.sh
 ----
 
+Note that the frontend needs the contract ABI's from the smart contracts to work properly.
+Therefore, make sure that the ABI's your frontend uses are the same as the ones deployed on the blockchain.
+You can find the ABI's in the repo in the smart-contracts/build/contracts folder.
+If you want to make changes to the smart contracts make sure to provide the new ABI's to your frontend.
+
 == Faucet setup
 
 To start with this setup, you should have installed Node.js on your Raspberry Pi. Please follow these instructions for a faucet setup.
@@ -111,22 +128,25 @@ git clone https://github.com/Jonas-Grill/mtp-blockchain.git
 ----
 This will download the faucet to the specified directory of the Raspberry Pi.
 
-Next, you need to configure the faucet.
-To do so, open the terminal on the Pi and navigate to the faucet folder in the repository.
-Then run the following command:
-----
-cd ./config/dev
-----
-and press enter. This will navigate to the faucet configuration folder.
-Now run the following command:
+=== Creating the .env file
+
+Next, you need to configure the faucet by creating and editing a .env file.
+To create the .env file, open a terminal window and navigate to the faucet folder in the repository and run the following command:
 ----
 nano .env
 ----
 and press enter. This will open the nano editor.
-Now change the following lines in the editor:
-* WEB3_PROVIDER: Change the port to the HTTP port of the used node.
+In the faucet folder you find an example.env file, which you can copy and paste into the editor.
+You can make changes to the .env file according to your needs.
+
+* API_PORT: Change the port to the port you want the faucet to run on.
+* WEB3_PROVIDER: Change to the URL of the RPC endpoint the faucet should connect to. This RPC Node needs to be running on the same Pi as the faucet, as it needs to have an unlocked account.
+  Also, this RPC Node must only be accessible from localhost, as having an unlocked account on a public RPC Node is a major security risk.
 * FAUCET_STORAGE_CONTRACT_ADDRESS: Change the address to the address of the faucet storage contract. If you didn´t already deploy the faucet storage contract, you need to come back to this step later.
-* UNLOCKED_ACCOUNT: Change the address to the address of the unlocked account on the used node.
+* UNLOCKED_ACCOUNT: Change the address to the address of the unlocked account on the used RPC node.
+
+After you copied the code, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.
+This needs to be done for both the frontend and the faucet in their respective folders.
 
 === Building and running the faucet
 
@@ -152,17 +172,3 @@ Now you can start the faucet by running the following command:
 ----
 sh start_faucet.sh
 ----
-
-== Creating .env files
-
-This step is relevant for the frontend and the faucet after they have been set up according to the instructions above.
-To create the .env files, open a terminal window and navigate to the frontend or faucet folder in the repository.
-Then run the following command:
-----
-nano .env
-----
-and press enter. This will open the nano editor.
-In the frontend folder you find an example.env file, which you can copy and paste into the editor.
-You can make changes to the .env file according to your needs.
-After you copied the code, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.
-This needs to be done for both the frontend and the faucet in their respective folders.
