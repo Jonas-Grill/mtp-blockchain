@@ -243,6 +243,24 @@ Then run the following command:</p>
 </div>
 </div>
 <div class="sect2">
+<h3 id="_creating_a_env_file"><a class="anchor" href="#_creating_a_env_file"></a>Creating a .env file</h3>
+<div class="paragraph">
+<p>To create the .env file, open a terminal window and navigate to the frontend folder in the repository.
+Then run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nano .env</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and press enter. This will open the nano editor.
+In the frontend folder you find an example.env file, which you can copy and paste into the editor.
+You can make changes to the .env file according to your needs.
+After you have finished the .env file, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_building_and_running_the_frontend"><a class="anchor" href="#_building_and_running_the_frontend"></a>Building and running the frontend</h3>
 <div class="paragraph">
 <p>For this step you need to create a script, which will be used to build and run the frontend.
@@ -279,6 +297,12 @@ npm run start</pre>
 <div class="content">
 <pre>sh start_frontend.sh</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Note that the frontend needs the contract ABI&#8217;s from the smart contracts to work properly.
+Therefore, make sure that the ABI&#8217;s your frontend uses are the same as the ones deployed on the blockchain.
+You can find the ABI&#8217;s in the repo in the smart-contracts/build/contracts folder.
+If you want to make changes to the smart contracts make sure to provide the new ABI&#8217;s to your frontend.</p>
 </div>
 </div>
 </div>
@@ -320,19 +344,12 @@ Then run the following command:</p>
 <div class="paragraph">
 <p>This will download the faucet to the specified directory of the Raspberry Pi.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_creating_the_env_file"><a class="anchor" href="#_creating_the_env_file"></a>Creating the .env file</h3>
 <div class="paragraph">
-<p>Next, you need to configure the faucet.
-To do so, open the terminal on the Pi and navigate to the faucet folder in the repository.
-Then run the following command:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>cd ./config/dev</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter. This will navigate to the faucet configuration folder.
-Now run the following command:</p>
+<p>Next, you need to configure the faucet by creating and editing a .env file.
+To create the .env file, open a terminal window and navigate to the faucet folder in the repository and run the following command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -341,10 +358,29 @@ Now run the following command:</p>
 </div>
 <div class="paragraph">
 <p>and press enter. This will open the nano editor.
-Now change the following lines in the editor:
-* WEB3_PROVIDER: Change the port to the HTTP port of the used node.
-* FAUCET_STORAGE_CONTRACT_ADDRESS: Change the address to the address of the faucet storage contract. If you didn´t already deploy the faucet storage contract, you need to come back to this step later.
-* UNLOCKED_ACCOUNT: Change the address to the address of the unlocked account on the used node.</p>
+In the faucet folder you find an example.env file, which you can copy and paste into the editor.
+You can make changes to the .env file according to your needs.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>API_PORT: Change the port to the port you want the faucet to run on.</p>
+</li>
+<li>
+<p>WEB3_PROVIDER: Change to the URL of the RPC endpoint the faucet should connect to. This RPC Node needs to be running on the same Pi as the faucet, as it needs to have an unlocked account.
+Also, this RPC Node must only be accessible from localhost, as having an unlocked account on a public RPC Node is a major security risk.</p>
+</li>
+<li>
+<p>FAUCET_STORAGE_CONTRACT_ADDRESS: Change the address to the address of the faucet storage contract. If you didn´t already deploy the faucet storage contract, you need to come back to this step later.</p>
+</li>
+<li>
+<p>UNLOCKED_ACCOUNT: Change the address to the address of the unlocked account on the used RPC node.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>After you copied the code, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.
+This needs to be done for both the frontend and the faucet in their respective folders.</p>
 </div>
 </div>
 <div class="sect2">
@@ -384,28 +420,6 @@ npm run dev</pre>
 <pre>sh start_faucet.sh</pre>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_creating_env_files"><a class="anchor" href="#_creating_env_files"></a>Creating .env files</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>This step is relevant for the frontend and the faucet after they have been set up according to the instructions above.
-To create the .env files, open a terminal window and navigate to the frontend or faucet folder in the repository.
-Then run the following command:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>nano .env</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and press enter. This will open the nano editor.
-In the frontend folder you find an example.env file, which you can copy and paste into the editor.
-You can make changes to the .env file according to your needs.
-After you copied the code, press "Ctrl + S" to save the file and then press "Ctrl + X" to exit the editor.
-This needs to be done for both the frontend and the faucet in their respective folders.</p>
 </div>
 </div>
 </div>
