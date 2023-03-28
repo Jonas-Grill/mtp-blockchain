@@ -25,7 +25,7 @@ export default function Student({selectedSemester, getSemesterById, web3, userAd
                 setCoins(result);
             });
         }
-    }, [web3, userAddress]);
+    }, [web3, userAddress, selectedSemester]);
 
     return (
        <CoinDisplay minKnowledgeCoinAmount={getSemesterById(selectedSemester)?.minKnowledgeCoinAmount} coins={coins} missingCoins={getMissingCoins()}/>
