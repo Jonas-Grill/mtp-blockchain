@@ -20,9 +20,11 @@ export default function Student({selectedSemester, getSemesterById, web3, userAd
 
         const semester = getSemesterById(selectedSemester);
 
-        if (semester) {
-            getKnowledgeCoinBalanceInRange(web3, userAddress, semester.endBlock, semester.startBlock).then((result) => {
+        if (semester && web3.utils.isAddress(userAddress)) {
+            getKnowledgeCoinBalanceInRange(web3, userAddress, semester.startBlock, semester.endBlock).then((result) => {
                 setCoins(result);
+            }).catch((e) => {
+                alert("Error while checking coin balance: " + e.message);
             });
         }
     }, [web3, userAddress, selectedSemester]);

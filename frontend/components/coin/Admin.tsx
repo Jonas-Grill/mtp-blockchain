@@ -35,6 +35,8 @@ export default function Admin({
                 element.download = "students.txt";
                 document.body.appendChild(element); // Required for this to work in FireFox
                 element.click();
+            }).catch((e) => {
+                alert("Error while checking coin balance: " + e.message);
             });
         });
     }
@@ -60,7 +62,11 @@ export default function Admin({
                         missingCoins: getMissingCoins(result),
                         passed: passed
                     }]);
+                }).catch((e) => {
+                    alert("Error while checking if student has passed: " + e.message);
                 });
+            }).catch((e) => {
+                alert("Error while checking coin balance: " + e.message);
             });
         }
     }
