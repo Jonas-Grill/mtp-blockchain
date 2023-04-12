@@ -40,7 +40,7 @@ export const loadAssignments = async (semesterId: string, web3: any, isAdmin: bo
         return assignments.sort((a, b) => b.startBlock - a.startBlock);
     } else {
         const currentBlockNumber = await getCurrentBlockNumber(web3);
-        return assignments.filter(assignment => assignment.endBlock > currentBlockNumber && assignment.startBlock < currentBlockNumber).sort((a, b) => b.startBlock - a.startBlock);
+        return assignments.filter(assignment => assignment.endBlock + (60 * 60 * 24 * 6 / 12) > currentBlockNumber && assignment.startBlock < currentBlockNumber).sort((a, b) => b.startBlock - a.startBlock);
     }
 }
 
