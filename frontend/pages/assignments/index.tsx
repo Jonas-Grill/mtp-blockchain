@@ -178,7 +178,9 @@ export default function AssignmentOverview({userAddress}: { userAddress: string 
                                 <p className="mt-2 text-xs text-uni">Semester: {semesters.filter(semester => semester.id === selectedSemester)[0].name}</p>
                                 <p className="mt-2 text-xs text-uni">Assignment link: {assignment.link}</p>
                                 <p className="mt-2 text-xs text-uni">Start block: {assignment.startBlock}</p>
-                                <p className="mt-2 text-xs text-uni">End block: {assignment.endBlock}</p>
+                                <p className="mt-2 text-xs text-uni">Deadline: {assignment.endBlock}</p>
+                                <p className="mt-2 text-xs text-uni">24h Grace Period: {assignment.endBlock + (60 * 60 * 24 / 12)}</p>
+                                <p className="mt-2 text-xs text-uni">Deadline with penalty: {assignment.endBlock + (60 * 60 * 24 * 6 / 12)}</p>
                                 {
                                     isUserAdmin ? (
                                         <div className="flex justify-center">
