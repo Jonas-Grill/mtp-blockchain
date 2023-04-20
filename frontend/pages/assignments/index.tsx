@@ -40,7 +40,7 @@ export const loadAssignments = async (semesterId: string, web3: any, isAdmin: bo
         return assignments.sort((a, b) => b.startBlock - a.startBlock);
     } else {
         const currentBlockNumber = await getCurrentBlockNumber(web3);
-        return assignments.filter(assignment => assignment.endBlock + (60 * 60 * 24 * 6 / 12) > currentBlockNumber && assignment.startBlock < currentBlockNumber).sort((a, b) => b.startBlock - a.startBlock);
+        return assignments.filter(assignment => parseInt(assignment.endBlock.toString()) + (60 * 60 * 24 * 6 / 12) > currentBlockNumber && assignment.startBlock < currentBlockNumber).sort((a, b) => b.startBlock - a.startBlock);
     }
 }
 
@@ -179,8 +179,8 @@ export default function AssignmentOverview({userAddress}: { userAddress: string 
                                 <p className="mt-2 text-xs text-uni">Assignment link: {assignment.link}</p>
                                 <p className="mt-2 text-xs text-uni">Start block: {assignment.startBlock}</p>
                                 <p className="mt-2 text-xs text-uni">Deadline: {assignment.endBlock}</p>
-                                <p className="mt-2 text-xs text-uni">24h Grace Period: {assignment.endBlock + (60 * 60 * 24 / 12)}</p>
-                                <p className="mt-2 text-xs text-uni">Deadline with penalty: {assignment.endBlock + (60 * 60 * 24 * 6 / 12)}</p>
+                                <p className="mt-2 text-xs text-uni">24h Grace Period: {parseInt(assignment.endBlock.toString()) + (60 * 60 * 24 / 12)}</p>
+                                <p className="mt-2 text-xs text-uni">Deadline with penalty: {parseInt(assignment.endBlock.toString()) + (60 * 60 * 24 * 6 / 12)}</p>
                                 {
                                     isUserAdmin ? (
                                         <div className="flex justify-center">
